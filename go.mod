@@ -33,6 +33,7 @@ require (
 	github.com/tendermint/starport v0.19.1
 	github.com/tendermint/tendermint v0.34.14
 	github.com/tendermint/tm-db v0.6.4
+	golang.org/x/mobile v0.0.0-20220112015953-858099ff7816 // indirect
 	golang.org/x/net v0.0.0-20211112202133-69e39bad7dc2 // indirect
 	golang.org/x/tools v0.1.8-0.20211022200916-316ba0b74098 // indirect
 	google.golang.org/genproto v0.0.0-20211208223120-3a66f561d7aa

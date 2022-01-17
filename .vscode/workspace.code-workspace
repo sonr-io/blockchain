@@ -87,9 +87,9 @@
             "bin": "lib",
         },
         "github-actions.workflows.pinned.workflows": [
-            ".github/workflows/notify.yml",
-            ".github/workflows/release.yml",
-            ".github/workflows/test.yml"
+            "../.github/workflows/notify.yml",
+            "../.github/workflows/release.yml",
+            "../.github/workflows/test.yml"
         ]
     }
 }

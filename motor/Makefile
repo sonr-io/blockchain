@@ -2,8 +2,8 @@ SHELL=/bin/bash
 
 # Set this -->[/Users/xxxx/Sonr/]<-- to Folder of Sonr Repos
 ROOT_DIR:=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
-IOS_FRAMEWORK_DIR=$(ROOT_DIR)/plugins/swift/Frameworks
-ANDROID_AAR_DIR=$(ROOT_DIR)/plugins/java/libs
+IOS_FRAMEWORK_DIR=$(ROOT_DIR)/gen/swift/Frameworks
+ANDROID_AAR_DIR=$(ROOT_DIR)/gen/java/libs
 
 # @ Packaging Vars/Commands
 GOMOBILE=gomobile
@@ -35,7 +35,7 @@ bind.android:
 	@mkdir -p $(ANDROID_AAR_DIR)
 	@go get golang.org/x/mobile/bind
 	@gomobile init
-	cd bind && $(GOBIND) -target=android -o $(ANDROID_AAR_DIR)/io.sonr.core.aar
+	$(GOBIND) -target=android -o $(ANDROID_AAR_DIR)/io.sonr.core.aar
 	@echo "✅ Finished Binding ➡ `date`"
 	@echo ""
 
@@ -49,17 +49,17 @@ bind.ios:
 	@echo "--------------------------------------------------------------"
 	@mkdir -p $(IOS_FRAMEWORK_DIR)
 	@go get golang.org/x/mobile/bind
-	cd bind && $(GOBIND) -target=ios -bundleid=io.sonr.core -o $(IOS_FRAMEWORK_DIR)/Core.xcframework
+	$(GOBIND) -target=ios -bundleid=io.sonr.core -o $(IOS_FRAMEWORK_DIR)/Core.xcframework
 	@echo "✅ Finished Binding ➡ `date`"
 	@echo ""
 
 ## [clean]     :   Reinitializes Gomobile and Removes Framworks from Plugin
 clean:
-	cd $(CORE_BIND_DIR) && $(GOCLEAN)
 	go mod tidy
 	go clean -cache -x
+	gomobile clean
 	rm -rf $(BIND_DIR_IOS)
 	rm -rf $(BIND_DIR_ANDROID)
 	mkdir -p $(BIND_DIR_IOS)
 	mkdir -p $(BIND_DIR_ANDROID)
-	cd $(CORE_BIND_DIR) && gomobile init
+	gomobile init
