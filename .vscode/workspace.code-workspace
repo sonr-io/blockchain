@@ -1,29 +1,37 @@
 {
     "folders": [
         {
-            "path": "../docs",
-            "name": "📖  Documentation",
-        },
-        {
             "path": "..",
-            "name": "🐿  Blockchain ⛓",
+            "name": "🐿  Blockchain",
         },
         {
             "path": "../highway",
-            "name": "🐿  Highway 🛣",
+            "name": "🐿  Highway",
         },
         {
             "path": "../motor",
-            "name": "🐿  Motor 🚗",
+            "name": "🐿  Motor",
         },
         {
-            "path": "../types",
-            "name": "🗃  Types ⚙️",
+            "path": "../highway/next",
+            "name": "🌐  Next",
         },
         {
             "path": "../vue",
-            "name": "🌐  Vue  💻",
-        }
+            "name": "🌐  Vue",
+        },
+        {
+            "name": "📖  Docs",
+            "path": "../docs",
+        },
+        {
+            "name": "⚙️  Github",
+            "path": "../.github"
+        },
+        {
+            "name": "⚙️  VSCode",
+            "path": "../.vscode"
+        },
     ],
     "settings": {
         "go.languageServerFlags": [
@@ -31,6 +39,7 @@
             "serve",
             "--debug=localhost:6060"
         ],
+        "go.gopath": "/Users/pradn/Developer",
         "go.useLanguageServer": true,
         "material-icon-theme.opacity": 0.75,
         "material-icon-theme.saturation": 0.75,
@@ -40,6 +49,8 @@
         "files.exclude": {
             "**/package-lock.json": true,
             "**/**.pb.go": true,
+            ".vscode": true,
+            ".github": true,
             "go.sum": true,
             "buf.work": true,
             "LICENSE.md": true,
@@ -90,6 +101,16 @@
             "../.github/workflows/notify.yml",
             "../.github/workflows/release.yml",
             "../.github/workflows/test.yml"
-        ]
+        ],
+        "go.inferGopath": true,
+        "go.autocompleteUnimportedPackages": true,
+        "go.buildOnSave": "workspace",
+        "go.languageServerExperimentalFeatures": {
+            "diagnostics": false
+        },
+        "go.lintTool": "golangci-lint",
+        "go.toolsManagement.autoUpdate": true,
+        "go.toolsManagement.checkForUpdates": "local",
+        "workspaceExplorer.workspaceStorageDirectory": "/Users/pradn/Developer/sonr"
     }
 }

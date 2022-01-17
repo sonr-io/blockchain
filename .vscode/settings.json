@@ -63,5 +63,6 @@
         ".github/workflows/notify.yml",
         ".github/workflows/release.yml",
         ".github/workflows/test.yml"
-    ]
+    ],
+    "go.inferGopath": false
 }
