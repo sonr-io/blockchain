@@ -201,7 +201,7 @@ jobs:
 
   release-sonrd:
     name: "Release Blockchain Image 🎉"
-    needs: [release-frameworks, release-highway]
+    needs: release-frameworks
     runs-on: ubuntu-latest
     env:
       REGISTRY: ghcr.io
