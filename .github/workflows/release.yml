@@ -6,7 +6,7 @@ on:
       - v*
 
 jobs:
-  buf-build:
+  build-buf:
     name: "Build Protobufs and Publish 📢 "
     runs-on: ubuntu-latest
     steps:
@@ -46,16 +46,16 @@ jobs:
           go-version: 1.17
       - name: Setup and Bind AAR
         run: |
-          mkdir -p ${{ github.workspace }}/build
+          mkdir -p ${{ github.workspace }}/release
           go install golang.org/x/mobile/cmd/gomobile@latest
           gomobile init
-          cd ${{ github.workspace }}/bind
-          gomobile bind -ldflags='-s -w' -target=android -o ${{ github.workspace }}/build/io.sonr.core.aar
+          cd ${{ github.workspace }}/motor
+          gomobile bind -ldflags='-s -w' -target=android -o ${{ github.workspace }}/release/io.sonr.motor.aar
       - name: Upload AAR to GitHub
         uses: actions/upload-artifact@v2
         with:
           name: android-aar
-          path: ${{ github.workspace }}/build/io.sonr.core.aar
+          path: ${{ github.workspace }}/release/io.sonr.motor.aar
 
   # Bind iOS Framework
   build-ios:
@@ -80,80 +80,46 @@ jobs:
           go-version: 1.17
       - name: Setup and Bind
         run: |
-          mkdir -p ${{ github.workspace }}/build
+          mkdir -p ${{ github.workspace }}/release
           go install golang.org/x/mobile/cmd/gomobile@latest
           gomobile init
-          cd ${{ github.workspace }}/bind
-          gomobile bind -ldflags='-s -w' -target=ios -bundleid=io.sonr.core -o ${{ github.workspace }}/build/Core.xcframework
+          cd ${{ github.workspace }}/motor
+          gomobile bind -ldflags='-s -w' -target=ios -bundleid=io.sonr.motor -o ${{ github.workspace }}/release/SonrMotor.xcframework
       - name: Upload Framework to GitHub
         uses: actions/upload-artifact@v2
         with:
           name: ios-framework
-          path: ${{ github.workspace }}/build/Core.xcframework/
-
-  # Build Daemon for Desktops
-  build-rpc:
-    # Configuration
-    name: "Portable Binary 🔨 "
-    runs-on: macos-latest
-    env:
-      MOD_CACHE: ~/go/pkg/mod
-      BUILD_CACHE: ~/Library/Caches/go-build
-
-    # Steps
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - name: Setup Go Env
-        uses: actions/setup-go@v2
-        with:
-          go-version: 1.17
-      - name: Cache Dependencies
-        uses: actions/cache@v2
-        with:
-          path: |
-            $MOD_CACHE
-            $BUILD_CACHE
-          key: ${{ runner.os }}-go-1_17-${{ hashFiles('**/go.sum') }}
-          restore-keys: |
-            ${{ runner.os }}-go-1_17-
-      - name: Release Daemons 🎉
-        uses: goreleaser/goreleaser-action@v2
-        with:
-          distribution: goreleaser
-          version: latest
-          args: release --rm-dist
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT_GITHUB_TOKEN }}
+          path: ${{ github.workspace }}/release/SonrMotor.xcframework/
 
   # Add Frameworks to Release
-  release-frameworks:
+  release:
     # Configuration
     needs: [build-android, build-ios]
-    name: "Release Frameworks 🎉 "
+    name: "Release Version 🎉 "
     runs-on: ubuntu-latest
 
     # Steps
     steps:
-      # 1. Checkout the branch
-      - uses: actions/checkout@v2
-      - run: mkdir -p ${{ github.workspace }}/build/Core.xcframework
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - run: mkdir -p ${{ github.workspace }}/release/SonrMotor.xcframework
 
         # 2. Download AAR Artifact
       - name: Download Android AAR
         uses: actions/download-artifact@v2
         with:
           name: android-aar
-          path: ${{ github.workspace }}/build
+          path: ${{ github.workspace }}/release
 
         # 3. Download Framework Artifact
       - name: Download iOS Framework
         uses: actions/download-artifact@v2
         with:
           name: ios-framework
-          path: ${{ github.workspace }}/build/Core.xcframework
+          path: ${{ github.workspace }}/release/SonrMotor.xcframework
 
         # 4. Get Version
       - id: get_version
@@ -162,28 +128,11 @@ jobs:
         # 5. Zip Framework and AAR
       - name: Zip Android AAR and iOS Framework
         run: |
-          cd ${{ github.workspace }}/build && zip -r $ANDROID_ZIP io.sonr.core.aar
-          cd ${{ github.workspace }}/build && zip -r $IOS_ZIP Core.xcframework
+          cd ${{ github.workspace }}/release && zip -r $ANDROID_ZIP io.sonr.motor.aar
+          cd ${{ github.workspace }}/release && zip -r $IOS_ZIP SonrMotor.xcframework
         env:
-          ANDROID_ZIP: sonr_${{ steps.get_version.outputs.version-without-v }}_android.zip
-          IOS_ZIP: sonr_${{ steps.get_version.outputs.version-without-v }}_ios.zip
-
-        # 6. Upload AAR and Framework to Release
-      - uses: ncipollo/release-action@v1
-        with:
-          allowUpdates: true
-          artifacts: "${{ github.workspace }}/build/*.zip"
-          replacesArtifacts: false
-          token: ${{ secrets.PAT_GITHUB_TOKEN }}
-
-  relase-daemon:
-    name: "Release Blockchain Daemon 🎉 "
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
+          ANDROID_ZIP: sonr_motor_${{ steps.get_version.outputs.version-without-v }}_android.zip
+          IOS_ZIP: sonr_motor_${{ steps.get_version.outputs.version-without-v }}_ios.zip
 
       - name: Prepare Release Variables
         id: vars
