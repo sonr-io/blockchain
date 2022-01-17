@@ -1,34 +1,53 @@
 version: "3.8"
+
 services:
-  sonr-hw:
-    build: ghcr.io/sonr-io/highway:latest
+  sonr.d:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    container_name: sonr-d0
+    restart: unless-stopped
+    depends_on:
+      - sonr.ipfs
+      - sonr.hnsd
+      - sonr.highway
+    ports:
+      - "127.0.0.1:24659:26659"
+      - "127.0.0.1:24318:1318"
+      - "127.0.0.1:24450:4500"
+
+  sonr.highway:
+    build:
+      context: ./
+      dockerfile: ./highway/Dockerfile
     container_name: sonr-hw0
     restart: unless-stopped
     depends_on:
-      - ipfs
-      - hnsd
+      - sonr.ipfs
+      - sonr.hnsd
     ports:
-      - "127.0.0.1:26225:26225/tcp"
-      - "127.0.0.1:8080:8080"
-      - "127.0.0.1:8081:8081"
-  ipfs:
-    image: ipfs/go-ipfs:latest
-    container_name: ipfs0
-    volumes:
-      - "./data/ipfs:/data/ipfs"
-    ports:
-      - 127.0.0.1:4001:4001/tcp
-      - 127.0.0.1:4001:4001/udp
-      - 127.0.0.1:5001:5001
-      - 127.0.0.1:8080:8080
-      - 127.0.0.1:8081:8081
+      - "127.0.0.1:22025:26225"
+      - "127.0.0.1:22080:8080"
+      - "127.0.0.1:22081:8081"
 
-  hnsd:
-    image: handshakeorg/hsd:latest
-    container_name: hnsd0
-    hostname: hnsd_host1
+  sonr.ipfs:
+    image: ipfs/go-ipfs:latest
+    container_name: sonr-ipfs0
     volumes:
-      - "./data/hnsd:/data/hnsd"
+      - "./data/ipfs:/.sonr/data/ipfs"
     ports:
-      - "127.0.0.1:53:53/udp"
-      - "13038:13038/udp"
+      - 127.0.0.1:29001:4001/tcp
+      - 127.0.0.1:29041:4001/udp
+      - 127.0.0.1:29051:5001
+      - 127.0.0.1:29080:8080
+      - 127.0.0.1:29081:8081
+
+  sonr.hnsd:
+    image: handshakeorg/hsd:latest
+    container_name: sonr-hnsd0
+    hostname: sonr_hnsd_host1
+    volumes:
+      - "./data/hnsd:/.sonr/data/hnsd"
+    ports:
+      - "127.0.0.1:27053:53/udp"
+      - "27038:13038/udp"

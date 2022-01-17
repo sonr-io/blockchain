@@ -39,7 +39,6 @@
             "serve",
             "--debug=localhost:6060"
         ],
-        "go.gopath": "/Users/pradn/Developer",
         "go.useLanguageServer": true,
         "material-icon-theme.opacity": 0.75,
         "material-icon-theme.saturation": 0.75,
@@ -111,6 +110,7 @@
         "go.lintTool": "golangci-lint",
         "go.toolsManagement.autoUpdate": true,
         "go.toolsManagement.checkForUpdates": "local",
-        "workspaceExplorer.workspaceStorageDirectory": "/Users/pradn/Developer/sonr"
+        "workspaceExplorer.workspaceStorageDirectory": "/Users/pradn/Developer/sonr",
+        "go.installDependenciesWhenBuilding": true
     }
 }

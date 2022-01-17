@@ -18,7 +18,6 @@ import (
 	"github.com/sonr-io/sonr/core/object"
 	"github.com/sonr-io/sonr/did"
 	v1 "github.com/sonr-io/sonr/highway/v1"
-
 	"github.com/tendermint/starport/starport/pkg/cosmosclient"
 	"google.golang.org/grpc"
 )
