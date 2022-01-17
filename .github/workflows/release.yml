@@ -6,6 +6,20 @@ on:
       - v*
 
 jobs:
+  buf-build:
+    name: "Build Protobufs and Publish 📢 "
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: bufbuild/buf-setup-action@v0.3.1
+      - uses: bufbuild/buf-lint-action@v0.3.0
+      - uses: bufbuild/buf-breaking-action@v0.4.0
+        with:
+          against: "https://github.com/${GITHUB_REPOSITORY}.git#ref=HEAD~1"
+      - uses: bufbuild/buf-push-action@v0.3.0
+        with:
+          buf_token: ${{ secrets.BUF_TOKEN }}
+
   build-android:
     # Configuration
     name: "Android AAR  🔗 "
