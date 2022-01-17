@@ -18,7 +18,6 @@ import (
 	v1 "github.com/sonr-io/sonr/common/v1"
 )
 
-
 type Direction = v1.Direction
 
 type FileItem = v1.FileItem

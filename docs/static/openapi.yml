@@ -19960,7 +19960,11 @@ definitions:
       and
 
       freezing clients
+  sonrio.sonr.registry.MsgCreateAccountResponse:
+    type: object
   sonrio.sonr.registry.MsgRegisterNameResponse:
+    type: object
+  sonrio.sonr.registry.MsgRegisterServiceResponse:
     type: object
   sonrio.sonr.registry.Params:
     type: object

@@ -13,7 +13,11 @@ export interface ProtobufAny {
   "@type"?: string;
 }
 
+export type RegistryMsgCreateAccountResponse = object;
+
 export type RegistryMsgRegisterNameResponse = object;
+
+export type RegistryMsgRegisterServiceResponse = object;
 
 /**
  * Params defines the parameters for the module.

@@ -1,0 +1,49 @@
+syntax = "proto3";
+package sonrio.sonr.registry;
+
+// this line is used by starport scaffolding # proto/tx/import
+
+option go_package = "github.com/sonr-io/sonr/x/registry/types";
+
+// Msg defines the Msg service.
+service Msg {
+      rpc RegisterName(MsgRegisterName) returns (MsgRegisterNameResponse);
+  rpc RegisterService(MsgRegisterService) returns (MsgRegisterServiceResponse);
+  rpc CreateAccount(MsgCreateAccount) returns (MsgCreateAccountResponse);
+// this line is used by starport scaffolding # proto/tx/rpc
+}
+
+message MsgRegisterName {
+  string creator = 1;
+  string name = 2;
+  string fingerprint = 3;
+}
+
+message MsgRegisterNameResponse {
+}
+
+message MsgRegisterService {
+  string creator = 1;
+  string serviceName = 2;
+  string publicKey = 3;
+}
+
+message MsgRegisterServiceResponse {
+}
+
+message MsgCreateAccount {
+  string creator = 1;
+  string home = 2;
+  string deviceId = 3;
+  string fingerprint = 4;
+  string os = 5;
+  string model = 6;
+  string arch = 7;
+  string publicKey = 8;
+  string metadata = 9;
+}
+
+message MsgCreateAccountResponse {
+}
+
+// this line is used by starport scaffolding # proto/tx/message

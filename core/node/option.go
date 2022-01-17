@@ -8,7 +8,7 @@ import (
 
 	dsc "github.com/libp2p/go-libp2p-discovery"
 	psub "github.com/libp2p/go-libp2p-pubsub"
-	"github.com/sonr-io/core/wallet"
+
 	"github.com/sonr-io/sonr/common"
 
 	"github.com/libp2p/go-libp2p-core/crypto"
@@ -175,11 +175,7 @@ func (opts *options) Apply(ctx context.Context, options ...Option) (*node, error
 
 	// findPrivKey returns the private key for the host.
 	findPrivKey := func() (crypto.PrivKey, error) {
-		privKey, err := wallet.DevicePrivKey()
-		if err == nil {
-			return privKey, nil
-		}
-		privKey, _, err = crypto.GenerateEd25519Key(rand.Reader)
+		privKey, _, err := crypto.GenerateEd25519Key(rand.Reader)
 		if err == nil {
 			logger.Warn("Generated new Account Private Key")
 			return privKey, nil

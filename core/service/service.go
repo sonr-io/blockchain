@@ -4,8 +4,8 @@ import (
 	"os"
 
 	object "github.com/sonr-io/sonr/core/object/v1"
-	did "github.com/sonr-io/sonr/did/v1"
 	v1 "github.com/sonr-io/sonr/core/service/v1"
+	did "github.com/sonr-io/sonr/did/v1"
 	"google.golang.org/protobuf/proto"
 )
 

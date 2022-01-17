@@ -29,9 +29,9 @@ const txClient = async (wallet, { addr: addr } = { addr: "http://localhost:26657
     const { address } = (await wallet.getAccounts())[0];
     return {
         signAndBroadcast: (msgs, { fee, memo } = { fee: defaultFee, memo: "" }) => client.signAndBroadcast(address, msgs, fee, memo),
-        msgGrant: (data) => ({ typeUrl: "/cosmos.authz.v1beta1.MsgGrant", value: data }),
-        msgExec: (data) => ({ typeUrl: "/cosmos.authz.v1beta1.MsgExec", value: data }),
-        msgRevoke: (data) => ({ typeUrl: "/cosmos.authz.v1beta1.MsgRevoke", value: data }),
+        msgGrant: (data) => ({ typeUrl: "/cosmos.authz.v1beta1.MsgGrant", value: MsgGrant.fromPartial(data) }),
+        msgExec: (data) => ({ typeUrl: "/cosmos.authz.v1beta1.MsgExec", value: MsgExec.fromPartial(data) }),
+        msgRevoke: (data) => ({ typeUrl: "/cosmos.authz.v1beta1.MsgRevoke", value: MsgRevoke.fromPartial(data) }),
     };
 };
 const queryClient = async ({ addr: addr } = { addr: "http://localhost:1317" }) => {

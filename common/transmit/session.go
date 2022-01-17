@@ -6,10 +6,10 @@ import (
 	"github.com/libp2p/go-libp2p-core/network"
 	"github.com/libp2p/go-msgio"
 	"github.com/sonr-io/sonr/common"
+	transmitV1 "github.com/sonr-io/sonr/common/transmit/v1"
+	cv1 "github.com/sonr-io/sonr/common/v1"
 	"github.com/sonr-io/sonr/core/node"
 	"github.com/sonr-io/sonr/motor/v1"
-	cv1 "github.com/sonr-io/sonr/common/v1"
-	transmitV1 "github.com/sonr-io/sonr/common/transmit/v1"
 )
 
 // NewInSession creates a new Session from the given payload with Incoming direction.
