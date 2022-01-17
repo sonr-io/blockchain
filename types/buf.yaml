@@ -1,0 +1,18 @@
+version: v1
+name: buf.build/sonr-io/sonr
+deps:
+  - buf.build/googleapis/googleapis
+  - buf.build/gogo/protobuf
+build:
+  excludes:
+    - registry
+breaking:
+  use:
+    - FILE
+    - WIRE_JSON
+lint:
+  use:
+    - DEFAULT
+  ignore:
+    - common
+    - registry

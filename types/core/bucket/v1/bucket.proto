@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+// Package Service defines Service configuration for a Application on the Sonr network.
+package core.bucket.v1;
+import "did/v1/did.proto";
+import "core/object/v1/object.proto";
+option go_package = "github.com/sonr-io/sonr/core/bucket/v1";
+
+// Bucket is a collection of objects.
+message Bucket {
+    // Label is human-readable name of the bucket.
+    string label = 1;
+
+    // Description is a human-readable description of the bucket.
+    string description = 2;
+
+    // Type is the kind of bucket for either App specific or User specific data.
+    BucketType type = 3;
+
+    // Did is the identifier of the bucket.
+    did.v1.Did did = 4;
+
+    // Objects are stored in a tree structure.
+    repeated core.object.v1.ObjectDoc objects = 5;
+}
+
+// BucketType is the type of a bucket.
+enum BucketType {
+    // BucketTypeUnspecified is the default value.
+    BUCKET_TYPE_UNSPECIFIED = 0;
+
+    // BucketTypeApp is an App specific bucket. For Assets regarding the service.
+    BUCKET_TYPE_APP = 1;
+
+    // BucketTypeUser is a User specific bucket. For any remote user data that is required
+    // to be stored in the Network.
+    BUCKET_TYPE_USER = 2;
+}

@@ -3,16 +3,37 @@ module github.com/sonr-io/sonr
 go 1.16
 
 require (
+	git.mills.io/prologic/bitcask v1.0.2
 	github.com/cosmos/cosmos-sdk v0.44.5
 	github.com/cosmos/ibc-go v1.2.2
-	github.com/google/go-cmp v0.5.6 // indirect
-	github.com/spf13/cast v1.3.1
+	github.com/denisbrodbeck/machineid v1.0.1
+	github.com/gabriel-vasile/mimetype v1.4.0
+	github.com/golang/protobuf v1.5.2
+	github.com/google/open-location-code/go v0.0.0-20211115190122-6707912175c3
+	github.com/grpc-ecosystem/grpc-gateway v1.16.0
+	github.com/kataras/golog v0.1.7
+	github.com/libp2p/go-libp2p v0.15.1
+	github.com/libp2p/go-libp2p-connmgr v0.2.4
+	github.com/libp2p/go-libp2p-core v0.9.0
+	github.com/libp2p/go-libp2p-discovery v0.5.1
+	github.com/libp2p/go-libp2p-kad-dht v0.13.1
+	github.com/libp2p/go-libp2p-pubsub v0.5.4
+	github.com/libp2p/go-msgio v0.0.6
+	github.com/mr-tron/base58 v1.2.0
+	github.com/multiformats/go-multiaddr v0.4.0
+	github.com/patrickmn/go-cache v2.1.0+incompatible
+	github.com/pkg/errors v0.9.1
+	github.com/sonr-io/core v0.14.8
+	github.com/spf13/cast v1.4.1
+	github.com/spf13/viper v1.9.0
 	github.com/stretchr/testify v1.7.0
 	github.com/tendermint/spm v0.1.9
+	github.com/tendermint/starport v0.19.1
 	github.com/tendermint/tendermint v0.34.14
 	github.com/tendermint/tm-db v0.6.4
-	google.golang.org/genproto v0.0.0-20211208223120-3a66f561d7aa // indirect
-	google.golang.org/grpc v1.43.0 // indirect
+	google.golang.org/genproto v0.0.0-20211208223120-3a66f561d7aa
+	google.golang.org/grpc v1.43.0
+	google.golang.org/protobuf v1.27.1
 )
 
 replace (
