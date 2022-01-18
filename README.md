@@ -59,15 +59,15 @@
 
 ## Table of Contents
 
-- [About](#About)
+- [About](#about)
 - [Getting Started](#getting-started)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Contributing](#contributing)
-- [Authors](#authors)
 - [Version History](#version-history)
+- [Acknowledgments](#acknowledgments)  
+- [Authors](#authors)  
 - [License](#license)
-- [Acknowledgments](#acknowledgments)
 
 ## About
 
@@ -176,22 +176,11 @@ Contributions are what make the open source community such an amazing place to b
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## Authors
-
-Contributors names and contact info
-
-- [Prad Nukala](“https://github.com/prnk28”)
-- [Ian K. Judd]("https://github.com/ikjudd")
-
 ## Version History
-  ### v0.0.1
+   ### v0.0.1
   - Implement Sonr Blockchain client into Motor and Highway nodes
   - Add Highway Service and Swagger generated clients and documentation
   - Create `Registry` for storing `DIDDocument` in the Blockchain
-
-## License
-
-This project facilitated under **Sonr Inc.** is distributed under the **GPLv3 License**. See `LICENSE.md` for more information.
 
 ## Acknowledgments
 
@@ -200,3 +189,14 @@ Tools, libraries, and frameworks that make the Sonr project possible:
 - [Libp2p](https://libp2p.io/)
 - [Cosmos](https://www.cosmos.network/)
 - [Handshake](https://handshake.org/)
+
+## Authors
+
+Contributors names and contact info
+
+- [Prad Nukala](“https://github.com/prnk28”)
+- [Ian K. Judd]("https://github.com/ikjudd")
+
+## License
+
+This project facilitated under **Sonr Inc.** is distributed under the **GPLv3 License**. See `LICENSE.md` for more information.  
