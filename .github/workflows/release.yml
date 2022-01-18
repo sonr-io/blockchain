@@ -94,8 +94,8 @@ jobs:
           input: "types"
           buf_token: ${{ secrets.BUF_TOKEN }}
 
-  release-blockchain:
-    name: "Release Blockchain 📢 "
+  publish-blockchain:
+    name: "Publish Blockchain 🎉 "
     runs-on: ubuntu-latest
     needs:
       - release-proto

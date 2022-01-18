@@ -81,7 +81,6 @@
             "../.github/workflows/release.yml",
             "../.github/workflows/test.yml"
         ],
-        "go.inferGopath": true,
         "go.autocompleteUnimportedPackages": true,
         "go.buildOnSave": "workspace",
         "go.languageServerExperimentalFeatures": {

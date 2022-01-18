@@ -314,7 +314,36 @@ func Persist(l net.Listener) {
 	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
 	go func() {
 		<-c
-		Exit(0)
+		if instance == nil {
+			golog.Default.Child("(app)").Debug("Skipping Exit, instance is nil...")
+			return
+		}
+		golog.Default.Child("(app)").Debug("Cleaning up Node on Exit...")
+		instance.Close()
+
+		defer ctx.Done()
+
+		// Check for Full Desktop Node
+		if device.IsDesktop() {
+			golog.Default.Child("(app)").Debug("Removing Bitcask DB...")
+			ex, err := os.Executable()
+			if err != nil {
+				golog.Default.Child("(app)").Errorf("%s - Failed to find Executable", err)
+				return
+			}
+
+			// Delete Executable Path
+			exPath := filepath.Dir(ex)
+			err = os.RemoveAll(filepath.Join(exPath, "sonr_bitcask"))
+			if err != nil {
+				golog.Default.Child("(app)").Warn("Failed to remove Bitcask, ", err)
+			}
+			err = viper.SafeWriteConfig()
+			if err == nil {
+				golog.Default.Child("(app)").Debug("Wrote new config file to Disk")
+			}
+			os.Exit(0)
+		}
 	}()
 
 	// Hold until Exit Signal
@@ -325,53 +354,5 @@ func Persist(l net.Listener) {
 			l.Close()
 			return
 		}
-	}
-}
-
-// Pause calls the Pause function on the Node
-func Pause() {
-	if instance != nil {
-		instance.Pause()
-	}
-}
-
-// Resume calls the Resume function on the Node
-func Resume() {
-	if instance != nil {
-		instance.Resume()
-	}
-}
-
-// Exit handles cleanup on Sonr Node
-func Exit(code int) {
-	if instance == nil {
-		golog.Default.Child("(app)").Debug("Skipping Exit, instance is nil...")
-		return
-	}
-	golog.Default.Child("(app)").Debug("Cleaning up Node on Exit...")
-	instance.Close()
-
-	defer ctx.Done()
-
-	// Check for Full Desktop Node
-	if device.IsDesktop() {
-		golog.Default.Child("(app)").Debug("Removing Bitcask DB...")
-		ex, err := os.Executable()
-		if err != nil {
-			golog.Default.Child("(app)").Errorf("%s - Failed to find Executable", err)
-			return
-		}
-
-		// Delete Executable Path
-		exPath := filepath.Dir(ex)
-		err = os.RemoveAll(filepath.Join(exPath, "sonr_bitcask"))
-		if err != nil {
-			golog.Default.Child("(app)").Warn("Failed to remove Bitcask, ", err)
-		}
-		err = viper.SafeWriteConfig()
-		if err == nil {
-			golog.Default.Child("(app)").Debug("Wrote new config file to Disk")
-		}
-		os.Exit(code)
 	}
 }
