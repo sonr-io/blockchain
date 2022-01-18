@@ -17,7 +17,7 @@
   <!-- Stability -->
     <img alt="CodeFactor Grade" src="https://img.shields.io/codefactor/grade/github/sonr-io/sonr/master?style=for-the-badge">
   <!-- NPM version -->
-  <a href="https://godoc.org/github.com/libp2p/go-libp2p">
+  <a href="https://godoc.org/github.com/sonr-io/sonr">
   <img src="http://img.shields.io/badge/godoc-reference-5272B4.svg?style=for-the-badge" />
   </a>
   <!-- Test Coverage -->
