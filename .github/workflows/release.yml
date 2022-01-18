@@ -8,7 +8,7 @@ on:
 jobs:
   build-android:
     # Configuration
-    name: "Android AAR  🔗 "
+    name: "Build Android 🏗 "
     env:
       GO111MODULE: on
       GOMOD: ${{ github.workspace }}/go.mod
@@ -42,7 +42,7 @@ jobs:
   # Bind iOS Framework
   build-ios:
     # Configuration
-    name: "iOS Framework  🔗 "
+    name: "Build iOS 🏗 "
     env:
       GO111MODULE: on
       GOMOD: ${{ github.workspace }}/go.mod
@@ -74,7 +74,7 @@ jobs:
           path: ${{ github.workspace }}/release/SonrMotor.xcframework/
 
   release-proto:
-    name: "Release Updated Proto 📢 "
+    name: "Release Schema 📢 "
     runs-on: ubuntu-latest
     needs:
       - build-android
@@ -98,7 +98,7 @@ jobs:
   release-frameworks:
     # Configuration
     needs: [build-android, build-ios]
-    name: "Release Frameworks 🎉 "
+    name: "Release Frameworks 📢 "
     runs-on: ubuntu-latest
 
     # Steps
@@ -108,35 +108,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - run: mkdir -p ${{ github.workspace }}/release/SonrMotor.xcframework
-
-        # 2. Download AAR Artifact
-      - name: Download Android AAR
-        uses: actions/download-artifact@v2
-        with:
-          name: android-aar
-          path: ${{ github.workspace }}/release
-
-        # 3. Download Framework Artifact
-      - name: Download iOS Framework
-        uses: actions/download-artifact@v2
-        with:
-          name: ios-framework
-          path: ${{ github.workspace }}/release/SonrMotor.xcframework
-
-        # 4. Get Version
-      - id: get_version
-        uses: battila7/get-version-action@v2
-
-        # 5. Zip Framework and AAR
-      - name: Zip Android AAR and iOS Framework
-        run: |
-          cd ${{ github.workspace }}/release && zip -r $ANDROID_ZIP io.sonr.motor.aar
-          cd ${{ github.workspace }}/release && zip -r $IOS_ZIP SonrMotor.xcframework
-        env:
-          ANDROID_ZIP: sonr_motor_${{ steps.get_version.outputs.version-without-v }}_android.zip
-          IOS_ZIP: sonr_motor_${{ steps.get_version.outputs.version-without-v }}_ios.zip
-
+      - run: mkdir -p /release/SonrMotor.xcframework
       - name: Prepare Release Variables
         id: vars
         uses: tendermint/starport/actions/release/vars@develop
@@ -147,20 +119,46 @@ jobs:
         with:
           args: chain build --release --release.prefix ${{ steps.vars.outputs.tarball_prefix }} -t linux:amd64 -t darwin:amd64
 
+        # 2. Download AAR Artifact
+      - name: Download Android AAR
+        uses: actions/download-artifact@v2
+        with:
+          name: android-aar
+          path: /release
+
+        # 3. Download Framework Artifact
+      - name: Download iOS Framework
+        uses: actions/download-artifact@v2
+        with:
+          name: ios-framework
+          path: /release/SonrMotor.xcframework
+
+        # 4. Get Version
+      - id: get_version
+        uses: battila7/get-version-action@v2
+
+        # 5. Zip Framework and AAR
+      - name: Zip Android AAR and iOS Framework
+        run: |
+          cd /release && zip -r $ANDROID_ZIP io.sonr.motor.aar
+          cd /release && zip -r $IOS_ZIP SonrMotor.xcframework
+        env:
+          ANDROID_ZIP: sonr_motor_${{ steps.get_version.outputs.version-without-v }}_android.zip
+          IOS_ZIP: sonr_motor_${{ steps.get_version.outputs.version-without-v }}_ios.zip
+
       - name: Create the "latest" Release
         uses: ncipollo/release-action@v1
         if: ${{ steps.vars.outputs.should_release == 'true' }}
         with:
           allowUpdates: true
-          artifacts: "${{ github.workspace }}/release/*.zip,release/*"
-          artifactErrorsFailBuild: true
+          artifacts: "/release/*"
           replacesArtifacts: false
           name: ${{ steps.vars.outputs.tag_name }}
           token: ${{ secrets.GITHUB_TOKEN }}
 
-  release-highway:
-    name: "Release Highway Image 🎉"
-    needs: [release-frameworks]
+  publish-highway:
+    name: "Publish Highway Image 🎉"
+    needs: [release-frameworks, release-proto]
     runs-on: ubuntu-latest
     env:
       REGISTRY: ghcr.io
@@ -194,9 +192,11 @@ jobs:
           secrets: |
             "github_token=${{ secrets.GITHUB_TOKEN }}"
 
-  release-sonrd:
-    name: "Release Blockchain Image 🎉"
-    needs: release-frameworks
+  publish-sonrd:
+    name: "Publish Blockchain Image 🎉"
+    needs:
+      - release-frameworks
+      - release-proto
     runs-on: ubuntu-latest
     env:
       REGISTRY: ghcr.io
