@@ -108,7 +108,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - run: mkdir -p /release/SonrMotor.xcframework
+      - run: mkdir -p ${{ github.workspace }}/release/SonrMotor.xcframework
       - name: Prepare Release Variables
         id: vars
         uses: tendermint/starport/actions/release/vars@develop
@@ -124,14 +124,14 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: android-aar
-          path: /release
+          path: release
 
         # 3. Download Framework Artifact
       - name: Download iOS Framework
         uses: actions/download-artifact@v2
         with:
           name: ios-framework
-          path: /release/SonrMotor.xcframework
+          path: release/SonrMotor.xcframework
 
         # 4. Get Version
       - id: get_version
@@ -140,8 +140,8 @@ jobs:
         # 5. Zip Framework and AAR
       - name: Zip Android AAR and iOS Framework
         run: |
-          cd /release && zip -r $ANDROID_ZIP io.sonr.motor.aar
-          cd /release && zip -r $IOS_ZIP SonrMotor.xcframework
+          cd release && zip -r $ANDROID_ZIP io.sonr.motor.aar
+          cd release && zip -r $IOS_ZIP SonrMotor.xcframework
         env:
           ANDROID_ZIP: sonr_motor_${{ steps.get_version.outputs.version-without-v }}_android.zip
           IOS_ZIP: sonr_motor_${{ steps.get_version.outputs.version-without-v }}_ios.zip
@@ -151,7 +151,7 @@ jobs:
         if: ${{ steps.vars.outputs.should_release == 'true' }}
         with:
           allowUpdates: true
-          artifacts: "/release/*"
+          artifacts: "release/*"
           replacesArtifacts: false
           name: ${{ steps.vars.outputs.tag_name }}
           token: ${{ secrets.GITHUB_TOKEN }}
