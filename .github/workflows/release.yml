@@ -89,7 +89,7 @@ jobs:
         with:
           input: "types"
           against: "https://github.com/${GITHUB_REPOSITORY}.git#ref=HEAD~1"
-      - uses: bufbuild/buf-push-action@v0.3.0
+      - uses: bufbuild/buf-push-action@v1.0.0
         with:
           input: "types"
           buf_token: ${{ secrets.BUF_TOKEN }}
