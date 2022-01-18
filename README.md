@@ -7,7 +7,7 @@
   <strong>The Official Sonr project source code</strong>
 </div>
 <div align="center">
-  A <code>4kb</code> framework for creating sturdy frontend applications
+  A <code>easy-to-use</code> framework for building immersive decentralized applications.
 </div>
 
 <br />
