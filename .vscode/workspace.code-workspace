@@ -6,15 +6,7 @@
         },
         {
             "path": "..",
-            "name": "🐿  Blockchain",
-        },
-        {
-            "path": "../highway",
-            "name": "🐿  Highway",
-        },
-        {
-            "path": "../motor",
-            "name": "🐿  Motor",
+            "name": "🐿  Go",
         },
         {
             "path": "../highway/next",
@@ -23,14 +15,6 @@
         {
             "path": "../vue",
             "name": "🌐  Vue",
-        },
-        {
-            "name": "⚙️  Github",
-            "path": "../.github"
-        },
-        {
-            "name": "⚙️  VSCode",
-            "path": "../.vscode"
         },
     ],
     "settings": {
@@ -48,8 +32,6 @@
         "files.exclude": {
             "**/package-lock.json": true,
             "**/**.pb.go": true,
-            ".vscode": true,
-            ".github": true,
             "go.sum": true,
             "buf.work": true,
             "LICENSE.md": true,
@@ -71,8 +53,6 @@
             "Contents.json": true,
             ".devcontainer": true,
             "docs": true,
-            "highway": true,
-            "motor": true,
             "vue": true,
             "**/design": true,
             "**/sonr.wiki": true,

@@ -1,9 +1,75 @@
+<h1 align="center">Sonr</h1>
 
-# Sonr Blockchain Node
+<div align="center">
+  :trident::dolphin::high_brightness::trident:
+</div>
+<div align="center">
+  <strong>The Official Sonr project source code</strong>
+</div>
+<div align="center">
+  A <code>4kb</code> framework for creating sturdy frontend applications
+</div>
 
-**Sonr** is a blockchain built using Cosmos SDK and Tendermint and created with [Starport](https://github.com/tendermint/starport).
+<br />
 
-## Description
+
+<div align="center">
+  <!-- Stability -->
+    <img alt="CodeFactor Grade" src="https://img.shields.io/codefactor/grade/github/sonr-io/sonr/master?style=for-the-badge">
+  <!-- NPM version -->
+  <a href="https://godoc.org/github.com/libp2p/go-libp2p">
+  <img src="http://img.shields.io/badge/godoc-reference-5272B4.svg?style=for-the-badge" />
+  </a>
+  <!-- Test Coverage -->
+  <a href="https://codecov.io/github/choojs/choo">
+<img alt="Lines of code" src="https://img.shields.io/tokei/lines/github/sonr-io/sonr?label=TLOC&style=for-the-badge">
+  </a>
+  <!-- Downloads -->
+<img alt="Twitter Follow" src="https://img.shields.io/twitter/follow/sonrprotocol?color=%2300ACEE&label=🐦 SonrProtocol&style=for-the-badge">
+</div>
+
+<div align="center">
+  <h3>
+    <a href="https://sonr.io">
+      Home
+    </a>
+    <span> | </span>
+    <a href="https://discord.gg/tjWMfvQZ7b">
+      Discord
+    </a>
+    <span> | </span>
+    <a href="https://github.com/sonr-io/sonr/wiki">
+      Wiki
+    </a>
+    <span> | </span>
+      <!-- <span> | </span> -->
+    <a href="https://github.com/sonr-io/sonr/issues">
+      Issues
+    </a>
+  </h3>
+</div>
+
+<div align="center">
+  <sub>The most comprehensive framework for the DWeb. Built with ❤︎ by the
+  <a href="mailto:team@sonr.io">Sonr Team</a> and
+  <a href="https://github.com/sonr-io/sonr/graphs/contributors">
+    contributors
+  </a>
+</div>
+
+## Table of Contents
+
+- [About](#About)
+- [Getting Started](#getting-started)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [Authors](#authors)
+- [Version History](#version-history)
+- [License](#license)
+- [Acknowledgments](#acknowledgments)
+
+## About
 
 Sonr is building the most immersive DWeb experience for both Users and Developers alike. We believe the best way to onboard the next billion users is to create a cohesive end-to-end platform that’s composable and interoperable with all existing protocols.
 
@@ -17,7 +83,7 @@ For this we built our Networking layer in [Libp2p](“https://libp2p.io”) and 
 - [Libp2p](https://libp2p.io)
 - [Starport](https://starport.com)
 
-### Installing
+## Installation
 
 To install the latest version of the Sonr blockchain node's binary, execute the following command on your machine:
 
@@ -30,21 +96,28 @@ curl https://sonr.ws/sonr@latest! | sudo bash
 This project is a pseudo-monorepo, meaning it has a single root directory and all of its packages are in subdirectories. The structure is as follows:
 
 ``` text
-/channel         ->        Real-time Key/Value Store
-/common          ->        Core data types and functions.
-/device          ->        Node Device management
+/app             ->        Exported Starport app
+/cmd             ->        CLI commands
+/common          ->        Commonly used packages
+  └─ device      ->        +   Node Device utilities
+  └─ discover    ->        +   Peer discovery
+  └─ exchange    ->        +   Exchange data with other nodes
+  └─ transmit    ->        +   Direct data transmission
+/core            ->        Fundamental components of the network.
+  └─ bucket      ->        +   A collection of objects or blobs
+  └─ channel     ->        +   Topic pub/sub messaging and Realtime K/V Store
+  └─ node        ->        +   Central Interface to manage user's peer on the network
+  └─ object      ->        +   A registered schema type on the blockchain
+  └─ service     ->        +   Interface to interact with a deployed or authorized service
+/did             ->        Sonr DID Method Utility Package
 /docs            ->        Documentation.
-/exchange        ->        Data Transfer related Models.
-/host            ->        Libp2p Host Configuration
-/identity        ->        Identity management models and interfaces
-/node            ->        Highway and Motor node builder configuration
-/proto           ->        Protobuf Definition Files.
-/transmit        ->        Protocol for byte transmission between nodes
-/types           ->        Protobuf Compiled Types
-  └─ cpp         ->        +   C++ Definition Files
-  └─ go          ->        +   Golang Definition Files
-  └─ java        ->        +   Java Definition Files
-/wallet          ->        Interfaces for managing Universal Wallet
+/highway         ->        The Guardian Node on the network.
+/motor           ->        The User Node on the network.
+/proto           ->        Cosmos SDK Protocol Definitions
+/testutil        ->        Blockchain test utilities.
+/types           ->        Sonr Protocol Definitions and buf.build config
+/vue             ->        Vue.js frontend for Cosmos SDK
+/x               ->        Implementation of Cosmos-Sonr Schemas
 ```
 
 ## Usage
@@ -81,17 +154,6 @@ npm run serve
 
 The frontend app is built using the `@starport/vue` and `@starport/vuex` packages. For details, see the [monorepo for Starport front-end development](https://github.com/tendermint/vue).
 
-## Release
-
-To release a new version of Sonr, create and push a new tag with `v` prefix. A new draft release with the configured targets will be created.
-
-``` shell
-git tag v0.1
-git push origin v0.1
-```
-
-After a draft release is created, make your final changes from the release page and publish it.
-
 ## Contributing
 
 Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
@@ -110,12 +172,10 @@ Contributors names and contact info
 - [Ian K. Judd]("https://github.com/ikjudd")
 
 ## Version History
-
-- v0.0.2
-  - Various bug fixes and optimizations
-
-- v0.0.1
-  - Initial Release
+  ### v0.0.1
+  - Implement Sonr Blockchain client into Motor and Highway nodes
+  - Add Highway Service and Swagger generated clients and documentation
+  - Create `Registry` for storing `DIDDocument` in the Blockchain
 
 ## License
 
@@ -123,7 +183,7 @@ This project facilitated under **Sonr Inc.** is distributed under the **GPLv3 Li
 
 ## Acknowledgments
 
-Inspiration, code snippets, etc.
+Tools, libraries, and frameworks that make the Sonr project possible:
 
 - [Libp2p](https://libp2p.io/)
 - [Cosmos](https://www.cosmos.network/)
