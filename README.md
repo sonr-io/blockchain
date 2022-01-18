@@ -1,7 +1,7 @@
 <h1 align="center">Sonr</h1>
 
 <div align="center">
-  :trident::dolphin::high_brightness::trident:
+  :trident: :dolphin: :godmode: :trident:
 </div>
 <div align="center">
   <strong>The Official Sonr project source code</strong>
@@ -72,9 +72,11 @@
 ## About
 
 Sonr is building the most immersive DWeb experience for both Users and Developers alike. We believe the best way to onboard the next billion users is to create a cohesive end-to-end platform that’s composable and interoperable with all existing protocols.
-
+  
 For this we built our Networking layer in [Libp2p](“https://libp2p.io”) and our Layer 1 Blockchain with [Starport](“https://starport.com”). Our network comprises of two separate nodes: [Highway](“https://github.com/sonr-io/highway”) and [Motor](“https://github.com/sonr-io/motor”), which each have a specific use case on the network. In order to maximize the onboarding experience, we developed our own [Wallet](“https://github.com/sonr-io/wallet) which has value out of the gate!
 
+<img src="https://camo.githubusercontent.com/1c3eb2fc698e088b15bec07168ad4e037ac2f5c4469c91a311a1038b5b702966/68747470733a2f2f646f63732e736f6e722e696f2f7e2f66696c65732f76302f622f676974626f6f6b2d782d70726f642e61707073706f742e636f6d2f6f2f73706163657325324638784859417a3845707652436a67336873674d5525324675706c6f616473253246326869324f6c50524b78566b51327a3269454d582532466f70656e67726170682e706e673f616c743d6d6564696126746f6b656e3d35643764383431302d663533632d343462312d383264612d356331316431616237373735"/>
+  
 ## Getting Started
 
 IPFS has established a critical piece of infrastructure that is used by the majority of DWeb protocols to different degrees. Libp2p is part of the IPFS stack and is used for the underlying peer-to-peer network for discovery, routing and data exchange.
