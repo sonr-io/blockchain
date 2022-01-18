@@ -63,10 +63,9 @@
 - [Getting Started](#getting-started)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Contributing](#contributing)
 - [Version History](#version-history)
+- [Contributors](#contributors)
 - [Acknowledgments](#acknowledgments)  
-- [Authors](#authors)  
 - [License](#license)
 
 ## About
@@ -166,8 +165,17 @@ npm run serve
 
 The frontend app is built using the `@starport/vue` and `@starport/vuex` packages. For details, see the [monorepo for Starport front-end development](https://github.com/tendermint/vue).
 
-## Contributing
+## Version History
+   ### v0.0.1
+  - Implement Sonr Blockchain client into Motor and Highway nodes
+  - Add Highway Service and Swagger generated clients and documentation
+  - Create `Registry` for storing `DIDDocument` in the Blockchain
 
+  
+## Contributors
+
+### Submitting a PR
+  
 Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
 1. Fork the Project
@@ -175,12 +183,10 @@ Contributions are what make the open source community such an amazing place to b
 3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
-
-## Version History
-   ### v0.0.1
-  - Implement Sonr Blockchain client into Motor and Highway nodes
-  - Add Highway Service and Swagger generated clients and documentation
-  - Create `Registry` for storing `DIDDocument` in the Blockchain
+  
+### Authors
+- [Prad Nukala](https://github.com/prnk28)
+- [Ian K. Judd](https://github.com/ikjudd)
 
 ## Acknowledgments
 
@@ -194,8 +200,7 @@ Tools, libraries, and frameworks that make the Sonr project possible:
 
 Contributors names and contact info
 
-- [Prad Nukala](“https://github.com/prnk28”)
-- [Ian K. Judd]("https://github.com/ikjudd")
+
 
 ## License
 
