@@ -196,12 +196,6 @@ Tools, libraries, and frameworks that make the Sonr project possible:
 - [Cosmos](https://www.cosmos.network/)
 - [Handshake](https://handshake.org/)
 
-## Authors
-
-Contributors names and contact info
-
-
-
 ## License
 
 This project facilitated under **Sonr Inc.** is distributed under the **GPLv3 License**. See `LICENSE.md` for more information.  
