@@ -77,19 +77,15 @@ For this we built our Networking layer in [Libp2p](“https://libp2p.io”) and 
 
 ## Getting Started
 
+IPFS has established a critical piece of infrastructure that is used by the majority of DWeb protocols to different degrees. Libp2p is part of the IPFS stack and is used for the underlying peer-to-peer network for discovery, routing and data exchange.
+
+Peers in the network can dial other peers in the network to exchange messages using various transports, like QUIC, TCP, WebSocket, and Bluetooth. Modular design of the libp2p framework enables it to build drivers for other transports. Peers can run on any device, as a cloud service, mobile application or in the browser and talk to each other as long as they are connected through the same libp2p network.
+
 ### Dependencies
 
 - [Golang](https://go.dev)
 - [Libp2p](https://libp2p.io)
 - [Starport](https://starport.com)
-
-## Installation
-
-To install the latest version of the Sonr blockchain node's binary, execute the following command on your machine:
-
-``` shell
-curl https://sonr.ws/sonr@latest! | sudo bash
-```
 
 ### Configuration
 
@@ -118,6 +114,20 @@ This project is a pseudo-monorepo, meaning it has a single root directory and al
 /types           ->        Sonr Protocol Definitions and buf.build config
 /vue             ->        Vue.js frontend for Cosmos SDK
 /x               ->        Implementation of Cosmos-Sonr Schemas
+```
+
+
+## Installation
+
+<!-- ### Framework
+
+### Plugins -->
+
+### Release
+To install the latest version of the Sonr blockchain node's binary, execute the following command on your machine:
+
+``` shell
+curl https://sonr.ws/sonr@latest! | sudo bash
 ```
 
 ## Usage
