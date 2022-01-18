@@ -109,16 +109,6 @@ jobs:
           fetch-depth: 0
 
       #  - run: mkdir -p ${{ github.workspace }}/release/SonrMotor.xcframework
-      - name: Prepare Release Variables
-        id: vars
-        uses: tendermint/starport/actions/release/vars@develop
-
-      - name: Issue Release Assets
-        uses: tendermint/starport/actions/cli@develop
-        if: ${{ steps.vars.outputs.should_release == 'true' }}
-        with:
-          args: chain build --release --release.prefix ${{ steps.vars.outputs.tarball_prefix }} -t linux:amd64 -t darwin:amd64
-
       #   # 2. Download AAR Artifact
       # - name: Download Android AAR
       #   uses: actions/download-artifact@v2
@@ -137,15 +127,15 @@ jobs:
       - id: get_version
         uses: battila7/get-version-action@v2
 
-      - name: Publish the Release
-        uses: softprops/action-gh-release@v1
-        if: ${{ steps.vars.outputs.should_release == 'true' }}
-        with:
-          tag_name: ${{ steps.vars.outputs.tag_name }}
-          files: release/*
-          prerelease: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # - name: Publish the Release
+      #   uses: softprops/action-gh-release@v1
+      #   if: ${{ steps.vars.outputs.should_release == 'true' }}
+      #   with:
+      #     tag_name: ${{ steps.vars.outputs.tag_name }}
+      #     files: release/*
+      #     prerelease: true
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       #   # 5. Zip Framework and AAR
       # - name: Zip Android AAR and iOS Framework
@@ -166,81 +156,121 @@ jobs:
       #     name: ${{ steps.vars.outputs.tag_name }}
       #     token: ${{ secrets.ACTIONS_GH_TOKEN }}
 
-  publish-highway:
-    name: "Publish Highway Image 🎉"
-    needs: [release-frameworks, release-proto]
+  release-blockchain:
+    name: "Release Blockchain 📢 "
     runs-on: ubuntu-latest
-    env:
-      REGISTRY: ghcr.io
-      IMAGE_NAME: sonr-io/highway
-    permissions:
-      contents: read
-      packages: write
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Log in to the Container registry
-        uses: docker/login-action@v1
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@v3.6.2
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v2.7.0
-        with:
-          context: .
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          file: ./highway/Dockerfile
-          secrets: |
-            "github_token=${{ secrets.ACTIONS_GH_TOKEN }}"
-
-  publish-sonrd:
-    name: "Publish Blockchain Image 🎉"
     needs:
-      - release-frameworks
       - release-proto
-    runs-on: ubuntu-latest
-    env:
-      REGISTRY: ghcr.io
-      IMAGE_NAME: sonr-io/sonrd
-    permissions:
-      contents: read
-      packages: write
-
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v2
-
-      - name: Log in to the Container registry
-        uses: docker/login-action@v1
         with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
 
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@v3.6.2
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+      - name: Prepare Release Variables
+        id: vars
+        uses: tendermint/starport/actions/release/vars@develop
 
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v2.7.0
+      - name: Issue Release Assets
+        uses: tendermint/starport/actions/cli@develop
+        if: ${{ steps.vars.outputs.should_release == 'true' }}
         with:
-          context: .
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          secrets: |
-            "github_token=${{ secrets.ACTIONS_GH_TOKEN }}"
+          args: chain build --release --release.prefix ${{ steps.vars.outputs.tarball_prefix }} -t linux:amd64 -t darwin:amd64
+
+      - name: Delete the "latest" Release
+        uses: dev-drprasad/delete-tag-and-release@v0.2.0
+        if: ${{ steps.vars.outputs.is_release_type_latest == 'true' }}
+        with:
+          tag_name: ${{ steps.vars.outputs.tag_name }}
+          delete_release: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish the Release
+        uses: softprops/action-gh-release@v1
+        if: ${{ steps.vars.outputs.should_release == 'true' }}
+        with:
+          tag_name: ${{ steps.vars.outputs.tag_name }}
+          files: release/*
+          prerelease: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # publish-highway:
+  #   name: "Publish Highway Image 🎉"
+  #   needs: [release-frameworks, release-proto]
+  #   runs-on: ubuntu-latest
+  #   env:
+  #     REGISTRY: ghcr.io
+  #     IMAGE_NAME: sonr-io/highway
+  #   permissions:
+  #     contents: read
+  #     packages: write
+
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v2
+
+  #     - name: Log in to the Container registry
+  #       uses: docker/login-action@v1
+  #       with:
+  #         registry: ghcr.io
+  #         username: ${{ github.actor }}
+  #         password: ${{ secrets.GITHUB_TOKEN }}
+
+  #     - name: Extract metadata (tags, labels) for Docker
+  #       id: meta
+  #       uses: docker/metadata-action@v3.6.2
+  #       with:
+  #         images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+  #     - name: Build and push Docker image
+  #       uses: docker/build-push-action@v2.7.0
+  #       with:
+  #         context: .
+  #         push: true
+  #         tags: ${{ steps.meta.outputs.tags }}
+  #         labels: ${{ steps.meta.outputs.labels }}
+  #         file: ./highway/Dockerfile
+  #         secrets: |
+  #           "github_token=${{ secrets.ACTIONS_GH_TOKEN }}"
+
+  # publish-sonrd:
+  #   name: "Publish Blockchain Image 🎉"
+  #   needs:
+  #     - release-frameworks
+  #     - release-proto
+  #   runs-on: ubuntu-latest
+  #   env:
+  #     REGISTRY: ghcr.io
+  #     IMAGE_NAME: sonr-io/sonrd
+  #   permissions:
+  #     contents: read
+  #     packages: write
+
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v2
+
+  #     - name: Log in to the Container registry
+  #       uses: docker/login-action@v1
+  #       with:
+  #         registry: ghcr.io
+  #         username: ${{ github.actor }}
+  #         password: ${{ secrets.GITHUB_TOKEN }}
+
+  #     - name: Extract metadata (tags, labels) for Docker
+  #       id: meta
+  #       uses: docker/metadata-action@v3.6.2
+  #       with:
+  #         images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+  #     - name: Build and push Docker image
+  #       uses: docker/build-push-action@v2.7.0
+  #       with:
+  #         context: .
+  #         push: true
+  #         tags: ${{ steps.meta.outputs.tags }}
+  #         labels: ${{ steps.meta.outputs.labels }}
+  #         secrets: |
+  #           "github_token=${{ secrets.ACTIONS_GH_TOKEN }}"
