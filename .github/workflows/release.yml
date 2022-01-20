@@ -188,7 +188,7 @@ jobs:
   publish-sonrd:
     name: "Publish Blockchain Image 🎉"
     needs:
-      - release-frameworks
+      - publish-blockchain
     runs-on: ubuntu-latest
 
     steps:
