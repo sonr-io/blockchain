@@ -5,7 +5,7 @@ syntax = "proto3";
 package highway.v1;
 import "bucket/bucket.proto";
 import "object/object.proto";
-option go_package = "github.com/sonr-io/sonr/highway/v1";
+
 
 // AccessNameRequest is a request to get details from the ".snr" name of a peer
 message AccessNameRequest {

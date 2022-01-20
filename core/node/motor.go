@@ -8,7 +8,6 @@ import (
 	"path/filepath"
 	"syscall"
 
-	"git.mills.io/prologic/bitcask"
 	"github.com/kataras/golog"
 	"github.com/libp2p/go-libp2p-core/crypto"
 	"github.com/libp2p/go-libp2p-core/host"
@@ -127,7 +126,6 @@ type node struct {
 
 	// Properties
 	ctx    context.Context
-	store  *bitcask.Bitcask
 	pubKey crypto.PubKey
 	did    did.DID
 	*dht.IpfsDHT

@@ -53,8 +53,8 @@ buf.gen:
 	@echo "Sonr: Compiling Protobufs"
 	@echo "----"
 	@echo "Generating Protobuf Go code..."
-	@cd ${HIGHWAY_DIR} && buf mod update && buf generate
-	@cd ${MOTOR_DIR} && buf mod update && buf generate
+	@cd ${HIGHWAY_DIR} && buf mod update
+	@cd ${MOTOR_DIR} && buf mod update
 	@cd ${CHAIN_PROTO_DIR} && buf mod update
 
 ## [buf.build]            :   Builds ALL Proto packages
@@ -64,7 +64,7 @@ buf.build:
 	@echo "----"
 	@echo "Generating Protobuf Go code..."
 	@cd ${HIGHWAY_DIR} && buf build
-	@cd ${MOTOR_DIR} && buf build
+#	@cd ${MOTOR_DIR} && buf build
 	@cd ${CHAIN_PROTO_DIR} && buf build
 
 ## [buf.push]             :   Pushes built packages to remote
@@ -74,7 +74,7 @@ buf.push:
 	@echo "----"
 	@echo "Generating Protobuf Go code..."
 	@cd ${HIGHWAY_DIR} && buf push
-	@cd ${MOTOR_DIR} && buf push
+#	@cd ${MOTOR_DIR} && buf push
 	@cd ${CHAIN_PROTO_DIR} && buf push
 
 ## [clean]                :   Reinitializes Gomobile and Removes Framworks from Plugin

@@ -10,8 +10,6 @@ import "registry/tx.proto";
 import "v1/request.proto";
 import "v1/response.proto";
 
-option go_package = "github.com/sonr-io/sonr/highway/v1";
-
 // HighwayService is a RPC service for interfacing over the Highway node.
 service HighwayService {
   // AccessName returns details and publicly available information about the Peer given calling node

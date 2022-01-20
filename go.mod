@@ -3,7 +3,6 @@ module github.com/sonr-io/sonr
 go 1.16
 
 require (
-	git.mills.io/prologic/bitcask v1.0.2
 	github.com/cosmos/cosmos-sdk v0.44.5
 	github.com/cosmos/ibc-go v1.2.2
 	github.com/denisbrodbeck/machineid v1.0.1

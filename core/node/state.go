@@ -98,11 +98,6 @@ func (n *node) Close() {
 	n.SetStatus(Status_CLOSED)
 	n.IpfsDHT.Close()
 
-	// Close Store
-	if err := n.store.Close(); err != nil {
-		logger.Errorf("%s - Failed to close store, ", err)
-	}
-
 	// Close Host
 	if err := n.Host.Close(); err != nil {
 		logger.Errorf("%s - Failed to close host, ", err)

@@ -1,4 +1,4 @@
-package highway
+package main
 
 import (
 	"context"
@@ -8,13 +8,11 @@ import (
 	"net/http"
 
 	"github.com/kataras/golog"
-	hw "github.com/sonr-io/sonr/cmd/highway/v1"
-	"github.com/sonr-io/sonr/core/node"
-	bt "github.com/sonr-io/sonr/x/bucket/types"
-	"github.com/sonr-io/sonr/x/channel"
-	ct "github.com/sonr-io/sonr/x/channel/types"
-	ot "github.com/sonr-io/sonr/x/object/types"
-	rt "github.com/sonr-io/sonr/x/registry/types"
+	hw "go.buf.build/grpc/go/sonr-io/highway/v1"
+	bt "go.buf.build/grpc/go/sonr-io/sonr/bucket"
+	ct "go.buf.build/grpc/go/sonr-io/sonr/channel"
+	ot "go.buf.build/grpc/go/sonr-io/sonr/object"
+	rt "go.buf.build/grpc/go/sonr-io/sonr/registry"
 
 	"github.com/tendermint/starport/starport/pkg/cosmosclient"
 	"google.golang.org/grpc"
@@ -34,7 +32,7 @@ var (
 type HighwayStub struct {
 	hw.HighwayServiceServer
 
-	node   *node.Highway
+	// node   *node.Highway
 	cosmos cosmosclient.Client
 
 	// Properties
@@ -45,13 +43,32 @@ type HighwayStub struct {
 	// ipfs *storage.IPFSService
 
 	// List of Entries
-	channels map[string]channel.Channel
+	channels map[string]*ct.Channel
 	buckets  map[string]*bt.Bucket
 	objects  map[string]*ot.ObjectDoc
 }
 
+var Stub *HighwayStub
+
+func main() {
+	ctx := context.Background()
+	stub, err := NewHighwayRPC(ctx)
+	if err != nil {
+		panic(err)
+	}
+	Stub = stub
+}
+
 // NewHighway creates a new Highway service stub for the node.
-func NewHighwayRPC(ctx context.Context, n *node.Highway, loc *rt.Location, lst net.Listener) (*HighwayStub, error) {
+func NewHighwayRPC(ctx context.Context) (*HighwayStub, error) {
+
+	// Open Listener on Port
+	lst, err := net.Listen("tcp", ":26225")
+	if err != nil {
+		golog.Default.Child("(app)").Fatalf("%s - Failed to Create New Listener", err)
+		return nil, err
+	}
+
 	// create an instance of cosmosclient
 	cosmos, err := cosmosclient.New(ctx)
 	if err != nil {
@@ -60,7 +77,7 @@ func NewHighwayRPC(ctx context.Context, n *node.Highway, loc *rt.Location, lst n
 
 	// Create the RPC Service
 	stub := &HighwayStub{
-		node:       n,
+		// node:       n,
 		ctx:        ctx,
 		grpcServer: grpc.NewServer(),
 		cosmos:     cosmos,
@@ -89,7 +106,7 @@ func (s *HighwayStub) Serve(ctx context.Context, listener net.Listener) {
 		// Stop Serving if context is done
 		select {
 		case <-ctx.Done():
-			s.node.Close()
+			// s.node.Close()
 			return
 		}
 	}
@@ -221,14 +238,14 @@ func (s *HighwayStub) CreateChannel(ctx context.Context, req *ct.MsgCreateChanne
 // ReadChannel reads a channel.
 func (s *HighwayStub) ReadChannel(ctx context.Context, req *ct.MsgReadChannel) (*ct.MsgReadChannelResponse, error) {
 	// Find channel by DID
-	ch, ok := s.channels[req.GetDid()]
-	if !ok {
-		return nil, ErrInvalidQuery
-	}
+	// ch, ok := s.channels[req.GetDid()]
+	// if !ok {
+	// 	return nil, ErrInvalidQuery
+	// }
 
 	// Read the channel
-	peers := ch.Read()
-	logger.Debugf("Read %d peers from channel %s", len(peers), peers)
+	// peers := ch.Read()
+	// 	logger.Debugf("Read %d peers from channel %s", len(peers), peers)
 	return &ct.MsgReadChannelResponse{
 		// Peers: peers,
 	}, nil
@@ -247,22 +264,22 @@ func (s *HighwayStub) DeleteChannel(ctx context.Context, req *ct.MsgDeleteChanne
 // ListenChannel listens to a channel.
 func (s *HighwayStub) ListenChannel(req *hw.ListenChannelRequest, stream hw.HighwayService_ListenChannelServer) error {
 	// Find channel by DID
-	ch, ok := s.channels[req.GetDid()]
-	if !ok {
-		return ErrInvalidQuery
-	}
+	// ch, ok := s.channels[req.GetDid()]
+	// if !ok {
+	// 	return ErrInvalidQuery
+	// }
 
 	// Listen to the channel
-	chListen := ch.Listen()
+	// chListen := ch.Listen()
 
 	// Listen to the channel
 	for {
 		select {
-		case msg := <-chListen:
-			// Send peer to client
-			if err := stream.Send(msg); err != nil {
-				return err
-			}
+		// case msg := <-chListen:
+		// 	// Send peer to client
+		// 	if err := stream.Send(msg); err != nil {
+		// 		return err
+		// 	}
 		case <-stream.Context().Done():
 			return nil
 		}
@@ -346,23 +363,23 @@ func (s *HighwayStub) DeleteBlob(ctx context.Context, req *hw.DeleteBlobRequest)
 
 // ParseDid parses a DID.
 func (s *HighwayStub) ParseDid(ctx context.Context, req *hw.ParseDidRequest) (*hw.ParseDidResponse, error) {
-	d, err := s.node.ParseDid(req.GetDid())
-	if err != nil {
-		return nil, err
-	}
+	// d, err := s.node.ParseDid(req.GetDid())
+	// if err != nil {
+	// 	return nil, err
+	// }
 	return &hw.ParseDidResponse{
-		Did: d,
+		//Did: d,
 	}, nil
 }
 
 // ResolveDid resolves a DID.
 func (s *HighwayStub) ResolveDid(ctx context.Context, req *hw.ResolveDidRequest) (*hw.ResolveDidResponse, error) {
-	doc, err := s.node.ResolveDid(req.GetDid())
-	if err != nil {
-		return nil, err
-	}
+	// doc, err := s.node.ResolveDid(req.GetDid())
+	// if err != nil {
+	// 	return nil, err
+	// }
 
 	return &hw.ResolveDidResponse{
-		DidDocument: doc,
+		DidDocument: nil,
 	}, nil
 }

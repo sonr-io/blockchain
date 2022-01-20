@@ -7,8 +7,6 @@ import "registry/peer.proto";
 import "registry/did.proto";
 import "object/object.proto";
 
-option go_package = "github.com/sonr-io/sonr/highway/v1";
-
 // AccessNameResponse is a response to a request for a name
 message AccessNameResponse {
     // Code of the response
