@@ -419,94 +419,6 @@ func (m *MsgDeleteBucketResponse) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_MsgDeleteBucketResponse proto.InternalMessageInfo
 
-type MsgListenBucket struct {
-	Creator string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
-	Did     string `protobuf:"bytes,2,opt,name=did,proto3" json:"did,omitempty"`
-}
-
-func (m *MsgListenBucket) Reset()         { *m = MsgListenBucket{} }
-func (m *MsgListenBucket) String() string { return proto.CompactTextString(m) }
-func (*MsgListenBucket) ProtoMessage()    {}
-func (*MsgListenBucket) Descriptor() ([]byte, []int) {
-	return fileDescriptor_3479ee73a3c611d5, []int{8}
-}
-func (m *MsgListenBucket) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *MsgListenBucket) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_MsgListenBucket.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *MsgListenBucket) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgListenBucket.Merge(m, src)
-}
-func (m *MsgListenBucket) XXX_Size() int {
-	return m.Size()
-}
-func (m *MsgListenBucket) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgListenBucket.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_MsgListenBucket proto.InternalMessageInfo
-
-func (m *MsgListenBucket) GetCreator() string {
-	if m != nil {
-		return m.Creator
-	}
-	return ""
-}
-
-func (m *MsgListenBucket) GetDid() string {
-	if m != nil {
-		return m.Did
-	}
-	return ""
-}
-
-type MsgListenBucketResponse struct {
-}
-
-func (m *MsgListenBucketResponse) Reset()         { *m = MsgListenBucketResponse{} }
-func (m *MsgListenBucketResponse) String() string { return proto.CompactTextString(m) }
-func (*MsgListenBucketResponse) ProtoMessage()    {}
-func (*MsgListenBucketResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_3479ee73a3c611d5, []int{9}
-}
-func (m *MsgListenBucketResponse) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *MsgListenBucketResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_MsgListenBucketResponse.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *MsgListenBucketResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgListenBucketResponse.Merge(m, src)
-}
-func (m *MsgListenBucketResponse) XXX_Size() int {
-	return m.Size()
-}
-func (m *MsgListenBucketResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgListenBucketResponse.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_MsgListenBucketResponse proto.InternalMessageInfo
-
 func init() {
 	proto.RegisterType((*MsgCreateBucket)(nil), "sonrio.sonr.bucket.MsgCreateBucket")
 	proto.RegisterType((*MsgCreateBucketResponse)(nil), "sonrio.sonr.bucket.MsgCreateBucketResponse")
@@ -516,40 +428,36 @@ func init() {
 	proto.RegisterType((*MsgUpdateBucketResponse)(nil), "sonrio.sonr.bucket.MsgUpdateBucketResponse")
 	proto.RegisterType((*MsgDeleteBucket)(nil), "sonrio.sonr.bucket.MsgDeleteBucket")
 	proto.RegisterType((*MsgDeleteBucketResponse)(nil), "sonrio.sonr.bucket.MsgDeleteBucketResponse")
-	proto.RegisterType((*MsgListenBucket)(nil), "sonrio.sonr.bucket.MsgListenBucket")
-	proto.RegisterType((*MsgListenBucketResponse)(nil), "sonrio.sonr.bucket.MsgListenBucketResponse")
 }
 
 func init() { proto.RegisterFile("bucket/tx.proto", fileDescriptor_3479ee73a3c611d5) }
 
 var fileDescriptor_3479ee73a3c611d5 = []byte{
-	// 415 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x54, 0x4f, 0x4f, 0xe2, 0x40,
-	0x14, 0xa7, 0x5b, 0x76, 0x37, 0xbc, 0x65, 0xc3, 0x66, 0xb2, 0x86, 0x4a, 0x4c, 0x83, 0x35, 0x31,
-	0x1a, 0x63, 0x6b, 0xf4, 0x68, 0x4c, 0x0c, 0x7a, 0x53, 0x2e, 0x24, 0x5e, 0xf0, 0x02, 0x6d, 0x27,
-	0x75, 0x42, 0xed, 0x34, 0x9d, 0x36, 0xc2, 0xb7, 0xf0, 0x63, 0x79, 0xe4, 0xe8, 0xd1, 0xc0, 0xd1,
-	0x2f, 0x61, 0x3a, 0xb4, 0x65, 0x0a, 0x54, 0x08, 0xa7, 0xce, 0xbc, 0x79, 0xf3, 0xfb, 0xd3, 0xdf,
-	0xcb, 0x40, 0xcd, 0x8c, 0xac, 0x01, 0x0e, 0x8d, 0x70, 0xa8, 0xfb, 0x01, 0x0d, 0x29, 0x42, 0x8c,
-	0x7a, 0x01, 0xa1, 0x7a, 0xfc, 0xd1, 0x67, 0x87, 0xda, 0x0b, 0xd4, 0xda, 0xcc, 0xb9, 0x09, 0x70,
-	0x3f, 0xc4, 0x2d, 0x5e, 0x42, 0x0a, 0xfc, 0xb6, 0xe2, 0x3d, 0x0d, 0x14, 0xa9, 0x29, 0x1d, 0x55,
-	0x3a, 0xe9, 0x16, 0xfd, 0x87, 0x9f, 0x6e, 0xdf, 0xc4, 0xae, 0xf2, 0x83, 0xd7, 0x67, 0x1b, 0xd4,
-	0x84, 0x3f, 0x36, 0x66, 0x56, 0x40, 0xfc, 0x90, 0x50, 0x4f, 0x91, 0xf9, 0x99, 0x58, 0x42, 0x08,
-	0xca, 0x03, 0xe2, 0xd9, 0x4a, 0x99, 0x1f, 0xf1, 0xb5, 0xb6, 0x0b, 0xf5, 0x05, 0xe2, 0x0e, 0x66,
-	0x3e, 0xf5, 0x18, 0xd6, 0x2e, 0xe1, 0x6f, 0x9b, 0x39, 0x1d, 0xdc, 0xb7, 0xd7, 0x2a, 0xfa, 0x07,
-	0xb2, 0x4d, 0xec, 0x44, 0x4f, 0xbc, 0xd4, 0xea, 0xb0, 0x93, 0xbb, 0x9c, 0xa1, 0x46, 0xdc, 0xe9,
-	0x83, 0x6f, 0x6f, 0xe2, 0x74, 0x09, 0x77, 0xee, 0x5d, 0xfe, 0xc6, 0x7b, 0x79, 0xc9, 0x7b, 0xe2,
-	0x53, 0xa4, 0xcd, 0x14, 0x3d, 0x72, 0x45, 0xb7, 0xd8, 0xc5, 0x5b, 0x29, 0xda, 0x83, 0x8a, 0x1f,
-	0x99, 0x2e, 0xb1, 0xee, 0xf0, 0x28, 0x51, 0x35, 0x2f, 0x24, 0xbc, 0x22, 0x78, 0xc6, 0x7b, 0xc5,
-	0x79, 0xef, 0x09, 0x0b, 0xb1, 0xb7, 0xc5, 0x1f, 0x9e, 0x21, 0x8b, 0xd7, 0x53, 0xe4, 0xf3, 0x4f,
-	0x19, 0xe4, 0x36, 0x73, 0x50, 0x0f, 0xaa, 0xb9, 0x91, 0x3a, 0xd0, 0x97, 0x47, 0x4f, 0x5f, 0x88,
-	0xbf, 0x71, 0xb2, 0x41, 0x53, 0xca, 0x84, 0xba, 0x00, 0xc2, 0x80, 0xec, 0x17, 0x5c, 0x9d, 0xb7,
-	0x34, 0x8e, 0xd7, 0xb6, 0x64, 0xd8, 0x3d, 0xa8, 0xe6, 0xc6, 0xa4, 0x48, 0xbd, 0xd8, 0x54, 0xa8,
-	0x7e, 0x55, 0xf2, 0x31, 0x43, 0x2e, 0xf6, 0x22, 0x06, 0xb1, 0xa9, 0x90, 0x61, 0x55, 0xc6, 0xc8,
-	0x84, 0x6a, 0x2e, 0xe0, 0x22, 0x06, 0xb1, 0xa9, 0x90, 0x61, 0x55, 0xd6, 0x67, 0x52, 0xeb, 0xfa,
-	0x6d, 0xa2, 0x4a, 0xe3, 0x89, 0x2a, 0x7d, 0x4c, 0x54, 0xe9, 0x75, 0xaa, 0x96, 0xc6, 0x53, 0xb5,
-	0xf4, 0x3e, 0x55, 0x4b, 0xdd, 0x43, 0x87, 0x84, 0x4f, 0x91, 0xa9, 0x5b, 0xf4, 0xd9, 0x88, 0xb1,
-	0x4e, 0x09, 0xe5, 0x5f, 0x63, 0x68, 0xa4, 0x8f, 0xd2, 0xc8, 0xc7, 0xcc, 0xfc, 0xc5, 0x1f, 0xa6,
-	0x8b, 0xaf, 0x00, 0x00, 0x00, 0xff, 0xff, 0x11, 0xb8, 0x8e, 0xf5, 0xab, 0x04, 0x00, 0x00,
+	// 377 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x53, 0x3d, 0x4f, 0xc2, 0x40,
+	0x18, 0xa6, 0x16, 0x35, 0xbc, 0x62, 0x30, 0x17, 0x0d, 0x95, 0x98, 0x06, 0x6b, 0x62, 0x34, 0xc6,
+	0x36, 0xd1, 0xd1, 0xc5, 0xa0, 0x9b, 0x61, 0x21, 0x71, 0xc1, 0x05, 0xda, 0x5e, 0xea, 0x85, 0xda,
+	0x6b, 0x7a, 0x6d, 0x84, 0x5f, 0xe0, 0xea, 0xcf, 0x72, 0x64, 0x74, 0x34, 0xf0, 0x47, 0x4c, 0x8f,
+	0x16, 0xae, 0x94, 0x0a, 0x71, 0xea, 0xbd, 0x1f, 0xf7, 0x7c, 0xe4, 0xe9, 0x41, 0xcd, 0x8c, 0xac,
+	0x01, 0x0e, 0x8d, 0x70, 0xa8, 0xfb, 0x01, 0x0d, 0x29, 0x42, 0x8c, 0x7a, 0x01, 0xa1, 0x7a, 0xfc,
+	0xd1, 0x67, 0x43, 0xed, 0x1d, 0x6a, 0x6d, 0xe6, 0x3c, 0x04, 0xb8, 0x1f, 0xe2, 0x16, 0x6f, 0x21,
+	0x05, 0x76, 0xad, 0xb8, 0xa6, 0x81, 0x22, 0x35, 0xa5, 0x8b, 0x4a, 0x27, 0x2d, 0xd1, 0x21, 0x6c,
+	0xbb, 0x7d, 0x13, 0xbb, 0xca, 0x16, 0xef, 0xcf, 0x0a, 0xd4, 0x84, 0x3d, 0x1b, 0x33, 0x2b, 0x20,
+	0x7e, 0x48, 0xa8, 0xa7, 0xc8, 0x7c, 0x26, 0xb6, 0x10, 0x82, 0xf2, 0x80, 0x78, 0xb6, 0x52, 0xe6,
+	0x23, 0x7e, 0xd6, 0x8e, 0xa1, 0xbe, 0x44, 0xdc, 0xc1, 0xcc, 0xa7, 0x1e, 0xc3, 0xda, 0x1d, 0xec,
+	0xb7, 0x99, 0xd3, 0xc1, 0x7d, 0x7b, 0xad, 0xa2, 0x03, 0x90, 0x6d, 0x62, 0x27, 0x7a, 0xe2, 0xa3,
+	0x56, 0x87, 0xa3, 0xcc, 0xe5, 0x39, 0x6a, 0xc4, 0x9d, 0x3e, 0xfb, 0xf6, 0x26, 0x4e, 0x73, 0xb8,
+	0x0b, 0xef, 0xf2, 0x1f, 0xde, 0xcb, 0x39, 0xef, 0x89, 0x4f, 0x91, 0x76, 0xae, 0xe8, 0x85, 0x2b,
+	0x7a, 0xc4, 0x2e, 0xfe, 0x97, 0xa2, 0x13, 0xa8, 0xf8, 0x91, 0xe9, 0x12, 0xeb, 0x09, 0x8f, 0x12,
+	0x55, 0x8b, 0x46, 0xc2, 0x2b, 0x82, 0xa7, 0xbc, 0x37, 0x1f, 0x32, 0xc8, 0x6d, 0xe6, 0xa0, 0x1e,
+	0x54, 0x33, 0xc1, 0x9f, 0xe9, 0xf9, 0x1f, 0x44, 0x5f, 0x0a, 0xa9, 0x71, 0xb5, 0xc1, 0x52, 0xca,
+	0x84, 0xba, 0x00, 0x42, 0x8c, 0xa7, 0x05, 0x57, 0x17, 0x2b, 0x8d, 0xcb, 0xb5, 0x2b, 0x73, 0xec,
+	0x1e, 0x54, 0x33, 0x61, 0x16, 0xa9, 0x17, 0x97, 0x0a, 0xd5, 0xaf, 0xca, 0x27, 0x66, 0xc8, 0x84,
+	0x53, 0xc4, 0x20, 0x2e, 0x15, 0x32, 0xac, 0x4a, 0xa2, 0x75, 0xff, 0x35, 0x51, 0xa5, 0xf1, 0x44,
+	0x95, 0x7e, 0x26, 0xaa, 0xf4, 0x39, 0x55, 0x4b, 0xe3, 0xa9, 0x5a, 0xfa, 0x9e, 0xaa, 0xa5, 0xee,
+	0xb9, 0x43, 0xc2, 0xd7, 0xc8, 0xd4, 0x2d, 0xfa, 0x66, 0xc4, 0x48, 0xd7, 0x84, 0xf2, 0xaf, 0x31,
+	0x34, 0xd2, 0x67, 0x3d, 0xf2, 0x31, 0x33, 0x77, 0xf8, 0xd3, 0xbe, 0xfd, 0x0d, 0x00, 0x00, 0xff,
+	0xff, 0xe9, 0xc6, 0x4c, 0x84, 0xed, 0x03, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -568,7 +476,6 @@ type MsgClient interface {
 	ReadBucket(ctx context.Context, in *MsgReadBucket, opts ...grpc.CallOption) (*MsgReadBucketResponse, error)
 	UpdateBucket(ctx context.Context, in *MsgUpdateBucket, opts ...grpc.CallOption) (*MsgUpdateBucketResponse, error)
 	DeleteBucket(ctx context.Context, in *MsgDeleteBucket, opts ...grpc.CallOption) (*MsgDeleteBucketResponse, error)
-	ListenBucket(ctx context.Context, in *MsgListenBucket, opts ...grpc.CallOption) (Msg_ListenBucketClient, error)
 }
 
 type msgClient struct {
@@ -615,45 +522,12 @@ func (c *msgClient) DeleteBucket(ctx context.Context, in *MsgDeleteBucket, opts 
 	return out, nil
 }
 
-func (c *msgClient) ListenBucket(ctx context.Context, in *MsgListenBucket, opts ...grpc.CallOption) (Msg_ListenBucketClient, error) {
-	stream, err := c.cc.NewStream(ctx, &_Msg_serviceDesc.Streams[0], "/sonrio.sonr.bucket.Msg/ListenBucket", opts...)
-	if err != nil {
-		return nil, err
-	}
-	x := &msgListenBucketClient{stream}
-	if err := x.ClientStream.SendMsg(in); err != nil {
-		return nil, err
-	}
-	if err := x.ClientStream.CloseSend(); err != nil {
-		return nil, err
-	}
-	return x, nil
-}
-
-type Msg_ListenBucketClient interface {
-	Recv() (*MsgListenBucketResponse, error)
-	grpc.ClientStream
-}
-
-type msgListenBucketClient struct {
-	grpc.ClientStream
-}
-
-func (x *msgListenBucketClient) Recv() (*MsgListenBucketResponse, error) {
-	m := new(MsgListenBucketResponse)
-	if err := x.ClientStream.RecvMsg(m); err != nil {
-		return nil, err
-	}
-	return m, nil
-}
-
 // MsgServer is the server API for Msg service.
 type MsgServer interface {
 	CreateBucket(context.Context, *MsgCreateBucket) (*MsgCreateBucketResponse, error)
 	ReadBucket(context.Context, *MsgReadBucket) (*MsgReadBucketResponse, error)
 	UpdateBucket(context.Context, *MsgUpdateBucket) (*MsgUpdateBucketResponse, error)
 	DeleteBucket(context.Context, *MsgDeleteBucket) (*MsgDeleteBucketResponse, error)
-	ListenBucket(*MsgListenBucket, Msg_ListenBucketServer) error
 }
 
 // UnimplementedMsgServer can be embedded to have forward compatible implementations.
@@ -671,9 +545,6 @@ func (*UnimplementedMsgServer) UpdateBucket(ctx context.Context, req *MsgUpdateB
 }
 func (*UnimplementedMsgServer) DeleteBucket(ctx context.Context, req *MsgDeleteBucket) (*MsgDeleteBucketResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteBucket not implemented")
-}
-func (*UnimplementedMsgServer) ListenBucket(req *MsgListenBucket, srv Msg_ListenBucketServer) error {
-	return status.Errorf(codes.Unimplemented, "method ListenBucket not implemented")
 }
 
 func RegisterMsgServer(s grpc1.Server, srv MsgServer) {
@@ -752,27 +623,6 @@ func _Msg_DeleteBucket_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Msg_ListenBucket_Handler(srv interface{}, stream grpc.ServerStream) error {
-	m := new(MsgListenBucket)
-	if err := stream.RecvMsg(m); err != nil {
-		return err
-	}
-	return srv.(MsgServer).ListenBucket(m, &msgListenBucketServer{stream})
-}
-
-type Msg_ListenBucketServer interface {
-	Send(*MsgListenBucketResponse) error
-	grpc.ServerStream
-}
-
-type msgListenBucketServer struct {
-	grpc.ServerStream
-}
-
-func (x *msgListenBucketServer) Send(m *MsgListenBucketResponse) error {
-	return x.ServerStream.SendMsg(m)
-}
-
 var _Msg_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "sonrio.sonr.bucket.Msg",
 	HandlerType: (*MsgServer)(nil),
@@ -794,13 +644,7 @@ var _Msg_serviceDesc = grpc.ServiceDesc{
 			Handler:    _Msg_DeleteBucket_Handler,
 		},
 	},
-	Streams: []grpc.StreamDesc{
-		{
-			StreamName:    "ListenBucket",
-			Handler:       _Msg_ListenBucket_Handler,
-			ServerStreams: true,
-		},
-	},
+	Streams:  []grpc.StreamDesc{},
 	Metadata: "bucket/tx.proto",
 }
 
@@ -1079,66 +923,6 @@ func (m *MsgDeleteBucketResponse) MarshalToSizedBuffer(dAtA []byte) (int, error)
 	return len(dAtA) - i, nil
 }
 
-func (m *MsgListenBucket) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *MsgListenBucket) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *MsgListenBucket) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if len(m.Did) > 0 {
-		i -= len(m.Did)
-		copy(dAtA[i:], m.Did)
-		i = encodeVarintTx(dAtA, i, uint64(len(m.Did)))
-		i--
-		dAtA[i] = 0x12
-	}
-	if len(m.Creator) > 0 {
-		i -= len(m.Creator)
-		copy(dAtA[i:], m.Creator)
-		i = encodeVarintTx(dAtA, i, uint64(len(m.Creator)))
-		i--
-		dAtA[i] = 0xa
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *MsgListenBucketResponse) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *MsgListenBucketResponse) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *MsgListenBucketResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	return len(dAtA) - i, nil
-}
-
 func encodeVarintTx(dAtA []byte, offset int, v uint64) int {
 	offset -= sovTx(v)
 	base := offset
@@ -1266,32 +1050,6 @@ func (m *MsgDeleteBucket) Size() (n int) {
 }
 
 func (m *MsgDeleteBucketResponse) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	return n
-}
-
-func (m *MsgListenBucket) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	l = len(m.Creator)
-	if l > 0 {
-		n += 1 + l + sovTx(uint64(l))
-	}
-	l = len(m.Did)
-	if l > 0 {
-		n += 1 + l + sovTx(uint64(l))
-	}
-	return n
-}
-
-func (m *MsgListenBucketResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -2099,170 +1857,6 @@ func (m *MsgDeleteBucketResponse) Unmarshal(dAtA []byte) error {
 		}
 		if fieldNum <= 0 {
 			return fmt.Errorf("proto: MsgDeleteBucketResponse: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		default:
-			iNdEx = preIndex
-			skippy, err := skipTx(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthTx
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *MsgListenBucket) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowTx
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: MsgListenBucket: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgListenBucket: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Creator", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTx
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthTx
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthTx
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Creator = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 2:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Did", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTx
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthTx
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthTx
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Did = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipTx(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthTx
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *MsgListenBucketResponse) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowTx
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: MsgListenBucketResponse: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgListenBucketResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		default:

@@ -3,8 +3,6 @@ name: buf.build/sonr-io/highway
 deps:
   - buf.build/googleapis/googleapis
   - buf.build/gogo/protobuf
-  - buf.build/sonr-io/core
-  - buf.build/sonr-io/common
   - buf.build/sonr-io/sonr
 
 build:

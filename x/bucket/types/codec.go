@@ -12,7 +12,6 @@ func RegisterCodec(cdc *codec.LegacyAmino) {
 	cdc.RegisterConcrete(&MsgReadBucket{}, "bucket/ReadBucket", nil)
 	cdc.RegisterConcrete(&MsgUpdateBucket{}, "bucket/UpdateBucket", nil)
 	cdc.RegisterConcrete(&MsgDeleteBucket{}, "bucket/DeleteBucket", nil)
-	cdc.RegisterConcrete(&MsgListenBucket{}, "bucket/ListenBucket", nil)
 	// this line is used by starport scaffolding # 2
 }
 
@@ -29,9 +28,7 @@ func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgDeleteBucket{},
 	)
-	registry.RegisterImplementations((*sdk.Msg)(nil),
-		&MsgListenBucket{},
-	)
+
 	// this line is used by starport scaffolding # 3
 
 	msgservice.RegisterMsgServiceDesc(registry, &_Msg_serviceDesc)

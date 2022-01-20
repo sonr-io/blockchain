@@ -1,7 +1,6 @@
 package channel
 
 import (
-	"errors"
 	"fmt"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -27,9 +26,10 @@ func NewHandler(k keeper.Keeper) sdk.Handler {
 		case *types.MsgDeleteChannel:
 			res, err := msgServer.DeleteChannel(sdk.WrapSDKContext(ctx), msg)
 			return sdk.WrapServiceResult(ctx, res, err)
-		case *types.MsgListenChannel:
-			// res, err := msgServer.ListenChannel(sdk.WrapSDKContext(ctx), msg)
-			return sdk.WrapServiceResult(ctx, nil, errors.New("not implemented"))
+
+		case *types.MsgUpdateChannel:
+			res, err := msgServer.UpdateChannel(sdk.WrapSDKContext(ctx), msg)
+			return sdk.WrapServiceResult(ctx, res, err)
 			// this line is used by starport scaffolding # 1
 		default:
 			errMsg := fmt.Sprintf("unrecognized %s message type: %T", types.ModuleName, msg)

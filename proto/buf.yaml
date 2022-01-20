@@ -2,7 +2,7 @@ version: v1
 name: buf.build/sonr-io/sonr
 deps:
   - buf.build/googleapis/googleapis
-  - buf.build/gogo/protobuf
+  - buf.build/cosmos/cosmos-sdk
 lint:
   use:
     - DEFAULT

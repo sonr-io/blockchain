@@ -2,14 +2,13 @@ package channel
 
 import (
 	"context"
-	"time"
 
 	"github.com/kataras/golog"
 	"github.com/libp2p/go-libp2p-core/peer"
 	pubsub "github.com/libp2p/go-libp2p-pubsub"
 	"github.com/pkg/errors"
-	"github.com/sonr-io/sonr/core/node"
 	"github.com/sonr-io/sonr/core/did"
+	"github.com/sonr-io/sonr/core/node"
 	o "github.com/sonr-io/sonr/x/object/types"
 
 	v1 "github.com/sonr-io/sonr/x/channel/types"
@@ -22,37 +21,6 @@ var (
 	ErrInvalidMessage = errors.New("Invalid message received in Pubsub Topic - (Beam)")
 )
 
-// Option is a function that modifies the beam options.
-type Option func(*options)
-
-// WithTTL sets the time-to-live for the beam store entries
-func WithTTL(ttl time.Duration) Option {
-	return func(o *options) {
-		o.ttl = ttl
-	}
-}
-
-// WithCapacity sets the capacity of the beam store.
-func WithCapacity(capacity int) Option {
-	return func(o *options) {
-		o.capacity = capacity
-	}
-}
-
-// options is a collection of options for the beam.
-type options struct {
-	ttl      time.Duration
-	capacity int
-}
-
-// defaultOptions is the default options for the beam.
-func defaultOptions() *options {
-	return &options{
-		ttl:      time.Minute * 10,
-		capacity: 4096,
-	}
-}
-
 // Channel is a pubsub based Key-Value store for Libp2p nodes.
 type Channel interface {
 	// Did returns the DID of the channel.
@@ -62,11 +30,11 @@ type Channel interface {
 	Read() []peer.ID
 
 	// Publish publishes the given message to the channel topic.
-	Publish(obj *o.ObjectDoc) error
+	Publish(obj *o.ObjectDoc, option ...PublishOption) error
 
-	// Listen subscribes to the beam topic and returns a channel that will
-	// receive events.
-	Listen() (<-chan *v1.ChannelMessage, error)
+	// Listen subscribes to the channel topic and returns a channel that will
+	// receive the messages.
+	Listen() <-chan *v1.ChannelMessage
 
 	// Close closes the channel.
 	Close() error
@@ -75,10 +43,12 @@ type Channel interface {
 // channel is the implementation of the Beam interface.
 type channel struct {
 	Channel
-	ctx   context.Context
-	n     node.NodeImpl
-	label string
-	did   did.DID
+	ctx    context.Context
+	n      node.NodeImpl
+	config *v1.Channel
+	name   string
+	did    did.DID
+	object *o.ObjectDoc
 
 	// Channel Messages
 	messages        chan *v1.ChannelMessage
@@ -88,21 +58,26 @@ type channel struct {
 }
 
 // New creates a new beam with the given name and options.
-func New(ctx context.Context, n node.NodeImpl, id did.DID, options ...Option) (Channel, error) {
-	logger = golog.Default.Child(id.ToString())
+func New(ctx context.Context, node node.NodeImpl, registeredObject *o.ObjectDoc, options ...Option) (Channel, error) {
+	c := &channel{
+		ctx:    ctx,
+		n:      node,
+		object: registeredObject,
+	}
+
 	opts := defaultOptions()
 	for _, option := range options {
 		option(opts)
 	}
-
-	mTopic, mHandler, mSub, err := n.NewTopic(id.ToString())
+	id := opts.Apply(c)
+	mTopic, mHandler, mSub, err := node.NewTopic(id.ToString())
 	if err != nil {
 		return nil, err
 	}
 
 	b := &channel{
 		ctx:             ctx,
-		n:               n,
+		n:               node,
 		did:             id,
 		messages:        make(chan *v1.ChannelMessage),
 		messagesHandler: mHandler,
@@ -113,7 +88,6 @@ func New(ctx context.Context, n node.NodeImpl, id did.DID, options ...Option) (C
 	// Start the event handler.
 	go b.handleChannelEvents()
 	go b.handleChannelMessages()
-
 	return b, nil
 }
 
@@ -136,28 +110,50 @@ func (b *channel) Read() []peer.ID {
 }
 
 // Publish publishes the given message to the beam topic.
-func (b *channel) Publish(obj *o.ObjectDoc) error {
+func (b *channel) Publish(obj *o.ObjectDoc, options ...PublishOption) error {
+	// Handle Options
+	opts := publishOptions{
+		metadata: make(map[string]string),
+	}
+	for _, option := range options {
+		option(&opts)
+	}
+
 	// Check if both text and data are empty.
 	if obj != nil {
 		return errors.New("text and data cannot be empty")
 	}
 
-	// Create the message.
-	msg := &v1.ChannelMessage{}
-
-	// Encode the message.
-	buf, err := msg.Marshal()
+	// Get Nodes Peer Info
+	peer, err := b.n.Peer()
 	if err != nil {
 		return err
 	}
 
-	// Publish the message to the beam topic.
-	return b.messagesTopic.Publish(b.ctx, buf)
+	// Check if the object is already published.
+	if b.object.Validate(obj) {
+		// Create the message.
+		msg := &v1.ChannelMessage{
+			Did:  b.did.ToProto(),
+			Data: obj,
+			Peer: peer,
+		}
+
+		// Encode the message.
+		buf, err := msg.Marshal()
+		if err != nil {
+			return err
+		}
+
+		// Publish the message to the beam topic.
+		return b.messagesTopic.Publish(b.ctx, buf)
+	}
+	return ErrInvalidMessage
 }
 
 // Listen subscribes to the beam topic and returns a channel that will
-func (b *channel) Listen() (<-chan *v1.ChannelMessage, error) {
-	return b.messages, nil
+func (b *channel) Listen() <-chan *v1.ChannelMessage {
+	return b.messages
 }
 
 // Close closes the channel.

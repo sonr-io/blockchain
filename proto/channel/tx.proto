@@ -11,7 +11,7 @@ service Msg {
       rpc CreateChannel(MsgCreateChannel) returns (MsgCreateChannelResponse);
   rpc ReadChannel(MsgReadChannel) returns (MsgReadChannelResponse);
   rpc DeleteChannel(MsgDeleteChannel) returns (MsgDeleteChannelResponse);
-  rpc ListenChannel(MsgListenChannel) returns (stream MsgListenChannelResponse);
+  rpc UpdateChannel(MsgUpdateChannel) returns (MsgUpdateChannelResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }
 
@@ -44,12 +44,13 @@ message MsgDeleteChannel {
 message MsgDeleteChannelResponse {
 }
 
-message MsgListenChannel {
+
+message MsgUpdateChannel {
   string creator = 1;
   string did = 2;
 }
 
-message MsgListenChannelResponse {
+message MsgUpdateChannelResponse {
 }
 
 // this line is used by starport scaffolding # proto/tx/message

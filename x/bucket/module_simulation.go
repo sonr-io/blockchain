@@ -121,17 +121,6 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 		bucketsimulation.SimulateMsgDeleteBucket(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
-	var weightMsgListenBucket int
-	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgListenBucket, &weightMsgListenBucket, nil,
-		func(_ *rand.Rand) {
-			weightMsgListenBucket = defaultWeightMsgListenBucket
-		},
-	)
-	operations = append(operations, simulation.NewWeightedOperation(
-		weightMsgListenBucket,
-		bucketsimulation.SimulateMsgListenBucket(am.accountKeeper, am.bankKeeper, am.keeper),
-	))
-
 	// this line is used by starport scaffolding # simapp/module/operation
 
 	return operations

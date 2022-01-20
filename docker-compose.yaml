@@ -8,7 +8,6 @@ services:
     container_name: sonr-d0
     restart: unless-stopped
     depends_on:
-      - sonr.ipfs
       - sonr.hnsd
       - sonr.highway
     ports:
@@ -23,24 +22,11 @@ services:
     container_name: sonr-hw0
     restart: unless-stopped
     depends_on:
-      - sonr.ipfs
       - sonr.hnsd
     ports:
       - "127.0.0.1:22025:26225"
       - "127.0.0.1:22080:8080"
       - "127.0.0.1:22081:8081"
-
-  sonr.ipfs:
-    image: ipfs/go-ipfs:latest
-    container_name: sonr-ipfs0
-    volumes:
-      - "./data/ipfs:/.sonr/data/ipfs"
-    ports:
-      - 127.0.0.1:29001:4001/tcp
-      - 127.0.0.1:29041:4001/udp
-      - 127.0.0.1:29051:5001
-      - 127.0.0.1:29080:8080
-      - 127.0.0.1:29081:8081
 
   sonr.hnsd:
     image: handshakeorg/hsd:latest

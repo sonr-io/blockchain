@@ -40,6 +40,10 @@ const (
 	// TODO: Determine the simulation weight value
 	defaultWeightMsgListenChannel int = 100
 
+	opWeightMsgUpdateChannel = "op_weight_msg_create_chain"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgUpdateChannel int = 100
+
 	// this line is used by starport scaffolding # simapp/module/const
 )
 
@@ -106,15 +110,15 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 		channelsimulation.SimulateMsgDeleteChannel(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
-	var weightMsgListenChannel int
-	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgListenChannel, &weightMsgListenChannel, nil,
+	var weightMsgUpdateChannel int
+	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgUpdateChannel, &weightMsgUpdateChannel, nil,
 		func(_ *rand.Rand) {
-			weightMsgListenChannel = defaultWeightMsgListenChannel
+			weightMsgUpdateChannel = defaultWeightMsgUpdateChannel
 		},
 	)
 	operations = append(operations, simulation.NewWeightedOperation(
-		weightMsgListenChannel,
-		channelsimulation.SimulateMsgListenChannel(am.accountKeeper, am.bankKeeper, am.keeper),
+		weightMsgUpdateChannel,
+		channelsimulation.SimulateMsgUpdateChannel(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
 	// this line is used by starport scaffolding # simapp/module/operation

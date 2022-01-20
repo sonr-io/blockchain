@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/libp2p/go-libp2p"
+	connmgr "github.com/libp2p/go-libp2p-connmgr"
 	dsc "github.com/libp2p/go-libp2p-discovery"
 	psub "github.com/libp2p/go-libp2p-pubsub"
 
@@ -37,6 +39,13 @@ const (
 
 // Option is a function that modifies the node options.
 type Option func(*options)
+
+// WithAccountName sets the account name for the Node Stub Client
+func WithAccountName(name string) Option {
+	return func(o *options) {
+		o.accountName = name
+	}
+}
 
 // WithLogLevel sets the log level for Logger
 func WithLogLevel(level LogLevel) Option {
@@ -86,6 +95,7 @@ func WithPort(port int) Option {
 type options struct {
 	configuration *Configuration
 	role          Role
+	accountName   string
 
 	// Host
 	BootstrapPeers []peer.AddrInfo
@@ -128,6 +138,7 @@ func defaultOptions(r Role) *options {
 	}
 
 	return &options{
+		accountName:    "alice",
 		configuration:  defaultConfiguration(),
 		host:           ":",
 		port:           26225,
@@ -184,9 +195,50 @@ func (opts *options) Apply(ctx context.Context, options ...Option) (*node, error
 	}
 
 	// Fetch the private key.
-	hn.privKey, err = findPrivKey()
+	privKey, err := findPrivKey()
 	if err != nil {
 		return nil, errors.Wrap(err, "Failed to apply host options: PrivKey")
+	}
+
+	// Start Host
+	hn.Host, err = libp2p.New(
+		libp2p.Identity(privKey),
+		libp2p.ConnectionManager(connmgr.NewConnManager(
+			opts.LowWater,    // Lowwater
+			opts.HighWater,   // HighWater,
+			opts.GracePeriod, // GracePeriod
+		)),
+		libp2p.DefaultListenAddrs,
+		libp2p.Routing(hn.Router),
+		libp2p.EnableAutoRelay(),
+	)
+	if err != nil {
+		logger.Errorf("%s - NewHost: Failed to create libp2p host", err)
+		return nil, err
+	}
+	hn.SetStatus(Status_CONNECTING)
+
+	// Bootstrap DHT
+	if err := hn.Bootstrap(context.Background()); err != nil {
+		logger.Errorf("%s - Failed to Bootstrap KDHT to Host", err)
+		hn.SetStatus(Status_FAIL)
+		return nil, err
+	}
+
+	// Connect to Bootstrap Nodes
+	for _, pi := range opts.BootstrapPeers {
+		if err := hn.Connect(pi); err != nil {
+			continue
+		} else {
+			break
+		}
+	}
+
+	// Initialize Discovery for DHT
+	if err := hn.createDHTDiscovery(opts); err != nil {
+		logger.Fatal("Could not start DHT Discovery", err)
+		hn.SetStatus(Status_FAIL)
+		return nil, err
 	}
 
 	// Set the private key.
@@ -228,8 +280,10 @@ func (hn *node) createMdnsDiscovery(opts *options) {
 	}
 
 	// Create MDNS Service
-	ser := mdns.NewMdnsService(hn.Host, opts.Rendezvous)
-
-	// Handle Events
-	ser.RegisterNotifee(hn)
+	ser := mdns.NewMdnsService(hn.Host, opts.Rendezvous, hn)
+	err := ser.Start()
+	if err != nil {
+		logger.Errorf("%s - Failed to Start MDNS Discovery ", err)
+		return
+	}
 }

@@ -11,7 +11,6 @@ service Msg {
   rpc ReadBucket(MsgReadBucket) returns (MsgReadBucketResponse);
   rpc UpdateBucket(MsgUpdateBucket) returns (MsgUpdateBucketResponse);
   rpc DeleteBucket(MsgDeleteBucket) returns (MsgDeleteBucketResponse);
-  rpc ListenBucket(MsgListenBucket) returns (stream MsgListenBucketResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }
 
@@ -50,14 +49,6 @@ message MsgDeleteBucket {
 }
 
 message MsgDeleteBucketResponse {
-}
-
-message MsgListenBucket {
-  string creator = 1;
-  string did = 2;
-}
-
-message MsgListenBucketResponse {
 }
 
 // this line is used by starport scaffolding # proto/tx/message

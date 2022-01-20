@@ -7,8 +7,6 @@ accounts:
 build:
   binary: "sonrd"
 
-client:
-
 faucet:
   name: bob
   coins: ["5snr", "100000stake"]

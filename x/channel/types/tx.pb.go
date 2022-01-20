@@ -332,23 +332,23 @@ func (m *MsgDeleteChannelResponse) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_MsgDeleteChannelResponse proto.InternalMessageInfo
 
-type MsgListenChannel struct {
+type MsgUpdateChannel struct {
 	Creator string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
 	Did     string `protobuf:"bytes,2,opt,name=did,proto3" json:"did,omitempty"`
 }
 
-func (m *MsgListenChannel) Reset()         { *m = MsgListenChannel{} }
-func (m *MsgListenChannel) String() string { return proto.CompactTextString(m) }
-func (*MsgListenChannel) ProtoMessage()    {}
-func (*MsgListenChannel) Descriptor() ([]byte, []int) {
+func (m *MsgUpdateChannel) Reset()         { *m = MsgUpdateChannel{} }
+func (m *MsgUpdateChannel) String() string { return proto.CompactTextString(m) }
+func (*MsgUpdateChannel) ProtoMessage()    {}
+func (*MsgUpdateChannel) Descriptor() ([]byte, []int) {
 	return fileDescriptor_82d382f6faba5dbf, []int{6}
 }
-func (m *MsgListenChannel) XXX_Unmarshal(b []byte) error {
+func (m *MsgUpdateChannel) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *MsgListenChannel) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *MsgUpdateChannel) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_MsgListenChannel.Marshal(b, m, deterministic)
+		return xxx_messageInfo_MsgUpdateChannel.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -358,47 +358,47 @@ func (m *MsgListenChannel) XXX_Marshal(b []byte, deterministic bool) ([]byte, er
 		return b[:n], nil
 	}
 }
-func (m *MsgListenChannel) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgListenChannel.Merge(m, src)
+func (m *MsgUpdateChannel) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgUpdateChannel.Merge(m, src)
 }
-func (m *MsgListenChannel) XXX_Size() int {
+func (m *MsgUpdateChannel) XXX_Size() int {
 	return m.Size()
 }
-func (m *MsgListenChannel) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgListenChannel.DiscardUnknown(m)
+func (m *MsgUpdateChannel) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgUpdateChannel.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_MsgListenChannel proto.InternalMessageInfo
+var xxx_messageInfo_MsgUpdateChannel proto.InternalMessageInfo
 
-func (m *MsgListenChannel) GetCreator() string {
+func (m *MsgUpdateChannel) GetCreator() string {
 	if m != nil {
 		return m.Creator
 	}
 	return ""
 }
 
-func (m *MsgListenChannel) GetDid() string {
+func (m *MsgUpdateChannel) GetDid() string {
 	if m != nil {
 		return m.Did
 	}
 	return ""
 }
 
-type MsgListenChannelResponse struct {
+type MsgUpdateChannelResponse struct {
 }
 
-func (m *MsgListenChannelResponse) Reset()         { *m = MsgListenChannelResponse{} }
-func (m *MsgListenChannelResponse) String() string { return proto.CompactTextString(m) }
-func (*MsgListenChannelResponse) ProtoMessage()    {}
-func (*MsgListenChannelResponse) Descriptor() ([]byte, []int) {
+func (m *MsgUpdateChannelResponse) Reset()         { *m = MsgUpdateChannelResponse{} }
+func (m *MsgUpdateChannelResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgUpdateChannelResponse) ProtoMessage()    {}
+func (*MsgUpdateChannelResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_82d382f6faba5dbf, []int{7}
 }
-func (m *MsgListenChannelResponse) XXX_Unmarshal(b []byte) error {
+func (m *MsgUpdateChannelResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *MsgListenChannelResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *MsgUpdateChannelResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_MsgListenChannelResponse.Marshal(b, m, deterministic)
+		return xxx_messageInfo_MsgUpdateChannelResponse.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -408,17 +408,17 @@ func (m *MsgListenChannelResponse) XXX_Marshal(b []byte, deterministic bool) ([]
 		return b[:n], nil
 	}
 }
-func (m *MsgListenChannelResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgListenChannelResponse.Merge(m, src)
+func (m *MsgUpdateChannelResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgUpdateChannelResponse.Merge(m, src)
 }
-func (m *MsgListenChannelResponse) XXX_Size() int {
+func (m *MsgUpdateChannelResponse) XXX_Size() int {
 	return m.Size()
 }
-func (m *MsgListenChannelResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgListenChannelResponse.DiscardUnknown(m)
+func (m *MsgUpdateChannelResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgUpdateChannelResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_MsgListenChannelResponse proto.InternalMessageInfo
+var xxx_messageInfo_MsgUpdateChannelResponse proto.InternalMessageInfo
 
 func init() {
 	proto.RegisterType((*MsgCreateChannel)(nil), "sonrio.sonr.channel.MsgCreateChannel")
@@ -427,41 +427,41 @@ func init() {
 	proto.RegisterType((*MsgReadChannelResponse)(nil), "sonrio.sonr.channel.MsgReadChannelResponse")
 	proto.RegisterType((*MsgDeleteChannel)(nil), "sonrio.sonr.channel.MsgDeleteChannel")
 	proto.RegisterType((*MsgDeleteChannelResponse)(nil), "sonrio.sonr.channel.MsgDeleteChannelResponse")
-	proto.RegisterType((*MsgListenChannel)(nil), "sonrio.sonr.channel.MsgListenChannel")
-	proto.RegisterType((*MsgListenChannelResponse)(nil), "sonrio.sonr.channel.MsgListenChannelResponse")
+	proto.RegisterType((*MsgUpdateChannel)(nil), "sonrio.sonr.channel.MsgUpdateChannel")
+	proto.RegisterType((*MsgUpdateChannelResponse)(nil), "sonrio.sonr.channel.MsgUpdateChannelResponse")
 }
 
 func init() { proto.RegisterFile("channel/tx.proto", fileDescriptor_82d382f6faba5dbf) }
 
 var fileDescriptor_82d382f6faba5dbf = []byte{
-	// 431 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x54, 0xdd, 0x6a, 0xd4, 0x40,
-	0x14, 0xde, 0x31, 0xb5, 0x75, 0x4f, 0x59, 0x09, 0x53, 0x90, 0x31, 0x68, 0x58, 0x22, 0x62, 0x41,
-	0x9a, 0x88, 0xde, 0x8a, 0xa0, 0xed, 0x9d, 0xee, 0x4d, 0xbc, 0x13, 0x61, 0xc9, 0xcf, 0x21, 0x1d,
-	0x49, 0x32, 0x21, 0x33, 0x85, 0xb4, 0x4f, 0xe1, 0x0b, 0xf8, 0x0a, 0x3e, 0x87, 0x97, 0xbd, 0xf4,
-	0x52, 0x76, 0x5f, 0x44, 0x32, 0xd9, 0x8d, 0x3b, 0xeb, 0x06, 0x17, 0xaf, 0x66, 0x72, 0xe6, 0x3b,
-	0xdf, 0x37, 0xdf, 0xf9, 0x92, 0x80, 0x9d, 0x5c, 0x46, 0x65, 0x89, 0x79, 0xa0, 0x1a, 0xbf, 0xaa,
-	0x85, 0x12, 0xf4, 0x44, 0x8a, 0xb2, 0xe6, 0xc2, 0x6f, 0x17, 0x7f, 0x75, 0xea, 0x9c, 0x88, 0xf8,
-	0x0b, 0x26, 0x2a, 0xe8, 0x96, 0x0e, 0xe9, 0x7d, 0x27, 0x60, 0xcf, 0x64, 0x76, 0x5e, 0x63, 0xa4,
-	0xf0, 0xbc, 0x43, 0x52, 0x06, 0x47, 0x49, 0x5b, 0x10, 0x35, 0x23, 0x53, 0x72, 0x3a, 0x0e, 0xd7,
-	0x8f, 0x94, 0xc2, 0x41, 0x19, 0x15, 0xc8, 0xee, 0xe8, 0xb2, 0xde, 0xd3, 0x29, 0x1c, 0xa7, 0x28,
-	0x93, 0x9a, 0x57, 0x8a, 0x8b, 0x92, 0x59, 0xfa, 0x68, 0xb3, 0x44, 0x1f, 0x03, 0x74, 0xa2, 0xf3,
-	0x94, 0xa7, 0xec, 0x40, 0x03, 0xc6, 0x5d, 0xe5, 0x82, 0xa7, 0xd4, 0x06, 0x4b, 0xa9, 0x9c, 0xdd,
-	0x9d, 0x92, 0x53, 0x2b, 0x6c, 0xb7, 0xf4, 0x21, 0xdc, 0x2b, 0xa2, 0x66, 0x2e, 0xf9, 0x0d, 0xb2,
-	0x43, 0x5d, 0x3e, 0x2a, 0xa2, 0xe6, 0x23, 0xbf, 0x41, 0xcf, 0x01, 0xb6, 0x7d, 0xdf, 0x10, 0x65,
-	0x25, 0x4a, 0x89, 0xde, 0x6b, 0xb8, 0x3f, 0x93, 0x59, 0x88, 0x51, 0xfa, 0x6f, 0x27, 0x36, 0x58,
-	0xed, 0x65, 0x3a, 0x23, 0xed, 0xd6, 0x63, 0xf0, 0xc0, 0xec, 0xee, 0x79, 0x3f, 0xeb, 0x19, 0x5d,
-	0x60, 0x8e, 0xfb, 0xcc, 0xe8, 0x2f, 0x66, 0xfa, 0x08, 0xc6, 0xd5, 0x55, 0x9c, 0xf3, 0xe4, 0x3d,
-	0x5e, 0xaf, 0xe6, 0xf3, 0xa7, 0xb0, 0x72, 0x64, 0xb0, 0xf7, 0xca, 0x6f, 0xb4, 0xf2, 0x07, 0x2e,
-	0x15, 0x96, 0xff, 0xe3, 0xa9, 0xe3, 0x36, 0xfa, 0xd7, 0xdc, 0x2f, 0xbf, 0x59, 0x60, 0xcd, 0x64,
-	0x46, 0x11, 0x26, 0x66, 0xfc, 0x4f, 0xfd, 0x1d, 0xaf, 0x8f, 0xbf, 0x3d, 0x75, 0xe7, 0x6c, 0x2f,
-	0xd8, 0x5a, 0x8e, 0xce, 0xe1, 0x78, 0x33, 0x99, 0x27, 0x43, 0xdd, 0x1b, 0x20, 0xe7, 0xf9, 0x1e,
-	0xa0, 0x5e, 0x00, 0x61, 0x62, 0x46, 0x34, 0xe8, 0xc3, 0x80, 0x0d, 0xfb, 0xd8, 0x19, 0x09, 0xcd,
-	0x60, 0x62, 0xe6, 0x31, 0x28, 0x63, 0xc0, 0x86, 0x65, 0x76, 0xa6, 0xf3, 0x82, 0xbc, 0x7b, 0xfb,
-	0x63, 0xe1, 0x92, 0xdb, 0x85, 0x4b, 0x7e, 0x2d, 0x5c, 0xf2, 0x75, 0xe9, 0x8e, 0x6e, 0x97, 0xee,
-	0xe8, 0xe7, 0xd2, 0x1d, 0x7d, 0x7a, 0x96, 0x71, 0x75, 0x79, 0x15, 0xfb, 0x89, 0x28, 0x82, 0x96,
-	0xed, 0x8c, 0x0b, 0xbd, 0x06, 0x4d, 0xd0, 0xff, 0x0a, 0xae, 0x2b, 0x94, 0xf1, 0xa1, 0xfe, 0xc8,
-	0x5f, 0xfd, 0x0e, 0x00, 0x00, 0xff, 0xff, 0x48, 0x01, 0x68, 0x69, 0x22, 0x04, 0x00, 0x00,
+	// 427 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x54, 0x5d, 0x8b, 0xd3, 0x40,
+	0x14, 0x6d, 0xcc, 0xba, 0x6b, 0xef, 0xb2, 0x12, 0x66, 0x41, 0xc6, 0xa0, 0xa1, 0x44, 0xc4, 0x05,
+	0xd9, 0x04, 0xf4, 0x55, 0x04, 0xdd, 0x7d, 0x93, 0xbe, 0x44, 0x7c, 0x11, 0xa1, 0xe4, 0xe3, 0x92,
+	0x1d, 0x49, 0x32, 0x21, 0x33, 0x0b, 0x69, 0x7f, 0x85, 0xef, 0xfe, 0x07, 0x7f, 0x87, 0x8f, 0x7d,
+	0xf4, 0x51, 0xda, 0x3f, 0x22, 0x99, 0xa4, 0xb1, 0x53, 0x1b, 0x2c, 0xfb, 0x34, 0x93, 0x33, 0xe7,
+	0x9e, 0x33, 0xf7, 0x9e, 0x24, 0x60, 0xc5, 0x37, 0x61, 0x51, 0x60, 0xe6, 0xcb, 0xda, 0x2b, 0x2b,
+	0x2e, 0x39, 0x39, 0x17, 0xbc, 0xa8, 0x18, 0xf7, 0x9a, 0xc5, 0xeb, 0x4e, 0xed, 0x73, 0x1e, 0x7d,
+	0xc5, 0x58, 0xfa, 0xed, 0xd2, 0x32, 0xdd, 0x1f, 0x06, 0x58, 0x53, 0x91, 0x5e, 0x55, 0x18, 0x4a,
+	0xbc, 0x6a, 0x99, 0x84, 0xc2, 0x49, 0xdc, 0x00, 0xbc, 0xa2, 0xc6, 0xc4, 0xb8, 0x18, 0x07, 0x9b,
+	0x47, 0x42, 0xe0, 0xa8, 0x08, 0x73, 0xa4, 0xf7, 0x14, 0xac, 0xf6, 0x64, 0x02, 0xa7, 0x09, 0x8a,
+	0xb8, 0x62, 0xa5, 0x64, 0xbc, 0xa0, 0xa6, 0x3a, 0xda, 0x86, 0xc8, 0x53, 0x80, 0xd6, 0x74, 0x96,
+	0xb0, 0x84, 0x1e, 0x29, 0xc2, 0xb8, 0x45, 0xae, 0x59, 0x42, 0x2c, 0x30, 0xa5, 0xcc, 0xe8, 0xfd,
+	0x89, 0x71, 0x61, 0x06, 0xcd, 0x96, 0x3c, 0x86, 0x07, 0x79, 0x58, 0xcf, 0x04, 0x5b, 0x20, 0x3d,
+	0x56, 0xf0, 0x49, 0x1e, 0xd6, 0x1f, 0xd9, 0x02, 0x5d, 0x1b, 0xe8, 0xee, 0x7d, 0x03, 0x14, 0x25,
+	0x2f, 0x04, 0xba, 0x6f, 0xe0, 0xe1, 0x54, 0xa4, 0x01, 0x86, 0xc9, 0xff, 0x3b, 0xb1, 0xc0, 0x6c,
+	0x2e, 0xd3, 0x36, 0xd2, 0x6c, 0x5d, 0x0a, 0x8f, 0xf4, 0xea, 0x5e, 0xf7, 0x8b, 0x9a, 0xd1, 0x35,
+	0x66, 0x78, 0xc8, 0x8c, 0xfe, 0x51, 0x26, 0x4f, 0x60, 0x5c, 0xde, 0x46, 0x19, 0x8b, 0x3f, 0xe0,
+	0xbc, 0x9b, 0xcf, 0x5f, 0xa0, 0xeb, 0x48, 0x53, 0xef, 0x9d, 0xdf, 0x2a, 0xe7, 0x4f, 0x65, 0x12,
+	0xde, 0xc9, 0xb9, 0xd3, 0xd6, 0xea, 0x37, 0xda, 0xaf, 0xbe, 0x9b, 0x60, 0x4e, 0x45, 0x4a, 0x10,
+	0xce, 0xf4, 0xf8, 0x9f, 0x7b, 0x7b, 0x5e, 0x1f, 0x6f, 0x77, 0xea, 0xf6, 0xe5, 0x41, 0xb4, 0x8d,
+	0x1d, 0x99, 0xc1, 0xe9, 0x76, 0x32, 0xcf, 0x86, 0xaa, 0xb7, 0x48, 0xf6, 0xcb, 0x03, 0x48, 0xbd,
+	0x01, 0xc2, 0x99, 0x1e, 0xd1, 0x60, 0x1f, 0x1a, 0x6d, 0xb8, 0x8f, 0xbd, 0x91, 0x34, 0x36, 0x7a,
+	0x1e, 0x83, 0x36, 0x1a, 0x6d, 0xd8, 0x66, 0x6f, 0x3a, 0xef, 0xdf, 0xfd, 0x5c, 0x39, 0xc6, 0x72,
+	0xe5, 0x18, 0xbf, 0x57, 0x8e, 0xf1, 0x6d, 0xed, 0x8c, 0x96, 0x6b, 0x67, 0xf4, 0x6b, 0xed, 0x8c,
+	0x3e, 0xbf, 0x48, 0x99, 0xbc, 0xb9, 0x8d, 0xbc, 0x98, 0xe7, 0x7e, 0xa3, 0x75, 0xc9, 0xb8, 0x5a,
+	0xfd, 0xda, 0xef, 0x7f, 0x04, 0xf3, 0x12, 0x45, 0x74, 0xac, 0x3e, 0xf1, 0xd7, 0x7f, 0x02, 0x00,
+	0x00, 0xff, 0xff, 0xcb, 0x74, 0x0e, 0x7d, 0x20, 0x04, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -479,7 +479,7 @@ type MsgClient interface {
 	CreateChannel(ctx context.Context, in *MsgCreateChannel, opts ...grpc.CallOption) (*MsgCreateChannelResponse, error)
 	ReadChannel(ctx context.Context, in *MsgReadChannel, opts ...grpc.CallOption) (*MsgReadChannelResponse, error)
 	DeleteChannel(ctx context.Context, in *MsgDeleteChannel, opts ...grpc.CallOption) (*MsgDeleteChannelResponse, error)
-	ListenChannel(ctx context.Context, in *MsgListenChannel, opts ...grpc.CallOption) (Msg_ListenChannelClient, error)
+	UpdateChannel(ctx context.Context, in *MsgUpdateChannel, opts ...grpc.CallOption) (*MsgUpdateChannelResponse, error)
 }
 
 type msgClient struct {
@@ -517,36 +517,13 @@ func (c *msgClient) DeleteChannel(ctx context.Context, in *MsgDeleteChannel, opt
 	return out, nil
 }
 
-func (c *msgClient) ListenChannel(ctx context.Context, in *MsgListenChannel, opts ...grpc.CallOption) (Msg_ListenChannelClient, error) {
-	stream, err := c.cc.NewStream(ctx, &_Msg_serviceDesc.Streams[0], "/sonrio.sonr.channel.Msg/ListenChannel", opts...)
+func (c *msgClient) UpdateChannel(ctx context.Context, in *MsgUpdateChannel, opts ...grpc.CallOption) (*MsgUpdateChannelResponse, error) {
+	out := new(MsgUpdateChannelResponse)
+	err := c.cc.Invoke(ctx, "/sonrio.sonr.channel.Msg/UpdateChannel", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
-	x := &msgListenChannelClient{stream}
-	if err := x.ClientStream.SendMsg(in); err != nil {
-		return nil, err
-	}
-	if err := x.ClientStream.CloseSend(); err != nil {
-		return nil, err
-	}
-	return x, nil
-}
-
-type Msg_ListenChannelClient interface {
-	Recv() (*MsgListenChannelResponse, error)
-	grpc.ClientStream
-}
-
-type msgListenChannelClient struct {
-	grpc.ClientStream
-}
-
-func (x *msgListenChannelClient) Recv() (*MsgListenChannelResponse, error) {
-	m := new(MsgListenChannelResponse)
-	if err := x.ClientStream.RecvMsg(m); err != nil {
-		return nil, err
-	}
-	return m, nil
+	return out, nil
 }
 
 // MsgServer is the server API for Msg service.
@@ -554,7 +531,7 @@ type MsgServer interface {
 	CreateChannel(context.Context, *MsgCreateChannel) (*MsgCreateChannelResponse, error)
 	ReadChannel(context.Context, *MsgReadChannel) (*MsgReadChannelResponse, error)
 	DeleteChannel(context.Context, *MsgDeleteChannel) (*MsgDeleteChannelResponse, error)
-	ListenChannel(*MsgListenChannel, Msg_ListenChannelServer) error
+	UpdateChannel(context.Context, *MsgUpdateChannel) (*MsgUpdateChannelResponse, error)
 }
 
 // UnimplementedMsgServer can be embedded to have forward compatible implementations.
@@ -570,8 +547,8 @@ func (*UnimplementedMsgServer) ReadChannel(ctx context.Context, req *MsgReadChan
 func (*UnimplementedMsgServer) DeleteChannel(ctx context.Context, req *MsgDeleteChannel) (*MsgDeleteChannelResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteChannel not implemented")
 }
-func (*UnimplementedMsgServer) ListenChannel(req *MsgListenChannel, srv Msg_ListenChannelServer) error {
-	return status.Errorf(codes.Unimplemented, "method ListenChannel not implemented")
+func (*UnimplementedMsgServer) UpdateChannel(ctx context.Context, req *MsgUpdateChannel) (*MsgUpdateChannelResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateChannel not implemented")
 }
 
 func RegisterMsgServer(s grpc1.Server, srv MsgServer) {
@@ -632,25 +609,22 @@ func _Msg_DeleteChannel_Handler(srv interface{}, ctx context.Context, dec func(i
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Msg_ListenChannel_Handler(srv interface{}, stream grpc.ServerStream) error {
-	m := new(MsgListenChannel)
-	if err := stream.RecvMsg(m); err != nil {
-		return err
+func _Msg_UpdateChannel_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgUpdateChannel)
+	if err := dec(in); err != nil {
+		return nil, err
 	}
-	return srv.(MsgServer).ListenChannel(m, &msgListenChannelServer{stream})
-}
-
-type Msg_ListenChannelServer interface {
-	Send(*MsgListenChannelResponse) error
-	grpc.ServerStream
-}
-
-type msgListenChannelServer struct {
-	grpc.ServerStream
-}
-
-func (x *msgListenChannelServer) Send(m *MsgListenChannelResponse) error {
-	return x.ServerStream.SendMsg(m)
+	if interceptor == nil {
+		return srv.(MsgServer).UpdateChannel(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/sonrio.sonr.channel.Msg/UpdateChannel",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).UpdateChannel(ctx, req.(*MsgUpdateChannel))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 var _Msg_serviceDesc = grpc.ServiceDesc{
@@ -669,14 +643,12 @@ var _Msg_serviceDesc = grpc.ServiceDesc{
 			MethodName: "DeleteChannel",
 			Handler:    _Msg_DeleteChannel_Handler,
 		},
-	},
-	Streams: []grpc.StreamDesc{
 		{
-			StreamName:    "ListenChannel",
-			Handler:       _Msg_ListenChannel_Handler,
-			ServerStreams: true,
+			MethodName: "UpdateChannel",
+			Handler:    _Msg_UpdateChannel_Handler,
 		},
 	},
+	Streams:  []grpc.StreamDesc{},
 	Metadata: "channel/tx.proto",
 }
 
@@ -891,7 +863,7 @@ func (m *MsgDeleteChannelResponse) MarshalToSizedBuffer(dAtA []byte) (int, error
 	return len(dAtA) - i, nil
 }
 
-func (m *MsgListenChannel) Marshal() (dAtA []byte, err error) {
+func (m *MsgUpdateChannel) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -901,12 +873,12 @@ func (m *MsgListenChannel) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *MsgListenChannel) MarshalTo(dAtA []byte) (int, error) {
+func (m *MsgUpdateChannel) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *MsgListenChannel) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *MsgUpdateChannel) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -928,7 +900,7 @@ func (m *MsgListenChannel) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *MsgListenChannelResponse) Marshal() (dAtA []byte, err error) {
+func (m *MsgUpdateChannelResponse) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -938,12 +910,12 @@ func (m *MsgListenChannelResponse) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *MsgListenChannelResponse) MarshalTo(dAtA []byte) (int, error) {
+func (m *MsgUpdateChannelResponse) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *MsgListenChannelResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *MsgUpdateChannelResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -1058,7 +1030,7 @@ func (m *MsgDeleteChannelResponse) Size() (n int) {
 	return n
 }
 
-func (m *MsgListenChannel) Size() (n int) {
+func (m *MsgUpdateChannel) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -1075,7 +1047,7 @@ func (m *MsgListenChannel) Size() (n int) {
 	return n
 }
 
-func (m *MsgListenChannelResponse) Size() (n int) {
+func (m *MsgUpdateChannelResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -1716,7 +1688,7 @@ func (m *MsgDeleteChannelResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *MsgListenChannel) Unmarshal(dAtA []byte) error {
+func (m *MsgUpdateChannel) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -1739,10 +1711,10 @@ func (m *MsgListenChannel) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: MsgListenChannel: wiretype end group for non-group")
+			return fmt.Errorf("proto: MsgUpdateChannel: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgListenChannel: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: MsgUpdateChannel: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -1830,7 +1802,7 @@ func (m *MsgListenChannel) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *MsgListenChannelResponse) Unmarshal(dAtA []byte) error {
+func (m *MsgUpdateChannelResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -1853,10 +1825,10 @@ func (m *MsgListenChannelResponse) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: MsgListenChannelResponse: wiretype end group for non-group")
+			return fmt.Errorf("proto: MsgUpdateChannelResponse: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgListenChannelResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: MsgUpdateChannelResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		default:

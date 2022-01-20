@@ -1,9 +1,9 @@
 # ---- Base Node ----
 FROM golang:latest AS build
-WORKDIR /go/src/github.com/sonr-io/sonr/highway
+WORKDIR /go/src/github.com/sonr-io/sonr/cmd/highway
 ENV GO111MODULE=on
 COPY . .
-RUN go build -o sonr-hw cmd/highway/stub.go
+RUN go build -o sonr-hw sonr/cmd/highway/main.go
 
 # Install grpc
 FROM alpine
