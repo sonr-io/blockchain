@@ -189,7 +189,6 @@ jobs:
     name: "Publish Blockchain Image 🎉"
     needs:
       - release-frameworks
-      - release-proto
     runs-on: ubuntu-latest
 
     steps:
