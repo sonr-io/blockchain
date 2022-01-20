@@ -1,4 +1,4 @@
-module github.com/sonr-io/sonr/highway
+module github.com/sonr-io/sonr/cmd/highway
 
 go 1.17
 

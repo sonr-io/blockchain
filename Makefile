@@ -79,7 +79,8 @@ buf.push:
 
 ## [clean]                :   Reinitializes Gomobile and Removes Framworks from Plugin
 clean:
-	go clean -cache -x
+	@cd ${ROOT_DIR} && go clean -cache -x
 	@cd ${HIGHWAY_DIR} && go clean -cache -x
-	rm -rf release
 	@cd ${HIGHWAY_DIR} && go mod tidy
+	@cd ${ROOT_DIR} && go mod tidy
+	rm -rf release
