@@ -8,10 +8,6 @@ build:
   binary: "sonrd"
 
 client:
-  openapi:
-    path: "docs/static/openapi.yml"
-  vuex:
-    path: "vue/src/store"
 
 faucet:
   name: bob
@@ -19,13 +15,6 @@ faucet:
 
 init:
   home: ".sonr"
-
-host:
-  rpc: ":26659"
-  p2p: ":26658"
-  prof: ":6061"
-  grpc: ":26657"
-  api: ":1318"
 
 validator:
   name: alice

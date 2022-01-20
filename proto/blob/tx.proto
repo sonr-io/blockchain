@@ -1,0 +1,58 @@
+syntax = "proto3";
+package sonrio.sonr.blob;
+
+// this line is used by starport scaffolding # proto/tx/import
+
+option go_package = "github.com/sonr-io/sonr/x/blob/types";
+
+// Msg defines the Msg service.
+service Msg {
+      rpc UploadBlob(MsgUploadBlob) returns (MsgUploadBlobResponse);
+  rpc DownloadBlob(MsgDownloadBlob) returns (MsgDownloadBlobResponse);
+  rpc SyncBlob(MsgSyncBlob) returns (MsgSyncBlobResponse);
+  rpc DeleteBlob(MsgDeleteBlob) returns (MsgDeleteBlobResponse);
+// this line is used by starport scaffolding # proto/tx/rpc
+}
+
+message MsgUploadBlob {
+  string creator = 1;
+  string label = 2;
+  string path = 3;
+  string refDid = 4;
+  int32 size = 5;
+  int32 lastModified = 6;
+}
+
+message MsgUploadBlobResponse {
+}
+
+message MsgDownloadBlob {
+  string creator = 1;
+  string did = 2;
+  string path = 3;
+  int32 timeout = 4;
+}
+
+message MsgDownloadBlobResponse {
+}
+
+message MsgSyncBlob {
+  string creator = 1;
+  string did = 2;
+  string path = 3;
+  int32 timeout = 4;
+}
+
+message MsgSyncBlobResponse {
+}
+
+message MsgDeleteBlob {
+  string creator = 1;
+  string did = 2;
+  string publicKey = 3;
+}
+
+message MsgDeleteBlobResponse {
+}
+
+// this line is used by starport scaffolding # proto/tx/message

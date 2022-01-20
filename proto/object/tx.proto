@@ -1,0 +1,53 @@
+syntax = "proto3";
+package sonrio.sonr.object;
+import "object/object.proto";
+
+// this line is used by starport scaffolding # proto/tx/import
+
+option go_package = "github.com/sonr-io/sonr/x/object/types";
+
+// Msg defines the Msg service.
+service Msg {
+      rpc CreateObject(MsgCreateObject) returns (MsgCreateObjectResponse);
+  rpc ReadObject(MsgReadObject) returns (MsgReadObjectResponse);
+  rpc UpdateObject(MsgUpdateObject) returns (MsgUpdateObjectResponse);
+  rpc DeleteObject(MsgDeleteObject) returns (MsgDeleteObjectResponse);
+// this line is used by starport scaffolding # proto/tx/rpc
+}
+
+message MsgCreateObject {
+  string creator = 1;
+  string label = 2;
+  string description = 3;
+  repeated ObjectField fields = 4;
+}
+
+message MsgCreateObjectResponse {
+}
+
+message MsgReadObject {
+  string creator = 1;
+  string did = 2;
+}
+
+message MsgReadObjectResponse {
+}
+
+message MsgUpdateObject {
+  string creator = 1;
+  string did = 2;
+}
+
+message MsgUpdateObjectResponse {
+}
+
+message MsgDeleteObject {
+  string creator = 1;
+  string did = 2;
+  string publicKey = 3;
+}
+
+message MsgDeleteObjectResponse {
+}
+
+// this line is used by starport scaffolding # proto/tx/message

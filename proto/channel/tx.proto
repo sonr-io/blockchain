@@ -1,0 +1,55 @@
+syntax = "proto3";
+import "object/object.proto";
+package sonrio.sonr.channel;
+
+// this line is used by starport scaffolding # proto/tx/import
+
+option go_package = "github.com/sonr-io/sonr/x/channel/types";
+
+// Msg defines the Msg service.
+service Msg {
+      rpc CreateChannel(MsgCreateChannel) returns (MsgCreateChannelResponse);
+  rpc ReadChannel(MsgReadChannel) returns (MsgReadChannelResponse);
+  rpc DeleteChannel(MsgDeleteChannel) returns (MsgDeleteChannelResponse);
+  rpc ListenChannel(MsgListenChannel) returns (stream MsgListenChannelResponse);
+// this line is used by starport scaffolding # proto/tx/rpc
+}
+
+message MsgCreateChannel {
+  string creator = 1;
+  string name = 2;
+  string description = 3;
+  string object_did = 4;
+  int64 ttl = 5;
+  int64 max_size = 6;
+}
+
+message MsgCreateChannelResponse {
+}
+
+message MsgReadChannel {
+  string creator = 1;
+  string did = 2;
+}
+
+message MsgReadChannelResponse {
+}
+
+message MsgDeleteChannel {
+  string creator = 1;
+  string did = 2;
+  string publicKey = 3;
+}
+
+message MsgDeleteChannelResponse {
+}
+
+message MsgListenChannel {
+  string creator = 1;
+  string did = 2;
+}
+
+message MsgListenChannelResponse {
+}
+
+// this line is used by starport scaffolding # proto/tx/message

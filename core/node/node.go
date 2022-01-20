@@ -19,9 +19,9 @@ import (
 	"github.com/libp2p/go-libp2p-core/protocol"
 	"github.com/libp2p/go-libp2p-core/routing"
 	dht "github.com/libp2p/go-libp2p-kad-dht"
-	"github.com/sonr-io/sonr/common"
-	"github.com/sonr-io/sonr/common/device"
-	did "github.com/sonr-io/sonr/did"
+	"github.com/sonr-io/sonr/core/device"
+	did "github.com/sonr-io/sonr/core/did"
+	common "github.com/sonr-io/sonr/x/registry/types"
 	"github.com/spf13/viper"
 
 	connmgr "github.com/libp2p/go-libp2p-connmgr"

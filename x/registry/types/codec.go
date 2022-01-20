@@ -8,21 +8,33 @@ import (
 )
 
 func RegisterCodec(cdc *codec.LegacyAmino) {
-	cdc.RegisterConcrete(&MsgRegisterName{}, "registry/RegisterName", nil)
 	cdc.RegisterConcrete(&MsgRegisterService{}, "registry/RegisterService", nil)
-	cdc.RegisterConcrete(&MsgCreateAccount{}, "registry/CreateAccount", nil)
+	cdc.RegisterConcrete(&MsgRegisterName{}, "registry/RegisterName", nil)
+	cdc.RegisterConcrete(&MsgAccessName{}, "registry/AccessName", nil)
+	cdc.RegisterConcrete(&MsgUpdateName{}, "registry/UpdateName", nil)
+	cdc.RegisterConcrete(&MsgAccessService{}, "registry/AccessService", nil)
+	cdc.RegisterConcrete(&MsgUpdateService{}, "registry/UpdateService", nil)
 	// this line is used by starport scaffolding # 2
 }
 
 func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 	registry.RegisterImplementations((*sdk.Msg)(nil),
-		&MsgRegisterName{},
-	)
-	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgRegisterService{},
 	)
 	registry.RegisterImplementations((*sdk.Msg)(nil),
-		&MsgCreateAccount{},
+		&MsgRegisterName{},
+	)
+	registry.RegisterImplementations((*sdk.Msg)(nil),
+		&MsgAccessName{},
+	)
+	registry.RegisterImplementations((*sdk.Msg)(nil),
+		&MsgUpdateName{},
+	)
+	registry.RegisterImplementations((*sdk.Msg)(nil),
+		&MsgAccessService{},
+	)
+	registry.RegisterImplementations((*sdk.Msg)(nil),
+		&MsgUpdateService{},
 	)
 	// this line is used by starport scaffolding # 3
 

@@ -1,0 +1,8 @@
+syntax = "proto3";
+package sonrio.sonr.channel;
+
+option go_package = "github.com/sonr-io/sonr/x/channel/types";
+
+message Config {
+  
+}

@@ -17,14 +17,23 @@ func NewHandler(k keeper.Keeper) sdk.Handler {
 		ctx = ctx.WithEventManager(sdk.NewEventManager())
 
 		switch msg := msg.(type) {
-		case *types.MsgRegisterName:
-			res, err := msgServer.RegisterName(sdk.WrapSDKContext(ctx), msg)
-			return sdk.WrapServiceResult(ctx, res, err)
 		case *types.MsgRegisterService:
 			res, err := msgServer.RegisterService(sdk.WrapSDKContext(ctx), msg)
 			return sdk.WrapServiceResult(ctx, res, err)
-		case *types.MsgCreateAccount:
-			res, err := msgServer.CreateAccount(sdk.WrapSDKContext(ctx), msg)
+		case *types.MsgRegisterName:
+			res, err := msgServer.RegisterName(sdk.WrapSDKContext(ctx), msg)
+			return sdk.WrapServiceResult(ctx, res, err)
+		case *types.MsgAccessName:
+			res, err := msgServer.AccessName(sdk.WrapSDKContext(ctx), msg)
+			return sdk.WrapServiceResult(ctx, res, err)
+		case *types.MsgUpdateName:
+			res, err := msgServer.UpdateName(sdk.WrapSDKContext(ctx), msg)
+			return sdk.WrapServiceResult(ctx, res, err)
+		case *types.MsgAccessService:
+			res, err := msgServer.AccessService(sdk.WrapSDKContext(ctx), msg)
+			return sdk.WrapServiceResult(ctx, res, err)
+		case *types.MsgUpdateService:
+			res, err := msgServer.UpdateService(sdk.WrapSDKContext(ctx), msg)
 			return sdk.WrapServiceResult(ctx, res, err)
 			// this line is used by starport scaffolding # 1
 		default:

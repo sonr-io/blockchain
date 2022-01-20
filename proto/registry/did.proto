@@ -1,0 +1,189 @@
+syntax = "proto3";
+package sonrio.sonr.registry;
+
+option go_package = "github.com/sonr-io/sonr/x/registry/types";
+
+// Did represents a string that has been parsed and validated as a DID. The parts are stored
+// in the individual fields.
+message Did {
+    // Method is the method used to create the DID. For the Sonr network it is "sonr".
+    string method = 1;
+
+    // Network is the network the DID is on. For testnet it is "testnet". i.e "did:sonr:testnet:".
+    string network = 2;
+
+    // id is the trailing identifier after the network. i.e. "did:sonr:testnet:abc123"
+    string id = 3;
+
+    // Paths is a list of paths that the DID is valid for. This is used to identify the Service.
+    repeated string paths = 4;
+
+    // Query is the query string that was used to create the DID. This is followed by a '?'.
+    string query = 5;
+
+    // Fragment is the fragment string that was used to create the DID. This is followed by a '#'.
+    string fragment = 6;
+}
+
+// DidDocument is the document that describes a DID. This document is stored on the blockchain.
+message DidDocument {
+  // Context is the context of the DID document. This is used to identify the Service.
+  repeated string context = 1; // optional
+
+  // Id is the DID of the document.
+  string id = 2;
+
+  // Controller is the DID of the controller of the document. This will be the individual user devices and mailboxes.
+  repeated string controller = 3; //optional
+
+  // VerificationMethod is the list of verification methods for the user.
+  repeated VerificationMethod verification_method = 4; // optional
+
+  // Authentication is the list of authentication methods for the user.
+  repeated string authentication = 5; // optional
+
+  // AssertionMethod is the list of assertion methods for the user.
+  repeated string assertion_method = 6; // optional
+
+  // CapabilityInvocation is the list of capability invocation methods for the user.
+  repeated string capability_invocation = 7; // optional
+
+  // CapabilityDelegation is the list of capability delegation methods for the user.
+  repeated string capability_delegation = 8; // optional
+
+  // KeyAgreement is the list of key agreement methods for the user.
+  repeated string key_agreement = 9; // optional
+
+  // Service is the list of services or DApps that the user has access to.
+  repeated Service service = 10; // optional
+
+  // AlsoKnownAs is the list of ".snr" aliases for the user.
+  repeated string also_known_as = 11; // optional
+
+  // Metadata is the metadata of the service.
+  map<string, string> metadata = 12; // optional
+}
+
+// NetworkType is the type of network the DID is on.
+enum NetworkType {
+  // Unspecified is the default value. Gets converted to "did:sonr:".
+  NETWORK_TYPE_UNSPECIFIED = 0;
+
+  // Mainnet is the main network. It prefix is "did:sonr:" or "did:sonr:mainnet:".
+  NETWORK_TYPE_MAINNET = 1;
+
+  // Testnet is the deployed test network. It's prefix is "did:sonr:testnet:".
+  NETWORK_TYPE_TESTNET = 2;
+
+  // Devnet is the localhost test network. It's prefix is "did:sonr:devnet:".
+  NETWORK_TYPE_DEVNET = 3;
+}
+
+// Service is a Application that runs on the Sonr network.
+message Service {
+  // ID is the DID of the service.
+  string id = 1;
+
+  // Type is the type of the service.
+  ServiceType type = 2;
+
+  // ServiceEndpoint is the endpoint of the service.
+  ServiceEndpoint service_endpoint = 3;
+
+  // Metadata is the metadata of the service.
+  map<string, string> metadata = 4; // optional
+}
+
+// ServiceEndpoint is the endpoint of the service.
+message ServiceEndpoint {
+  // TransportType is the type of transport used to connect to the service.
+  string transport_type = 1;
+
+  // Network is the network the service is on.
+  string network = 2;
+
+  // SupportedProtocols is the list of protocols supported by the service.
+  // (e.g. "channels", "buckets", "objects", "storage")
+  repeated ServiceProtocol supported_protocols = 3;
+}
+
+// ServiceProtocol are core modules that can be installed on custom services on the Sonr network.
+enum ServiceProtocol {
+  // SERVICE_PROTOCOL_UNSPECIFIED is the default value.
+  SERVICE_PROTOCOL_UNSPECIFIED = 0;
+
+  // SERVICE_PROTOCOL_BUCKETS is the module that provides the ability to store and retrieve data.
+  SERVICE_PROTOCOL_BUCKETS = 1;
+
+  // SERVICE_PROTOCOL_CHANNEL is the module that provides the ability to communicate with other services.
+  SERVICE_PROTOCOL_CHANNEL = 2;
+
+  // SERVICE_PROTOCOL_OBJECTS is the module that provides the ability to create new schemas for data on the network.
+  SERVICE_PROTOCOL_OBJECTS = 3;
+
+  // SERVICE_PROTOCOL_FUNCTIONS is the module that provides the ability to create new functions for data on the network.
+  SERVICE_PROTOCOL_FUNCTIONS = 4;
+}
+
+// ServiceType is the type of service that is being registered.
+enum ServiceType {
+  // SERVICE_TYPE_UNSPECIFIED is the default value.
+  SERVICE_TYPE_UNSPECIFIED = 0;
+
+  // SERVICE_TYPE_APPLICATION is the type of service that is a DApp.
+  SERVICE_TYPE_DID_COMM_MESSAGING = 1;
+
+  // SERVICE_TYPE_SERVICE is the type of service that is a service.
+  SERVICE_TYPE_LINKED_DOMAINS = 2;
+
+  // SERVICE_TYPE_SONR is the type of service that is a DApp.
+  SERVICE_TYPE_SONR = 3;
+}
+
+// VerificationMethod is a method that can be used to verify the DID.
+message VerificationMethod {
+  // ID is the DID of the verification method.
+  string id = 1;
+
+  // Type is the type of the verification method.
+  Type type = 2;
+
+  // Controller is the DID of the controller of the verification method.
+  string controller = 3;
+
+  // PublicKeyHex is the public key of the verification method in hexidecimal.
+  string public_key_hex = 4; // optional
+
+  // PublicKeyBase58 is the public key of the verification method in base58.
+  string public_key_base58 = 5; // optional
+
+  // BlockchainAccountId is the blockchain account id of the verification method.
+  string blockchain_account_id = 6; // optional
+
+  enum Type {
+    // TYPE_UNSPECIFIED is the default value.
+    TYPE_UNSPECIFIED = 0;
+
+    // TYPE_ECDSA_SECP256K1 represents the Ed25519VerificationKey2018 key type.
+    TYPE_ECDSA_SECP256K1 = 1;
+
+    // TYPE_X25519 represents the X25519KeyAgreementKey2019 key type.
+    TYPE_X25519 = 2;
+
+    // TYPE_ED25519 represents the Ed25519VerificationKey2018 key type.
+    TYPE_ED25519 = 3;
+
+    // TYPE_BLS_12381_G1 represents the Bls12381G1Key2020 key type
+    TYPE_BLS_12381_G1 = 4;
+
+    // TYPE_BLS_12381_G2 represents the Bls12381G2Key2020 key type
+    TYPE_BLS_12381_G2 = 5;
+
+    // TYPE_RSA represents the RsaVerificationKey2018 key type.
+    TYPE_RSA = 6;
+
+    // TYPE_VERIFIABLE_CONDITION represents the VerifiableCondition2021 key type.
+    TYPE_VERIFIABLE_CONDITION = 7;
+  }
+}
+

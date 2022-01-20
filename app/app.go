@@ -89,6 +89,18 @@ import (
 	"github.com/tendermint/spm/openapiconsole"
 
 	"github.com/sonr-io/sonr/docs"
+	blobmodule "github.com/sonr-io/sonr/x/blob"
+	blobmodulekeeper "github.com/sonr-io/sonr/x/blob/keeper"
+	blobmoduletypes "github.com/sonr-io/sonr/x/blob/types"
+	bucketmodule "github.com/sonr-io/sonr/x/bucket"
+	bucketmodulekeeper "github.com/sonr-io/sonr/x/bucket/keeper"
+	bucketmoduletypes "github.com/sonr-io/sonr/x/bucket/types"
+	channelmodule "github.com/sonr-io/sonr/x/channel"
+	channelmodulekeeper "github.com/sonr-io/sonr/x/channel/keeper"
+	channelmoduletypes "github.com/sonr-io/sonr/x/channel/types"
+	objectmodule "github.com/sonr-io/sonr/x/object"
+	objectmodulekeeper "github.com/sonr-io/sonr/x/object/keeper"
+	objectmoduletypes "github.com/sonr-io/sonr/x/object/types"
 	registrymodule "github.com/sonr-io/sonr/x/registry"
 	registrymodulekeeper "github.com/sonr-io/sonr/x/registry/keeper"
 	registrymoduletypes "github.com/sonr-io/sonr/x/registry/types"
@@ -96,7 +108,7 @@ import (
 )
 
 const (
-	AccountAddressPrefix = "cosmos"
+	AccountAddressPrefix = "snr"
 	Name                 = "sonr"
 )
 
@@ -142,6 +154,10 @@ var (
 		evidence.AppModuleBasic{},
 		transfer.AppModuleBasic{},
 		vesting.AppModuleBasic{},
+		channelmodule.AppModuleBasic{},
+		objectmodule.AppModuleBasic{},
+		bucketmodule.AppModuleBasic{},
+		blobmodule.AppModuleBasic{},
 		registrymodule.AppModuleBasic{},
 		// this line is used by starport scaffolding # stargate/app/moduleBasic
 	)
@@ -155,6 +171,11 @@ var (
 		stakingtypes.NotBondedPoolName: {authtypes.Burner, authtypes.Staking},
 		govtypes.ModuleName:            {authtypes.Burner},
 		ibctransfertypes.ModuleName:    {authtypes.Minter, authtypes.Burner},
+		channelmoduletypes.ModuleName:  {authtypes.Minter, authtypes.Burner, authtypes.Staking},
+		objectmoduletypes.ModuleName:   {authtypes.Minter, authtypes.Burner, authtypes.Staking},
+		bucketmoduletypes.ModuleName:   {authtypes.Minter, authtypes.Burner, authtypes.Staking},
+		blobmoduletypes.ModuleName:     {authtypes.Minter, authtypes.Burner, authtypes.Staking},
+
 		registrymoduletypes.ModuleName: {authtypes.Minter, authtypes.Burner, authtypes.Staking},
 		// this line is used by starport scaffolding # stargate/app/maccPerms
 	}
@@ -213,6 +234,14 @@ type App struct {
 	ScopedIBCKeeper      capabilitykeeper.ScopedKeeper
 	ScopedTransferKeeper capabilitykeeper.ScopedKeeper
 
+	ChannelKeeper channelmodulekeeper.Keeper
+
+	ObjectKeeper objectmodulekeeper.Keeper
+
+	BucketKeeper bucketmodulekeeper.Keeper
+
+	BlobKeeper blobmodulekeeper.Keeper
+
 	RegistryKeeper registrymodulekeeper.Keeper
 	// this line is used by starport scaffolding # stargate/app/keeperDeclaration
 
@@ -250,6 +279,10 @@ func New(
 		minttypes.StoreKey, distrtypes.StoreKey, slashingtypes.StoreKey,
 		govtypes.StoreKey, paramstypes.StoreKey, ibchost.StoreKey, upgradetypes.StoreKey, feegrant.StoreKey,
 		evidencetypes.StoreKey, ibctransfertypes.StoreKey, capabilitytypes.StoreKey,
+		channelmoduletypes.StoreKey,
+		objectmoduletypes.StoreKey,
+		bucketmoduletypes.StoreKey,
+		blobmoduletypes.StoreKey,
 		registrymoduletypes.StoreKey,
 		// this line is used by starport scaffolding # stargate/app/storeKey
 	)
@@ -349,6 +382,58 @@ func New(
 		&stakingKeeper, govRouter,
 	)
 
+	app.ChannelKeeper = *channelmodulekeeper.NewKeeper(
+		appCodec,
+		keys[channelmoduletypes.StoreKey],
+		keys[channelmoduletypes.MemStoreKey],
+		app.GetSubspace(channelmoduletypes.ModuleName),
+
+		app.AccountKeeper,
+		app.BankKeeper,
+		app.CapabilityKeeper,
+		app.MintKeeper,
+	)
+	channelModule := channelmodule.NewAppModule(appCodec, app.ChannelKeeper, app.AccountKeeper, app.BankKeeper)
+
+	app.ObjectKeeper = *objectmodulekeeper.NewKeeper(
+		appCodec,
+		keys[objectmoduletypes.StoreKey],
+		keys[objectmoduletypes.MemStoreKey],
+		app.GetSubspace(objectmoduletypes.ModuleName),
+
+		app.AccountKeeper,
+		app.BankKeeper,
+		app.CapabilityKeeper,
+		app.MintKeeper,
+	)
+	objectModule := objectmodule.NewAppModule(appCodec, app.ObjectKeeper, app.AccountKeeper, app.BankKeeper)
+
+	app.BucketKeeper = *bucketmodulekeeper.NewKeeper(
+		appCodec,
+		keys[bucketmoduletypes.StoreKey],
+		keys[bucketmoduletypes.MemStoreKey],
+		app.GetSubspace(bucketmoduletypes.ModuleName),
+
+		app.AccountKeeper,
+		app.BankKeeper,
+		app.CapabilityKeeper,
+		app.MintKeeper,
+	)
+	bucketModule := bucketmodule.NewAppModule(appCodec, app.BucketKeeper, app.AccountKeeper, app.BankKeeper)
+
+	app.BlobKeeper = *blobmodulekeeper.NewKeeper(
+		appCodec,
+		keys[blobmoduletypes.StoreKey],
+		keys[blobmoduletypes.MemStoreKey],
+		app.GetSubspace(blobmoduletypes.ModuleName),
+
+		app.AccountKeeper,
+		app.BankKeeper,
+		app.CapabilityKeeper,
+		app.MintKeeper,
+	)
+	blobModule := blobmodule.NewAppModule(appCodec, app.BlobKeeper, app.AccountKeeper, app.BankKeeper)
+
 	app.RegistryKeeper = *registrymodulekeeper.NewKeeper(
 		appCodec,
 		keys[registrymoduletypes.StoreKey],
@@ -400,6 +485,10 @@ func New(
 		ibc.NewAppModule(app.IBCKeeper),
 		params.NewAppModule(app.ParamsKeeper),
 		transferModule,
+		channelModule,
+		objectModule,
+		bucketModule,
+		blobModule,
 		registryModule,
 		// this line is used by starport scaffolding # stargate/app/appModule
 	)
@@ -435,6 +524,10 @@ func New(
 		genutiltypes.ModuleName,
 		evidencetypes.ModuleName,
 		ibctransfertypes.ModuleName,
+		channelmoduletypes.ModuleName,
+		objectmoduletypes.ModuleName,
+		bucketmoduletypes.ModuleName,
+		blobmoduletypes.ModuleName,
 		registrymoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/initGenesis
 	)
@@ -458,6 +551,10 @@ func New(
 		evidence.NewAppModule(app.EvidenceKeeper),
 		ibc.NewAppModule(app.IBCKeeper),
 		transferModule,
+		channelModule,
+		objectModule,
+		bucketModule,
+		blobModule,
 		registryModule,
 		// this line is used by starport scaffolding # stargate/app/appModule
 	)
@@ -646,6 +743,10 @@ func initParamsKeeper(appCodec codec.BinaryCodec, legacyAmino *codec.LegacyAmino
 	paramsKeeper.Subspace(crisistypes.ModuleName)
 	paramsKeeper.Subspace(ibctransfertypes.ModuleName)
 	paramsKeeper.Subspace(ibchost.ModuleName)
+	paramsKeeper.Subspace(channelmoduletypes.ModuleName)
+	paramsKeeper.Subspace(objectmoduletypes.ModuleName)
+	paramsKeeper.Subspace(bucketmoduletypes.ModuleName)
+	paramsKeeper.Subspace(blobmoduletypes.ModuleName)
 	paramsKeeper.Subspace(registrymoduletypes.ModuleName)
 	// this line is used by starport scaffolding # stargate/app/paramSubspace
 

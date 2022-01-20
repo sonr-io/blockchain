@@ -9,7 +9,7 @@ import (
 	dsc "github.com/libp2p/go-libp2p-discovery"
 	psub "github.com/libp2p/go-libp2p-pubsub"
 
-	"github.com/sonr-io/sonr/common"
+	common "github.com/sonr-io/sonr/x/registry/types"
 
 	"github.com/libp2p/go-libp2p-core/crypto"
 	dscl "github.com/libp2p/go-libp2p-core/discovery"
@@ -222,7 +222,7 @@ func (hn *node) createDHTDiscovery(opts *options) error {
 // createMdnsDiscovery is a Helper Method to initialize the MDNS Discovery
 func (hn *node) createMdnsDiscovery(opts *options) {
 	// Verify if MDNS is Enabled
-	if !hn.connection.IsMdnsCompatible() {
+	if hn.connection == common.Connection_CONNECTION_OFFLINE {
 		logger.Errorf("%s - Failed to Start MDNS Discovery ", ErrMDNSInvalidConn)
 		return
 	}

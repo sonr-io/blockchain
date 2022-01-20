@@ -11,7 +11,7 @@ import (
 	"syscall"
 
 	"github.com/pkg/errors"
-	"github.com/sonr-io/sonr/did"
+	"github.com/sonr-io/sonr/core/did"
 )
 
 // HostStatus is the status of the host

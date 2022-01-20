@@ -1,4 +1,5 @@
 syntax = "proto3";
+import "registry/did.proto";
 package sonrio.sonr.registry;
 
 // this line is used by starport scaffolding # proto/tx/import
@@ -7,19 +8,13 @@ option go_package = "github.com/sonr-io/sonr/x/registry/types";
 
 // Msg defines the Msg service.
 service Msg {
-      rpc RegisterName(MsgRegisterName) returns (MsgRegisterNameResponse);
   rpc RegisterService(MsgRegisterService) returns (MsgRegisterServiceResponse);
-  rpc CreateAccount(MsgCreateAccount) returns (MsgCreateAccountResponse);
+  rpc RegisterName(MsgRegisterName) returns (MsgRegisterNameResponse);
+  rpc AccessName(MsgAccessName) returns (MsgAccessNameResponse);
+  rpc UpdateName(MsgUpdateName) returns (MsgUpdateNameResponse);
+  rpc AccessService(MsgAccessService) returns (MsgAccessServiceResponse);
+  rpc UpdateService(MsgUpdateService) returns (MsgUpdateServiceResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
-}
-
-message MsgRegisterName {
-  string creator = 1;
-  string name = 2;
-  string fingerprint = 3;
-}
-
-message MsgRegisterNameResponse {
 }
 
 message MsgRegisterService {
@@ -31,19 +26,101 @@ message MsgRegisterService {
 message MsgRegisterServiceResponse {
 }
 
-message MsgCreateAccount {
+// MsgRegisterName is a request to register a name with the ".snr" name of a peer
+message MsgRegisterName {
   string creator = 1;
-  string home = 2;
-  string deviceId = 3;
-  string fingerprint = 4;
-  string os = 5;
-  string model = 6;
-  string arch = 7;
-  string publicKey = 8;
-  string metadata = 9;
+  string deviceId = 2;
+  string os = 3;
+  string model = 4;
+  string arch = 5;
+  string publicKey = 6;
+  string nameToRegister = 7;
 }
 
-message MsgCreateAccountResponse {
+message MsgRegisterNameResponse {
+  bool isSuccess = 1;
+  Did did = 2;
+  DidDocument didDocument = 3;
+}
+
+// MsgAccessName defines the MsgAccessName transaction.
+message MsgAccessName {
+// The account that is accessing the name
+  string creator = 1;
+
+  // The name to access
+  string name = 2;
+
+  // The Public Key of the peer to access
+  string publicKey = 3;
+
+  // The Libp2p peer ID of the peer to access
+  string peerId = 4;
+}
+
+message MsgAccessNameResponse {
+  string name = 1;
+  string publicKey = 2;
+  string peerId = 3;
+}
+
+message MsgUpdateName {
+  // The account that owns the name.
+  string creator = 1;
+
+  // The name of the peer to update the name of
+  string name = 2;
+
+  // The Updated Metadata
+  map<string, string> metadata = 3; // optional
+}
+
+
+message MsgUpdateNameResponse {
+  DidDocument didDocument = 1;
+  map<string, string> metadata = 2; // optional
+}
+
+message MsgAccessService {
+  // The account that is accessing the service
+  string creator = 1;
+
+  // The name of the service to access
+  string did = 2;
+}
+
+message MsgAccessServiceResponse {
+    // Code of the response
+    int32 code = 1;
+
+    // Message of the response
+    string message = 2;
+
+    // Data of the response
+    map<string, string> metadata = 3;
+}
+
+message MsgUpdateService {
+  // The account that owns the name.
+  string creator = 1;
+
+  // The name of the peer to update the service details of
+  string did = 2;
+
+  // The updated configuration for the service
+  map<string, string> configuration = 3;
+
+  // The metadata for any service information required
+  map<string, string> metadata = 4; // optional
+}
+
+message MsgUpdateServiceResponse {
+  DidDocument didDocument = 1;
+    // The updated configuration for the service
+  map<string, string> configuration = 2;
+
+  // The metadata for any service information required
+  map<string, string> metadata = 3; // optional
 }
 
 // this line is used by starport scaffolding # proto/tx/message

@@ -9,11 +9,15 @@ const TypeMsgRegisterName = "register_name"
 
 var _ sdk.Msg = &MsgRegisterName{}
 
-func NewMsgRegisterName(creator string, name string, fingerprint string) *MsgRegisterName {
+func NewMsgRegisterName(creator string, deviceId string, os string, model string, arch string, publicKey string, nameToRegister string) *MsgRegisterName {
 	return &MsgRegisterName{
-		Creator:     creator,
-		Name:        name,
-		Fingerprint: fingerprint,
+		Creator:        creator,
+		DeviceId:       deviceId,
+		Os:             os,
+		Model:          model,
+		Arch:           arch,
+		PublicKey:      publicKey,
+		NameToRegister: nameToRegister,
 	}
 }
 
