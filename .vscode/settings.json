@@ -14,8 +14,8 @@
         "**/package-lock.json": true,
         "**/**.pb.go": false,
         "go.sum": true,
-        "buf.work": true,
-        "LICENSE.md": true, 
+
+        "LICENSE.md": true,
         ".sonr": true,
         "**/v1": false,
         "**/.classpath": true,
@@ -32,10 +32,10 @@
         "app.iml": true,
         "Contents.json": true,
         ".devcontainer": true,
-        "docs": true,
+
         "**/buf.lock": true,
-        "highway/next": true,
-        "vue": true,
+
+
         "**/design": true,
         "**/sonr.wiki": true,
         ".gitignore": true,
@@ -61,7 +61,7 @@
     "github-actions.workflows.pinned.workflows": [
         ".github/workflows/notify.yml",
         ".github/workflows/release.yml",
-        ".github/workflows/test.yml"
+        ".github/workflows/analysis.yml"
     ],
     "go.inferGopath": false
 }
