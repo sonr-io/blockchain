@@ -33,8 +33,8 @@ docker.build:
 	@echo "----"
 	@echo "Sonr: Building Highway and Sonrd Images"
 	@echo "----"
-	cd ${HIGHWAY_DIR} && docker build . -t ghcr.io/sonr-io/highway
-	cd ${ROOT_DIR} && docker build . -t ghcr.io/sonr-io/sonr
+	cd ${HIGHWAY_DIR} && docker build . -t ghcr.io/sonr-io/highway:latest
+	cd ${ROOT_DIR} && docker build . -t ghcr.io/sonr-io/sonrd:latest
 
 ## [docker.push]          :   Pushes docker images
 docker.push:
@@ -42,7 +42,7 @@ docker.push:
 	@echo "Sonr: Building and Pushing Docker Image"
 	@echo "----"
 	@docker push ghcr.io/sonr-io/highway:latest
-	@docker push ghcr.io/sonr-io/sonr:latest
+	@docker push ghcr.io/sonr-io/sonrd:latest
 
 ## [buf]                  :   Generates, Builds, and Pushes ALL proto files
 buf: buf.gen buf.build buf.push

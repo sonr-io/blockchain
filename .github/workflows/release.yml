@@ -158,7 +158,7 @@ jobs:
         with:
           tag_name: ${{ steps.vars.outputs.tag_name }}
           files: release/*
-          draft: true
+          draft: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -208,3 +208,4 @@ jobs:
           context: .
           push: true
           tags: ghcr.io/sonr-io/sonrd:latest
+          file: ./Dockerfile

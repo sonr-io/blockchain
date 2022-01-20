@@ -2,9 +2,7 @@ version: "3.8"
 
 services:
   sonr.d:
-    build:
-      dockerfile: Dockerfile
-      context: .
+    image: ghcr.io/sonr-io/sonrd:latest
     container_name: sonr-d0
     restart: unless-stopped
     depends_on:
@@ -16,9 +14,7 @@ services:
       - "127.0.0.1:24450:4500"
 
   sonr.highway:
-    build:
-      context: ./
-      dockerfile: ./highway/Dockerfile
+    image: ghcr.io/sonr-io/highway:latest
     container_name: sonr-hw0
     restart: unless-stopped
     depends_on:
