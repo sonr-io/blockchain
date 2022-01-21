@@ -9,6 +9,7 @@ before:
 builds:
   - id: "sonr-highway"
     dir: "cmd/highway"
+    binary: "sonr-highway"
     main: "main.go"
     goos:
       - windows
@@ -16,6 +17,7 @@ builds:
   - id: "sonr-cli"
     dir: "."
     main: "./main.go"
+    binary: "sonr"
     goos:
       - windows
       - darwin
@@ -29,7 +31,7 @@ builds:
         gomips: hardfloat
 archives:
     -
-      wrap_in_directory: "true"
+      wrap_in_directory: true
       replacements:
         amd64: 64-bit
         386: 32-bit
