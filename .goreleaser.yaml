@@ -21,11 +21,25 @@ builds:
       - linux
       - windows
       - darwin
+    ignore:
+      - goos: darwin
+        goarch: i386
+      - goos: linux
+        goarch: arm
+        goarm: armv7
+      - goarm: mips64
+        gomips: hardfloat
 archives:
-  - replacements:
-      darwin: Darwin
-      linux: Linux
-      windows: Windows
+    -
+      wrap_in_directory: "true"
+      replacements:
+        amd64: 64-bit
+        386: 32-bit
+        darwin: macOS
+        linux: Tux
+        windows: Windows
+
+
 checksum:
   name_template: 'checksums.txt'
 snapshot:
