@@ -1,0 +1,10 @@
+version: v1
+plugins:
+  - name: openapiv2
+    out: ../../docs/static
+    strategy: all
+    opt:
+      - logtostderr=true
+      - use_go_templates=true
+      - allow_merge=true
+      - merge_file_name=openapi.json

@@ -55,14 +55,14 @@ message BucketEvent {
 // EventType is the type of event being performed on a Bucket.
 enum BucketEventType {
     // EventTypeUnspecified is the default value.
-    Bucket_EVENT_TYPE_UNSPECIFIED = 0;
+    BUCKET_EVENT_TYPE_UNSPECIFIED = 0;
 
     // EventTypeGet is a get event being performed on a Bucket record.
-    Bucket_EVENT_TYPE_GET = 1;
+    BUCKET_EVENT_TYPE_GET = 1;
 
     // EventTypeSet is a set event on the Bucket store.
-    Bucket_EVENT_TYPE_SET = 2;
+    BUCKET_EVENT_TYPE_SET = 2;
 
     // EventTypeDelete is a delete event on the Bucket store.
-    Bucket_EVENT_TYPE_DELETE = 3;
+    BUCKET_EVENT_TYPE_DELETE = 3;
 }

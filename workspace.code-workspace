@@ -1,0 +1,85 @@
+{
+    "folders": [
+        {
+            "path": ".",
+            "name": "🐿  Sonr",
+        },
+        {
+            "path": "./cmd/highway",
+            "name": "🐿  Highway",
+        },
+    ],
+    "settings": {
+        "go.languageServerFlags": [
+            "-rpc.trace",
+            "serve",
+            "--debug=localhost:6060"
+        ],
+        "go.useLanguageServer": true,
+        "material-icon-theme.opacity": 0.75,
+        "material-icon-theme.saturation": 0.75,
+        "material-icon-theme.files.associations": {
+            "*.proto": "xml"
+        },
+        "files.exclude": {
+            "**/package-lock.json": true,
+            "**/**.pb.go": true,
+            "go.sum": true,
+            "LICENSE.md": true,
+            "**/.classpath": true,
+            "**/.factorypath": true,
+            "**/.flutter-plugins": true,
+            "**/.flutter-plugins-dependencies": true,
+            "**/.packages": true,
+            "**/.project": true,
+            "**/.settings": true,
+            "cmd/highway": true,
+            "buf.lock": true,
+            "LICENSE": true,
+            "**/go.sum": false,
+            "**/pubspec.lock": true,
+            "**pubspec.lock": true,
+            "**/node_modules": true,
+            "app.iml": true,
+            "Contents.json": true,
+            ".devcontainer": true,
+            "workspace.code-workspace": true,
+            "**/design": true,
+            "**/sonr.wiki": true,
+            ".gitignore": true,
+        },
+        "material-icon-theme.folders.associations": {
+            "sonrd": "interface",
+            "rpc": "dist",
+            "internal": "core",
+            "x": "dist",
+            "cmd": "dist",
+            "proto": "json",
+            "common": "lib",
+            "testutil": "test",
+            "did": "src",
+            "ISSUE_TEMPLATE": "config",
+            "workflows": "serverless",
+            "electron": "examples",
+            "flutter": "examples",
+            "highway": "lib",
+            "motor": "lib",
+            "bin": "lib",
+        },
+        "github-actions.workflows.pinned.workflows": [
+            "../.github/workflows/notify.yml",
+            "../.github/workflows/release.yml",
+            "../.github/workflows/test.yml"
+        ],
+        "go.autocompleteUnimportedPackages": true,
+        "go.buildOnSave": "workspace",
+        "go.languageServerExperimentalFeatures": {
+            "diagnostics": false
+        },
+        "go.lintTool": "golangci-lint",
+        "go.toolsManagement.autoUpdate": true,
+        "go.toolsManagement.checkForUpdates": "local",
+        "workspaceExplorer.workspaceStorageDirectory": "/Users/pradn/Developer/sonr",
+        "go.installDependenciesWhenBuilding": true
+    }
+}

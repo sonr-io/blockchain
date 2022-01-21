@@ -7,8 +7,10 @@ import "registry/peer.proto";
 import "registry/did.proto";
 import "object/object.proto";
 
-// AccessNameResponse is a response to a request for a name
-message AccessNameResponse {
+option go_package = "github.com/sonr-io/sonr/cmd/highway/v1";
+
+// MsgAccessName is a response to a request for a name
+message MsgAccessNameResponse {
     // Code of the response
     int32 code = 1;
 
@@ -19,7 +21,7 @@ message AccessNameResponse {
     sonrio.sonr.registry.Peer peer = 3;
 }
 // AccessServiceResponse is a response to a request for a service
-message AccessServiceResponse {
+message MsgAccessServiceResponse {
     // Code of the response
     int32 code = 1;
 
@@ -30,23 +32,8 @@ message AccessServiceResponse {
     map<string, string> metadata = 3;
 }
 
-// ListenBucketResponse is a response of the published data to the bucket
-message ListenBucketResponse {
-    // Code of the response
-    int32 code = 1;
-
-    // DID of the response
-    sonrio.sonr.registry.Did did = 2;
-
-    // Additional information about the response
-    map<string, string> metadata = 3; // optional
-
-    // Stream of objects in the bucket
-    repeated sonrio.sonr.object.ObjectDoc objects = 4; // optional
-}
-
-// UploadBlobResponse is a response to a request to upload a blob
-message UploadBlobResponse {
+// MsgUploadBlobResponse is a response to a request to upload a blob
+message MsgUploadBlobResponse {
     // Code of the response
     int32 code = 1;
 
@@ -60,8 +47,8 @@ message UploadBlobResponse {
     bool pinned = 4;
 }
 
-// DownloadBlobResponse is a response to a request to download a blob
-message DownloadBlobResponse {
+// MsgDownloadBlobResponse is a response to a request to download a blob
+message MsgDownloadBlobResponse {
     // Code of the response
     int32 code = 1;
 
@@ -75,8 +62,8 @@ message DownloadBlobResponse {
     string path = 4;
 }
 
-// SyncBlobResponse is a response to a request to sync a blob
-message SyncBlobResponse {
+// MsgSyncBlobResponse is a response to a request to sync a blob
+message MsgSyncBlobResponse {
     // Code of the response
     int32 code = 1;
 
@@ -87,8 +74,8 @@ message SyncBlobResponse {
     sonrio.sonr.registry.Did did = 3;
 }
 
-// DeleteBlobResponse is a response to a request to delete a blob
-message DeleteBlobResponse {
+// MsgDeleteBlobResponse is a response to a request to delete a blob
+message MsgDeleteBlobResponse {
     // Code of the response
     int32 code = 1;
 
@@ -99,8 +86,8 @@ message DeleteBlobResponse {
     sonrio.sonr.registry.Did did = 3;
 }
 
-// ParseDidResponse is a response to a request to parse a DID
-message ParseDidResponse {
+// MsgParseDidResponse is a response to a request to parse a DID
+message MsgParseDidResponse {
     // Code of the response
     int32 code = 1;
 
@@ -111,8 +98,8 @@ message ParseDidResponse {
     sonrio.sonr.registry.Did did = 3;
 }
 
-// ResolveDidResponse is a response to a request to resolve a DID
-message ResolveDidResponse {
+// MsgResolveDidResponse is a response to a request to resolve a DID
+message MsgResolveDidResponse {
     // Code of the response
     int32 code = 1;
 

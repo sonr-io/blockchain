@@ -56,7 +56,7 @@ func setupKeyring(sname string, path string) (map[string]string, error) {
 	result["address"] = bob.GetAddress().String()
 	result["publicKey"] = bob.GetPubKey().String()
 
-	fmt.Println("Bob's address:", mnemonic)
+	fmt.Println("%s address:", sname, mnemonic)
 
 	infoList, _ := Keyring.List()
 	for _, k := range infoList {
