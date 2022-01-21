@@ -11,14 +11,12 @@ builds:
     dir: "cmd/highway"
     main: "main.go"
     goos:
-      - linux
       - windows
       - darwin
   - id: "sonr-cli"
     dir: "."
     main: "./main.go"
     goos:
-      - linux
       - windows
       - darwin
     ignore:
