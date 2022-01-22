@@ -2,10 +2,11 @@
 # Make sure to check the documentation at https://goreleaser.com
 before:
   hooks:
-    # You may remove this if you don't use go modules.
     - go mod tidy
-    # you may remove this if you don't need go generate
-    - go generate ./...
+
+universal_binaries:
+- replace: true
+
 builds:
   - id: "sonr-highway"
     dir: "cmd/highway"
@@ -65,7 +66,7 @@ brews:
       name: sonr
       token: "{{ .Env.GITHUB_TOKEN }}"
     commit_msg_template: "Brew formula update for {{ .ProjectName }} version {{ .Tag }}"
-    folder: Formula
+    folder: homebrew
     caveats: "Run `brew info sonr` for more information, or run `sonr --help`."
     homepage: "https://sonr.io"
     description: "The Official Sonr CLI tool for building and deploying services on the Sonr network/blockchain."
