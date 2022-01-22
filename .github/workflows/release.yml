@@ -124,7 +124,7 @@ jobs:
           name: ${{ steps.vars.outputs.tag_name }}
           token: ${{ secrets.ACTIONS_GH_TOKEN }}
 
-  realease-blockchain:
+  release-blockchain:
     name: "Publish Blockchain 📢 "
     runs-on: ubuntu-latest
     steps:
