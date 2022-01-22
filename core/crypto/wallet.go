@@ -3,6 +3,7 @@ package crypto
 import (
 	"errors"
 
+	"github.com/cosmos/cosmos-sdk/crypto/keyring"
 	"github.com/sonr-io/sonr/core/device"
 	"github.com/tendermint/tendermint/libs/os"
 )
@@ -69,6 +70,44 @@ func GenerateWallet(sname string, options ...GenerateOption) (map[string]string,
 	return opts.Apply()
 }
 
-func OpenWallet(sname string) (map[string]string, error) {
-	return nil, nil
+func ExportWallet(sname string, passphrase string) (string, error) {
+	armor, err := Keyring.ExportPrivKeyArmor(sname, passphrase)
+	if err != nil {
+		return "", err
+	}
+
+	return armor, nil
+}
+
+func RestoreWallet(sname string, armor string, passphrase string) error {
+	if Keyring == nil {
+		return ErrKeyringNotSet
+	}
+
+	err := Keyring.ImportPrivKey(sname, armor, passphrase)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func MasterKey() (keyring.Info, error) {
+	if Keyring == nil {
+		return nil, ErrKeyringNotSet
+	}
+	return Keyring.Key("master")
+}
+
+func DeviceKey() (keyring.Info, error) {
+	if Keyring == nil {
+		return nil, ErrKeyringNotSet
+	}
+	return Keyring.Key("device")
+}
+
+func ProvisionKey() (keyring.Info, error) {
+	if Keyring == nil {
+		return nil, ErrKeyringNotSet
+	}
+	return Keyring.Key("provision")
 }

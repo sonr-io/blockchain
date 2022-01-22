@@ -13,7 +13,24 @@ import (
 // bindCmd represents the bind command
 var bindCmd = &cobra.Command{
 	Use:   "bind",
-	Short: "A brief description of your command",
+	Short: "Bind a motor node to a frontend framework: (React, Flutter)",
+	Args:  cobra.OnlyValidArgs,
+	PreRun: func(cmd *cobra.Command, args []string) {
+		if len(args) == 0 {
+			fmt.Println("Please specify a frontend framework: (React, Flutter) ")
+			cmd.Usage()
+			return
+		}
+	},
+	Run: func(cmd *cobra.Command, args []string) {
+
+	},
+}
+
+// motorCmd represents the bind command
+var motorCmd = &cobra.Command{
+	Use:   "motor",
+	Short: "Create or Manage a motor node",
 	Long: `A longer description that spans multiple lines and likely contains examples
 and usage of using your command. For example:
 
@@ -21,12 +38,15 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("bind called")
+		cmd.Usage()
 	},
+	SuggestFor: []string{"motor", "m"},
+	Aliases:    []string{"m"},
 }
 
 func init() {
-	rootCmd.AddCommand(bindCmd)
+	motorCmd.AddCommand(bindCmd)
+	rootCmd.AddCommand(motorCmd)
 
 	// Here you will define your flags and configuration settings.
 

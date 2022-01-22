@@ -3,8 +3,6 @@ name: buf.build/sonr-io/motor
 deps:
   - buf.build/googleapis/googleapis
   - buf.build/gogo/protobuf
-  - buf.build/sonr-io/core
-  - buf.build/sonr-io/common
   - buf.build/sonr-io/sonr
 
 build:
@@ -26,13 +24,7 @@ lint:
     - RPC_RESPONSE_STANDARD_NAME
     - RPC_REQUEST_RESPONSE_UNIQUE
     - COMMENT_MESSAGE
-  ignore:
-    - common
-    - core
 
 breaking:
   use:
     - FILE
-  ignore:
-    - common
-    - core

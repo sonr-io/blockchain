@@ -2,7 +2,6 @@ package crypto
 
 import (
 	"crypto/rand"
-	"fmt"
 
 	"github.com/cosmos/cosmos-sdk/crypto/hd"
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
@@ -36,6 +35,7 @@ func (g *generateOptions) Apply() (map[string]string, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	Keyring = ring
 	return setupKeyring(g.sname, g.walletPath)
 }
@@ -45,50 +45,23 @@ func setupKeyring(sname string, path string) (map[string]string, error) {
 	result := make(map[string]string)
 
 	// Add keys and see they return in alphabetical order
-	bob, mnemonic, err := Keyring.NewMnemonic(sname, keyring.English, sdk.FullFundraiserPath, defaultPassphrase, sec)
+	wallet, mnemonic, err := Keyring.NewMnemonic(sname, keyring.English, sdk.FullFundraiserPath, defaultPassphrase, sec)
 	if err != nil {
-		// this should never happen
 		return nil, err
 	}
 
+	// Create default sonr keys
+	pub, _ := CreateEd25519Key()
+	msig := CreateMultiSigKey()
+	Keyring.SavePubKey("device", pub, hd.Ed25519Type)
+	Keyring.SaveMultisig("provision", msig)
+
+	// Add keys and see they return in alphabetical order
 	result["sName"] = sname
 	result["mnemonic"] = mnemonic
-	result["address"] = bob.GetAddress().String()
-	result["publicKey"] = bob.GetPubKey().String()
-
-	fmt.Println("%s address:", sname, mnemonic)
-
-	infoList, _ := Keyring.List()
-	for _, k := range infoList {
-		fmt.Println(k.GetName())
-	}
-
-	// We need to use passphrase to generate a signature
-	tx := []byte("deadbeef")
-	sig, pub, err := Keyring.Sign(sname, tx)
-	if err != nil {
-		fmt.Println("don't accept real passphrase")
-	}
-
-	// and we can validate the signature with publicly available info
-	bRecord, err := Keyring.Key(sname)
-	if err != nil {
-		fmt.Println("don't accept real passphrase")
-	}
-
-	key := bRecord.GetPubKey()
-	bobKey := bob.GetPubKey()
-	if !key.Equals(bobKey) {
-		fmt.Println("Get and Create return different keys")
-	}
-
-	if pub.Equals(key) {
-		fmt.Println("signed by Bob")
-	}
-	if !bobKey.VerifySignature(tx, sig) {
-		fmt.Println("invalid signature")
-	}
-
-	// Output:
+	result["walletAddress"] = wallet.GetAddress().String()
+	result["masterPublicKey"] = wallet.GetPubKey().String()
+	result["devicePublicKey"] = pub.String()
+	result["provisionPublicKey"] = msig.Address().String()
 	return result, nil
 }

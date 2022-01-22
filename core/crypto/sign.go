@@ -2,6 +2,8 @@ package crypto
 
 import (
 	"errors"
+	"fmt"
+	"strings"
 
 	"github.com/cosmos/cosmos-sdk/crypto/hd"
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
@@ -20,7 +22,7 @@ func ImportPrivKey(uid, armor, passphrase string) error {
 		return ErrKeyringNotSet
 	}
 
-	return Keyring.ImportPrivKey(uid, armor, passphrase)
+	return Keyring.ImportPrivKey(fmt.Sprintf("#%s", uid), armor, passphrase)
 }
 
 // ImportPubKey imports ASCII armored public keys.
@@ -29,13 +31,16 @@ func ImportPubKey(uid string, armor string) error {
 		return ErrKeyringNotSet
 	}
 
-	return Keyring.ImportPubKey(uid, armor)
+	return Keyring.ImportPubKey(fmt.Sprintf("#%s", uid), armor)
 }
 
 // ExportPubKeyArmor public key
 func ExportPubKeyArmor(uid string) (string, error) {
 	if Keyring != nil {
 		return "", ErrKeyringNotSet
+	}
+	if !strings.Contains(uid, "#") {
+		uid = fmt.Sprintf("#%s", uid)
 	}
 	return Keyring.ExportPubKeyArmor(uid)
 }
@@ -55,7 +60,9 @@ func ExportPrivKeyArmor(uid, encryptPassphrase string) (armor string, err error)
 	if Keyring != nil {
 		return "", ErrKeyringNotSet
 	}
-
+	if !strings.Contains(uid, "#") {
+		uid = fmt.Sprintf("#%s", uid)
+	}
 	return Keyring.ExportPrivKeyArmor(uid, encryptPassphrase)
 }
 
@@ -69,11 +76,14 @@ func ExportPrivKeyArmorByAddress(address sdk.Address, encryptPassphrase string) 
 }
 
 // Key returns keys by uid and address respectively.
-func Key(n string) (keyring.Info, error) {
+func Key(uid string) (keyring.Info, error) {
 	if Keyring != nil {
 		return nil, ErrKeyringNotSet
 	}
-	return Keyring.Key(n)
+	if !strings.Contains(uid, "#") {
+		uid = fmt.Sprintf("#%s", uid)
+	}
+	return Keyring.Key(uid)
 }
 
 // KeyByAddress returns keys by uid and address respectively.
@@ -88,6 +98,9 @@ func KeyByAddress(address sdk.Address) (keyring.Info, error) {
 func Delete(uid string) error {
 	if Keyring != nil {
 		return ErrKeyringNotSet
+	}
+	if !strings.Contains(uid, "#") {
+		uid = fmt.Sprintf("#%s", uid)
 	}
 	return Keyring.Delete(uid)
 }
@@ -105,7 +118,9 @@ func SavePubKey(uid string, pubkey types.PubKey, algo hd.PubKeyType) (keyring.In
 	if Keyring != nil {
 		return nil, ErrKeyringNotSet
 	}
-
+	if !strings.Contains(uid, "#") {
+		uid = fmt.Sprintf("#%s", uid)
+	}
 	return Keyring.SavePubKey(uid, pubkey, algo)
 }
 
@@ -114,7 +129,9 @@ func SaveLedgerKey(uid string, algo keyring.SignatureAlgo, hrp string, coinType,
 	if Keyring != nil {
 		return nil, ErrKeyringNotSet
 	}
-
+	if !strings.Contains(uid, "#") {
+		uid = fmt.Sprintf("#%s", uid)
+	}
 	return Keyring.SaveLedgerKey(uid, algo, hrp, coinType, account, index)
 }
 
@@ -123,7 +140,9 @@ func SaveMultisig(uid string, pubkey types.PubKey) (keyring.Info, error) {
 	if Keyring != nil {
 		return nil, ErrKeyringNotSet
 	}
-
+	if !strings.Contains(uid, "#") {
+		uid = fmt.Sprintf("#%s", uid)
+	}
 	return Keyring.SaveMultisig(uid, pubkey)
 }
 
@@ -132,7 +151,9 @@ func Sign(uid string, msg []byte) ([]byte, types.PubKey, error) {
 	if Keyring != nil {
 		return nil, nil, ErrKeyringNotSet
 	}
-
+	if !strings.Contains(uid, "#") {
+		uid = fmt.Sprintf("#%s", uid)
+	}
 	return Keyring.Sign(uid, msg)
 }
 

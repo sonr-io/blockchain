@@ -1,4 +1,4 @@
-package node
+package p2p
 
 import (
 	"fmt"
@@ -14,75 +14,9 @@ import (
 	"github.com/sonr-io/sonr/core/did"
 )
 
-// HostStatus is the status of the host
-type HostStatus int
-
-// SNRHostStatus Definitions
-const (
-	Status_IDLE       HostStatus = iota // Host is idle, default state
-	Status_STANDBY                      // Host is standby, waiting for connection
-	Status_CONNECTING                   // Host is connecting
-	Status_READY                        // Host is ready
-	Status_FAIL                         // Host failed to connect
-	Status_CLOSED                       // Host is closed
-)
-
-// Equals returns true if given SNRHostStatus matches this one
-func (s HostStatus) Equals(other HostStatus) bool {
-	return s == other
-}
-
-// IsNotIdle returns true if the SNRHostStatus != Status_IDLE
-func (s HostStatus) IsNotIdle() bool {
-	return s != Status_IDLE
-}
-
-// IsStandby returns true if the SNRHostStatus == Status_STANDBY
-func (s HostStatus) IsStandby() bool {
-	return s == Status_STANDBY
-}
-
-// IsReady returns true if the SNRHostStatus == Status_READY
-func (s HostStatus) IsReady() bool {
-	return s == Status_READY
-}
-
-// IsConnecting returns true if the SNRHostStatus == Status_CONNECTING
-func (s HostStatus) IsConnecting() bool {
-	return s == Status_CONNECTING
-}
-
-// IsFail returns true if the SNRHostStatus == Status_FAIL
-func (s HostStatus) IsFail() bool {
-	return s == Status_FAIL
-}
-
-// IsClosed returns true if the SNRHostStatus == Status_CLOSED
-func (s HostStatus) IsClosed() bool {
-	return s == Status_CLOSED
-}
-
-// String returns the string representation of the SNRHostStatus
-func (s HostStatus) String() string {
-	switch s {
-	case Status_IDLE:
-		return "IDLE"
-	case Status_STANDBY:
-		return "STANDBY"
-	case Status_CONNECTING:
-		return "CONNECTING"
-	case Status_READY:
-		return "READY"
-	case Status_FAIL:
-		return "FAIL"
-	case Status_CLOSED:
-		return "CLOSED"
-	}
-	return "UNKNOWN"
-}
 
 // SetStatus sets the host status and emits the event
-func (h *node) SetStatus(s HostStatus) {
+func (h *host) SetStatus(s HostStatus) {
 	// Check if status is changed
 	if h.status == s {
 		return
@@ -93,7 +27,7 @@ func (h *node) SetStatus(s HostStatus) {
 }
 
 // Close closes the node
-func (n *node) Close() {
+func (n *host) Close() {
 	// Update Status
 	n.SetStatus(Status_CLOSED)
 	n.IpfsDHT.Close()
@@ -105,12 +39,12 @@ func (n *node) Close() {
 }
 
 // NeedsWait checks if state is Resumed or Paused and blocks channel if needed
-func (c *node) NeedsWait() {
+func (c *host) NeedsWait() {
 	<-c.Chn
 }
 
 // Resume tells all of goroutines to resume execution
-func (c *node) Resume() {
+func (c *host) Resume() {
 	if atomic.LoadUint64(&c.flag) == 1 {
 		close(c.Chn)
 		atomic.StoreUint64(&c.flag, 0)
@@ -118,7 +52,7 @@ func (c *node) Resume() {
 }
 
 // Pause tells all of goroutines to pause execution
-func (c *node) Pause() {
+func (c *host) Pause() {
 	if atomic.LoadUint64(&c.flag) == 0 {
 		atomic.StoreUint64(&c.flag, 1)
 		c.Chn = make(chan bool)
@@ -198,7 +132,7 @@ func (sm *SockManager) NewSockPath() (string, error) {
 }
 
 // ParseDid converts string into a DID struct
-func (n *node) ParseDid(didUrl string) (*did.Did, error) {
+func (n *host) ParseDid(didUrl string) (*did.Did, error) {
 	d, err := did.FromString(didUrl)
 	if err != nil {
 		return nil, err
@@ -207,7 +141,7 @@ func (n *node) ParseDid(didUrl string) (*did.Did, error) {
 }
 
 // ResolveDid resolves a DID to a Did Document
-func (n *node) ResolveDid(didUrl string) (*did.DidDocument, error) {
+func (n *host) ResolveDid(didUrl string) (*did.DidDocument, error) {
 	doc := &did.DidDocument{}
 	return doc, nil
 }

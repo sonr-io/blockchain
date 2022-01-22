@@ -1,4 +1,4 @@
-package node
+package p2p
 
 import (
 	"context"
@@ -8,58 +8,138 @@ import (
 
 	"github.com/libp2p/go-libp2p"
 	connmgr "github.com/libp2p/go-libp2p-connmgr"
-	dsc "github.com/libp2p/go-libp2p-discovery"
-	psub "github.com/libp2p/go-libp2p-pubsub"
-
-	common "github.com/sonr-io/sonr/x/registry/types"
-
-	"github.com/libp2p/go-libp2p-core/crypto"
+	crypto "github.com/libp2p/go-libp2p-core/crypto"
 	dscl "github.com/libp2p/go-libp2p-core/discovery"
 	"github.com/libp2p/go-libp2p-core/peer"
-	"github.com/libp2p/go-libp2p/p2p/discovery/mdns"
-	ma "github.com/multiformats/go-multiaddr"
+	"github.com/multiformats/go-multiaddr"
+
 	"github.com/pkg/errors"
 )
 
-// LogLevel is the type for the log level
-type LogLevel string
+// HostStatus is the status of the host
+type HostStatus int
+
+// SNRHostStatus Definitions
+const (
+	Status_IDLE       HostStatus = iota // Host is idle, default state
+	Status_STANDBY                      // Host is standby, waiting for connection
+	Status_CONNECTING                   // Host is connecting
+	Status_READY                        // Host is ready
+	Status_FAIL                         // Host failed to connect
+	Status_CLOSED                       // Host is closed
+)
+
+// Equals returns true if given SNRHostStatus matches this one
+func (s HostStatus) Equals(other HostStatus) bool {
+	return s == other
+}
+
+// IsNotIdle returns true if the SNRHostStatus != Status_IDLE
+func (s HostStatus) IsNotIdle() bool {
+	return s != Status_IDLE
+}
+
+// IsStandby returns true if the SNRHostStatus == Status_STANDBY
+func (s HostStatus) IsStandby() bool {
+	return s == Status_STANDBY
+}
+
+// IsReady returns true if the SNRHostStatus == Status_READY
+func (s HostStatus) IsReady() bool {
+	return s == Status_READY
+}
+
+// IsConnecting returns true if the SNRHostStatus == Status_CONNECTING
+func (s HostStatus) IsConnecting() bool {
+	return s == Status_CONNECTING
+}
+
+// IsFail returns true if the SNRHostStatus == Status_FAIL
+func (s HostStatus) IsFail() bool {
+	return s == Status_FAIL
+}
+
+// IsClosed returns true if the SNRHostStatus == Status_CLOSED
+func (s HostStatus) IsClosed() bool {
+	return s == Status_CLOSED
+}
+
+// String returns the string representation of the SNRHostStatus
+func (s HostStatus) String() string {
+	switch s {
+	case Status_IDLE:
+		return "IDLE"
+	case Status_STANDBY:
+		return "STANDBY"
+	case Status_CONNECTING:
+		return "CONNECTING"
+	case Status_READY:
+		return "READY"
+	case Status_FAIL:
+		return "FAIL"
+	case Status_CLOSED:
+		return "CLOSED"
+	}
+	return "UNKNOWN"
+}
+
+var (
+	bootstrapAddrStrs = []string{
+		"/dnsaddr/bootstrap.libp2p.io/p2p/QmNnooDu7bfjPFoTZYxMNLWUQJyrVwtbZg5gBMjTezGAJN",
+		"/dnsaddr/bootstrap.libp2p.io/p2p/QmQCU2EcMqAqQPR2i9bChDtGNJchTbq5TbXJJ16u19uLTa",
+		"/dnsaddr/bootstrap.libp2p.io/p2p/QmbLHAnMoJPWSCR5Zhtx6BHJX9KiKNN6tpvbUcqanj75Nb",
+		"/dnsaddr/bootstrap.libp2p.io/p2p/QmcZf59bWwK5XFi76CZX8cbJ4BhTzzA3gU1ZjYZcYW3dwt",
+		"/ip4/104.131.131.82/tcp/4001/p2p/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ",
+		"/ip4/104.131.131.82/udp/4001/quic/p2p/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ",
+	}
+	addrStoreTTL = time.Minute * 5
+)
+
+// Role is the type of the node (Client, Highway)
+type Role int
 
 const (
-	// DebugLevel is the debug log level
-	DebugLevel LogLevel = "debug"
-	// InfoLevel is the info log level
-	InfoLevel LogLevel = "info"
-	// WarnLevel is the warn log level
-	WarnLevel LogLevel = "warn"
-	// ErrorLevel is the error log level
-	ErrorLevel LogLevel = "error"
-	// FatalLevel is the fatal log level
-	FatalLevel LogLevel = "fatal"
+	// StubMode_LIB is the Node utilized by Mobile and Web Clients
+	Role_UNSPECIFIED Role = iota
+
+	// StubMode_CLI is the Node utilized by CLI Clients
+	Role_TEST
+
+	// Role_MOTOR is for a Motor Node
+	Role_MOTOR
+
+	// Role_HIGHWAY is for a Highway Node
+	Role_HIGHWAY
 )
+
+// Motor returns true if the node has a client.
+func (m Role) IsMotor() bool {
+	return m == Role_MOTOR
+}
+
+// Highway returns true if the node has a highway stub.
+func (m Role) IsHighway() bool {
+	return m == Role_HIGHWAY
+}
+
+// Prefix returns golog prefix for the node.
+func (m Role) Prefix() string {
+	var name string
+	switch m {
+	case Role_HIGHWAY:
+		name = "highway"
+	case Role_MOTOR:
+		name = "motor"
+	case Role_TEST:
+		name = "test"
+	default:
+		name = "unknown"
+	}
+	return fmt.Sprintf("[SONR.%s] ", name)
+}
 
 // Option is a function that modifies the node options.
 type Option func(*options)
-
-// WithAccountName sets the account name for the Node Stub Client
-func WithAccountName(name string) Option {
-	return func(o *options) {
-		o.accountName = name
-	}
-}
-
-// WithLogLevel sets the log level for Logger
-func WithLogLevel(level LogLevel) Option {
-	return func(o *options) {
-		o.logLevel = string(level)
-	}
-}
-
-// WithAddress sets the host address for the Node Stub Client Host
-func WithAddress(host string) Option {
-	return func(o *options) {
-		o.host = host
-	}
-}
 
 // WithConnOptions sets the connection manager options. Defaults are (lowWater: 15, highWater: 40, gracePeriod: 5m)
 func WithConnOptions(low int, hi int, grace time.Duration) Option {
@@ -93,17 +173,15 @@ func WithPort(port int) Option {
 
 // options is a collection of options for the node.
 type options struct {
-	configuration *Configuration
-	role          Role
-	accountName   string
+	role        Role
+	accountName string
 
 	// Host
 	BootstrapPeers []peer.AddrInfo
-	Connection     common.Connection
 	LowWater       int
 	HighWater      int
 	GracePeriod    time.Duration
-	MultiAddrs     []ma.Multiaddr
+	MultiAddrs     []multiaddr.Multiaddr
 	Rendezvous     string
 	Interval       time.Duration
 	TTL            dscl.Option
@@ -118,9 +196,9 @@ type options struct {
 // defaultOptions returns the default options
 func defaultOptions(r Role) *options {
 	// Create Bootstrapper List
-	var bootstrappers []ma.Multiaddr
+	var bootstrappers []multiaddr.Multiaddr
 	for _, s := range bootstrapAddrStrs {
-		ma, err := ma.NewMultiaddr(s)
+		ma, err := multiaddr.NewMultiaddr(s)
 		if err != nil {
 			continue
 		}
@@ -139,17 +217,15 @@ func defaultOptions(r Role) *options {
 
 	return &options{
 		accountName:    "alice",
-		configuration:  defaultConfiguration(),
 		host:           ":",
 		port:           26225,
 		role:           r,
 		network:        "tcp",
-		logLevel:       string(InfoLevel),
 		LowWater:       200,
 		HighWater:      400,
 		GracePeriod:    time.Second * 20,
 		Rendezvous:     "/sonr/rendevouz/0.9.2",
-		MultiAddrs:     make([]ma.Multiaddr, 0),
+		MultiAddrs:     make([]multiaddr.Multiaddr, 0),
 		Interval:       time.Second * 5,
 		BootstrapPeers: ds,
 		TTL:            dscl.TTL(time.Minute * 2),
@@ -161,15 +237,8 @@ func (opts *options) Address() string {
 	return fmt.Sprintf("%s%d", opts.host, opts.port)
 }
 
-func (opts *options) Config() *Configuration {
-	if opts.configuration == nil {
-		opts.configuration = &Configuration{}
-	}
-	return opts.configuration
-}
-
 // Apply applies the host options and returns new SNRHost
-func (opts *options) Apply(ctx context.Context, options ...Option) (*node, error) {
+func (opts *options) Apply(ctx context.Context, options ...Option) (*host, error) {
 	// Iterate over the options.
 	var err error
 	for _, opt := range options {
@@ -177,11 +246,10 @@ func (opts *options) Apply(ctx context.Context, options ...Option) (*node, error
 	}
 
 	// Create the host.
-	hn := &node{
+	hn := &host{
 		ctx:          ctx,
 		status:       Status_IDLE,
 		mdnsPeerChan: make(chan peer.AddrInfo),
-		connection:   opts.Connection,
 	}
 
 	// findPrivKey returns the private key for the host.
@@ -243,47 +311,4 @@ func (opts *options) Apply(ctx context.Context, options ...Option) (*node, error
 
 	// Set the private key.
 	return hn, nil
-}
-
-// createDHTDiscovery is a Helper Method to initialize the DHT Discovery
-func (hn *node) createDHTDiscovery(opts *options) error {
-	// Set Routing Discovery, Find Peers
-	var err error
-	routingDiscovery := dsc.NewRoutingDiscovery(hn.IpfsDHT)
-	dsc.Advertise(hn.ctx, routingDiscovery, opts.Rendezvous, opts.TTL)
-
-	// Create Pub Sub
-	hn.PubSub, err = psub.NewGossipSub(hn.ctx, hn.Host, psub.WithDiscovery(routingDiscovery))
-	if err != nil {
-		hn.SetStatus(Status_FAIL)
-		logger.Errorf("%s - Failed to Create new Gossip Sub", err)
-		return err
-	}
-
-	// Handle DHT Peers
-	hn.dhtPeerChan, err = routingDiscovery.FindPeers(hn.ctx, opts.Rendezvous, opts.TTL)
-	if err != nil {
-		hn.SetStatus(Status_FAIL)
-		logger.Errorf("%s - Failed to create FindPeers Discovery channel", err)
-		return err
-	}
-	hn.SetStatus(Status_READY)
-	return nil
-}
-
-// createMdnsDiscovery is a Helper Method to initialize the MDNS Discovery
-func (hn *node) createMdnsDiscovery(opts *options) {
-	// Verify if MDNS is Enabled
-	if hn.connection == common.Connection_CONNECTION_OFFLINE {
-		logger.Errorf("%s - Failed to Start MDNS Discovery ", ErrMDNSInvalidConn)
-		return
-	}
-
-	// Create MDNS Service
-	ser := mdns.NewMdnsService(hn.Host, opts.Rendezvous, hn)
-	err := ser.Start()
-	if err != nil {
-		logger.Errorf("%s - Failed to Start MDNS Discovery ", err)
-		return
-	}
 }

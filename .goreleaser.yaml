@@ -14,9 +14,10 @@ builds:
     goos:
       - windows
       - darwin
+
   - id: "sonr-cli"
-    dir: "."
-    main: "./main.go"
+    dir: "cmd/cli"
+    main: "main.go"
     binary: "sonr"
     goos:
       - windows
@@ -29,16 +30,22 @@ builds:
         goarm: armv7
       - goarm: mips64
         gomips: hardfloat
-archives:
-    -
-      wrap_in_directory: true
-      replacements:
-        amd64: 64-bit
-        386: 32-bit
-        darwin: macOS
-        linux: Tux
-        windows: Windows
 
+  - id: "sonrd"
+    skip: true
+    dir: "cmd/sonrd"
+    binary: "sonrd"
+
+archives:
+  - format: tar.gz
+    wrap_in_directory: true
+    format_overrides:
+      - goos: windows
+        format: zip
+    name_template: "{{ .Binary }}-{{ .Version }}-{{ .Os }}-{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}"
+    files:
+      - LICENSE
+      - README.md
 
 checksum:
   name_template: 'checksums.txt'
@@ -59,19 +66,66 @@ brews:
       token: "{{ .Env.GITHUB_TOKEN }}"
     commit_msg_template: "Brew formula update for {{ .ProjectName }} version {{ .Tag }}"
     folder: Formula
+    caveats: "Run `brew info sonr` for more information, or run `sonr --help`."
+    homepage: "https://sonr.io"
+    description: "The Official Sonr CLI tool for building and deploying services on the Sonr network/blockchain."
+    license: "GPLv3"
 
-    # Caveats for the user of your binary.
-    # Default is empty.
-    caveats: "How to use this binary"
+# .goreleaser.yaml
+nfpms:
+  -
+    package_name: sonr
+    vendor: Sonr Inc.
+    homepage: https://sonr.io/
+    maintainer: The Sonr Team <team@sonr.io>
+    description: The Official Sonr CLI tool for building and deploying services on the Sonr network/blockchain.
+    license: GPLv3
+    priority: extra
+    meta: true
 
-    # Your app's homepage.
-    # Default is empty.
-    homepage: "https://example.com/"
+dockers:
+  -
+    id: docker-highway
+    goos: linux
+    goarch: amd64
+    goarm: ''
+    ids:
+    - sonr-highway
+    image_templates:
+    - "sonr-io/highway:latest"
+    - "gcr.io/sonr-io/highway:latest"
+    dockerfile: './cmd/highway/Dockerfile'
+    use: docker
 
-    # Template of your app's description.
-    # Default is empty.
-    description: "Software to create fast and easy drum rolls."
+    # Template of the docker build flags.
+    build_flag_templates:
+    - "--pull"
+    - "--label=org.opencontainers.image.source https://github.com/sonr-io/sonr"
+    - "--label=org.opencontainers.image.created={{.Date}}"
+    - "--label=org.opencontainers.image.title={{.ProjectName}}"
+    - "--label=org.opencontainers.image.revision={{.FullCommit}}"
+    - "--label=org.opencontainers.image.version={{.Version}}"
+    - "--platform=linux/arm64"
 
-    # SPDX identifier of your app's license.
-    # Default is empty.
-    license: "MIT"
+  -
+    id: docker-sonrd
+    goos: linux
+    goarch: amd64
+    goarm: ''
+    ids:
+    - sonr-cli
+    image_templates:
+    - "sonr-io/sonrd:latest"
+    - "gcr.io/sonr-io/sonrd:latest"
+    dockerfile: 'Dockerfile'
+    use: docker
+
+    # Template of the docker build flags.
+    build_flag_templates:
+    - "--pull"
+    - "--label=org.opencontainers.image.source https://github.com/sonr-io/sonr"
+    - "--label=org.opencontainers.image.created={{.Date}}"
+    - "--label=org.opencontainers.image.title={{.ProjectName}}"
+    - "--label=org.opencontainers.image.revision={{.FullCommit}}"
+    - "--label=org.opencontainers.image.version={{.Version}}"
+    - "--platform=linux/arm64"

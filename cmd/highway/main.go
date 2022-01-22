@@ -4,10 +4,12 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"log"
 	"net"
 	"net/http"
 
 	"github.com/kataras/golog"
+	"github.com/soheilhy/cmux"
 	hw "go.buf.build/grpc/go/sonr-io/highway/v1"
 	bt "go.buf.build/grpc/go/sonr-io/sonr/bucket"
 	ct "go.buf.build/grpc/go/sonr-io/sonr/channel"
@@ -36,8 +38,11 @@ type HighwayStub struct {
 	cosmos cosmosclient.Client
 
 	// Properties
-	ctx        context.Context
-	grpcServer *grpc.Server
+	ctx   context.Context
+	grpcS *grpc.Server
+	httpS *http.Server
+	grpcL net.Listener
+	httpL net.Listener
 
 	// Configuration
 	// ipfs *storage.IPFSService
@@ -52,7 +57,16 @@ var Stub *HighwayStub
 
 func main() {
 	ctx := context.Background()
-	stub, err := NewHighwayRPC(ctx)
+	// Create the main listener.
+	l, err := net.Listen("tcp", ":26225")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// Create a cmux.
+	m := cmux.New(l)
+
+	stub, err := NewHighwayRPC(ctx, m)
 	if err != nil {
 		panic(err)
 	}
@@ -60,14 +74,10 @@ func main() {
 }
 
 // NewHighway creates a new Highway service stub for the node.
-func NewHighwayRPC(ctx context.Context) (*HighwayStub, error) {
-
-	// Open Listener on Port
-	lst, err := net.Listen("tcp", ":26225")
-	if err != nil {
-		golog.Default.Child("(app)").Fatalf("%s - Failed to Create New Listener", err)
-		return nil, err
-	}
+func NewHighwayRPC(ctx context.Context, mux cmux.CMux) (*HighwayStub, error) {
+	// First grpc, then HTTP, and otherwise Go RPC/TCP.
+	grpcL := mux.Match(cmux.HTTP2HeaderField("content-type", "application/grpc"))
+	httpL := mux.Match(cmux.HTTP1Fast())
 
 	// create an instance of cosmosclient
 	cosmos, err := cosmosclient.New(ctx)
@@ -78,9 +88,11 @@ func NewHighwayRPC(ctx context.Context) (*HighwayStub, error) {
 	// Create the RPC Service
 	stub := &HighwayStub{
 		// node:       n,
-		ctx:        ctx,
-		grpcServer: grpc.NewServer(),
-		cosmos:     cosmos,
+		ctx:    ctx,
+		grpcS:  grpc.NewServer(),
+		cosmos: cosmos,
+		grpcL:  grpcL,
+		httpL:  httpL,
 	}
 
 	// // Set IPFS Service
@@ -90,15 +102,15 @@ func NewHighwayRPC(ctx context.Context) (*HighwayStub, error) {
 	// }
 	// Register the RPC Service
 
-	hw.RegisterHighwayServiceServer(stub.grpcServer, stub)
-	go stub.Serve(ctx, lst)
+	hw.RegisterHighwayServiceServer(stub.grpcS, stub)
+	go stub.Serve(ctx, grpcL)
 	return stub, nil
 }
 
 // Serve serves the RPC Service on the given port.
 func (s *HighwayStub) Serve(ctx context.Context, listener net.Listener) {
 	// Start HTTP server (and proxy calls to gRPC server endpoint)
-	if err := http.ListenAndServe(":8081", s.grpcServer); err != nil {
+	if err := http.ListenAndServe(":8081", s.grpcS); err != nil {
 		logger.Errorf("%s - Failed to start HTTP server", err)
 	}
 

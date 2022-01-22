@@ -10,6 +10,7 @@ replace (
 
 require (
 	github.com/kataras/golog v0.1.7
+	github.com/soheilhy/cmux v0.1.5
 	github.com/tendermint/starport v0.19.2
 	go.buf.build/grpc/go/sonr-io/highway v1.2.5
 	go.buf.build/grpc/go/sonr-io/sonr v1.2.4

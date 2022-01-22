@@ -8,7 +8,7 @@ import (
 	pubsub "github.com/libp2p/go-libp2p-pubsub"
 	"github.com/pkg/errors"
 	"github.com/sonr-io/sonr/core/did"
-	"github.com/sonr-io/sonr/core/node"
+	"github.com/sonr-io/sonr/pkg/p2p"
 	o "github.com/sonr-io/sonr/x/object/types"
 
 	v1 "github.com/sonr-io/sonr/x/channel/types"
@@ -44,7 +44,7 @@ type Channel interface {
 type channel struct {
 	Channel
 	ctx    context.Context
-	n      node.NodeImpl
+	n      p2p.HostImpl
 	config *v1.Channel
 	name   string
 	did    did.DID
@@ -58,10 +58,10 @@ type channel struct {
 }
 
 // New creates a new beam with the given name and options.
-func New(ctx context.Context, node node.NodeImpl, registeredObject *o.ObjectDoc, options ...Option) (Channel, error) {
+func New(ctx context.Context, h p2p.HostImpl, registeredObject *o.ObjectDoc, options ...Option) (Channel, error) {
 	c := &channel{
 		ctx:    ctx,
-		n:      node,
+		n:      h,
 		object: registeredObject,
 	}
 
@@ -70,14 +70,14 @@ func New(ctx context.Context, node node.NodeImpl, registeredObject *o.ObjectDoc,
 		option(opts)
 	}
 	id := opts.Apply(c)
-	mTopic, mHandler, mSub, err := node.NewTopic(id.ToString())
+	mTopic, mHandler, mSub, err := h.NewTopic(id.ToString())
 	if err != nil {
 		return nil, err
 	}
 
 	b := &channel{
 		ctx:             ctx,
-		n:               node,
+		n:               h,
 		did:             id,
 		messages:        make(chan *v1.ChannelMessage),
 		messagesHandler: mHandler,
@@ -124,19 +124,12 @@ func (b *channel) Publish(obj *o.ObjectDoc, options ...PublishOption) error {
 		return errors.New("text and data cannot be empty")
 	}
 
-	// Get Nodes Peer Info
-	peer, err := b.n.Peer()
-	if err != nil {
-		return err
-	}
-
 	// Check if the object is already published.
 	if b.object.Validate(obj) {
 		// Create the message.
 		msg := &v1.ChannelMessage{
 			Did:  b.did.ToProto(),
 			Data: obj,
-			Peer: peer,
 		}
 
 		// Encode the message.

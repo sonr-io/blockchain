@@ -1,11 +1,6 @@
 package motor
 
-import (
-	"context"
-
-	"github.com/sonr-io/sonr/core/node"
-	// motor "github.com/sonr-io/sonr/cmd/motor/v1"
-)
+// motor "github.com/sonr-io/sonr/cmd/motor/v1"
 
 // Start starts the host, node, and rpc service.
 func Start(reqBuf []byte) {
@@ -16,7 +11,7 @@ func Start(reqBuf []byte) {
 	// }
 
 	// Start the app
-	node.NewHighway(context.Background(), node.WithLogLevel(node.DebugLevel))
+	//node.NewHighwayHost(context.Background(), node.WithLogLevel(node.DebugLevel))
 }
 
 // Pause pauses the host, node, and rpc service.
