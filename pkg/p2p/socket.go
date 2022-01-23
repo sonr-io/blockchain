@@ -14,7 +14,6 @@ import (
 	"github.com/sonr-io/sonr/core/did"
 )
 
-
 // SetStatus sets the host status and emits the event
 func (h *host) SetStatus(s HostStatus) {
 	// Check if status is changed

@@ -3,7 +3,6 @@ package p2p
 import (
 	"context"
 	"errors"
-	"net"
 
 	"github.com/kataras/golog"
 	"github.com/libp2p/go-libp2p-core/crypto"
@@ -101,8 +100,8 @@ type host struct {
 	mode Role
 
 	// Host and context
-	connection   common.Connection
-	listener     net.Listener
+	connection common.Connection
+
 	privKey      crypto.PrivKey
 	mdnsPeerChan chan peer.AddrInfo
 	dhtPeerChan  <-chan peer.AddrInfo
@@ -121,7 +120,7 @@ type host struct {
 }
 
 // NewHost Initializes a libp2p host to be used with the Sonr Highway and Motor nodes
-func NewHost(ctx context.Context, l net.Listener, options ...Option) (HostImpl, error) {
+func NewHost(ctx context.Context, options ...Option) (HostImpl, error) {
 	// Initialize DHT
 	opts := defaultOptions(Role_MOTOR)
 	node, err := opts.Apply(ctx, options...)

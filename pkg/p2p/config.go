@@ -150,10 +150,10 @@ func WithConnOptions(low int, hi int, grace time.Duration) Option {
 	}
 }
 
-// WithInterval sets the interval for the host. Default is 5 seconds.
-func WithInterval(interval time.Duration) Option {
+// WithRendevouz sets the rendevouz for the host. Default is 5 seconds.
+func WithRendevouz(r string) Option {
 	return func(o *options) {
-		o.Interval = interval
+		o.Rendezvous = r
 	}
 }
 
@@ -164,18 +164,8 @@ func WithTTL(ttl time.Duration) Option {
 	}
 }
 
-// WithPort sets the port for the Node Stub Client
-func WithPort(port int) Option {
-	return func(o *options) {
-		o.port = port
-	}
-}
-
 // options is a collection of options for the node.
 type options struct {
-	role        Role
-	accountName string
-
 	// Host
 	BootstrapPeers []peer.AddrInfo
 	LowWater       int
@@ -185,12 +175,6 @@ type options struct {
 	Rendezvous     string
 	Interval       time.Duration
 	TTL            dscl.Option
-
-	// Session
-	host     string
-	logLevel string
-	network  string
-	port     int
 }
 
 // defaultOptions returns the default options
@@ -216,11 +200,6 @@ func defaultOptions(r Role) *options {
 	}
 
 	return &options{
-		accountName:    "alice",
-		host:           ":",
-		port:           26225,
-		role:           r,
-		network:        "tcp",
 		LowWater:       200,
 		HighWater:      400,
 		GracePeriod:    time.Second * 20,
@@ -230,11 +209,6 @@ func defaultOptions(r Role) *options {
 		BootstrapPeers: ds,
 		TTL:            dscl.TTL(time.Minute * 2),
 	}
-}
-
-// Address returns the address of the node.
-func (opts *options) Address() string {
-	return fmt.Sprintf("%s%d", opts.host, opts.port)
 }
 
 // Apply applies the host options and returns new SNRHost

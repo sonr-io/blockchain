@@ -1,0 +1,105 @@
+/// This file contains service for the Node RPC Server
+syntax = "proto3";
+
+// Package Highway is used for defining a Highway node and its properties.
+package highway.v1;
+import "bucket/bucket.proto";
+import "object/object.proto";
+
+option go_package = "github.com/sonr-io/sonr/node/highway/v1";
+
+// MsgAccessName is a request to get details from the ".snr" name of a peer
+message MsgAccessName {
+  // The name of the peer to get the details from
+  string name = 1;
+
+  // The public key of the peer to get the details from
+  string public_key = 3; // optional
+}
+
+// MsgAccessService is a request to get the service details of a peer
+message MsgAccessService {
+  // The name of the peer to get the service details of
+  string did = 1;
+
+  // The metadata for any service information required
+  map<string, string> metadata = 2; // optional
+}
+
+// MsgListenChannel is the request to subscribe to a channel
+message MsgListenChannel {
+  // Name is the name of the channel
+  string did = 1;
+
+  // Metadata is additional metadata for the channel
+  map<string, string> metadata = 2; // optional
+}
+
+
+// MsgUploadBlob is the request to upload a blob
+message MsgUploadBlob {
+  // Label is the label of the blob
+  string label = 1;
+
+  // Path is the path of the blob
+  string path = 2;
+
+  // Bucket or object DID where the blob is being uploaded to
+  string ref_did = 3;
+
+  // Size is the size of the blob
+  int64 size = 4;
+
+  // LastModified is the last modified time of the blob
+  int64 last_modified = 5;
+}
+
+// MsgDownloadBlob is the request to download a blob
+message MsgDownloadBlob {
+  // DID is the identifier of the blob
+  string did = 1;
+
+  // Out Path is the download path of the blob
+  string out_path = 2;
+}
+
+// MsgSyncBlob is the request to sync a blob
+message MsgSyncBlob {
+  // DID is the identifier of the blob
+  string did = 1;
+
+  // Path is the location of the blob
+  string path = 2;
+
+  int32 timeout = 3; // optional
+}
+
+// MsgDeleteBlob is the request to delete a blob
+message MsgDeleteBlob {
+  // DID is the identifier of the blob
+  string did = 1;
+
+  // Metadata is the metadata of the blob thats being deleted
+  map<string, string> metadata = 2;
+
+  // Public key of the node that is deleting the blob
+  string public_key = 3;
+}
+
+// MsgParseDid is the request to convert a string to a DID object
+message MsgParseDid {
+  // DID is the DID of the DID
+  string did = 1;
+
+  // Metadata is the metadata of the blob thats being deleted
+  map<string, string> metadata = 2;
+}
+
+// MsgResolveDid is the request to resolve a DID
+message MsgResolveDid {
+  // DID is the DID of the DID
+  string did = 1;
+
+  // Metadata is the metadata of the blob thats being deleted
+  map<string, string> metadata = 2;
+}

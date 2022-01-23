@@ -6,7 +6,7 @@ accounts:
 
 build:
   binary: "sonrd"
-  main: "./cmd/sonrd/main.go"
+  
 
 faucet:
   name: bob
