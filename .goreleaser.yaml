@@ -9,9 +9,9 @@ universal_binaries:
 
 builds:
   - id: "sonr-highway"
-    dir: "cmd/highway"
+    dir: "node/highway"
     binary: "sonr-highway"
-    main: "main.go"
+    main: "highway.go"
     goos:
       - windows
       - darwin
@@ -19,7 +19,7 @@ builds:
   - id: "sonr-cli"
     dir: "cmd/cli"
     main: "main.go"
-    binary: "sonr"
+    binary: "sonr-cli"
     goos:
       - windows
       - darwin
