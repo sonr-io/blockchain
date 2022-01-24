@@ -14,7 +14,7 @@ builds:
     binary: "sonr-highway"
     main: "highway.go"
     goos:
-      - windows
+      - linux
       - darwin
 
   - id: "cli-0"
@@ -22,16 +22,8 @@ builds:
     main: "main.go"
     binary: "sonr-cli"
     goos:
-      - windows
       - darwin
-    ignore:
-      - goos: darwin
-        goarch: i386
-      - goos: linux
-        goarch: arm
-        goarm: armv7
-      - goarm: mips64
-        gomips: hardfloat
+      - linux
 
   - id: "sonrd-0"
     skip: true
