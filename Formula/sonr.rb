@@ -5,13 +5,13 @@
 class Sonr < Formula
   desc "The Official Sonr CLI tool for building and deploying services on the Sonr network/blockchain."
   homepage "https://sonr.io"
-  version "0.1.2"
+  version "0.1.3"
   license "GPLv3"
 
   on_macos do
     if Hardware::CPU.arm?
-      url "https://github.com/sonr-io/sonr/releases/download/v0.1.2/sonr-0.1.2-darwin-arm64.tar.gz"
-      sha256 "8821f586bc6306280dc0ff44a9dba7aaceee6be2ca7aa9cf6029e3b210c8a9f5"
+      url "https://github.com/sonr-io/sonr/releases/download/v0.1.3/sonr-0.1.3-darwin-arm64.tar.gz"
+      sha256 "7e93bbdd1e49616adb59d2f041082720e563b7d73449b5a58787442bb60b3085"
 
       def install
         bin.install "highway-dashboard"
@@ -20,8 +20,8 @@ class Sonr < Formula
       end
     end
     if Hardware::CPU.intel?
-      url "https://github.com/sonr-io/sonr/releases/download/v0.1.2/sonr-0.1.2-darwin-amd64.tar.gz"
-      sha256 "5c59aed622ffcf60b58a0cd70ac7f3f511a086b6fce9c610a8350ec2649098b7"
+      url "https://github.com/sonr-io/sonr/releases/download/v0.1.3/sonr-0.1.3-darwin-amd64.tar.gz"
+      sha256 "f88b9e91f014d1bb8c8ddf3f7b8aa4da5b75bdba2e457d5e10ef561bf745cbfd"
 
       def install
         bin.install "highway-dashboard"
@@ -33,8 +33,8 @@ class Sonr < Formula
 
   on_linux do
     if Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
-      url "https://github.com/sonr-io/sonr/releases/download/v0.1.2/sonr-0.1.2-linux-arm64.tar.gz"
-      sha256 "7357e8f225b0f35aa05af90a5b56e97ce41c823c20b8e15d84bc839e0d84e0bf"
+      url "https://github.com/sonr-io/sonr/releases/download/v0.1.3/sonr-0.1.3-linux-arm64.tar.gz"
+      sha256 "051ee12c0a559d61011b5eddd2e7e58443fa654bd49e90903d96aea91ff01fcf"
 
       def install
         bin.install "highway-dashboard"
@@ -43,8 +43,8 @@ class Sonr < Formula
       end
     end
     if Hardware::CPU.intel?
-      url "https://github.com/sonr-io/sonr/releases/download/v0.1.2/sonr-0.1.2-linux-amd64.tar.gz"
-      sha256 "91fa2ce7cdf2da7039c6250ace1608ee39d2b8d2eeba760e76ca5592b79f446d"
+      url "https://github.com/sonr-io/sonr/releases/download/v0.1.3/sonr-0.1.3-linux-amd64.tar.gz"
+      sha256 "0c4409349d63781ce61212bb6dab1df496f46ffa5168a409602c9be8e8fdbdaf"
 
       def install
         bin.install "highway-dashboard"
