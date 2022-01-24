@@ -12,22 +12,6 @@ import (
 	rt "go.buf.build/grpc/go/sonr-io/sonr/registry"
 )
 
-var (
-	Stub     *HighwayStub
-	IpfsPath string
-	IpfsPort int
-
-	Libp2pLowWater       int
-	Libp2pHighWater      int
-	Libp2pRendevouz      string
-	Libp2pBootstrapPeers []string
-
-	SonrAddress string
-	SonrDid     string
-	SonrPort    int
-	SonrNetwork string
-)
-
 // AccessName accesses a name.
 func (s *HighwayStub) AccessName(ctx context.Context, req *hw.AccessNameRequest) (*hw.AccessNameResponse, error) {
 	// instantiate a query client for your `blog` blockchain

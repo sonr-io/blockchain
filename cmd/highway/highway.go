@@ -27,6 +27,7 @@ var (
 	ErrMissingParam        = errors.New("Paramater is missing.")
 	ErrProtocolsNotSet     = errors.New("Node Protocol has not been initialized.")
 	ErrMethodUnimplemented = errors.New("Method is not implemented.")
+	Stub                   *HighwayStub
 )
 
 // HighwayStub is the RPC Service for the Custodian Node.
@@ -81,16 +82,12 @@ func main() {
 	ctx := context.Background()
 
 	// Declare var
-	SonrAddress = viper.GetString("sonr.address")
-	SonrPort = viper.GetInt("sonr.port")
-	SonrDid = viper.GetString("sonr.did")
-	SonrNetwork = viper.GetString("sonr.network")
-	IpfsPort = viper.GetInt("ipfs.port")
-	IpfsPath = viper.GetString("ipfs.path")
-	Libp2pLowWater = viper.GetInt("libp2p.lowWater")
-	Libp2pHighWater = viper.GetInt("libp2p.highWater")
-	Libp2pRendevouz = viper.GetString("libp2p.rendevouz")
-	Libp2pBootstrapPeers = viper.GetStringSlice("libp2p.bootstrap.peers")
+	SonrAddress := viper.GetString("sonr.address")
+	SonrPort := viper.GetInt("sonr.port")
+	SonrNetwork := viper.GetString("sonr.network")
+	Libp2pLowWater := viper.GetInt("libp2p.lowWater")
+	Libp2pHighWater := viper.GetInt("libp2p.highWater")
+	Libp2pRendevouz := viper.GetString("libp2p.rendevouz")
 
 	// Create the main listener.
 	l, err := net.Listen(SonrNetwork, fmt.Sprintf("%s:%d", SonrAddress, SonrPort))
