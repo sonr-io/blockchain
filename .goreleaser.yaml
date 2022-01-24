@@ -20,7 +20,6 @@ builds:
 
   - id: "sonr"
     dir: "cmd/sonrd"
-    main: "main.go"
     binary: "sonrd"
     goos:
       - darwin
