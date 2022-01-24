@@ -20,14 +20,11 @@ builds:
 
   - id: "sonr"
     dir: "cmd/sonrd"
-    binary: "sonrd"
+    binary: "sonr"
     goos:
       - darwin
       - linux
     tags: "cli"
-    goarch:
-      - amd64
-      - arm64
 
   - id: "sonrd"
     skip: true
