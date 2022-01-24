@@ -1,7 +1,5 @@
 package motor
 
-// motor "github.com/sonr-io/sonr/cmd/motor/v1"
-
 // Start starts the host, node, and rpc service.
 func Start(reqBuf []byte) {
 	// ctx := context.Background()
@@ -11,11 +9,12 @@ func Start(reqBuf []byte) {
 	// 	golog.Warn("%s - Failed to unmarshal InitializeRequest. Using defaults...", err)
 	// }
 
-	// Start the app
+	// //Start the app
 	// h, err := p2p.NewHost(ctx)
 	// if err != nil {
 	// 	golog.Fatal("%s - Failed to start host: %s", err)
 	// }
+
 }
 
 // Pause pauses the host, node, and rpc service.

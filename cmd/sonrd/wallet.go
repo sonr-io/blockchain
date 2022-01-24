@@ -1,4 +1,7 @@
-package cli
+//go:build cli
+// +build cli
+
+package main
 
 import (
 	"fmt"

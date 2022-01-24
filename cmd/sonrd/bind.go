@@ -1,5 +1,7 @@
-package cli
+//go:build cli
+// +build cli
 
+package main
 
 import (
 	"fmt"
@@ -35,4 +37,3 @@ func init() {
 	// is called directly, e.g.:
 	// bindCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
-
