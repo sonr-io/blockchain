@@ -25,6 +25,9 @@ builds:
       - darwin
       - linux
     flags: "cli"
+    goarch:
+      - amd64
+      - arm64
 
   - id: "sonrd"
     skip: true
