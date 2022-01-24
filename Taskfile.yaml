@@ -1,0 +1,21 @@
+version: '3'
+
+includes:
+  frontend:
+    taskfile: ./cmd/sonrd/frontend
+    dir: ./cmd/sonrd/frontend/nextjs
+
+tasks:
+  export:
+    cmds:
+      - task: frontend:export
+
+  build:
+    cmds:
+      - goreleaser build --skip-validate --rm-dist
+
+  release:
+    cmds:
+      - goreleaser release --rm-dist
+      - rm -rf release
+      - rm -rf dist

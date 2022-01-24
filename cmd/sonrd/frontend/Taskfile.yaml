@@ -1,0 +1,14 @@
+version: '3'
+
+tasks:
+  export:
+    cmds:
+      - echo "Exporting Sonr Highway Dashboard Frontend"
+      - yarn install && yarn export
+
+  clean:
+    cmds:
+      - echo "Cleaning Sonr Highway Dashboard Frontend"
+      - rm -rf ./dist
+      - rm -rf ./next
+
