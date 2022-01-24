@@ -2,7 +2,7 @@
 Copyright © 2022 NAME HERE <EMAIL ADDRESS>
 
 */
-package cli
+package main
 
 import (
 	"fmt"
@@ -56,7 +56,7 @@ func init() {
 	keysCmd.AddCommand(createKeysCmd)
 	keysCmd.AddCommand(deleteKeysCmd)
 	keysCmd.AddCommand(findKeysCmd)
-	rootCmd.AddCommand(keysCmd)
+	RootCmd.AddCommand(keysCmd)
 
 	// Here you will define your flags and configuration settings.
 

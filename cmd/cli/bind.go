@@ -1,8 +1,5 @@
-/*
-Copyright © 2022 NAME HERE <EMAIL ADDRESS>
-
-*/
 package cli
+
 
 import (
 	"fmt"
@@ -26,7 +23,7 @@ to quickly create a Cobra application.`,
 }
 
 func init() {
-	rootCmd.AddCommand(bindCmd)
+	RootCmd.AddCommand(bindCmd)
 
 	// Here you will define your flags and configuration settings.
 
@@ -38,3 +35,4 @@ func init() {
 	// is called directly, e.g.:
 	// bindCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
+

@@ -76,7 +76,7 @@ func init() {
 	})
 }
 
-func NewHighway() {
+func main() {
 	viper.ReadInConfig()
 	ctx := context.Background()
 
