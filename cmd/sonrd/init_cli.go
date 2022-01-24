@@ -1,8 +1,9 @@
+//go:build cli
 // +build cli
 
 package main
 
-import "github.com/sonr-io/sonr/cmd/sonrd/cli/commands"
+import "github.com/sonr-io/sonr/cmd/sonrd/commands"
 
 func init() {
 	isCLI = true

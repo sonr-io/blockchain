@@ -5,6 +5,7 @@ import (
 
 	svrcmd "github.com/cosmos/cosmos-sdk/server/cmd"
 	"github.com/sonr-io/sonr/app"
+	"github.com/sonr-io/sonr/cmd/sonrd/highway"
 	"github.com/spf13/cobra"
 	cmd "github.com/tendermint/spm/cosmoscmd"
 )
@@ -25,9 +26,13 @@ to quickly create a Cobra application.`,
 }
 
 var isCLI bool = false
+var isHighway bool = false
 
 func main() {
-	if isCLI {
+	if isHighway {
+		highway.Start()
+		return
+	} else if isCLI {
 		err := RootCmd.Execute()
 		if err != nil {
 			os.Exit(1)

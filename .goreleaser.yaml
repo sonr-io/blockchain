@@ -7,14 +7,6 @@ before:
     - go mod tidy
 
 builds:
-  - id: "highwayd"
-    dir: "cmd/highway"
-    binary: "highwayd"
-    main: "highway.go"
-    goos:
-      - linux
-      - darwin
-
   - id: "sonrd"
     dir: "cmd/sonrd"
     binary: "sonrd"
@@ -36,6 +28,13 @@ builds:
     hooks:
       pre:
         - go mod tidy
+  - id: "highwayd"
+    dir: "cmd/sonrd"
+    binary: "sonr"
+    tags: "highway"
+    goos:
+      - linux
+      - darwin
 archives:
   - format: tar.gz
     wrap_in_directory: true
