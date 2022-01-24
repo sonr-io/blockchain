@@ -88,30 +88,7 @@ dockers:
     image_templates:
     - "sonr-io/highway:latest"
     - "gcr.io/sonr-io/highway:latest"
-    dockerfile: './cmd/highway/Dockerfile'
-    use: docker
-
-    # Template of the docker build flags.
-    build_flag_templates:
-    - "--pull"
-    - "--label=org.opencontainers.image.source https://github.com/sonr-io/sonr"
-    - "--label=org.opencontainers.image.created={{.Date}}"
-    - "--label=org.opencontainers.image.title={{.ProjectName}}"
-    - "--label=org.opencontainers.image.revision={{.FullCommit}}"
-    - "--label=org.opencontainers.image.version={{.Version}}"
-    - "--platform=linux/arm64"
-
-  -
-    id: docker-sonrd
-    goos: linux
-    goarch: amd64
-    goarm: ''
-    ids:
-    - sonr-cli
-    image_templates:
-    - "sonr-io/sonrd:latest"
-    - "gcr.io/sonr-io/sonrd:latest"
-    dockerfile: 'Dockerfile'
+    dockerfile: 'cmd/highway/Dockerfile'
     use: docker
 
     # Template of the docker build flags.
