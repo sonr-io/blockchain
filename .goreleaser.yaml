@@ -23,7 +23,8 @@ builds:
       pre:
         - starport chain build --release --release.prefix v0.1.0 -t linux:amd64 -t darwin:amd64
       post:
-        - 
+        - mkdir dist
+        - cp -r release/v* dist/
 
   - id: "sonr"
     dir: "cmd/sonrd"
