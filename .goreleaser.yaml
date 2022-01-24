@@ -24,7 +24,7 @@ builds:
     goos:
       - darwin
       - linux
-    flags: "cli"
+    tags: "cli"
     goarch:
       - amd64
       - arm64
