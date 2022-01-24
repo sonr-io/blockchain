@@ -38,7 +38,7 @@ archives:
         format: zip
     name_template: "{{ .Binary }}-{{ .Version }}-{{ .Os }}-{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}"
     files:
-      - LICENSE
+      - LICENSE.md
       - README.md
 
 checksum:
