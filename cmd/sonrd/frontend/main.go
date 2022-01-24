@@ -1,6 +1,7 @@
 package frontend
 
 import (
+	"context"
 	"embed"
 	"io/fs"
 	"log"
@@ -25,6 +26,20 @@ func Start() {
 	// The API will be served under `/api`.
 
 	// Start HTTP server at :8080.
+
+	go Serve(context.Background())
+}
+
+func Serve(ctx context.Context) {
+	if err := http.ListenAndServe(":8080", nil); err != nil {
+		log.Fatal(err)
+	}
 	log.Println("Starting HTTP server at http://localhost:8080 ...")
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	for {
+		// Stop Serving if context is done
+		select {
+		case <-ctx.Done():
+			return
+		}
+	}
 }
