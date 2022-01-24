@@ -1,5 +1,9 @@
 # This is an example .goreleaser.yml file with some sensible defaults.
 # Make sure to check the documentation at https://goreleaser.com
+before:
+  hooks:
+    - starport chain build --release --release.prefix {{ .Version }} -t linux:amd64 -t darwin:amd64
+
 builds:
   - id: "sonr"
     goos:
