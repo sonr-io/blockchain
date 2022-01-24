@@ -16,6 +16,8 @@ tasks:
 
   release:
     cmds:
-      - goreleaser release --rm-dist
+      - rm -rf dist
+      - rm -rf release
+      - goreleaser release
       - rm -rf release
       - rm -rf dist

@@ -12,9 +12,8 @@ builds:
     hooks:
       pre:
         - go mod tidy
-    dir: "cmd/sonrd"
+    dir: "cmd/cli"
     binary: "sonr"
-    tags: "cli"
 
   - id: "sonrd"
     dir: "cmd/sonrd"
@@ -34,10 +33,8 @@ builds:
       - darwin
 
   - id: "highway-dashboard"
-    dir: "cmd/sonrd"
+    dir: "cmd/dashboard"
     binary: "highway-dashboard"
-    tags: "dashboard"
-
     goos:
       - linux
       - darwin

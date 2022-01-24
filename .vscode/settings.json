@@ -46,6 +46,7 @@
         "proto": "json",
         "common": "lib",
         "testutil": "test",
+        "dashboard": "interface",
         "did": "src",
         "ISSUE_TEMPLATE": "config",
         "workflows": "serverless",
