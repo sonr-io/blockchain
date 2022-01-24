@@ -1,4 +1,3 @@
-//go:build cli
 // +build cli
 
 package main
