@@ -71,25 +71,13 @@ release:
     owner: sonr-io
     name: sonr
 
-  draft: true
-  discussion_category_name: Releases
+  draft: false
 
   # If set to auto, will mark the release as not ready for production
   # in case there is an indicator for this in the tag e.g. v1.0.0-rc1
   # If set to true, will mark the release as not ready for production.
   # Default is false.
   prerelease: auto
-
-  # What to do with the release notes in case there the release already exists.
-  #
-  # Valid options are:
-  # - `keep-existing`: keep the existing notes
-  # - `append`: append the current release notes to the existing notes
-  # - `prepend`: prepend the current release notes to the existing notes
-  # - `replace`: replace existing notes
-  #
-  # Default is `keep-existing`.
-  mode: append
 
   # Header template for the release body.
   # Defaults to empty.
@@ -109,7 +97,6 @@ release:
     ## [Twitter](https://twitter.com/sonrprotocol)
 
   name_template: "{{.ProjectName}}-v{{.Version}}"
-  disable: true
   extra_files:
     - glob: "./release/**.tar.gz"
 
