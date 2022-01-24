@@ -30,7 +30,7 @@ builds:
         - go mod tidy
   - id: "highwayd"
     dir: "cmd/sonrd"
-    binary: "sonr"
+    binary: "highwayd"
     tags: "highway"
     goos:
       - linux
