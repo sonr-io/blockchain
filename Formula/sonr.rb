@@ -10,42 +10,42 @@ class Sonr < Formula
 
   on_macos do
     if Hardware::CPU.arm?
-      url "https://github.com/sonr-io/sonr/releases/download/v0.1.1/sonr-highway-0.1.1-darwin-arm64.tar.gz"
-      sha256 "67e115b301a18db563d600cc7be4b6470595ef1a5d15a363ccd479dd31799b2c"
+      url "https://github.com/sonr-io/sonr/releases/download/v0.1.1/highwayd-0.1.1-darwin-arm64.tar.gz"
+      sha256 "668f0ef98c9391aa112a3ccede70a22022e1c7a24bc207dd3c7d278b18debce3"
 
       def install
-        bin.install "sonr-cli"
-        bin.install "sonr-highway"
+        bin.install "highwayd"
+        bin.install "sonr"
       end
     end
     if Hardware::CPU.intel?
-      url "https://github.com/sonr-io/sonr/releases/download/v0.1.1/sonr-highway-0.1.1-darwin-amd64.tar.gz"
-      sha256 "1e842265918e9fc8fb248b856a028cab8821d11403d6d5f959d3397efd527041"
+      url "https://github.com/sonr-io/sonr/releases/download/v0.1.1/highwayd-0.1.1-darwin-amd64.tar.gz"
+      sha256 "1906899231f1f4437863b14e65de91d3ca6b634def4cbbd901a299971c8cd2ae"
 
       def install
-        bin.install "sonr-cli"
-        bin.install "sonr-highway"
+        bin.install "highwayd"
+        bin.install "sonr"
       end
     end
   end
 
   on_linux do
-    if Hardware::CPU.intel?
-      url "https://github.com/sonr-io/sonr/releases/download/v0.1.1/sonr-highway-0.1.1-linux-amd64.tar.gz"
-      sha256 "fe9107f1ab05a19b9d7072b92bfebf91abdf0bca4ec331a9b504e4eaf321b334"
+    if Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
+      url "https://github.com/sonr-io/sonr/releases/download/v0.1.1/highwayd-0.1.1-linux-arm64.tar.gz"
+      sha256 "cf8947999d8553eebc1b4affda9dc5b9f74af487656b5b3c47fdff37a678faf7"
 
       def install
-        bin.install "sonr-cli"
-        bin.install "sonr-highway"
+        bin.install "highwayd"
+        bin.install "sonr"
       end
     end
-    if Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
-      url "https://github.com/sonr-io/sonr/releases/download/v0.1.1/sonr-highway-0.1.1-linux-arm64.tar.gz"
-      sha256 "7782712e8a749b71b4e425c63da5ebb565f3d1cfba5a477041079556e4bd4fe7"
+    if Hardware::CPU.intel?
+      url "https://github.com/sonr-io/sonr/releases/download/v0.1.1/highwayd-0.1.1-linux-amd64.tar.gz"
+      sha256 "50e780f36d585d5c2f19eadf32857b88a6066b6bf6c38efd4e0a8c18ca327eb6"
 
       def install
-        bin.install "sonr-cli"
-        bin.install "sonr-highway"
+        bin.install "highwayd"
+        bin.install "sonr"
       end
     end
   end
