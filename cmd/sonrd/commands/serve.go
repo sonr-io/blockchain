@@ -1,6 +1,6 @@
 // +build cli
 
-package main
+package commands
 
 import (
 	"fmt"
@@ -8,8 +8,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// serveCmd represents the serve command
-var serveCmd = &cobra.Command{
+// ServeCmd represents the serve command
+var ServeCmd = &cobra.Command{
 	Use:   "serve",
 	Short: "A brief description of your command",
 	Long: `A longer description that spans multiple lines and likely contains examples
@@ -24,7 +24,7 @@ to quickly create a Cobra application.`,
 }
 
 func init() {
-	RootCmd.AddCommand(serveCmd)
+
 
 	// Here you will define your flags and configuration settings.
 

@@ -1,6 +1,6 @@
 // +build cli
 
-package main
+package commands
 
 import (
 	"fmt"
@@ -44,8 +44,8 @@ var highwayBlobCmd = &cobra.Command{
 	},
 }
 
-// highwayCmd represents the deploy command
-var highwayCmd = &cobra.Command{
+// HighwayCmd represents the deploy command
+var HighwayCmd = &cobra.Command{
 	Use:   "highway",
 	Short: "Manage your Highway node on the Sonr Testnet and Local Dev Enviorment",
 	Long: `A longer description that spans multiple lines and likely contains examples
@@ -68,8 +68,8 @@ to quickly create a Cobra application.`,
 }
 
 func init() {
-	highwayCmd.AddCommand(highwayObjectCmd, highwayChannelCmd, highwayBucketCmd, highwayBlobCmd)
-	RootCmd.AddCommand(highwayCmd)
+	HighwayCmd.AddCommand(highwayObjectCmd, highwayChannelCmd, highwayBucketCmd, highwayBlobCmd)
+
 
 	// Here you will define your flags and configuration settings.
 

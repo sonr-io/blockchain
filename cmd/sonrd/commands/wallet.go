@@ -1,6 +1,6 @@
 // +build cli
 
-package main
+package commands
 
 import (
 	"fmt"
@@ -92,7 +92,7 @@ to quickly create a Cobra application.`,
 }
 
 // accountNewCmd represents the accountNew command
-var walletCmd = &cobra.Command{
+var WalletCmd = &cobra.Command{
 	Use:   "wallet",
 	Short: "Manage your On-Disk development wallet",
 	Long: `A longer description that spans multiple lines and likely contains examples
@@ -114,8 +114,8 @@ func init() {
 	generateCmd.PersistentFlags().StringP("file", "f", "-", "Path to the wallet file")
 	generateCmd.PersistentFlags().StringP("password", "p", "-", "Password for the wallet file")
 	restoreCmd.PersistentFlags().StringP("password", "p", "-", "Password for the wallet file")
-	walletCmd.AddCommand(generateCmd, restoreCmd, exportCmd)
-	RootCmd.AddCommand(walletCmd)
+	WalletCmd.AddCommand(generateCmd, restoreCmd, exportCmd)
+
 
 	// Here you will define your flags and configuration settings.
 
