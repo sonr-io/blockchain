@@ -14,7 +14,7 @@
         "**/package-lock.json": true,
         "**/**.pb.go": false,
         "go.sum": true,
-
+        "Formula": true,
         "LICENSE.md": true,
         ".sonr": true,
         "**/v1": false,

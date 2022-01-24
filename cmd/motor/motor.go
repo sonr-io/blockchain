@@ -1,19 +1,21 @@
 package motor
 
+import (
+	"context"
+
+	"github.com/kataras/golog"
+	"github.com/sonr-io/sonr/pkg/p2p"
+)
+
 // Start starts the host, node, and rpc service.
 func Start(reqBuf []byte) {
-	// ctx := context.Background()
-	// // Unmarshal request
-	// req := &motor.InitializeRequest{}
-	// if err := proto.Unmarshal(reqBuf, req); err != nil {
-	// 	golog.Warn("%s - Failed to unmarshal InitializeRequest. Using defaults...", err)
-	// }
+	ctx := context.Background()
 
-	// //Start the app
-	// h, err := p2p.NewHost(ctx)
-	// if err != nil {
-	// 	golog.Fatal("%s - Failed to start host: %s", err)
-	// }
+	//Start the app
+	_, err := p2p.NewHost(ctx)
+	if err != nil {
+		golog.Fatal("%s - Failed to start host: %s", err)
+	}
 
 }
 

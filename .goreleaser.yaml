@@ -6,9 +6,6 @@ before:
     - go mod download golang.org/x/mobile
     - go mod tidy
 
-universal_binaries:
-- replace: true
-
 builds:
   - id: "highwayd"
     dir: "cmd/highway"
@@ -18,19 +15,26 @@ builds:
       - linux
       - darwin
 
+  - id: "sonrd"
+    dir: "cmd/sonrd"
+    binary: "sonrd"
+    skip: true
+    hooks:
+      pre:
+        - starport chain build --release --release.prefix v0.1.0 -t linux:amd64 -t darwin:amd64
+      post:
+        - 
+
   - id: "sonr"
     dir: "cmd/sonrd"
     binary: "sonr"
-    goos:
-      - darwin
-      - linux
     tags: "cli"
-
-  - id: "sonrd"
-    skip: true
-    dir: "cmd/sonrd"
-    binary: "sonrd"
-
+    goos:
+      - linux
+      - darwin
+    hooks:
+      pre:
+        - go mod tidy
 archives:
   - format: tar.gz
     wrap_in_directory: true
