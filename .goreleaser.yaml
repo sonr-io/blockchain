@@ -77,25 +77,25 @@ nfpms:
     priority: extra
     meta: true
 
-dockers:
-  -
-    id: docker-highway
-    goos: linux
-    goarch: amd64
-    goarm: ''
-    ids:
-    - sonr-highway
-    image_templates:
-    - "sonr-io/highway:latest"
-    - "gcr.io/sonr-io/highway:latest"
-    dockerfile: 'cmd/highway/Dockerfile'
-    use: docker
+# dockers:
+#   -
+#     id: docker-highway
+#     goos: linux
+#     goarch: amd64
+#     goarm: ''
+#     ids:
+#     - sonr-highway
+#     image_templates:
+#     - "sonr-io/highway:latest"
+#     - "gcr.io/sonr-io/highway:latest"
+#     dockerfile: 'cmd/highway/Dockerfile'
+#     use: docker
 
-    # Template of the docker build flags.
-    build_flag_templates:
-    - "--pull"
-    - "--label=org.opencontainers.image.created={{.Date}}"
-    - "--label=org.opencontainers.image.title={{.ProjectName}}"
-    - "--label=org.opencontainers.image.revision={{.FullCommit}}"
-    - "--label=org.opencontainers.image.version={{.Version}}"
-    - "--platform=linux/arm64"
+#     # Template of the docker build flags.
+#     build_flag_templates:
+#     - "--pull"
+#     - "--label=org.opencontainers.image.created={{.Date}}"
+#     - "--label=org.opencontainers.image.title={{.ProjectName}}"
+#     - "--label=org.opencontainers.image.revision={{.FullCommit}}"
+#     - "--label=org.opencontainers.image.version={{.Version}}"
+#     - "--platform=linux/arm64"
