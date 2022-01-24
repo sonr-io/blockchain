@@ -1,33 +1,26 @@
 # This is an example .goreleaser.yml file with some sensible defaults.
 # Make sure to check the documentation at https://goreleaser.com
-before:
-  hooks:
-    - starport chain build --release --release.prefix v0.1.0 -t linux:amd64 -t darwin:amd64
-    - go mod download golang.org/x/mobile
-    - go mod tidy
-
 builds:
-  - id: "sonrd"
-    dir: "cmd/sonrd"
-    binary: "sonrd"
-    skip: true
-    hooks:
-      pre:
-        - starport chain build --release --release.prefix v0.1.0 -t linux:amd64 -t darwin:amd64
-      post:
-        - mkdir dist
-        - cp -r release/v* dist/
-
   - id: "sonr"
-    dir: "cmd/sonrd"
-    binary: "sonr"
-    tags: "cli"
     goos:
       - linux
       - darwin
     hooks:
       pre:
         - go mod tidy
+    dir: "cmd/sonrd"
+    binary: "sonr"
+    tags: "cli"
+
+  - id: "sonrd"
+    dir: "cmd/sonrd"
+    binary: "sonrd"
+    hooks:
+      post:
+        - mkdir dist
+        - cp -r release/v* dist/
+    skip: true
+
   - id: "highwayd"
     dir: "cmd/sonrd"
     binary: "highwayd"
@@ -35,6 +28,16 @@ builds:
     goos:
       - linux
       - darwin
+
+  - id: "highway-dashboard"
+    dir: "cmd/sonrd"
+    binary: "highway-dashboard"
+    tags: "dashboard"
+
+    goos:
+      - linux
+      - darwin
+
 archives:
   - format: tar.gz
     wrap_in_directory: true
@@ -56,6 +59,55 @@ changelog:
     exclude:
       - '^docs:'
       - '^test:'
+
+release:
+  # Repo in which the release will be created.
+  # Default is extracted from the origin remote URL or empty if its private hosted.
+  github:
+    owner: sonr-io
+    name: sonr
+
+  draft: true
+  discussion_category_name: Releases
+
+  # If set to auto, will mark the release as not ready for production
+  # in case there is an indicator for this in the tag e.g. v1.0.0-rc1
+  # If set to true, will mark the release as not ready for production.
+  # Default is false.
+  prerelease: auto
+
+  # What to do with the release notes in case there the release already exists.
+  #
+  # Valid options are:
+  # - `keep-existing`: keep the existing notes
+  # - `append`: append the current release notes to the existing notes
+  # - `prepend`: prepend the current release notes to the existing notes
+  # - `replace`: replace existing notes
+  #
+  # Default is `keep-existing`.
+  mode: append
+
+  # Header template for the release body.
+  # Defaults to empty.
+  header: |
+    ## New Sonr Release ({{ .Date }})
+
+    Introducing {{ .Tag }}, the latest {{.ProjectName}} release!
+
+  # Footer template for the release body.
+  # Defaults to empty.
+  footer: |
+    ## ---
+    ## Thanks for your support!
+    ##
+    ## [The Sonr Team](https://sonr.io)
+    ## [Sonr Community](https://sonr-io.circle.so/join?invitation_token=5fe804d13bd4a11ddaa79447f4a99cdbad80b1bf-aa8cb322-f689-4002-8ad1-47aab39afefc)
+    ## [Twitter](https://twitter.com/sonrprotocol)
+
+  name_template: "{{.ProjectName}}-v{{.Version}}"
+  disable: true
+  extra_files:
+    - glob: "./release/**.tar.gz"
 
 brews:
   -
@@ -81,26 +133,3 @@ nfpms:
     license: GPLv3
     priority: extra
     meta: true
-
-# dockers:
-#   -
-#     id: docker-highway
-#     goos: linux
-#     goarch: amd64
-#     goarm: ''
-#     ids:
-#     - sonr-highway
-#     image_templates:
-#     - "sonr-io/highway:latest"
-#     - "gcr.io/sonr-io/highway:latest"
-#     dockerfile: 'cmd/highway/Dockerfile'
-#     use: docker
-
-#     # Template of the docker build flags.
-#     build_flag_templates:
-#     - "--pull"
-#     - "--label=org.opencontainers.image.created={{.Date}}"
-#     - "--label=org.opencontainers.image.title={{.ProjectName}}"
-#     - "--label=org.opencontainers.image.revision={{.FullCommit}}"
-#     - "--label=org.opencontainers.image.version={{.Version}}"
-#     - "--platform=linux/arm64"

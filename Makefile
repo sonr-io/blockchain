@@ -3,8 +3,9 @@ SHELL=/bin/bash
 # Set this -->[/Users/xxxx/Sonr/]<-- to Folder of Sonr Repos
 SONR_ROOT_DIR=/Users/prad/Developer
 ROOT_DIR:=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
-HIGHWAY_DIR=${ROOT_DIR}/cmd/highway
+HIGHWAY_DIR=${ROOT_DIR}/cmd/sonrd/highway
 MOTOR_DIR=${ROOT_DIR}/cmd/motor
+FRONTEND_DIR=${ROOT_DIR}/cmd/sonrd/frontend
 CHAIN_PROTO_DIR=${ROOT_DIR}/proto
 
 # @ Proto Directories
@@ -20,29 +21,6 @@ push: buf docker
 	@echo "----"
 	@echo "Sonr: Generated, Built, and Pushed Docker and Protobuf"
 	@echo "----"
-
-
-##
-## ---
-## [docker]               :   Builds and Pushes docker images
-docker: docker.build docker.push
-
-## [docker.build]         :   Builds docker images
-docker.build:
-	open --background -a Docker
-	@echo "----"
-	@echo "Sonr: Building Highway and Sonrd Images"
-	@echo "----"
-	cd ${HIGHWAY_DIR} && docker build . -t ghcr.io/sonr-io/highway:latest
-	cd ${ROOT_DIR} && docker build . -t ghcr.io/sonr-io/sonrd:latest
-
-## [docker.push]          :   Pushes docker images
-docker.push:
-	@echo "----"
-	@echo "Sonr: Building and Pushing Docker Image"
-	@echo "----"
-	@docker push ghcr.io/sonr-io/highway:latest
-	@docker push ghcr.io/sonr-io/sonrd:latest
 
 ## [buf]                  :   Generates, Builds, and Pushes ALL proto files
 buf: buf.gen buf.build buf.push
@@ -76,6 +54,12 @@ buf.push:
 	@cd ${HIGHWAY_DIR} && buf push
 #	@cd ${MOTOR_DIR} && buf push
 	@cd ${CHAIN_PROTO_DIR} && buf push
+
+frontend.export:
+	@echo "----"
+	@echo "Sonr: Exporting Frontend"
+	@echo "----"
+	cd ${FRONTEND_DIR}/nextjs && yarn install && yarn export
 
 ## [clean]                :   Reinitializes Gomobile and Removes Framworks from Plugin
 clean:

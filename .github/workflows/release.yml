@@ -132,7 +132,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-
+      - uses: actions/setup-go@v2
       - name: Prepare Release Variables
         id: vars
         uses: tendermint/starport/actions/release/vars@develop
@@ -152,30 +152,20 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Publish the Release
-        uses: softprops/action-gh-release@v1
-        if: ${{ steps.vars.outputs.should_release == 'true' }}
+      - uses: actions/setup-node@v1
         with:
-          tag_name: ${{ steps.vars.outputs.tag_name }}
-          files: release/*
-          draft: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          node-version: 16
+      - run: |
+         npm install -g yarn
+         yarn install --frozen-lockfile
+         yarn export
+        working-directory: ${{ github.workspace }}/cmd/sonrd/frontend/nextjs
 
-  publish:
-    name: "Publish Binaries 🎉"
-    needs:
-      - release-blockchain
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-go@v2
       -
         name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v2
+        if: ${{ steps.vars.outputs.should_release == 'true' }}
         with:
-          # either 'goreleaser' (default) or 'goreleaser-pro'
           distribution: goreleaser
           version: latest
           args: release --rm-dist

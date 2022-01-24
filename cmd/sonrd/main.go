@@ -5,10 +5,48 @@ import (
 
 	svrcmd "github.com/cosmos/cosmos-sdk/server/cmd"
 	"github.com/sonr-io/sonr/app"
+	"github.com/sonr-io/sonr/cmd/sonrd/frontend"
 	"github.com/sonr-io/sonr/cmd/sonrd/highway"
 	"github.com/spf13/cobra"
 	cmd "github.com/tendermint/spm/cosmoscmd"
 )
+
+var isCLI bool = false
+var isHighway bool = false
+var isDashboard bool = false
+
+func main() {
+	if isHighway {
+		highway.Start()
+		return
+	}
+	if isCLI {
+		err := RootCmd.Execute()
+		if err != nil {
+			os.Exit(1)
+		}
+	}
+
+	if isDashboard {
+		frontend.Start()
+		return
+	}
+
+	rootCmd, _ := cmd.NewRootCmd(
+		app.Name,
+		app.AccountAddressPrefix,
+		app.DefaultNodeHome,
+		app.Name,
+		app.ModuleBasics,
+		app.New,
+		cmd.WithEnvPrefix("SONR_CHAIN"),
+		// this line is used by starport scaffolding # root/arguments
+
+	)
+	if err := svrcmd.Execute(rootCmd, app.DefaultNodeHome); err != nil {
+		os.Exit(1)
+	}
+}
 
 // RootCmd represents the base command when called without any subcommands
 var RootCmd = &cobra.Command{
@@ -23,34 +61,4 @@ to quickly create a Cobra application.`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	// Run: func(cmd *cobra.Command, args []string) { },
-}
-
-var isCLI bool = false
-var isHighway bool = false
-
-func main() {
-	if isHighway {
-		highway.Start()
-		return
-	} else if isCLI {
-		err := RootCmd.Execute()
-		if err != nil {
-			os.Exit(1)
-		}
-	} else {
-		rootCmd, _ := cmd.NewRootCmd(
-			app.Name,
-			app.AccountAddressPrefix,
-			app.DefaultNodeHome,
-			app.Name,
-			app.ModuleBasics,
-			app.New,
-			cmd.WithEnvPrefix("SONR_CHAIN"),
-			// this line is used by starport scaffolding # root/arguments
-
-		)
-		if err := svrcmd.Execute(rootCmd, app.DefaultNodeHome); err != nil {
-			os.Exit(1)
-		}
-	}
 }
