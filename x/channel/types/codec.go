@@ -12,6 +12,9 @@ func RegisterCodec(cdc *codec.LegacyAmino) {
 	cdc.RegisterConcrete(&MsgReadChannel{}, "channel/ReadChannel", nil)
 	cdc.RegisterConcrete(&MsgDeleteChannel{}, "channel/DeleteChannel", nil)
 	cdc.RegisterConcrete(&MsgUpdateChannel{}, "channel/UpdateChannel", nil)
+	cdc.RegisterConcrete(&MsgCreateHowIs{}, "channel/CreateHowIs", nil)
+	cdc.RegisterConcrete(&MsgUpdateHowIs{}, "channel/UpdateHowIs", nil)
+	cdc.RegisterConcrete(&MsgDeleteHowIs{}, "channel/DeleteHowIs", nil)
 	// this line is used by starport scaffolding # 2
 }
 
@@ -27,6 +30,11 @@ func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 	)
 	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgUpdateChannel{},
+	)
+	registry.RegisterImplementations((*sdk.Msg)(nil),
+		&MsgCreateHowIs{},
+		&MsgUpdateHowIs{},
+		&MsgDeleteHowIs{},
 	)
 	// this line is used by starport scaffolding # 3
 

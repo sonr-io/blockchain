@@ -2,6 +2,7 @@ syntax = "proto3";
 import "object/object.proto";
 package sonrio.sonr.channel;
 
+import "channel/how_is.proto";
 // this line is used by starport scaffolding # proto/tx/import
 
 option go_package = "github.com/sonr-io/sonr/x/channel/types";
@@ -12,6 +13,9 @@ service Msg {
   rpc ReadChannel(MsgReadChannel) returns (MsgReadChannelResponse);
   rpc DeleteChannel(MsgDeleteChannel) returns (MsgDeleteChannelResponse);
   rpc UpdateChannel(MsgUpdateChannel) returns (MsgUpdateChannelResponse);
+  rpc CreateHowIs(MsgCreateHowIs) returns (MsgCreateHowIsResponse);
+  rpc UpdateHowIs(MsgUpdateHowIs) returns (MsgUpdateHowIsResponse);
+  rpc DeleteHowIs(MsgDeleteHowIs) returns (MsgDeleteHowIsResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }
 
@@ -52,5 +56,29 @@ message MsgUpdateChannel {
 
 message MsgUpdateChannelResponse {
 }
+
+message MsgCreateHowIs {
+  string creator = 1;
+  string index = 2;
+
+  string did = 3;
+  string value = 4;
+}
+message MsgCreateHowIsResponse {}
+
+message MsgUpdateHowIs {
+  string creator = 1;
+  string index = 2;
+
+  string did = 3;
+  string value = 4;
+}
+message MsgUpdateHowIsResponse {}
+
+message MsgDeleteHowIs {
+  string creator = 1;
+  string index = 2;
+}
+message MsgDeleteHowIsResponse {}
 
 // this line is used by starport scaffolding # proto/tx/message
