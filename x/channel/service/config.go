@@ -1,11 +1,11 @@
-package channel
+package service
 
 import (
 	"time"
 
 	"github.com/kataras/golog"
-	"github.com/sonr-io/sonr/core/did"
 	v1 "github.com/sonr-io/sonr/x/channel/types"
+	"github.com/sonr-io/sonr/x/registry/service"
 )
 
 // Option is a function that modifies the beam options.
@@ -67,13 +67,13 @@ func defaultOptions() *options {
 }
 
 // Apply applies the options to the channel and returns the generated name for the channel.
-func (o *options) Apply(c *channel) did.DID {
+func (o *options) Apply(c *channel) service.DID {
 	c.config = &v1.Channel{
 		Label:       o.label,
 		Description: o.description,
 	}
 
-	did, err := did.FromString(c.object.GetDid())
+	did, err := service.FromString(c.object.GetDid())
 	if err != nil {
 		golog.Fatal(err)
 	}

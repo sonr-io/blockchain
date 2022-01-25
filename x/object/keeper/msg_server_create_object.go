@@ -11,7 +11,10 @@ func (k msgServer) CreateObject(goCtx context.Context, msg *types.MsgCreateObjec
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	// TODO: Handling the message
+	msg.GetFields()
 	_ = ctx
+	
+
 
 	return &types.MsgCreateObjectResponse{}, nil
 }

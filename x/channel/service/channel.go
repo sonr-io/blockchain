@@ -1,4 +1,4 @@
-package channel
+package service
 
 import (
 	"context"
@@ -7,9 +7,10 @@ import (
 	"github.com/libp2p/go-libp2p-core/peer"
 	pubsub "github.com/libp2p/go-libp2p-pubsub"
 	"github.com/pkg/errors"
-	"github.com/sonr-io/sonr/core/did"
+
 	"github.com/sonr-io/sonr/pkg/p2p"
 	o "github.com/sonr-io/sonr/x/object/types"
+	"github.com/sonr-io/sonr/x/registry/service"
 
 	v1 "github.com/sonr-io/sonr/x/channel/types"
 )
@@ -24,7 +25,7 @@ var (
 // Channel is a pubsub based Key-Value store for Libp2p nodes.
 type Channel interface {
 	// Did returns the DID of the channel.
-	DID() did.DID
+	DID() service.DID
 
 	// Read returns a list of all peers subscribed to the channel topic.
 	Read() []peer.ID
@@ -47,7 +48,7 @@ type channel struct {
 	n      p2p.HostImpl
 	config *v1.Channel
 	name   string
-	did    did.DID
+	did    service.DID
 	object *o.ObjectDoc
 
 	// Channel Messages

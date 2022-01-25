@@ -1,4 +1,4 @@
-package did
+package service
 
 import (
 	"context"
@@ -111,8 +111,8 @@ type didImpl struct {
 	pubKey crypto.PubKey
 }
 
-// Create creates a new DID from an existing DID
-func (di *didImpl) Create(options ...Option) (DID, error) {
+// Generate creates a new DID from an existing DID
+func (di *didImpl) Generate(options ...Option) (DID, error) {
 	id := di.GetId()
 	if id == "" {
 		return nil, errors.New("Current DID does not have an Identifier")

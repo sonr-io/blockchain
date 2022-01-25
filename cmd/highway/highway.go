@@ -11,7 +11,8 @@ import (
 
 	"github.com/kataras/golog"
 	"github.com/sonr-io/sonr/pkg/p2p"
-	"github.com/sonr-io/sonr/x/channel"
+
+	channel "github.com/sonr-io/sonr/x/channel/service"
 	"github.com/spf13/viper"
 	hw "go.buf.build/grpc/go/sonr-io/highway/v1"
 

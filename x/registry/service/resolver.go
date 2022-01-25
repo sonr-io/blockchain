@@ -1,4 +1,5 @@
-package did
+package service
+
 
 import "context"
 

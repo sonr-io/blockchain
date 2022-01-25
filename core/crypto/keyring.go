@@ -13,10 +13,10 @@ type KeyringType int32
 
 const (
 	// KeyringType_KEYRING_TYPE_IN_MEMORY is the default value
-	KeyringType_KEYRING_TYPE_IN_MEMORY KeyringType = 0
+	KeyringType_KEYRING_TYPE_DEFAULT KeyringType = 0
 
 	// KeyringType_KEYRING_TYPE_DEFAULT is a string or text field
-	KeyringType_KEYRING_TYPE_DEFAULT KeyringType = 1
+	KeyringType_KEYRING_TYPE_IN_MEMORY KeyringType = 1
 )
 
 var (

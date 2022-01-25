@@ -1,16 +1,12 @@
 name: Notifier Workflow
 
-# Controls when the action will run.
 on:
   workflow_run:
     workflows: ["Release Workflow"]
     types:
       - completed
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # Checks if Build has succeeded.
-  # Returns: `needs.result.outputs.is_success == 'failure' |  `success``
   status:
     runs-on: ubuntu-latest
     outputs:

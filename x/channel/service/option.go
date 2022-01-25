@@ -1,4 +1,4 @@
-package channel
+package service
 
 type PublishOption func(po *publishOptions)
 

@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/sonr-io/sonr/x/channel"
+	channel "github.com/sonr-io/sonr/x/channel/service"
 	hw "go.buf.build/grpc/go/sonr-io/highway/v1"
 	bt "go.buf.build/grpc/go/sonr-io/sonr/bucket"
 	ct "go.buf.build/grpc/go/sonr-io/sonr/channel"

@@ -12,8 +12,8 @@ import (
 	"github.com/libp2p/go-libp2p-core/protocol"
 	"github.com/libp2p/go-libp2p-core/routing"
 	dht "github.com/libp2p/go-libp2p-kad-dht"
-	did "github.com/sonr-io/sonr/core/did"
 	common "github.com/sonr-io/sonr/x/registry/types"
+	service "github.com/sonr-io/sonr/x/registry/service"
 
 	"google.golang.org/protobuf/proto"
 
@@ -39,7 +39,7 @@ type HostImpl interface {
 	Connect(pi peer.AddrInfo) error
 
 	// Did returns the DID of the node
-	Did() did.DID
+	Did() service.DID
 
 	// HasRouting returns true if the node has routing
 	HasRouting() error
@@ -109,7 +109,7 @@ type host struct {
 	// Properties
 	ctx    context.Context
 	pubKey crypto.PubKey
-	did    did.DID
+	did    service.DID
 	*dht.IpfsDHT
 	*ps.PubSub
 
@@ -137,7 +137,7 @@ func NewHost(ctx context.Context, options ...Option) (HostImpl, error) {
 	return node, nil
 }
 
-func (n *host) Did() did.DID {
+func (n *host) Did() service.DID {
 	return n.did
 }
 
