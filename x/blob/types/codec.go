@@ -12,6 +12,9 @@ func RegisterCodec(cdc *codec.LegacyAmino) {
 	cdc.RegisterConcrete(&MsgDownloadBlob{}, "blob/DownloadBlob", nil)
 	cdc.RegisterConcrete(&MsgSyncBlob{}, "blob/SyncBlob", nil)
 	cdc.RegisterConcrete(&MsgDeleteBlob{}, "blob/DeleteBlob", nil)
+	cdc.RegisterConcrete(&MsgCreateThereIs{}, "blob/CreateThereIs", nil)
+	cdc.RegisterConcrete(&MsgUpdateThereIs{}, "blob/UpdateThereIs", nil)
+	cdc.RegisterConcrete(&MsgDeleteThereIs{}, "blob/DeleteThereIs", nil)
 	// this line is used by starport scaffolding # 2
 }
 
@@ -27,6 +30,11 @@ func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 	)
 	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgDeleteBlob{},
+	)
+	registry.RegisterImplementations((*sdk.Msg)(nil),
+		&MsgCreateThereIs{},
+		&MsgUpdateThereIs{},
+		&MsgDeleteThereIs{},
 	)
 	// this line is used by starport scaffolding # 3
 

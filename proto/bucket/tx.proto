@@ -1,6 +1,7 @@
 syntax = "proto3";
 package sonrio.sonr.bucket;
 
+import "bucket/which_is.proto";
 // this line is used by starport scaffolding # proto/tx/import
 
 option go_package = "github.com/sonr-io/sonr/x/bucket/types";
@@ -11,6 +12,9 @@ service Msg {
   rpc ReadBucket(MsgReadBucket) returns (MsgReadBucketResponse);
   rpc UpdateBucket(MsgUpdateBucket) returns (MsgUpdateBucketResponse);
   rpc DeleteBucket(MsgDeleteBucket) returns (MsgDeleteBucketResponse);
+  rpc CreateWhichIs(MsgCreateWhichIs) returns (MsgCreateWhichIsResponse);
+  rpc UpdateWhichIs(MsgUpdateWhichIs) returns (MsgUpdateWhichIsResponse);
+  rpc DeleteWhichIs(MsgDeleteWhichIs) returns (MsgDeleteWhichIsResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }
 
@@ -50,5 +54,29 @@ message MsgDeleteBucket {
 
 message MsgDeleteBucketResponse {
 }
+
+message MsgCreateWhichIs {
+  string creator = 1;
+  string index = 2;
+
+  string did = 3;
+  string value = 4;
+}
+message MsgCreateWhichIsResponse {}
+
+message MsgUpdateWhichIs {
+  string creator = 1;
+  string index = 2;
+
+  string did = 3;
+  string value = 4;
+}
+message MsgUpdateWhichIsResponse {}
+
+message MsgDeleteWhichIs {
+  string creator = 1;
+  string index = 2;
+}
+message MsgDeleteWhichIsResponse {}
 
 // this line is used by starport scaffolding # proto/tx/message

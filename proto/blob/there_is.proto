@@ -1,0 +1,12 @@
+syntax = "proto3";
+package sonrio.sonr.blob;
+
+option go_package = "github.com/sonr-io/sonr/x/blob/types";
+
+message ThereIs {
+  string index = 1; 
+  string did = 2; 
+  string value = 3; 
+  string creator = 4;
+}
+

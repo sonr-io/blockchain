@@ -1,6 +1,7 @@
 syntax = "proto3";
 package sonrio.sonr.blob;
 
+import "blob/there_is.proto";
 // this line is used by starport scaffolding # proto/tx/import
 
 option go_package = "github.com/sonr-io/sonr/x/blob/types";
@@ -11,6 +12,9 @@ service Msg {
   rpc DownloadBlob(MsgDownloadBlob) returns (MsgDownloadBlobResponse);
   rpc SyncBlob(MsgSyncBlob) returns (MsgSyncBlobResponse);
   rpc DeleteBlob(MsgDeleteBlob) returns (MsgDeleteBlobResponse);
+  rpc CreateThereIs(MsgCreateThereIs) returns (MsgCreateThereIsResponse);
+  rpc UpdateThereIs(MsgUpdateThereIs) returns (MsgUpdateThereIsResponse);
+  rpc DeleteThereIs(MsgDeleteThereIs) returns (MsgDeleteThereIsResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }
 
@@ -54,5 +58,29 @@ message MsgDeleteBlob {
 
 message MsgDeleteBlobResponse {
 }
+
+message MsgCreateThereIs {
+  string creator = 1;
+  string index = 2;
+
+  string did = 3;
+  string value = 4;
+}
+message MsgCreateThereIsResponse {}
+
+message MsgUpdateThereIs {
+  string creator = 1;
+  string index = 2;
+
+  string did = 3;
+  string value = 4;
+}
+message MsgUpdateThereIsResponse {}
+
+message MsgDeleteThereIs {
+  string creator = 1;
+  string index = 2;
+}
+message MsgDeleteThereIsResponse {}
 
 // this line is used by starport scaffolding # proto/tx/message
