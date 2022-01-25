@@ -1,8 +1,7 @@
-# This is an example .goreleaser.yml file with some sensible defaults.
-# Make sure to check the documentation at https://goreleaser.com
 before:
   hooks:
     - starport chain build --release --release.prefix {{ .Version }} -t linux:amd64 -t darwin:amd64
+    
 
 builds:
   - id: "sonr"
@@ -69,11 +68,6 @@ release:
     name: sonr
 
   draft: false
-
-  # If set to auto, will mark the release as not ready for production
-  # in case there is an indicator for this in the tag e.g. v1.0.0-rc1
-  # If set to true, will mark the release as not ready for production.
-  # Default is false.
   prerelease: auto
 
   # Header template for the release body.
@@ -86,12 +80,12 @@ release:
   # Footer template for the release body.
   # Defaults to empty.
   footer: |
-    ## ---
-    ## Thanks for your support!
-    ##
-    ## [The Sonr Team](https://sonr.io)
-    ## [Sonr Community](https://sonr-io.circle.so/join?invitation_token=5fe804d13bd4a11ddaa79447f4a99cdbad80b1bf-aa8cb322-f689-4002-8ad1-47aab39afefc)
-    ## [Twitter](https://twitter.com/sonrprotocol)
+    ---
+    #### Thanks for your support!
+
+    [The Sonr Team](https://sonr.io)
+    [Sonr Community](https://sonr-io.circle.so/join?invitation_token=5fe804d13bd4a11ddaa79447f4a99cdbad80b1bf-aa8cb322-f689-4002-8ad1-47aab39afefc)
+    [Twitter](https://twitter.com/sonrprotocol)
 
   name_template: "{{.ProjectName}}-v{{.Version}}"
   extra_files:
