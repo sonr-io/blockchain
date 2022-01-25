@@ -3,7 +3,6 @@ package sonrio.sonr.object;
 
 import "gogoproto/gogo.proto";
 import "object/params.proto";
-import "object/whatis.proto";
 // this line is used by starport scaffolding # genesis/proto/import
 
 option go_package = "github.com/sonr-io/sonr/x/object/types";
@@ -11,6 +10,5 @@ option go_package = "github.com/sonr-io/sonr/x/object/types";
 // GenesisState defines the object module's genesis state.
 message GenesisState {
   Params params = 1 [(gogoproto.nullable) = false];
-  repeated Whatis whatisList = 2 [(gogoproto.nullable) = false];
   // this line is used by starport scaffolding # genesis/proto/state
 }
