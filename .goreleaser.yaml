@@ -1,7 +1,3 @@
-before:
-  hooks:
-    - starport chain build --release --release.prefix {{ .Version }} -t linux:amd64 -t darwin:amd64
-
 builds:
   - id: "sonr"
     goos:
