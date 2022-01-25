@@ -19,7 +19,7 @@ func CmdCreateWhichIs() *cobra.Command {
 
 			// Get value arguments
 			argDid := args[1]
-			argValue := args[2]
+			//argValue := args[2]
 
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
@@ -30,7 +30,7 @@ func CmdCreateWhichIs() *cobra.Command {
 				clientCtx.GetFromAddress().String(),
 				indexIndex,
 				argDid,
-				argValue,
+				nil,
 			)
 			if err := msg.ValidateBasic(); err != nil {
 				return err
@@ -55,7 +55,7 @@ func CmdUpdateWhichIs() *cobra.Command {
 
 			// Get value arguments
 			argDid := args[1]
-			argValue := args[2]
+			//argValue := args[2]
 
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
@@ -66,7 +66,7 @@ func CmdUpdateWhichIs() *cobra.Command {
 				clientCtx.GetFromAddress().String(),
 				indexIndex,
 				argDid,
-				argValue,
+				nil,
 			)
 			if err := msg.ValidateBasic(); err != nil {
 				return err

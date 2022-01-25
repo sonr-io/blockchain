@@ -5,6 +5,7 @@ import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "registry/params.proto";
+import "registry/who_is.proto";
 // this line is used by starport scaffolding # 1
 
 option go_package = "github.com/sonr-io/sonr/x/registry/types";
@@ -15,7 +16,17 @@ service Query {
   rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
     option (google.api.http).get = "/sonrio/sonr/registry/params";
   }
-  // this line is used by starport scaffolding # 2
+  // Queries a WhoIs by index.
+	rpc WhoIs(QueryGetWhoIsRequest) returns (QueryGetWhoIsResponse) {
+		option (google.api.http).get = "/sonr-io/sonr/registry/who_is/{index}";
+	}
+
+	// Queries a list of WhoIs items.
+	rpc WhoIsAll(QueryAllWhoIsRequest) returns (QueryAllWhoIsResponse) {
+		option (google.api.http).get = "/sonr-io/sonr/registry/who_is";
+	}
+
+// this line is used by starport scaffolding # 2
 }
 
 // QueryParamsRequest is request type for the Query/Params RPC method.
@@ -25,6 +36,24 @@ message QueryParamsRequest {}
 message QueryParamsResponse {
   // params holds all the parameters of this module.
   Params params = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryGetWhoIsRequest {
+	  string index = 1;
+
+}
+
+message QueryGetWhoIsResponse {
+	WhoIs whoIs = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllWhoIsRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllWhoIsResponse {
+	repeated WhoIs whoIs = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
 // this line is used by starport scaffolding # 3

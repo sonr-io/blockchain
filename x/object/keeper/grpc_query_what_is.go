@@ -46,11 +46,11 @@ func (k Keeper) WhatIs(c context.Context, req *types.QueryGetWhatIsRequest) (*ty
 	ctx := sdk.UnwrapSDKContext(c)
 
 	val, found := k.GetWhatIs(
-	    ctx,
-	    req.Index,
-        )
+		ctx,
+		req.Index,
+	)
 	if !found {
-	    return nil, status.Error(codes.InvalidArgument, "not found")
+		return nil, status.Error(codes.InvalidArgument, "not found")
 	}
 
 	return &types.QueryGetWhatIsResponse{WhatIs: val}, nil

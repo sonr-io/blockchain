@@ -4,11 +4,11 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/sonr-io/sonr/x/object/keeper"
-	"github.com/sonr-io/sonr/x/object/types"
+	sdk "github.com/cosmos/cosmos-sdk/types"
 	keepertest "github.com/sonr-io/sonr/testutil/keeper"
 	"github.com/sonr-io/sonr/testutil/nullify"
-	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/sonr-io/sonr/x/object/keeper"
+	"github.com/sonr-io/sonr/x/object/types"
 	"github.com/stretchr/testify/require"
 )
 
@@ -19,7 +19,7 @@ func createNWhatIs(keeper *keeper.Keeper, ctx sdk.Context, n int) []types.WhatIs
 	items := make([]types.WhatIs, n)
 	for i := range items {
 		items[i].Index = strconv.Itoa(i)
-        
+
 		keeper.SetWhatIs(ctx, items[i])
 	}
 	return items
@@ -30,8 +30,7 @@ func TestWhatIsGet(t *testing.T) {
 	items := createNWhatIs(keeper, ctx, 10)
 	for _, item := range items {
 		rst, found := keeper.GetWhatIs(ctx,
-		    item.Index,
-            
+			item.Index,
 		)
 		require.True(t, found)
 		require.Equal(t,
@@ -45,12 +44,10 @@ func TestWhatIsRemove(t *testing.T) {
 	items := createNWhatIs(keeper, ctx, 10)
 	for _, item := range items {
 		keeper.RemoveWhatIs(ctx,
-		    item.Index,
-            
+			item.Index,
 		)
 		_, found := keeper.GetWhatIs(ctx,
-		    item.Index,
-            
+			item.Index,
 		)
 		require.False(t, found)
 	}

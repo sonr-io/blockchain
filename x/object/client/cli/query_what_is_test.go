@@ -15,7 +15,7 @@ import (
 	"github.com/sonr-io/sonr/testutil/network"
 	"github.com/sonr-io/sonr/testutil/nullify"
 	"github.com/sonr-io/sonr/x/object/client/cli"
-    "github.com/sonr-io/sonr/x/object/types"
+	"github.com/sonr-io/sonr/x/object/types"
 )
 
 // Prevent strconv unused error
@@ -25,12 +25,11 @@ func networkWithWhatIsObjects(t *testing.T, n int) (*network.Network, []types.Wh
 	t.Helper()
 	cfg := network.DefaultConfig()
 	state := types.GenesisState{}
-    require.NoError(t, cfg.Codec.UnmarshalJSON(cfg.GenesisState[types.ModuleName], &state))
+	require.NoError(t, cfg.Codec.UnmarshalJSON(cfg.GenesisState[types.ModuleName], &state))
 
 	for i := 0; i < n; i++ {
 		whatIs := types.WhatIs{
 			Index: strconv.Itoa(i),
-			
 		}
 		nullify.Fill(&whatIs)
 		state.WhatIsList = append(state.WhatIsList, whatIs)
@@ -49,24 +48,24 @@ func TestShowWhatIs(t *testing.T) {
 		fmt.Sprintf("--%s=json", tmcli.OutputFlag),
 	}
 	for _, tc := range []struct {
-		desc string
+		desc    string
 		idIndex string
-        
+
 		args []string
 		err  error
 		obj  types.WhatIs
 	}{
 		{
-			desc: "found",
+			desc:    "found",
 			idIndex: objs[0].Index,
-            
+
 			args: common,
 			obj:  objs[0],
 		},
 		{
-			desc: "not found",
+			desc:    "not found",
 			idIndex: strconv.Itoa(100000),
-            
+
 			args: common,
 			err:  status.Error(codes.InvalidArgument, "not found"),
 		},
@@ -74,8 +73,7 @@ func TestShowWhatIs(t *testing.T) {
 		tc := tc
 		t.Run(tc.desc, func(t *testing.T) {
 			args := []string{
-			    tc.idIndex,
-                
+				tc.idIndex,
 			}
 			args = append(args, tc.args...)
 			out, err := clitestutil.ExecTestCLICmd(ctx, cli.CmdShowWhatIs(), args)
@@ -126,9 +124,9 @@ func TestListWhatIs(t *testing.T) {
 			require.NoError(t, net.Config.Codec.UnmarshalJSON(out.Bytes(), &resp))
 			require.LessOrEqual(t, len(resp.WhatIs), step)
 			require.Subset(t,
-            	nullify.Fill(objs),
-            	nullify.Fill(resp.WhatIs),
-            )
+				nullify.Fill(objs),
+				nullify.Fill(resp.WhatIs),
+			)
 		}
 	})
 	t.Run("ByKey", func(t *testing.T) {
@@ -142,9 +140,9 @@ func TestListWhatIs(t *testing.T) {
 			require.NoError(t, net.Config.Codec.UnmarshalJSON(out.Bytes(), &resp))
 			require.LessOrEqual(t, len(resp.WhatIs), step)
 			require.Subset(t,
-            	nullify.Fill(objs),
-            	nullify.Fill(resp.WhatIs),
-            )
+				nullify.Fill(objs),
+				nullify.Fill(resp.WhatIs),
+			)
 			next = resp.Pagination.NextKey
 		}
 	})

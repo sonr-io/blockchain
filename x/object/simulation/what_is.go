@@ -4,13 +4,13 @@ import (
 	"math/rand"
 	"strconv"
 
-	"github.com/sonr-io/sonr/x/object/keeper"
-	"github.com/sonr-io/sonr/x/object/types"
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	simappparams "github.com/cosmos/cosmos-sdk/simapp/params"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
 	"github.com/cosmos/cosmos-sdk/x/simulation"
+	"github.com/sonr-io/sonr/x/object/keeper"
+	"github.com/sonr-io/sonr/x/object/types"
 )
 
 // Prevent strconv unused error
@@ -28,10 +28,10 @@ func SimulateMsgCreateWhatIs(
 		i := r.Int()
 		msg := &types.MsgCreateWhatIs{
 			Creator: simAccount.Address.String(),
-			Index: strconv.Itoa(i),
+			Index:   strconv.Itoa(i),
 		}
 
-		_, found := k.GetWhatIs(ctx , msg.Index)
+		_, found := k.GetWhatIs(ctx, msg.Index)
 		if found {
 			return simtypes.NoOpMsg(types.ModuleName, msg.Type(), "WhatIs already exist"), nil, nil
 		}
@@ -63,10 +63,10 @@ func SimulateMsgUpdateWhatIs(
 	) (simtypes.OperationMsg, []simtypes.FutureOperation, error) {
 		var (
 			simAccount = simtypes.Account{}
-			whatIs = types.WhatIs{}
-			msg = &types.MsgUpdateWhatIs{}
-			allWhatIs = k.GetAllWhatIs(ctx)
-			found = false
+			whatIs     = types.WhatIs{}
+			msg        = &types.MsgUpdateWhatIs{}
+			allWhatIs  = k.GetAllWhatIs(ctx)
+			found      = false
 		)
 		for _, obj := range allWhatIs {
 			simAccount, found = FindAccount(accs, obj.Creator)
@@ -79,7 +79,7 @@ func SimulateMsgUpdateWhatIs(
 			return simtypes.NoOpMsg(types.ModuleName, msg.Type(), "whatIs creator not found"), nil, nil
 		}
 		msg.Creator = simAccount.Address.String()
-		
+
 		msg.Index = whatIs.Index
 
 		txCtx := simulation.OperationInput{
@@ -109,10 +109,10 @@ func SimulateMsgDeleteWhatIs(
 	) (simtypes.OperationMsg, []simtypes.FutureOperation, error) {
 		var (
 			simAccount = simtypes.Account{}
-			whatIs = types.WhatIs{}
-			msg = &types.MsgUpdateWhatIs{}
-			allWhatIs = k.GetAllWhatIs(ctx)
-			found = false
+			whatIs     = types.WhatIs{}
+			msg        = &types.MsgUpdateWhatIs{}
+			allWhatIs  = k.GetAllWhatIs(ctx)
+			found      = false
 		)
 		for _, obj := range allWhatIs {
 			simAccount, found = FindAccount(accs, obj.Creator)
@@ -125,7 +125,7 @@ func SimulateMsgDeleteWhatIs(
 			return simtypes.NoOpMsg(types.ModuleName, msg.Type(), "whatIs creator not found"), nil, nil
 		}
 		msg.Creator = simAccount.Address.String()
-		
+
 		msg.Index = whatIs.Index
 
 		txCtx := simulation.OperationInput{

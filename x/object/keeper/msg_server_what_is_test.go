@@ -1,16 +1,16 @@
 package keeper_test
 
 import (
-    "strconv"
+	"strconv"
 	"testing"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/stretchr/testify/require"
 
-    keepertest "github.com/sonr-io/sonr/testutil/keeper"
-    "github.com/sonr-io/sonr/x/object/keeper"
-    "github.com/sonr-io/sonr/x/object/types"
+	keepertest "github.com/sonr-io/sonr/testutil/keeper"
+	"github.com/sonr-io/sonr/x/object/keeper"
+	"github.com/sonr-io/sonr/x/object/types"
 )
 
 // Prevent strconv unused error
@@ -23,14 +23,12 @@ func TestWhatIsMsgServerCreate(t *testing.T) {
 	creator := "A"
 	for i := 0; i < 5; i++ {
 		expected := &types.MsgCreateWhatIs{Creator: creator,
-		    Index: strconv.Itoa(i),
-            
+			Index: strconv.Itoa(i),
 		}
 		_, err := srv.CreateWhatIs(wctx, expected)
 		require.NoError(t, err)
 		rst, found := k.GetWhatIs(ctx,
-		    expected.Index,
-            
+			expected.Index,
 		)
 		require.True(t, found)
 		require.Equal(t, expected.Creator, rst.Creator)
@@ -46,27 +44,24 @@ func TestWhatIsMsgServerUpdate(t *testing.T) {
 		err     error
 	}{
 		{
-			desc:    "Completed",
+			desc: "Completed",
 			request: &types.MsgUpdateWhatIs{Creator: creator,
-			    Index: strconv.Itoa(0),
-                
+				Index: strconv.Itoa(0),
 			},
 		},
 		{
-			desc:    "Unauthorized",
+			desc: "Unauthorized",
 			request: &types.MsgUpdateWhatIs{Creator: "B",
-			    Index: strconv.Itoa(0),
-                
+				Index: strconv.Itoa(0),
 			},
-			err:     sdkerrors.ErrUnauthorized,
+			err: sdkerrors.ErrUnauthorized,
 		},
 		{
-			desc:    "KeyNotFound",
+			desc: "KeyNotFound",
 			request: &types.MsgUpdateWhatIs{Creator: creator,
-			    Index: strconv.Itoa(100000),
-                
+				Index: strconv.Itoa(100000),
 			},
-			err:     sdkerrors.ErrKeyNotFound,
+			err: sdkerrors.ErrKeyNotFound,
 		},
 	} {
 		t.Run(tc.desc, func(t *testing.T) {
@@ -74,8 +69,7 @@ func TestWhatIsMsgServerUpdate(t *testing.T) {
 			srv := keeper.NewMsgServerImpl(*k)
 			wctx := sdk.WrapSDKContext(ctx)
 			expected := &types.MsgCreateWhatIs{Creator: creator,
-			    Index: strconv.Itoa(0),
-                
+				Index: strconv.Itoa(0),
 			}
 			_, err := srv.CreateWhatIs(wctx, expected)
 			require.NoError(t, err)
@@ -86,8 +80,7 @@ func TestWhatIsMsgServerUpdate(t *testing.T) {
 			} else {
 				require.NoError(t, err)
 				rst, found := k.GetWhatIs(ctx,
-				    expected.Index,
-                    
+					expected.Index,
 				)
 				require.True(t, found)
 				require.Equal(t, expected.Creator, rst.Creator)
@@ -105,27 +98,24 @@ func TestWhatIsMsgServerDelete(t *testing.T) {
 		err     error
 	}{
 		{
-			desc:    "Completed",
+			desc: "Completed",
 			request: &types.MsgDeleteWhatIs{Creator: creator,
-			    Index: strconv.Itoa(0),
-                
+				Index: strconv.Itoa(0),
 			},
 		},
 		{
-			desc:    "Unauthorized",
+			desc: "Unauthorized",
 			request: &types.MsgDeleteWhatIs{Creator: "B",
-			    Index: strconv.Itoa(0),
-                
+				Index: strconv.Itoa(0),
 			},
-			err:     sdkerrors.ErrUnauthorized,
+			err: sdkerrors.ErrUnauthorized,
 		},
 		{
-			desc:    "KeyNotFound",
+			desc: "KeyNotFound",
 			request: &types.MsgDeleteWhatIs{Creator: creator,
-			    Index: strconv.Itoa(100000),
-                
+				Index: strconv.Itoa(100000),
 			},
-			err:     sdkerrors.ErrKeyNotFound,
+			err: sdkerrors.ErrKeyNotFound,
 		},
 	} {
 		t.Run(tc.desc, func(t *testing.T) {
@@ -134,8 +124,7 @@ func TestWhatIsMsgServerDelete(t *testing.T) {
 			wctx := sdk.WrapSDKContext(ctx)
 
 			_, err := srv.CreateWhatIs(wctx, &types.MsgCreateWhatIs{Creator: creator,
-			    Index: strconv.Itoa(0),
-                
+				Index: strconv.Itoa(0),
 			})
 			require.NoError(t, err)
 			_, err = srv.DeleteWhatIs(wctx, tc.request)
@@ -144,8 +133,7 @@ func TestWhatIsMsgServerDelete(t *testing.T) {
 			} else {
 				require.NoError(t, err)
 				_, found := k.GetWhatIs(ctx,
-				    tc.request.Index,
-                    
+					tc.request.Index,
 				)
 				require.False(t, found)
 			}

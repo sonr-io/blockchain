@@ -3,6 +3,7 @@ package types
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	"github.com/sonr-io/sonr/x/registry/types"
 )
 
 const (
@@ -17,7 +18,7 @@ func NewMsgCreateWhichIs(
 	creator string,
 	index string,
 	did string,
-	value string,
+	value *types.DidDocument,
 
 ) *MsgCreateWhichIs {
 	return &MsgCreateWhichIs{
@@ -63,7 +64,7 @@ func NewMsgUpdateWhichIs(
 	creator string,
 	index string,
 	did string,
-	value string,
+	value *types.DidDocument,
 
 ) *MsgUpdateWhichIs {
 	return &MsgUpdateWhichIs{

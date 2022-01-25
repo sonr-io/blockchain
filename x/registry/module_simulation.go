@@ -48,6 +48,18 @@ const (
 	// TODO: Determine the simulation weight value
 	defaultWeightMsgUpdateService int = 100
 
+	opWeightMsgCreateWhoIs = "op_weight_msg_create_chain"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgCreateWhoIs int = 100
+
+	opWeightMsgUpdateWhoIs = "op_weight_msg_create_chain"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgUpdateWhoIs int = 100
+
+	opWeightMsgDeleteWhoIs = "op_weight_msg_create_chain"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgDeleteWhoIs int = 100
+
 	// this line is used by starport scaffolding # simapp/module/const
 )
 
@@ -58,6 +70,16 @@ func (AppModule) GenerateGenesisState(simState *module.SimulationState) {
 		accs[i] = acc.Address.String()
 	}
 	registryGenesis := types.GenesisState{
+		WhoIsList: []types.WhoIs{
+			{
+				Creator: sample.AccAddress(),
+				Address:   "0",
+			},
+			{
+				Creator: sample.AccAddress(),
+				Address:   "1",
+			},
+		},
 		// this line is used by starport scaffolding # simapp/module/genesisState
 	}
 	simState.GenState[types.ModuleName] = simState.Cdc.MustMarshalJSON(&registryGenesis)
@@ -145,6 +167,39 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 	operations = append(operations, simulation.NewWeightedOperation(
 		weightMsgUpdateService,
 		registrysimulation.SimulateMsgUpdateService(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
+	var weightMsgCreateWhoIs int
+	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgCreateWhoIs, &weightMsgCreateWhoIs, nil,
+		func(_ *rand.Rand) {
+			weightMsgCreateWhoIs = defaultWeightMsgCreateWhoIs
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgCreateWhoIs,
+		registrysimulation.SimulateMsgCreateWhoIs(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
+	var weightMsgUpdateWhoIs int
+	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgUpdateWhoIs, &weightMsgUpdateWhoIs, nil,
+		func(_ *rand.Rand) {
+			weightMsgUpdateWhoIs = defaultWeightMsgUpdateWhoIs
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgUpdateWhoIs,
+		registrysimulation.SimulateMsgUpdateWhoIs(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
+	var weightMsgDeleteWhoIs int
+	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgDeleteWhoIs, &weightMsgDeleteWhoIs, nil,
+		func(_ *rand.Rand) {
+			weightMsgDeleteWhoIs = defaultWeightMsgDeleteWhoIs
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgDeleteWhoIs,
+		registrysimulation.SimulateMsgDeleteWhoIs(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
 	// this line is used by starport scaffolding # simapp/module/operation

@@ -1,6 +1,6 @@
 syntax = "proto3";
 package sonrio.sonr.blob;
-
+import "registry/did.proto";
 import "blob/there_is.proto";
 // this line is used by starport scaffolding # proto/tx/import
 
@@ -64,7 +64,7 @@ message MsgCreateThereIs {
   string index = 2;
 
   string did = 3;
-  string value = 4;
+  sonrio.sonr.registry.DidDocument value = 4;
 }
 message MsgCreateThereIsResponse {}
 
@@ -73,7 +73,7 @@ message MsgUpdateThereIs {
   string index = 2;
 
   string did = 3;
-  string value = 4;
+  sonrio.sonr.registry.DidDocument value = 4;
 }
 message MsgUpdateThereIsResponse {}
 

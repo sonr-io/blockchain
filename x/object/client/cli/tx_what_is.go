@@ -1,38 +1,37 @@
 package cli
 
 import (
-	
-    "github.com/spf13/cobra"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/client/tx"
 	"github.com/sonr-io/sonr/x/object/types"
+	"github.com/spf13/cobra"
 )
 
 func CmdCreateWhatIs() *cobra.Command {
-    cmd := &cobra.Command{
+	cmd := &cobra.Command{
 		Use:   "create-what-is [index] [did] [value]",
 		Short: "Create a new whatIs",
 		Args:  cobra.ExactArgs(3),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
-            // Get indexes
-         indexIndex := args[0]
-        
-            // Get value arguments
-		 argDid := args[1]
-		 argValue := args[2]
-		
+			// Get indexes
+			indexIndex := args[0]
+
+			// Get value arguments
+			argDid := args[1]
+			argValue := args[2]
+
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
 				return err
 			}
 
 			msg := types.NewMsgCreateWhatIs(
-			    clientCtx.GetFromAddress().String(),
-			    indexIndex,
-                argDid,
-			    argValue,
-			    )
+				clientCtx.GetFromAddress().String(),
+				indexIndex,
+				argDid,
+				[]byte(argValue),
+			)
 			if err := msg.ValidateBasic(); err != nil {
 				return err
 			}
@@ -42,7 +41,7 @@ func CmdCreateWhatIs() *cobra.Command {
 
 	flags.AddTxFlagsToCmd(cmd)
 
-    return cmd
+	return cmd
 }
 
 func CmdUpdateWhatIs() *cobra.Command {
@@ -51,24 +50,24 @@ func CmdUpdateWhatIs() *cobra.Command {
 		Short: "Update a whatIs",
 		Args:  cobra.ExactArgs(3),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
-            // Get indexes
-         indexIndex := args[0]
-        
-            // Get value arguments
-		 argDid := args[1]
-		 argValue := args[2]
-		
+			// Get indexes
+			indexIndex := args[0]
+
+			// Get value arguments
+			argDid := args[1]
+			argValue := args[2]
+
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
 				return err
 			}
 
 			msg := types.NewMsgUpdateWhatIs(
-			    clientCtx.GetFromAddress().String(),
-			    indexIndex,
-                argDid,
-                argValue,
-                )
+				clientCtx.GetFromAddress().String(),
+				indexIndex,
+				argDid,
+				[]byte(argValue),
+			)
 			if err := msg.ValidateBasic(); err != nil {
 				return err
 			}
@@ -78,7 +77,7 @@ func CmdUpdateWhatIs() *cobra.Command {
 
 	flags.AddTxFlagsToCmd(cmd)
 
-    return cmd
+	return cmd
 }
 
 func CmdDeleteWhatIs() *cobra.Command {
@@ -87,17 +86,17 @@ func CmdDeleteWhatIs() *cobra.Command {
 		Short: "Delete a whatIs",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
-             indexIndex := args[0]
-            
+			indexIndex := args[0]
+
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
 				return err
 			}
 
 			msg := types.NewMsgDeleteWhatIs(
-			    clientCtx.GetFromAddress().String(),
-			    indexIndex,
-                )
+				clientCtx.GetFromAddress().String(),
+				indexIndex,
+			)
 			if err := msg.ValidateBasic(); err != nil {
 				return err
 			}
@@ -107,5 +106,5 @@ func CmdDeleteWhatIs() *cobra.Command {
 
 	flags.AddTxFlagsToCmd(cmd)
 
-    return cmd
+	return cmd
 }

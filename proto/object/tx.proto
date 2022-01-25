@@ -1,12 +1,11 @@
 syntax = "proto3";
 package sonrio.sonr.object;
 import "object/object.proto";
-
 import "object/what_is.proto";
 // this line is used by starport scaffolding # proto/tx/import
 
 option go_package = "github.com/sonr-io/sonr/x/object/types";
- 
+
 // Msg defines the Msg service.
 service Msg {
       rpc CreateObject(MsgCreateObject) returns (MsgCreateObjectResponse);
@@ -59,7 +58,7 @@ message MsgCreateWhatIs {
   string index = 2;
 
   string did = 3;
-  string value = 4;
+  bytes document = 4;
 }
 message MsgCreateWhatIsResponse {}
 
@@ -68,7 +67,7 @@ message MsgUpdateWhatIs {
   string index = 2;
 
   string did = 3;
-  string value = 4;
+  bytes document = 4;
 }
 message MsgUpdateWhatIsResponse {}
 

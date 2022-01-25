@@ -2,7 +2,7 @@ package cli_test
 
 import (
 	"fmt"
-    "strconv"
+	"strconv"
 	"testing"
 
 	"github.com/cosmos/cosmos-sdk/client/flags"
@@ -23,18 +23,18 @@ func TestCreateWhatIs(t *testing.T) {
 	val := net.Validators[0]
 	ctx := val.ClientCtx
 
-    fields := []string{ "xyz",  "xyz", }
+	fields := []string{"xyz", "xyz"}
 	for _, tc := range []struct {
-		desc string
-        idIndex string
-        
+		desc    string
+		idIndex string
+
 		args []string
 		err  error
 		code uint32
 	}{
 		{
-            idIndex: strconv.Itoa(0),
-            
+			idIndex: strconv.Itoa(0),
+
 			desc: "valid",
 			args: []string{
 				fmt.Sprintf("--%s=%s", flags.FlagFrom, val.Address.String()),
@@ -46,12 +46,11 @@ func TestCreateWhatIs(t *testing.T) {
 	} {
 		tc := tc
 		t.Run(tc.desc, func(t *testing.T) {
-            args := []string{
-                tc.idIndex,
-                
-            }
-            args = append(args, fields...)
-            args = append(args, tc.args...)
+			args := []string{
+				tc.idIndex,
+			}
+			args = append(args, fields...)
+			args = append(args, tc.args...)
 			out, err := clitestutil.ExecTestCLICmd(ctx, cli.CmdCreateWhatIs(), args)
 			if tc.err != nil {
 				require.ErrorIs(t, err, tc.err)
@@ -70,52 +69,50 @@ func TestUpdateWhatIs(t *testing.T) {
 	val := net.Validators[0]
 	ctx := val.ClientCtx
 
-    fields := []string{ "xyz",  "xyz", }
+	fields := []string{"xyz", "xyz"}
 	common := []string{
 		fmt.Sprintf("--%s=%s", flags.FlagFrom, val.Address.String()),
 		fmt.Sprintf("--%s=true", flags.FlagSkipConfirmation),
 		fmt.Sprintf("--%s=%s", flags.FlagBroadcastMode, flags.BroadcastBlock),
 		fmt.Sprintf("--%s=%s", flags.FlagFees, sdk.NewCoins(sdk.NewCoin(net.Config.BondDenom, sdk.NewInt(10))).String()),
 	}
-    args := []string{
-        "0",
-        
-    }
+	args := []string{
+		"0",
+	}
 	args = append(args, fields...)
 	args = append(args, common...)
 	_, err := clitestutil.ExecTestCLICmd(ctx, cli.CmdCreateWhatIs(), args)
 	require.NoError(t, err)
 
 	for _, tc := range []struct {
-		desc string
+		desc    string
 		idIndex string
-        
+
 		args []string
 		code uint32
 		err  error
 	}{
 		{
-			desc: "valid",
+			desc:    "valid",
 			idIndex: strconv.Itoa(0),
-            
+
 			args: common,
 		},
 		{
-			desc: "key not found",
+			desc:    "key not found",
 			idIndex: strconv.Itoa(100000),
-            
+
 			args: common,
 			code: sdkerrors.ErrKeyNotFound.ABCICode(),
 		},
 	} {
 		tc := tc
 		t.Run(tc.desc, func(t *testing.T) {
-            args := []string{
-                tc.idIndex,
-                
-            }
-            args = append(args, fields...)
-            args = append(args, tc.args...)
+			args := []string{
+				tc.idIndex,
+			}
+			args = append(args, fields...)
+			args = append(args, tc.args...)
 			out, err := clitestutil.ExecTestCLICmd(ctx, cli.CmdUpdateWhatIs(), args)
 			if tc.err != nil {
 				require.ErrorIs(t, err, tc.err)
@@ -135,51 +132,49 @@ func TestDeleteWhatIs(t *testing.T) {
 	val := net.Validators[0]
 	ctx := val.ClientCtx
 
-	fields := []string{ "xyz",  "xyz", }
+	fields := []string{"xyz", "xyz"}
 	common := []string{
 		fmt.Sprintf("--%s=%s", flags.FlagFrom, val.Address.String()),
 		fmt.Sprintf("--%s=true", flags.FlagSkipConfirmation),
 		fmt.Sprintf("--%s=%s", flags.FlagBroadcastMode, flags.BroadcastBlock),
 		fmt.Sprintf("--%s=%s", flags.FlagFees, sdk.NewCoins(sdk.NewCoin(net.Config.BondDenom, sdk.NewInt(10))).String()),
 	}
-    args := []string{
-        "0",
-        
-    }
+	args := []string{
+		"0",
+	}
 	args = append(args, fields...)
 	args = append(args, common...)
 	_, err := clitestutil.ExecTestCLICmd(ctx, cli.CmdCreateWhatIs(), args)
 	require.NoError(t, err)
 
 	for _, tc := range []struct {
-		desc string
+		desc    string
 		idIndex string
-        
+
 		args []string
 		code uint32
 		err  error
 	}{
 		{
-			desc: "valid",
+			desc:    "valid",
 			idIndex: strconv.Itoa(0),
-            
+
 			args: common,
 		},
 		{
-			desc: "key not found",
+			desc:    "key not found",
 			idIndex: strconv.Itoa(100000),
-            
+
 			args: common,
 			code: sdkerrors.ErrKeyNotFound.ABCICode(),
 		},
 	} {
 		tc := tc
 		t.Run(tc.desc, func(t *testing.T) {
-		    args := []string{
-                tc.idIndex,
-                
-            }
-            args = append(args, tc.args...)
+			args := []string{
+				tc.idIndex,
+			}
+			args = append(args, tc.args...)
 			out, err := clitestutil.ExecTestCLICmd(ctx, cli.CmdDeleteWhatIs(), args)
 			if tc.err != nil {
 				require.ErrorIs(t, err, tc.err)

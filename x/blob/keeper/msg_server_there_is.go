@@ -24,7 +24,7 @@ func (k msgServer) CreateThereIs(goCtx context.Context, msg *types.MsgCreateTher
 		Creator: msg.Creator,
 		Index:   msg.Index,
 		Did:     msg.Did,
-		Value:   msg.Value,
+		Document:   msg.Value,
 	}
 
 	k.SetThereIs(
@@ -55,7 +55,7 @@ func (k msgServer) UpdateThereIs(goCtx context.Context, msg *types.MsgUpdateTher
 		Creator: msg.Creator,
 		Index:   msg.Index,
 		Did:     msg.Did,
-		Value:   msg.Value,
+		Document:   msg.Value,
 	}
 
 	k.SetThereIs(ctx, thereIs)

@@ -1,0 +1,12 @@
+syntax = "proto3";
+package sonrio.sonr.registry;
+import "registry/did.proto";
+option go_package = "github.com/sonr-io/sonr/x/registry/types";
+
+message WhoIs {
+  string address = 1;
+  string did = 2;
+  DidDocument value = 3;
+  string creator = 4;
+}
+

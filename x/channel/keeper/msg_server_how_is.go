@@ -21,10 +21,10 @@ func (k msgServer) CreateHowIs(goCtx context.Context, msg *types.MsgCreateHowIs)
 	}
 
 	var howIs = types.HowIs{
-		Creator: msg.Creator,
-		Index:   msg.Index,
-		Did:     msg.Did,
-		Value:   msg.Value,
+		Creator:  msg.Creator,
+		Index:    msg.Index,
+		Did:      msg.Did,
+		Document: msg.Value,
 	}
 
 	k.SetHowIs(
@@ -52,10 +52,10 @@ func (k msgServer) UpdateHowIs(goCtx context.Context, msg *types.MsgUpdateHowIs)
 	}
 
 	var howIs = types.HowIs{
-		Creator: msg.Creator,
-		Index:   msg.Index,
-		Did:     msg.Did,
-		Value:   msg.Value,
+		Creator:  msg.Creator,
+		Index:    msg.Index,
+		Did:      msg.Did,
+		Document: msg.Value,
 	}
 
 	k.SetHowIs(ctx, howIs)

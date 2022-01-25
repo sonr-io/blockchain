@@ -6,7 +6,6 @@ accounts:
 
 build:
   binary: "sonrd"
-  
 
 faucet:
   name: bob

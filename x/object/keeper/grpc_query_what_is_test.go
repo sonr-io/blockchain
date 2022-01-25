@@ -1,7 +1,7 @@
 package keeper_test
 
 import (
-    "strconv"
+	"strconv"
 	"testing"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -10,9 +10,9 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/sonr-io/sonr/x/object/types"
-	"github.com/sonr-io/sonr/testutil/nullify"
 	keepertest "github.com/sonr-io/sonr/testutil/keeper"
+	"github.com/sonr-io/sonr/testutil/nullify"
+	"github.com/sonr-io/sonr/x/object/types"
 )
 
 // Prevent strconv unused error
@@ -29,28 +29,25 @@ func TestWhatIsQuerySingle(t *testing.T) {
 		err      error
 	}{
 		{
-			desc:     "First",
-			request:  &types.QueryGetWhatIsRequest{
-			    Index: msgs[0].Index,
-                
+			desc: "First",
+			request: &types.QueryGetWhatIsRequest{
+				Index: msgs[0].Index,
 			},
 			response: &types.QueryGetWhatIsResponse{WhatIs: msgs[0]},
 		},
 		{
-			desc:     "Second",
-			request:  &types.QueryGetWhatIsRequest{
-			    Index: msgs[1].Index,
-                
+			desc: "Second",
+			request: &types.QueryGetWhatIsRequest{
+				Index: msgs[1].Index,
 			},
 			response: &types.QueryGetWhatIsResponse{WhatIs: msgs[1]},
 		},
 		{
-			desc:    "KeyNotFound",
+			desc: "KeyNotFound",
 			request: &types.QueryGetWhatIsRequest{
-			    Index:strconv.Itoa(100000),
-                
+				Index: strconv.Itoa(100000),
 			},
-			err:     status.Error(codes.InvalidArgument, "not found"),
+			err: status.Error(codes.InvalidArgument, "not found"),
 		},
 		{
 			desc: "InvalidRequest",
@@ -94,9 +91,9 @@ func TestWhatIsQueryPaginated(t *testing.T) {
 			require.NoError(t, err)
 			require.LessOrEqual(t, len(resp.WhatIs), step)
 			require.Subset(t,
-            	nullify.Fill(msgs),
-            	nullify.Fill(resp.WhatIs),
-            )
+				nullify.Fill(msgs),
+				nullify.Fill(resp.WhatIs),
+			)
 		}
 	})
 	t.Run("ByKey", func(t *testing.T) {
@@ -107,9 +104,9 @@ func TestWhatIsQueryPaginated(t *testing.T) {
 			require.NoError(t, err)
 			require.LessOrEqual(t, len(resp.WhatIs), step)
 			require.Subset(t,
-            	nullify.Fill(msgs),
-            	nullify.Fill(resp.WhatIs),
-            )
+				nullify.Fill(msgs),
+				nullify.Fill(resp.WhatIs),
+			)
 			next = resp.Pagination.NextKey
 		}
 	})

@@ -1,12 +1,12 @@
 syntax = "proto3";
 package sonrio.sonr.bucket;
-
+import "registry/did.proto";
 option go_package = "github.com/sonr-io/sonr/x/bucket/types";
 
 message WhichIs {
-  string index = 1; 
-  string did = 2; 
-  string value = 3; 
+  string index = 1;
+  string did = 2;
+  sonrio.sonr.registry.DidDocument document = 3;
   string creator = 4;
 }
 
