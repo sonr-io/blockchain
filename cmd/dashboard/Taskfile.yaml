@@ -6,6 +6,11 @@ tasks:
       - echo "Exporting Sonr Highway Dashboard Frontend"
       - yarn install && yarn export
 
+  serve:
+    cmds:
+      - echo "Serving Sonr Highway Dashboard Frontend"
+      - yarn install && yarn dev
+
   clean:
     cmds:
       - echo "Cleaning Sonr Highway Dashboard Frontend"

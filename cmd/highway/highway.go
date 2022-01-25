@@ -34,8 +34,7 @@ var (
 // HighwayStub is the RPC Service for the Custodian Node.
 type HighwayStub struct {
 	hw.HighwayServiceServer
-	Host p2p.HostImpl
-	// node   *node.Highway
+	Host   p2p.HostImpl
 	cosmos cosmosclient.Client
 
 	// Properties

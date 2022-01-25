@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 
-	channel "github.com/sonr-io/sonr/x/channel/service"
 	hw "go.buf.build/grpc/go/sonr-io/highway/v1"
 	bt "go.buf.build/grpc/go/sonr-io/sonr/bucket"
 	ct "go.buf.build/grpc/go/sonr-io/sonr/channel"
@@ -25,6 +24,7 @@ func (s *HighwayStub) AccessName(ctx context.Context, req *hw.AccessNameRequest)
 func (s *HighwayStub) RegisterName(ctx context.Context, req *rt.MsgRegisterName) (*rt.MsgRegisterNameResponse, error) {
 	// print response from broadcasting a transaction
 	fmt.Print("MsgCreateDidDocument:\n\n")
+
 	// fmt.Println(txResp)
 	return nil, ErrMethodUnimplemented
 }
@@ -75,10 +75,10 @@ func (s *HighwayStub) UpdateService(ctx context.Context, req *rt.MsgUpdateServic
 
 // CreateChannel creates a new channel.
 func (s *HighwayStub) CreateChannel(ctx context.Context, req *ct.MsgCreateChannel) (*ct.MsgCreateChannelResponse, error) {
-	_, err := channel.New(ctx, s.Host, nil)
-	if err != nil {
-		return nil, err
-	}
+	// _, err := channel.New(ctx, s.Host, nil)
+	// if err != nil {
+	// 	return nil, err
+	// }
 	return nil, ErrMethodUnimplemented
 }
 

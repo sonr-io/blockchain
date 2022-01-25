@@ -59,7 +59,7 @@ type channel struct {
 }
 
 // New creates a new beam with the given name and options.
-func New(ctx context.Context, h p2p.HostImpl, registeredObject *o.ObjectDoc, options ...Option) (Channel, error) {
+func New(ctx context.Context, h p2p.HostImpl, config service.ServiceConfig, registeredObject *o.ObjectDoc, options ...Option) (Channel, error) {
 	c := &channel{
 		ctx:    ctx,
 		n:      h,
@@ -129,8 +129,8 @@ func (b *channel) Publish(obj *o.ObjectDoc, options ...PublishOption) error {
 	if b.object.Validate(obj) {
 		// Create the message.
 		msg := &v1.ChannelMessage{
-			Did:  b.did.ToProto(),
-			Data: obj,
+			Did:    b.did.ToProto(),
+			Object: obj,
 		}
 
 		// Encode the message.

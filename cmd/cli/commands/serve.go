@@ -10,7 +10,7 @@ import (
 // ServeCmd represents the serve command
 var ServeCmd = &cobra.Command{
 	Use:   "serve",
-	Short: "A brief description of your command",
+	Short: "Starts the highwayd and launches frontend in browser.",
 	Long: `A longer description that spans multiple lines and likely contains examples
 and usage of using your command. For example:
 

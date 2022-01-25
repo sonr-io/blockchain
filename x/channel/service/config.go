@@ -53,6 +53,7 @@ type options struct {
 	ttl         time.Duration
 	capacity    int
 	maxSize     int
+
 }
 
 // defaultOptions is the default options for the beam.
@@ -72,7 +73,7 @@ func (o *options) Apply(c *channel) service.DID {
 		Label:       o.label,
 		Description: o.description,
 	}
-
+	service.Create(c.object.GetDid(), service.WithPathSegments(""))
 	did, err := service.FromString(c.object.GetDid())
 	if err != nil {
 		golog.Fatal(err)

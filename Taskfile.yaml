@@ -2,8 +2,8 @@ version: '3'
 
 includes:
   frontend:
-    taskfile: ./cmd/sonrd/frontend
-    dir: ./cmd/sonrd/frontend/nextjs
+    taskfile: ./cmd/dashboard/Taskfile.yaml
+    dir: ./cmd/dashboard
 
 tasks:
   export:
@@ -16,7 +16,7 @@ tasks:
 
   serve:
     cmds:
-      - goreleaser serve --release
+      - frontend:serve
 
   release:
     cmds:
@@ -25,3 +25,11 @@ tasks:
       - goreleaser release
       - rm -rf release
       - rm -rf dist
+
+  clean:
+    cmds:
+      - rm -rf dist
+      - rm -rf release
+      - go mod tidy
+      - frontend:clean
+
