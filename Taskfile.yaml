@@ -14,6 +14,10 @@ tasks:
     cmds:
       - goreleaser build --skip-validate --rm-dist
 
+  serve:
+    cmds:
+      - goreleaser serve --release
+
   release:
     cmds:
       - rm -rf dist

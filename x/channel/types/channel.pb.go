@@ -24,6 +24,7 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
+// Channel is a channel between two peers.
 type Channel struct {
 	// Label is human-readable name of the channel.
 	Label string `protobuf:"bytes,1,opt,name=label,proto3" json:"label,omitempty"`

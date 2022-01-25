@@ -5,6 +5,7 @@ import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "object/params.proto";
+import "object/whatis.proto";
 // this line is used by starport scaffolding # 1
 
 option go_package = "github.com/sonr-io/sonr/x/object/types";
@@ -15,7 +16,17 @@ service Query {
   rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
     option (google.api.http).get = "/sonrio/sonr/object/params";
   }
-  // this line is used by starport scaffolding # 2
+  // Queries a Whatis by index.
+	rpc Whatis(QueryGetWhatisRequest) returns (QueryGetWhatisResponse) {
+		option (google.api.http).get = "/sonr-io/sonr/object/whatis/{index}";
+	}
+
+	// Queries a list of Whatis items.
+	rpc WhatisAll(QueryAllWhatisRequest) returns (QueryAllWhatisResponse) {
+		option (google.api.http).get = "/sonr-io/sonr/object/whatis";
+	}
+
+// this line is used by starport scaffolding # 2
 }
 
 // QueryParamsRequest is request type for the Query/Params RPC method.
@@ -25,6 +36,24 @@ message QueryParamsRequest {}
 message QueryParamsResponse {
   // params holds all the parameters of this module.
   Params params = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryGetWhatisRequest {
+	  string index = 1;
+
+}
+
+message QueryGetWhatisResponse {
+	Whatis whatis = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllWhatisRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllWhatisResponse {
+	repeated Whatis whatis = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
 // this line is used by starport scaffolding # 3

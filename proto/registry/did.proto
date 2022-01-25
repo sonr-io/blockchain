@@ -105,6 +105,11 @@ message ServiceEndpoint {
   // SupportedProtocols is the list of protocols supported by the service.
   // (e.g. "channels", "buckets", "objects", "storage")
   repeated ServiceProtocol supported_protocols = 3;
+
+  // RoutingKeys is the list of routing keys that the service supports.
+  repeated string routing_keys = 4;
+
+  // 
 }
 
 // ServiceProtocol are core modules that can be installed on custom services on the Sonr network.

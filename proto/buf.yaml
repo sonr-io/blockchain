@@ -3,6 +3,8 @@ name: buf.build/sonr-io/sonr
 deps:
   - buf.build/googleapis/googleapis
   - buf.build/cosmos/cosmos-sdk
+  
+
 lint:
   use:
     - DEFAULT

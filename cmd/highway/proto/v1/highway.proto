@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-// Package Highway is used for defining a Highway node and its properties.
+// Package Highway is used for defining a Highway node and its accessible API Endpoints
 package highway.v1;
 import "channel/channel.proto";
 import "channel/tx.proto";

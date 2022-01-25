@@ -10,38 +10,37 @@ const TypeMsgUpdateChannel = "update_channel"
 var _ sdk.Msg = &MsgUpdateChannel{}
 
 func NewMsgUpdateChannel(creator string, did string) *MsgUpdateChannel {
-  return &MsgUpdateChannel{
+	return &MsgUpdateChannel{
 		Creator: creator,
-    Did: did,
+		Did:     did,
 	}
 }
 
 func (msg *MsgUpdateChannel) Route() string {
-  return RouterKey
+	return RouterKey
 }
 
 func (msg *MsgUpdateChannel) Type() string {
-  return TypeMsgUpdateChannel
+	return TypeMsgUpdateChannel
 }
 
 func (msg *MsgUpdateChannel) GetSigners() []sdk.AccAddress {
-  creator, err := sdk.AccAddressFromBech32(msg.Creator)
-  if err != nil {
-    panic(err)
-  }
-  return []sdk.AccAddress{creator}
+	creator, err := sdk.AccAddressFromBech32(msg.Creator)
+	if err != nil {
+		panic(err)
+	}
+	return []sdk.AccAddress{creator}
 }
 
 func (msg *MsgUpdateChannel) GetSignBytes() []byte {
-  bz := ModuleCdc.MustMarshalJSON(msg)
-  return sdk.MustSortJSON(bz)
+	bz := ModuleCdc.MustMarshalJSON(msg)
+	return sdk.MustSortJSON(bz)
 }
 
 func (msg *MsgUpdateChannel) ValidateBasic() error {
-  _, err := sdk.AccAddressFromBech32(msg.Creator)
-  	if err != nil {
-  		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
-  	}
-  return nil
+	_, err := sdk.AccAddressFromBech32(msg.Creator)
+	if err != nil {
+		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
+	}
+	return nil
 }
-

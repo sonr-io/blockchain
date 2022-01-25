@@ -114,7 +114,6 @@ func init() {
 	restoreCmd.PersistentFlags().StringP("password", "p", "-", "Password for the wallet file")
 	WalletCmd.AddCommand(generateCmd, restoreCmd, exportCmd)
 
-
 	// Here you will define your flags and configuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command

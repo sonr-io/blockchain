@@ -3,11 +3,11 @@ package simulation
 import (
 	"math/rand"
 
-	"github.com/sonr-io/sonr/x/channel/keeper"
-	"github.com/sonr-io/sonr/x/channel/types"
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
+	"github.com/sonr-io/sonr/x/channel/keeper"
+	"github.com/sonr-io/sonr/x/channel/types"
 )
 
 func SimulateMsgUpdateChannel(
