@@ -2,6 +2,7 @@ syntax = "proto3";
 package sonrio.sonr.object;
 import "object/object.proto";
 
+import "object/what_is.proto";
 // this line is used by starport scaffolding # proto/tx/import
 
 option go_package = "github.com/sonr-io/sonr/x/object/types";
@@ -12,6 +13,9 @@ service Msg {
   rpc ReadObject(MsgReadObject) returns (MsgReadObjectResponse);
   rpc UpdateObject(MsgUpdateObject) returns (MsgUpdateObjectResponse);
   rpc DeleteObject(MsgDeleteObject) returns (MsgDeleteObjectResponse);
+  rpc CreateWhatIs(MsgCreateWhatIs) returns (MsgCreateWhatIsResponse);
+  rpc UpdateWhatIs(MsgUpdateWhatIs) returns (MsgUpdateWhatIsResponse);
+  rpc DeleteWhatIs(MsgDeleteWhatIs) returns (MsgDeleteWhatIsResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }
 
@@ -49,5 +53,29 @@ message MsgDeleteObject {
 
 message MsgDeleteObjectResponse {
 }
+
+message MsgCreateWhatIs {
+  string creator = 1;
+  string index = 2;
+
+  string did = 3;
+  string value = 4;
+}
+message MsgCreateWhatIsResponse {}
+
+message MsgUpdateWhatIs {
+  string creator = 1;
+  string index = 2;
+
+  string did = 3;
+  string value = 4;
+}
+message MsgUpdateWhatIsResponse {}
+
+message MsgDeleteWhatIs {
+  string creator = 1;
+  string index = 2;
+}
+message MsgDeleteWhatIsResponse {}
 
 // this line is used by starport scaffolding # proto/tx/message
