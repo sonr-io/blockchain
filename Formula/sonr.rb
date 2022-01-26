@@ -11,7 +11,7 @@ class Sonr < Formula
   on_macos do
     if Hardware::CPU.arm?
       url "https://github.com/sonr-io/sonr/releases/download/v0.1.4/sonr-0.1.4-darwin-arm64.tar.gz"
-      sha256 "237313cb8e6ac6186502e50c8bc31dc44ff3d2e710dd262a8e857a38a4e4a68a"
+      sha256 "0943382b740013902c3ed4e9b3332e278ec14d12043cfee24af2457da08d0ac8"
 
       def install
         bin.install "highway-dashboard"
@@ -21,7 +21,7 @@ class Sonr < Formula
     end
     if Hardware::CPU.intel?
       url "https://github.com/sonr-io/sonr/releases/download/v0.1.4/sonr-0.1.4-darwin-amd64.tar.gz"
-      sha256 "c9dffb4f1ab3d443ab5c7eeb8ffdb3e4bc76e86205f40f7eafd3f5a7fd1a846c"
+      sha256 "09d556832bf01509dedd03924ad367675abe8687be70d4047ccdfa21d5de6889"
 
       def install
         bin.install "highway-dashboard"
@@ -34,7 +34,7 @@ class Sonr < Formula
   on_linux do
     if Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
       url "https://github.com/sonr-io/sonr/releases/download/v0.1.4/sonr-0.1.4-linux-arm64.tar.gz"
-      sha256 "1e0c7d350371159bc93770a794bfe6705f6149d82fdbccc7063099fc1a1ca7ec"
+      sha256 "517bea91c75910586ed4ecd3d44b46769efd72a923ea6700ad62fe9c666f7fbb"
 
       def install
         bin.install "highway-dashboard"
@@ -44,7 +44,7 @@ class Sonr < Formula
     end
     if Hardware::CPU.intel?
       url "https://github.com/sonr-io/sonr/releases/download/v0.1.4/sonr-0.1.4-linux-amd64.tar.gz"
-      sha256 "52e3afda48c7e5d90a28dbdb3fc83dfb9350ad5139c806d3fe42a8044478ff06"
+      sha256 "e941d069003e6e429f2786abb36b8ca869eff577c0927b003b247bb3fe9e3368"
 
       def install
         bin.install "highway-dashboard"
