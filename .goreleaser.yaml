@@ -6,17 +6,8 @@ builds:
     dir: "cmd/cli"
     binary: "sonr"
 
-  - id: "sonrd"
-    dir: "cmd/sonrd"
-    binary: "sonrd"
-    hooks:
-      post:
-        - mkdir dist
-        - cp -r release/v* dist/
-    skip: true
-
   - id: "highwayd"
-    dir: "cmd/highwayd"
+    dir: "cmd/highway"
     binary: "highwayd"
     tags: "highway"
     goos:
