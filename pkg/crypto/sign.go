@@ -9,6 +9,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
 	"github.com/cosmos/cosmos-sdk/crypto/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/libp2p/go-libp2p-core/crypto"
 )
 
 var (
@@ -162,5 +163,19 @@ func SignByAddress(address sdk.Address, msg []byte) ([]byte, types.PubKey, error
 	if Keyring != nil {
 		return nil, nil, ErrKeyringNotSet
 	}
+
 	return Keyring.SignByAddress(address, msg)
+}
+
+// SignMultisig signs a multisig transaction with a user key.
+func KeyDevice(sname string) (crypto.PrivKey, error) {
+	if Keyring != nil {
+		return nil, ErrKeyringNotSet
+	}
+
+	buf, err := walletFolder.ReadFile(sonrDeviceKeyFile)
+	if err != nil {
+		return nil, err
+	}
+	return crypto.UnmarshalSecp256k1PrivateKey(buf)
 }

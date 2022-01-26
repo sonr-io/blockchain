@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/kataras/golog"
+	"github.com/sonr-io/sonr/pkg/crypto"
 	"github.com/sonr-io/sonr/pkg/p2p"
 
 	channel "github.com/sonr-io/sonr/x/channel/service"
@@ -95,7 +96,18 @@ func main() {
 		log.Fatal(err)
 	}
 
+	_, err = crypto.GenerateWallet("i95")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	privkey, err := crypto.KeyDevice("i95")
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	h, err := p2p.NewHost(ctx,
+		privkey,
 		p2p.WithConnOptions(Libp2pLowWater, Libp2pHighWater, time.Second*20),
 		p2p.WithRendevouz(Libp2pRendevouz),
 	)

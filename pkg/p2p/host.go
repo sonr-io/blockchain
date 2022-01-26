@@ -120,10 +120,10 @@ type host struct {
 }
 
 // NewHost Initializes a libp2p host to be used with the Sonr Highway and Motor nodes
-func NewHost(ctx context.Context, options ...Option) (HostImpl, error) {
+func NewHost(ctx context.Context,privKey crypto.PrivKey, options ...Option) (HostImpl, error) {
 	// Initialize DHT
 	opts := defaultOptions(Role_MOTOR)
-	node, err := opts.Apply(ctx, options...)
+	node, err := opts.Apply(ctx, privKey, options...)
 	if err != nil {
 		return nil, err
 	}

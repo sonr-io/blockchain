@@ -7,6 +7,7 @@ import (
 
 	// "github.com/sonr-io/sonr/core/crypto"
 
+	"github.com/sonr-io/sonr/pkg/crypto"
 	"github.com/spf13/cobra"
 )
 
@@ -20,10 +21,29 @@ var exportCmd = &cobra.Command{
 	Aliases:    []string{"e"},
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) == 0 {
-			fmt.Println("[INFO]: Out Directory not specified, defaulting to User desktop...")
+			cmd.Usage()
+			fmt.Println("")
+			fmt.Println("[ERROR]: Please provide the SName you wish to export.")
+			return
 		}
+		sname := args[0]
+		if err := cmd.MarkFlagRequired("passhprase"); err != nil {
+			fmt.Println(err)
+			return
+		}
+
 		outDir := cmd.Flag("outDir").Value.String()
-		// passphrase := cmd.Flag("password").Value.String()
+		passphrase := cmd.Flag("passphrase").Value.String()
+
+		if cmd.Flag("outDir").Value.String() == "" {
+			outDir = filepath.Join(os.Getenv("HOME"), ".sonr-wallet")
+		}
+
+		armor, err := crypto.ExportWallet(sname, passphrase)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
 
 		if outDir == "" {
 			path, err := os.UserHomeDir()
@@ -31,7 +51,7 @@ var exportCmd = &cobra.Command{
 				fmt.Println(err)
 				return
 			}
-			err = os.WriteFile(filepath.Join(path, "Desktop", "armored-priv-key.txt"), []byte(""), 0644)
+			err = os.WriteFile(filepath.Join(path, "Desktop", "sonr-private-key.pgp"), []byte(armor), 0644)
 			if err != nil {
 				fmt.Println(err)
 				return
@@ -50,23 +70,32 @@ var restoreCmd = &cobra.Command{
 		if len(args) == 0 {
 			cmd.Usage()
 			fmt.Println("")
-			fmt.Println("[ERROR]: Please enter your mnemonic seed phrase")
+			fmt.Println("[ERROR]: Please provide the SName you wish to restore.")
 			return
 		}
-		//		mnemonic := args[0]
+		sname := args[0]
+		if err := cmd.MarkFlagRequired("armor"); err != nil {
+			fmt.Println(err)
+			return
+		}
+		if err := cmd.MarkFlagRequired("passhprase"); err != nil {
+			fmt.Println(err)
+			return
+		}
+
+		armor := cmd.Flag("armor").Value.String()
+		passphrase := cmd.Flag("passphrase").Value.String()
+		if err := crypto.RestoreWallet(sname, armor, passphrase); err != nil {
+			fmt.Println(err)
+			return
+		}
 	},
 }
 
 // accountNewCmd represents the accountNew command
 var generateCmd = &cobra.Command{
-	Use:   "generate",
-	Short: "Generates a new wallet and save it to the secure storage.",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Use:        "generate",
+	Short:      "Generates a new wallet and save it to the secure storage.",
 	SuggestFor: []string{"generate", "g"},
 	Aliases:    []string{"g"},
 	Run: func(cmd *cobra.Command, args []string) {
@@ -77,14 +106,14 @@ to quickly create a Cobra application.`,
 			return
 		}
 		sname := args[0]
-		// res, err := crypto.GenerateWallet(sname, crypto.WithType(crypto.KeyringType_KEYRING_TYPE_DEFAULT))
-		// if err != nil {
-		// 	fmt.Println(err)
-		// 	return
-		// }
-		// for k, v := range res {
-		// 	fmt.Printf("%s: %s\n", k, v)
-		// }
+		res, err := crypto.GenerateWallet(sname, crypto.WithType(crypto.KeyringType_KEYRING_TYPE_DEFAULT))
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		for k, v := range res {
+			fmt.Printf("%s: %s\n", k, v)
+		}
 		UserSname = sname
 	},
 }
@@ -107,20 +136,12 @@ to quickly create a Cobra application.`,
 }
 
 func init() {
+	restoreCmd.PersistentFlags().StringP("passhprase", "p", ".", "Passphrase for the armor file")
+	restoreCmd.PersistentFlags().StringP("armor", "a", ".", "Path to the Armor file")
 	exportCmd.PersistentFlags().StringP("password", "p", "-", "Password for the wallet file")
 	exportCmd.PersistentFlags().StringP("outDir", "o", "", "The directory to export the armored wallet file to")
 	generateCmd.PersistentFlags().StringP("file", "f", "-", "Path to the wallet file")
 	generateCmd.PersistentFlags().StringP("password", "p", "-", "Password for the wallet file")
 	restoreCmd.PersistentFlags().StringP("password", "p", "-", "Password for the wallet file")
 	WalletCmd.AddCommand(generateCmd, restoreCmd, exportCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// accountNewCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// accountNewCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

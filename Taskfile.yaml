@@ -1,6 +1,15 @@
 version: '3'
 
 includes:
+  cli:
+    taskfile: ./cmd/cli/Taskfile.yaml
+    dir: ./cmd/cli
+  motor:
+    taskfile: ./cmd/motor/Taskfile.yaml
+    dir: ./cmd/motor
+  highway:
+    taskfile: ./cmd/highway/Taskfile.yaml
+    dir: ./cmd/highway
   frontend:
     taskfile: ./cmd/dashboard/Taskfile.yaml
     dir: ./cmd/dashboard
@@ -16,7 +25,8 @@ tasks:
 
   serve:
     cmds:
-      - frontend:serve
+      - task: highway:serve
+      - task: frontend:serve
 
   release:
     cmds:
@@ -25,6 +35,11 @@ tasks:
       - goreleaser release
       - rm -rf release
       - rm -rf dist
+
+  run:
+    cmds:
+      - task: cli:run
+
 
   clean:
     cmds:

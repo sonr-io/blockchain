@@ -2,7 +2,6 @@ package p2p
 
 import (
 	"context"
-	"crypto/rand"
 	"fmt"
 	"time"
 
@@ -12,8 +11,6 @@ import (
 	dscl "github.com/libp2p/go-libp2p-core/discovery"
 	"github.com/libp2p/go-libp2p-core/peer"
 	"github.com/multiformats/go-multiaddr"
-
-	"github.com/pkg/errors"
 )
 
 // HostStatus is the status of the host
@@ -212,7 +209,7 @@ func defaultOptions(r Role) *options {
 }
 
 // Apply applies the host options and returns new SNRHost
-func (opts *options) Apply(ctx context.Context, options ...Option) (*host, error) {
+func (opts *options) Apply(ctx context.Context, privKey crypto.PrivKey, options ...Option) (*host, error) {
 	// Iterate over the options.
 	var err error
 	for _, opt := range options {
@@ -224,22 +221,6 @@ func (opts *options) Apply(ctx context.Context, options ...Option) (*host, error
 		ctx:          ctx,
 		status:       Status_IDLE,
 		mdnsPeerChan: make(chan peer.AddrInfo),
-	}
-
-	// findPrivKey returns the private key for the host.
-	findPrivKey := func() (crypto.PrivKey, error) {
-		privKey, _, err := crypto.GenerateEd25519Key(rand.Reader)
-		if err == nil {
-			logger.Warn("Generated new Account Private Key")
-			return privKey, nil
-		}
-		return nil, err
-	}
-
-	// Fetch the private key.
-	privKey, err := findPrivKey()
-	if err != nil {
-		return nil, errors.Wrap(err, "Failed to apply host options: PrivKey")
 	}
 
 	// Start Host

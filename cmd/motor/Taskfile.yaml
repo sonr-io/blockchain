@@ -1,0 +1,19 @@
+version: '3'
+
+tasks:
+  bind:android:
+    cmds:
+      - echo "Running Sonr Highway Node"
+      - go install golang.org/x/mobile/cmd/gomobile@latest
+      - gomobile init
+      - gomobile bind -ldflags='-s -w' -target=android -o ./dist/io.sonr.motor.aar
+
+
+  bind:ios:
+    cmds:
+      - echo "Running Sonr Highway Node"
+      - go install golang.org/x/mobile/cmd/gomobile@latest
+      - gomobile init
+      - gomobile bind -ldflags='-s -w' -bundleid=io.sonr.motor -target=ios -o ./dist/SonrMotor.xcframework
+
+
