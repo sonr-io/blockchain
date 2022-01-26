@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cosmos/cosmos-sdk/crypto/keyring"
 	"github.com/kataras/golog"
 	"github.com/sonr-io/sonr/pkg/crypto"
 	"github.com/sonr-io/sonr/pkg/p2p"
@@ -96,18 +97,13 @@ func main() {
 		log.Fatal(err)
 	}
 
-	_, err = crypto.GenerateWallet("i95")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	privkey, err := crypto.KeyDevice("i95")
+	ks, _, err := crypto.GenerateKeyring("test", keyring.NewInMemory())
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	h, err := p2p.NewHost(ctx,
-		privkey,
+		ks.CryptoPrivKey(),
 		p2p.WithConnOptions(Libp2pLowWater, Libp2pHighWater, time.Second*20),
 		p2p.WithRendevouz(Libp2pRendevouz),
 	)
