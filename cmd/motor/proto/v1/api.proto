@@ -2,8 +2,10 @@ syntax = "proto3";
 
 // Package Motor is used for defining a Motor node and its properties.
 package motor.v1;
-import "v1/api.proto";
+import "object/object.proto";
+import "channel/channel.proto";
 import "registry/did.proto";
+import "registry/peer.proto";
 option go_package = "github.com/sonr-io/sonr/node/motor/v1";
 
 // MsgAccess is used to request access to a service, or peer.
@@ -22,7 +24,7 @@ message MsgAccessResponse {
     int32 code = 1;
 
     // The Resulting DID Document of the access request.
-    sonrio.sonr.registry did_document = 2;
+    sonrio.sonr.registry.DidDocument did_document = 2;
 }
 
 // MsgRegister is used to register a service with the node.
@@ -57,23 +59,29 @@ message MsgProvision {
 
     enum Action {
         // The service is being provisioned.
-        ACTION_UNSPECIFIED = 1;
+        ACTION_UNSPECIFIED = 0;
 
         // The service is being updated.
-        ACTION_ACCEPT = 2;
+        ACTION_ACCEPT = 1;
 
         // Action is to decline the request.
-        ACTION_REJECT = 3;
+        ACTION_REJECT = 2;
 
         // Action is to cancel the request.
-        ACTION_CANCEL = 4;
+        ACTION_CANCEL = 3;
 
         // Action is to delete the request.
-        ACTION_DELETE = 5;
+        ACTION_DELETE = 4;
 
         // Action is to update the request.
-        ACTION_UPDATE = 6;
+        ACTION_UPDATE = 5;
     }
+}
+
+// MsgProvisionResponse is the returned response from a MsgProvision.
+message MsgProvisionResponse {
+    int32 code = 1;
+    sonrio.sonr.registry.DidDocument did_document = 2;
 }
 
 // MsgPublish is used to publish a service to the node.
@@ -83,6 +91,12 @@ message MsgPublish {
 
     // Message to be published.
     sonrio.sonr.channel.ChannelMessage message = 2;
+}
+
+// MsgPublishResponse is the returned response from a MsgPublish.
+message MsgPublishResponse {
+    // The service that was published.
+    int32 code = 1;
 }
 
 // MsgSubscribe is used to subscribe to a service.
@@ -100,33 +114,86 @@ message MsgSubscribeResponse {
     // The DID of the service that is being subscribed to.
     int32 code = 1;
 
-    // The Resulting DID Document of the subscribe request.
-    sonrio.sonr.registry did_document = 2;
-
     // Status is the current step of the subscription process.
-    Status status = 3;
+    Status status = 2;
 
     // ObjectDoc is the registered object of the channel.
-    sonrio.sonr.object.ObjectDoc object_doc = 4;
+    sonrio.sonr.channel.ChannelMessage object_doc = 3;
 
     // Status is the step in the Subcription process.
     enum Status {
         // The service is being subscribed to.
-        STATUS_UNSPECIFIED = 1;
+        STATUS_UNSPECIFIED = 0;
 
         // The service is being updated.
-        STATUS_PENDING = 2;
+        STATUS_PENDING = 1;
 
         // Status is to decline the request.
-        STATUS_OPEN = 3;
+        STATUS_OPEN = 2;
 
         // Status is to cancel the request.
-        STATUS_CANCEL = 4;
+        STATUS_CANCEL = 3;
 
         // Status is to delete the request.
-        STATUS_CLOSE = 5;
+        STATUS_CLOSE = 4;
 
         // Status is to update the request.
-        STATUS_ERROR = 6;
+        STATUS_ERROR = 5;
     }
+}
+
+// MsgExchange is used to exchange a message with a service.
+message MsgExchange {
+    // The DID of the peer that is being exchanged with.
+    string did = 1;
+
+    // The owner of the message.
+    sonrio.sonr.registry.Peer owner = 2;
+
+    // The message to be exchanged.
+    sonrio.sonr.registry.Peer recipient = 3;
+
+    // The signature of the services public key signed by
+    // the node's private key.
+    bytes signature = 4;
+
+    // ObjectDoc that is being exchanged.
+    sonrio.sonr.object.ObjectDoc object = 5;
+}
+
+// MsgExchangeResponse is used to respond to an Exchanged message between
+// two services.
+message MsgExchangeResponse {
+    // The DID of the peer that is being exchanged with.
+    int32 code = 1;
+
+    // The did document verifying the exchange.
+    sonrio.sonr.registry.DidDocument did_document = 2;
+
+    // The object that was exchanged.
+    sonrio.sonr.object.ObjectDoc object_doc = 3;
+}
+
+// MsgQuery is used to query a service.
+message MsgQuery {
+    // The DID of the service that is being queried.
+    string did = 1;
+
+    // The Signature of the services public key signed by
+    bytes signature = 2;
+
+    // The query to be performed.
+    string query = 3; // optional
+}
+
+// MsgQueryResponse is used to respond to a MsgQuery.
+message MsgQueryResponse {
+    // The DID of the service that is being queried.
+    int32 code = 1;
+
+    // The DID Document of the resulting query.
+    sonrio.sonr.registry.DidDocument did_document = 2;
+
+    // The object that was optionally returned.
+    sonrio.sonr.object.ObjectDoc object_doc = 3; // optional
 }

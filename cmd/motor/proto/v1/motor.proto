@@ -9,22 +9,22 @@ option go_package = "github.com/sonr-io/sonr/node/motor/v1";
 // MotorService is a RPC service for interfacing over the Motor node.
 service MotorService {
   // Access Method authenticates a service to interact with the Motor node.
-  rpc Access(MsgAccess) returns (stream MsgAccessResponse) {}
+  rpc Access(motor.v1.MsgAccess) returns (stream motor.v1.MsgAccessResponse) {}
 
   // Request method calls a method on the Known Highway node cluster.
-  rpc Request(MsgRegister) returns (stream MsgRegisterResponse) {}
+  rpc Request(motor.v1.MsgRequest) returns (stream motor.v1.MsgRequestResponse) {}
 
   // Provision Method decides on a pending exchange or transaction and
   // returns a stream of events.
-  rpc Provision(MsgProvision) returns (stream MsgProvisionResponse) {}
+  rpc Provision(motor.v1.MsgProvision) returns (stream motor.v1.MsgProvisionResponse) {}
 
   // Publish Method is used to publish a message to a specific channel, or send a
   // single message to a given peer.
-  rpc Publish(MsgPublish) returns (stream MsgPublishResponse) {}
+  rpc Publish(motor.v1.MsgPublish) returns (stream motor.v1.MsgPublishResponse) {}
 
   // Subscribe Method is used to subscribe to a channel or to a peer, and returns
   // a stream of messages.
-  rpc Subscribe(MsgSubscribe) returns (stream MsgSubscribeResponse) {}
+  rpc Subscribe(motor.v1.MsgSubscribe) returns (stream motor.v1.MsgSubscribeResponse) {}
 
   // Exchange Method creates a new exchange between two nodes being of kind:
   // - "barter"
@@ -32,10 +32,10 @@ service MotorService {
   // - "scavenger": A scavenger is a transaction that is unlocked after a node
   //                meets a certain defined conditions.
   // - "gift": A gift exchange is a direct private exchange between two nodes.
-  rpc Exchange(MsgExchange) returns (stream MsgExchangeResponse) {}
+  rpc Exchange(motor.v1.MsgExchange) returns (stream motor.v1.MsgExchangeResponse) {}
 
   // Query Method to find persistent data on the Blockchain by DID
-  rpc Query(MsgQuery) returns (stream MsgQueryResponse) {}
+  rpc Query(motor.v1.MsgQuery) returns (stream motor.v1.MsgQueryResponse) {}
 }
 
 

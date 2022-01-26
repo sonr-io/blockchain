@@ -60,7 +60,7 @@ func init() {
 	viper.AutomaticEnv()
 
 	viper.SetDefault("sonr.address", ":")
-	viper.SetDefault("sonr.port", 3000)
+	viper.SetDefault("sonr.port", 69420)
 	viper.SetDefault("sonr.did", "")
 	viper.SetDefault("sonr.network", "tcp")
 	viper.SetDefault("ipfs.port", 4001)

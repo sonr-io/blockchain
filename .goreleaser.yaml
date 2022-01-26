@@ -1,11 +1,8 @@
 builds:
-  - id: "sonr"
+  - id: "cli"
     goos:
       - linux
       - darwin
-    hooks:
-      pre:
-        - go mod tidy
     dir: "cmd/cli"
     binary: "sonr"
 
@@ -19,7 +16,7 @@ builds:
     skip: true
 
   - id: "highwayd"
-    dir: "cmd/sonrd"
+    dir: "cmd/highwayd"
     binary: "highwayd"
     tags: "highway"
     goos:

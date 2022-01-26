@@ -1,8 +1,6 @@
 version: v1
-name: buf.build/sonr-io/motor/v1
+name: buf.build/sonr-io/motor
 deps:
-  - buf.build/googleapis/googleapis
-  - buf.build/cosmos/cosmos-sdk
   - buf.build/sonr-io/sonr
 lint:
   use:

@@ -13,11 +13,20 @@ includes:
   dashboard:
     taskfile: ./cmd/dashboard/Taskfile.yaml
     dir: ./cmd/dashboard
+  types:
+    taskfile: ./proto/Taskfile.yaml
+    dir: ./proto
 
 tasks:
   export:
     cmds:
       - task: dashboard:export
+
+  buf:
+    cmds:
+      - task: motor:buf
+      - task: highway:buf
+      - task: types:buf
 
   build:
     cmds:

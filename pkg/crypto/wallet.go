@@ -1,9 +1,10 @@
 package crypto
 
 import (
-	"crypto/rand"
 	"errors"
+	"log"
 
+	"github.com/cosmos/cosmos-sdk/crypto"
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
 	"github.com/sonr-io/sonr/core/device"
 )
@@ -17,19 +18,11 @@ func WithPassphrase(s string) GenerateOption {
 	}
 }
 
-// WithType sets keyring to either NewInMemory, or 99Designs cross-platform implementation
-func WithType(t KeyringType) GenerateOption {
+// WithFolder sets HD path for the keyring
+func WithFolder(f device.Folder) GenerateOption {
 	return func(o *options) error {
-		o.keyringType = t
-		return nil
-	}
-}
-
-// WithPath sets HD path for the keyring
-func WithPath(s string) GenerateOption {
-	return func(o *options) error {
-		if device.IsFile(s) {
-			o.walletFolder = device.Folder(s)
+		if device.Exists(f.Path()) {
+			o.walletFolder = f
 			return nil
 		}
 
@@ -45,7 +38,6 @@ func WithPath(s string) GenerateOption {
 }
 
 type options struct {
-	keyringType  KeyringType
 	sname        string
 	walletFolder device.Folder
 	passphrase   string
@@ -53,24 +45,14 @@ type options struct {
 
 func defaultOptions(sname string) *options {
 	return &options{
-		keyringType: KeyringType_KEYRING_TYPE_IN_MEMORY,
-		sname:       sname,
+		sname:      sname,
+		passphrase: "bad-passphrase",
 	}
-}
-
-func GenerateWallet(sname string, options ...GenerateOption) (map[string]string, error) {
-	opts := defaultOptions(sname)
-	for _, option := range options {
-		if err := option(opts); err != nil {
-			return nil, err
-		}
-	}
-	return opts.Apply()
 }
 
 // ExportWallet returns armored private key and public key
-func ExportWallet(sname string, passphrase string) (string, error) {
-	armor, err := Keyring.ExportPrivKeyArmor(sname, passphrase)
+func ExportWallet(kr keyring.Keyring, sname string, passphrase string) (string, error) {
+	armor, err := kr.ExportPrivKeyArmor(sname, passphrase)
 	if err != nil {
 		return "", err
 	}
@@ -78,33 +60,15 @@ func ExportWallet(sname string, passphrase string) (string, error) {
 }
 
 // RestoreWallet restores a private key from ASCII armored format.
-func RestoreWallet(sname string, armor string, passphrase string) error {
-	keyring.New("sonr", "os", "", rand.Reader)
-
-	err := Keyring.ImportPrivKey(sname, armor, passphrase)
+func RestoreWallet(sname string, armor string, passphrase string) (keyring.Keyring, error) {
+	privKey, algo, err := crypto.UnarmorDecryptPrivKey(armor, passphrase)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	return nil
-}
-
-func MasterKey() (keyring.Info, error) {
-	if Keyring == nil {
-		return nil, ErrKeyringNotSet
+	kr := keyring.NewInMemory()
+	if err := kr.ImportPrivKey(sname, algo, passphrase); err != nil {
+		return nil, err
 	}
-	return Keyring.Key("master")
-}
-
-func DeviceKey() (keyring.Info, error) {
-	if Keyring == nil {
-		return nil, ErrKeyringNotSet
-	}
-	return Keyring.Key("device")
-}
-
-func ProvisionKey() (keyring.Info, error) {
-	if Keyring == nil {
-		return nil, ErrKeyringNotSet
-	}
-	return Keyring.Key("provision")
+	log.Println(privKey.PubKey())
+	return kr, nil
 }

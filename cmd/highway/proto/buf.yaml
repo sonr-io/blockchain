@@ -1,9 +1,9 @@
 version: v1
-name: buf.build/sonr-io/highway/v1
+name: buf.build/sonr-io/highway
 deps:
   - buf.build/googleapis/googleapis
-  - buf.build/cosmos/cosmos-sdk
   - buf.build/gogo/protobuf
+  - buf.build/sonr-io/sonr
 lint:
   use:
     - DEFAULT
