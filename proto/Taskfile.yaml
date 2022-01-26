@@ -1,0 +1,8 @@
+version: '3'
+
+tasks:
+  buf:
+    cmds:
+      - buf mod update
+      - buf build
+      - buf push

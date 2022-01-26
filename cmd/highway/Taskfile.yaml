@@ -11,3 +11,9 @@ tasks:
       - echo "Running Sonr Highway Node"
       - go run highway.go
 
+  buf:
+    dir: proto
+    cmds:
+      - buf mod update
+      - buf build
+      - buf push

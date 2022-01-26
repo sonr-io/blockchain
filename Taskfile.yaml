@@ -10,14 +10,14 @@ includes:
   highway:
     taskfile: ./cmd/highway/Taskfile.yaml
     dir: ./cmd/highway
-  frontend:
+  dashboard:
     taskfile: ./cmd/dashboard/Taskfile.yaml
     dir: ./cmd/dashboard
 
 tasks:
   export:
     cmds:
-      - task: frontend:export
+      - task: dashboard:export
 
   build:
     cmds:
@@ -26,25 +26,19 @@ tasks:
   serve:
     cmds:
       - task: highway:serve
-      - task: frontend:serve
+      - task: dashboard:serve
 
   release:
     cmds:
       - rm -rf dist
       - rm -rf release
       - goreleaser release
-      - rm -rf release
-      - rm -rf dist
-
-  run:
-    cmds:
-      - task: cli:run
-
+      - task: clean
 
   clean:
     cmds:
       - rm -rf dist
       - rm -rf release
       - go mod tidy
-      - frontend:clean
+      - task: dashboard:clean
 
