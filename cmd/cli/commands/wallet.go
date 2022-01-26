@@ -7,11 +7,13 @@ import (
 
 	// "github.com/sonr-io/sonr/core/crypto"
 
+	"github.com/cosmos/cosmos-sdk/crypto/keyring"
 	"github.com/sonr-io/sonr/pkg/crypto"
 	"github.com/spf13/cobra"
 )
 
 var UserSname string
+var Keyset crypto.KeySet
 
 // accountNewCmd represents the accountNew command
 var exportCmd = &cobra.Command{
@@ -39,7 +41,7 @@ var exportCmd = &cobra.Command{
 			outDir = filepath.Join(os.Getenv("HOME"), ".sonr-wallet")
 		}
 
-		armor, err := crypto.ExportWallet(sname, passphrase)
+		armor, err := crypto.ExportWallet(keyring.NewInMemory(), sname, passphrase)
 		if err != nil {
 			fmt.Println(err)
 			return
@@ -85,7 +87,7 @@ var restoreCmd = &cobra.Command{
 
 		armor := cmd.Flag("armor").Value.String()
 		passphrase := cmd.Flag("passphrase").Value.String()
-		if err := crypto.RestoreWallet(sname, armor, passphrase); err != nil {
+		if _, err := crypto.RestoreWallet(sname, armor, passphrase); err != nil {
 			fmt.Println(err)
 			return
 		}
@@ -106,14 +108,12 @@ var generateCmd = &cobra.Command{
 			return
 		}
 		sname := args[0]
-		res, err := crypto.GenerateWallet(sname, crypto.WithType(crypto.KeyringType_KEYRING_TYPE_DEFAULT))
+		kr, _, err := crypto.GenerateKeyring(sname, keyring.NewInMemory())
 		if err != nil {
 			fmt.Println(err)
 			return
 		}
-		for k, v := range res {
-			fmt.Printf("%s: %s\n", k, v)
-		}
+		Keyset = kr
 		UserSname = sname
 	},
 }
