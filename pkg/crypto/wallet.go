@@ -6,7 +6,7 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/crypto"
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
-	"github.com/sonr-io/sonr/core/device"
+	device "github.com/sonr-io/sonr/core"
 )
 
 type GenerateOption func(*options) error

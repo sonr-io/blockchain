@@ -29,14 +29,15 @@ func GenerateKeyring(sname string, kr keyring.Keyring, options ...GenerateOption
 		return nil, "", err
 	}
 
+	// Copy keys to keyring if not already there
 	_, err = ks.CopyToKeyring(kr, g.sname)
-	if err != nil {
-		return nil, "", err
+	if err == nil {
+		err = ks.Export(g.walletFolder)
+		if err != nil {
+			return nil, "", err
+		}
 	}
-	err = ks.Export(g.walletFolder)
-	if err != nil {
-		return nil, "", err
-	}
+
 	return ks, mnemonic, nil
 }
 

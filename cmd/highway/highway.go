@@ -79,7 +79,7 @@ func init() {
 	})
 }
 
-func main() {
+func Start() {
 	viper.ReadInConfig()
 	ctx := context.Background()
 
