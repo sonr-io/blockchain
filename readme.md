@@ -185,7 +185,6 @@ The frontend app is built using the `@starport/vue` and `@starport/vuex` package
 
 ### Authors
 - [Prad Nukala](https://github.com/prnk28)
-- [Ian Judd](https://github.com/ikjudd)
 
 ### Submitting a PR
 

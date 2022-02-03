@@ -27,6 +27,8 @@ tasks:
       - task: motor:buf
       - task: highway:buf
       - task: types:buf
+      - buf build
+      - buf generate
 
   build:
     cmds:
