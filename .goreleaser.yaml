@@ -56,9 +56,10 @@ release:
   # Header template for the release body.
   # Defaults to empty.
   header: |
-    ## New Sonr Release ({{ .Date }})
+    ## Sonr Release | {{ .Tag }} | ({{ .Date }})
 
     Introducing {{ .Tag }}, the latest {{.ProjectName}} release!
+    Please read the changelog for more details.
 
   # Footer template for the release body.
   # Defaults to empty.

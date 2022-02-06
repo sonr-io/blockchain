@@ -1,0 +1,6 @@
+version: '3'
+
+tasks:
+  buf:
+    cmds:
+      - gcloud endpoints services deploy openapi.swagger.json --force --async

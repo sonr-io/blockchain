@@ -21,10 +21,10 @@ func (k msgServer) CreateWhatIs(goCtx context.Context, msg *types.MsgCreateWhatI
 	}
 
 	var whatIs = types.WhatIs{
-		Creator: msg.Creator,
-		Index:   msg.Index,
-		Did:     msg.Did,
-		Document:   msg.Document,
+		Creator:  msg.Creator,
+		Index:    msg.Index,
+		Did:      msg.Did,
+		Document: msg.Document,
 	}
 
 	k.SetWhatIs(
@@ -52,10 +52,10 @@ func (k msgServer) UpdateWhatIs(goCtx context.Context, msg *types.MsgUpdateWhatI
 	}
 
 	var whatIs = types.WhatIs{
-		Creator: msg.Creator,
-		Index:   msg.Index,
-		Did:     msg.Did,
-		Document:   msg.Document,
+		Creator:  msg.Creator,
+		Index:    msg.Index,
+		Did:      msg.Did,
+		Document: msg.Document,
 	}
 
 	k.SetWhatIs(ctx, whatIs)

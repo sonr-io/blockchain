@@ -12,8 +12,8 @@ import (
 	"github.com/libp2p/go-libp2p-core/protocol"
 	"github.com/libp2p/go-libp2p-core/routing"
 	dht "github.com/libp2p/go-libp2p-kad-dht"
-	common "github.com/sonr-io/sonr/x/registry/types"
 	service "github.com/sonr-io/sonr/x/registry/service"
+	common "github.com/sonr-io/sonr/x/registry/types"
 
 	"google.golang.org/protobuf/proto"
 
@@ -120,7 +120,7 @@ type host struct {
 }
 
 // NewHost Initializes a libp2p host to be used with the Sonr Highway and Motor nodes
-func NewHost(ctx context.Context,privKey crypto.PrivKey, options ...Option) (HostImpl, error) {
+func NewHost(ctx context.Context, privKey crypto.PrivKey, options ...Option) (HostImpl, error) {
 	// Initialize DHT
 	opts := defaultOptions(Role_MOTOR)
 	node, err := opts.Apply(ctx, privKey, options...)

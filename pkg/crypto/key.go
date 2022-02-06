@@ -11,7 +11,7 @@ import (
 	"github.com/libp2p/go-libp2p-core/crypto"
 	"github.com/libp2p/go-libp2p-core/peer"
 	"github.com/mr-tron/base58/base58"
-	device "github.com/sonr-io/sonr/core"
+	device "github.com/sonr-io/sonr/pkg/io"
 	"github.com/tendermint/tendermint/libs/bytes"
 )
 

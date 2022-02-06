@@ -13,8 +13,6 @@ func (k msgServer) CreateObject(goCtx context.Context, msg *types.MsgCreateObjec
 	// TODO: Handling the message
 	msg.GetFields()
 	_ = ctx
-	
-
 
 	return &types.MsgCreateObjectResponse{}, nil
 }

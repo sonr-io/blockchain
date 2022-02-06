@@ -5,3 +5,4 @@ plugins:
     opt:
       - allow_merge=true
       - merge_file_name=openapi.json
+      

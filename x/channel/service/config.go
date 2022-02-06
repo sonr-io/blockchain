@@ -53,7 +53,6 @@ type options struct {
 	ttl         time.Duration
 	capacity    int
 	maxSize     int
-
 }
 
 // defaultOptions is the default options for the beam.

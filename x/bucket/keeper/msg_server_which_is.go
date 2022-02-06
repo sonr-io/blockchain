@@ -21,10 +21,10 @@ func (k msgServer) CreateWhichIs(goCtx context.Context, msg *types.MsgCreateWhic
 	}
 
 	var whichIs = types.WhichIs{
-		Creator: msg.Creator,
-		Index:   msg.Index,
-		Did:     msg.Did,
-		Document:   msg.Value,
+		Creator:  msg.Creator,
+		Index:    msg.Index,
+		Did:      msg.Did,
+		Document: msg.Value,
 	}
 
 	k.SetWhichIs(
@@ -52,10 +52,10 @@ func (k msgServer) UpdateWhichIs(goCtx context.Context, msg *types.MsgUpdateWhic
 	}
 
 	var whichIs = types.WhichIs{
-		Creator: msg.Creator,
-		Index:   msg.Index,
-		Did:     msg.Did,
-		Document:   msg.Value,
+		Creator:  msg.Creator,
+		Index:    msg.Index,
+		Did:      msg.Did,
+		Document: msg.Value,
 	}
 
 	k.SetWhichIs(ctx, whichIs)

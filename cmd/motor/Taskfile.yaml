@@ -3,22 +3,22 @@ version: '3'
 tasks:
   bind:
     cmds:
+      - echo "Setting up Gomobile..."
+      - go install golang.org/x/mobile/cmd/gomobile@latest
+      - go mod download golang.org/x/mobile
+      - gomobile init
       - task: bind:ios
       - task: bind:android
 
   bind:android:
     cmds:
-      - echo "Running Sonr Highway Node"
-      - go install golang.org/x/mobile/cmd/gomobile@latest
-      - gomobile init
-      - gomobile bind -ldflags='-s -w' -target=android -o ./dist/io.sonr.motor.aar
+      - echo "Building Sonr Motor Node (Android)"
+      - gomobile bind -ldflags='-s -w' -target=android -o .../dist/io.sonr.motor.aar
 
   bind:ios:
     cmds:
-      - echo "Running Sonr Highway Node"
-      - go install golang.org/x/mobile/cmd/gomobile@latest
-      - gomobile init
-      - gomobile bind -ldflags='-s -w' -bundleid=io.sonr.motor -target=ios -o ./dist/SonrMotor.xcframework
+      - echo "Building Sonr Motor Node (iOS)"
+      - gomobile bind -ldflags='-s -w' -bundleid=io.sonr.motor -target=ios -o .../dist/SonrMotor.xcframework
 
   buf:
     dir: proto

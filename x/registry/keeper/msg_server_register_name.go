@@ -20,7 +20,7 @@ func (k msgServer) RegisterName(goCtx context.Context, msg *types.MsgRegisterNam
 	// Otherwise, create an updated whois record
 	newWhois := types.WhoIs{
 		Address: msg.GetNameToRegister(),
-		Did:   msg.GetNameToRegister(),
+		Did:     msg.GetNameToRegister(),
 		//Value:  msg.GetValue(),
 		Creator: msg.Creator,
 	}

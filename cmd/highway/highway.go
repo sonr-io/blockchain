@@ -79,7 +79,7 @@ func init() {
 	})
 }
 
-func Start() {
+func main() {
 	viper.ReadInConfig()
 	ctx := context.Background()
 
@@ -135,13 +135,6 @@ func NewHighwayRPC(ctx context.Context, l net.Listener, h p2p.HostImpl) (*Highwa
 		cosmos:   cosmos,
 		listener: l,
 	}
-
-	// // Set IPFS Service
-	// stub.ipfs, err = storage.Init()
-	// if err != nil {
-	// 	return nil, err
-	// }
-	// Register the RPC Service
 
 	hw.RegisterHighwayServiceServer(stub.grpc, stub)
 	go stub.Serve(ctx, l)

@@ -1,6 +1,5 @@
 package service
 
-
 import "context"
 
 type ResolverFunc func(ctx context.Context, did DID) (interface{}, error)

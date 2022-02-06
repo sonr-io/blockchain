@@ -1,30 +1,17 @@
 package motor
 
-import (
-	"context"
-
-	"github.com/cosmos/cosmos-sdk/crypto/keyring"
-	"github.com/kataras/golog"
-	"github.com/sonr-io/sonr/pkg/crypto"
-	"github.com/sonr-io/sonr/pkg/p2p"
-)
-
 type MotorStub struct {
 }
 
 // Start starts the host, node, and rpc service.
 func Start(reqBuf []byte) {
-	ctx := context.Background()
-	ks, _, err := crypto.GenerateKeyring("test", keyring.NewInMemory())
-	if err != nil {
-		golog.Fatal(err)
-	}
+	//	ctx := context.Background()
 
 	//Start the app
-	_, err = p2p.NewHost(ctx, ks.CryptoPrivKey())
-	if err != nil {
-		golog.Fatal("%s - Failed to start host: %s", err)
-	}
+	// _, err = p2p.NewHost(ctx, ks.CryptoPrivKey())
+	// if err != nil {
+	// 	golog.Fatal("%s - Failed to start host: %s", err)
+	// }
 
 }
 

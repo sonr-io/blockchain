@@ -73,11 +73,11 @@ func (AppModule) GenerateGenesisState(simState *module.SimulationState) {
 		WhoIsList: []types.WhoIs{
 			{
 				Creator: sample.AccAddress(),
-				Address:   "0",
+				Address: "0",
 			},
 			{
 				Creator: sample.AccAddress(),
-				Address:   "1",
+				Address: "1",
 			},
 		},
 		// this line is used by starport scaffolding # simapp/module/genesisState

@@ -12,7 +12,6 @@
 
 <br />
 
-
 <div align="center">
   <!-- Stability -->
     <img alt="CodeFactor Grade" src="https://img.shields.io/codefactor/grade/github/sonr-io/sonr/master?style=for-the-badge">
@@ -92,31 +91,23 @@ Peers in the network can dial other peers in the network to exchange messages us
 
 This project is a pseudo-monorepo, meaning it has a single root directory and all of its packages are in subdirectories. The structure is as follows:
 
-``` text
+```text
 /app             ->        Exported Starport app
-/cmd             ->        CLI commands
-/common          ->        Commonly used packages
-  └─ device      ->        +   Node Device utilities
-  └─ discover    ->        +   Peer discovery
-  └─ exchange    ->        +   Exchange data with other nodes
-  └─ transmit    ->        +   Direct data transmission
-/core            ->        Fundamental components of the network.
-  └─ bucket      ->        +   A collection of objects or blobs
-  └─ channel     ->        +   Topic pub/sub messaging and Realtime K/V Store
-  └─ node        ->        +   Central Interface to manage user's peer on the network
-  └─ object      ->        +   A registered schema type on the blockchain
-  └─ service     ->        +   Interface to interact with a deployed or authorized service
-/did             ->        Sonr DID Method Utility Package
+/cmd             ->        Packaged libraries
+  └─ cli         ->        +   CLI Interface for Developers
+  └─ highway     ->        +   Highway Node Binary
+  └─ motor       ->        +   Motor Node Framework
+  └─ sonrd       ->        +   Blockchain Binary
 /docs            ->        Documentation.
-/highway         ->        The Guardian Node on the network.
-/motor           ->        The User Node on the network.
+/pkg             ->        Developed package interfaces for Sonr.
+  └─ crypto      ->        +   Cryptographic utilities
+  └─ io          ->        +   Device and File System utilities
+  └─ p2p         ->        +   Libp2p implementation
 /proto           ->        Cosmos SDK Protocol Definitions
 /testutil        ->        Blockchain test utilities.
-/types           ->        Sonr Protocol Definitions and buf.build config
 /vue             ->        Vue.js frontend for Cosmos SDK
 /x               ->        Implementation of Cosmos-Sonr Schemas
 ```
-
 
 ## Installation
 
@@ -125,16 +116,18 @@ This project is a pseudo-monorepo, meaning it has a single root directory and al
 ### Plugins -->
 
 ### CLI
+
 To install the latest version of the Sonr blockchain node's binary, execute the following command on your machine:
 
-``` shell
+```shell
 curl https://sonr.ws/sonr@latest! | sudo bash
 ```
 
 ### Release
+
 To install the latest version of the Sonr blockchain node's binary, execute the following command on your machine:
 
-``` shell
+```shell
 curl https://sonr.ws/sonr@latest! | sudo bash
 ```
 
@@ -144,7 +137,7 @@ To launch the Sonr Blockchain live on multiple nodes, use `starport network` com
 
 ### Start the Blockchain
 
-``` shell
+```shell
 starport chain serve
 ```
 
@@ -154,7 +147,7 @@ starport chain serve
 
 Starport has scaffolded a Flutter-based mobile app in the `flutter` directory. Run the following commands to install dependencies and start the app:
 
-``` shell
+```shell
 cd flutter
 flutter pub get
 flutter run
@@ -164,7 +157,7 @@ flutter run
 
 Starport has scaffolded a Vue.js-based web app in the `vue` directory. Run the following commands to install dependencies and start the app:
 
-``` text
+```text
 cd vue
 npm install
 npm run serve
@@ -173,17 +166,19 @@ npm run serve
 The frontend app is built using the `@starport/vue` and `@starport/vuex` packages. For details, see the [monorepo for Starport front-end development](https://github.com/tendermint/vue).
 
 ## Version History
-   ### v0.0.1
-  - Implement Sonr Blockchain client into Motor and Highway nodes
-  - Add Highway Service and Swagger generated clients and documentation
-  - Create `Registry` for storing `DIDDocument` in the Blockchain
 
+### v0.0.1
+
+- Implement Sonr Blockchain client into Motor and Highway nodes
+- Add Highway Service and Swagger generated clients and documentation
+- Create `Registry` for storing `DIDDocument` in the Blockchain
 
 ## Contributors
 
 > Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated!**
 
 ### Authors
+
 - [Prad Nukala](https://github.com/prnk28)
 
 ### Submitting a PR

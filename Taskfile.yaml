@@ -4,24 +4,28 @@ includes:
   cli:
     taskfile: ./cmd/cli/Taskfile.yaml
     dir: ./cmd/cli
+
+  docs:
+    taskfile: ./docs/Taskfile.yaml
+    dir: ./docs/static/openapi
+
   motor:
     taskfile: ./cmd/motor/Taskfile.yaml
     dir: ./cmd/motor
+
   highway:
     taskfile: ./cmd/highway/Taskfile.yaml
     dir: ./cmd/highway
-  dashboard:
-    taskfile: ./cmd/dashboard/Taskfile.yaml
-    dir: ./cmd/dashboard
+
   types:
     taskfile: ./proto/Taskfile.yaml
     dir: ./proto
 
-tasks:
-  export:
-    cmds:
-      - task: dashboard:export
+  vue:
+    taskfile: ./vue/Taskfile.yaml
+    dir: ./vue
 
+tasks:
   buf:
     cmds:
       - task: motor:buf
@@ -29,15 +33,22 @@ tasks:
       - task: types:buf
       - buf build
       - buf generate
+      - task: docs:buf
+
+  bind:
+    cmds:
+      - mkdir -p ./dist
+      - task: motor:bind
 
   build:
     cmds:
+      - task: vue:build
       - goreleaser build --skip-validate --rm-dist
 
   serve:
     cmds:
       - task: highway:serve
-      - task: dashboard:serve
+      - task: vue:serve
 
   release:
     cmds:
@@ -51,5 +62,4 @@ tasks:
       - rm -rf dist
       - rm -rf release
       - go mod tidy
-      - task: dashboard:clean
 
