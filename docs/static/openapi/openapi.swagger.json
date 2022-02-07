@@ -1,8 +1,14 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "Package Highway is used for defining a Highway node and its accessible API Endpoints",
-    "version": "version not set"
+    "title": "Highway API",
+    "version": "v0.14.7",
+    "description": "",
+    "contact": {
+      "name": "Sonr Team",
+      "url": "https://docs.sonr.io",
+      "email": "team@sonr.io"
+    }
   },
   "tags": [
     {
@@ -21,7 +27,7 @@
   "paths": {
     "/access/name": {
       "post": {
-        "summary": "AccessName returns details and publicly available information about the Peer given calling node\nhas permission to access. i.e \"prad.snr\" -\u003e \"firstname online profilePic city\"",
+        "summary": "Access a Name",
         "operationId": "HighwayService_AccessName",
         "responses": {
           "200": {
@@ -39,12 +45,13 @@
         },
         "tags": [
           "HighwayService"
-        ]
+        ],
+        "description": "AccessName returns details and publicly available information about the Peer given calling nodehas permission to access. i.e \"prad.snr\" -> \"firstname online profilePic city\""
       }
     },
     "/access/service": {
       "post": {
-        "summary": "AccessService creates a new signing key for the calling node in order to be authorized to\naccess the service. It is only allowed to be called once per node.",
+        "summary": "Access a Service",
         "operationId": "HighwayService_AccessService",
         "responses": {
           "200": {
@@ -62,12 +69,13 @@
         },
         "tags": [
           "HighwayService"
-        ]
+        ],
+        "description": "AccessService creates a new signing key for the calling node in order to be authorized toaccess the service. It is only allowed to be called once per node."
       }
     },
     "/create/bucket": {
       "post": {
-        "summary": "CreateBucket creates a new bucket for the calling nodes service.",
+        "summary": "Create a Bucket",
         "operationId": "HighwayService_CreateBucket",
         "responses": {
           "200": {
@@ -85,12 +93,13 @@
         },
         "tags": [
           "HighwayService"
-        ]
+        ],
+        "description": "CreateBucket creates a new bucket for the calling nodes service."
       }
     },
     "/create/channel": {
       "post": {
-        "summary": "CreateChannel creates a new Publish/Subscribe topic channel for the given service.\nThe calling node must have already registered a service for the channel.",
+        "summary": "Create a Channel",
         "operationId": "HighwayService_CreateChannel",
         "responses": {
           "200": {
@@ -108,12 +117,13 @@
         },
         "tags": [
           "HighwayService"
-        ]
+        ],
+        "description": "CreateChannel creates a new Publish/Subscribe topic channel for the given service.The calling node must have already registered a service for the channel."
       }
     },
     "/create/object": {
       "post": {
-        "summary": "CreateObject defines a new object to be utilized by the calling node's service. The object will\nbe placed in the Highway Service Graph and can be used in channels and other modules.",
+        "summary": "Create an Object",
         "operationId": "HighwayService_CreateObject",
         "responses": {
           "200": {
@@ -131,12 +141,13 @@
         },
         "tags": [
           "HighwayService"
-        ]
+        ],
+        "description": "CreateObject defines a new object to be utilized by the calling node's service. The object willbe placed in the Highway Service Graph and can be used in channels and other modules."
       }
     },
     "/delete/blob": {
       "post": {
-        "summary": "DeleteBlob deletes the given file from the calling node's service IPFS storage.",
+        "summary": "Delete a Blob",
         "operationId": "HighwayService_DeleteBlob",
         "responses": {
           "200": {
@@ -154,12 +165,13 @@
         },
         "tags": [
           "HighwayService"
-        ]
+        ],
+        "description": "DeleteBlob deletes the given file from the calling node's service IPFS storage."
       }
     },
     "/delete/bucket": {
       "post": {
-        "summary": "DeleteBucket deletes the given bucket if the calling node is the owner of the bucket.",
+        "summary": "Delete a Bucket",
         "operationId": "HighwayService_DeleteBucket",
         "responses": {
           "200": {
@@ -177,12 +189,13 @@
         },
         "tags": [
           "HighwayService"
-        ]
+        ],
+        "description": "DeleteBucket deletes the given bucket if the calling node is the owner of the bucket."
       }
     },
     "/delete/channel": {
       "post": {
-        "summary": "DeleteChannel deletes the given channel if the calling node is the owner of the channel.",
+        "summary": "Delete a Channel",
         "operationId": "HighwayService_DeleteChannel",
         "responses": {
           "200": {
@@ -200,12 +213,13 @@
         },
         "tags": [
           "HighwayService"
-        ]
+        ],
+        "description": "DeleteChannel deletes the given channel if the calling node is the owner of the channel."
       }
     },
     "/delete/object": {
       "post": {
-        "summary": "DeleteObject deletes the given object if the calling node is the owner of the object.",
+        "summary": "Delete an Object",
         "operationId": "HighwayService_DeleteObject",
         "responses": {
           "200": {
@@ -223,12 +237,13 @@
         },
         "tags": [
           "HighwayService"
-        ]
+        ],
+        "description": "DeleteObject deletes the given object if the calling node is the owner of the object."
       }
     },
     "/download/blob": {
       "post": {
-        "summary": "DownloadBlob downloads a file or buffer from the calling node's service IPFS storage.",
+        "summary": "Download a Blob",
         "operationId": "HighwayService_DownloadBlob",
         "responses": {
           "200": {
@@ -246,12 +261,13 @@
         },
         "tags": [
           "HighwayService"
-        ]
+        ],
+        "description": "DownloadBlob downloads a file or buffer from the calling node's service IPFS storage."
       }
     },
     "/listen/channel": {
       "post": {
-        "summary": "ListenChannel subscribes the calling node to the given channel and returns all publish events\nas a stream.",
+        "summary": "Listen to a Channel",
         "operationId": "HighwayService_ListenChannel",
         "responses": {
           "200": {
@@ -278,12 +294,13 @@
         },
         "tags": [
           "HighwayService"
-        ]
+        ],
+        "description": "ListenChannel subscribes the calling node to the given channel and returns all publish eventsas a stream."
       }
     },
     "/parse/did": {
       "post": {
-        "summary": "ParseDid parses a potential DID string into a DID object.",
+        "summary": "Parse a DID",
         "operationId": "HighwayService_ParseDid",
         "responses": {
           "200": {
@@ -301,12 +318,13 @@
         },
         "tags": [
           "HighwayService"
-        ]
+        ],
+        "description": "ParseDid parses a potential DID string into a DID object."
       }
     },
     "/read/bucket": {
       "post": {
-        "summary": "ReadBucket lists all the blobs in the given bucket. The calling node must have access to the\nbucket.",
+        "summary": "Read a Bucket",
         "operationId": "HighwayService_ReadBucket",
         "responses": {
           "200": {
@@ -324,12 +342,13 @@
         },
         "tags": [
           "HighwayService"
-        ]
+        ],
+        "description": "ReadBucket lists all the blobs in the given bucket. The calling node must have access to thebucket."
       }
     },
     "/read/channel": {
       "post": {
-        "summary": "ReadChannel lists all peers subscribed to the given channel, and additional details about\nthe channels configuration.",
+        "summary": "Read a Channel",
         "operationId": "HighwayService_ReadChannel",
         "responses": {
           "200": {
@@ -347,12 +366,13 @@
         },
         "tags": [
           "HighwayService"
-        ]
+        ],
+        "description": "ReadChannel lists all peers subscribed to the given channel, and additional details aboutthe channels configuration."
       }
     },
     "/read/object": {
       "post": {
-        "summary": "ReadObject returns the details of the given object provided its DID or Label.",
+        "summary": "Read an Object",
         "operationId": "HighwayService_ReadObject",
         "responses": {
           "200": {
@@ -370,12 +390,13 @@
         },
         "tags": [
           "HighwayService"
-        ]
+        ],
+        "description": "ReadObject returns the details of the given object provided its DID or Label."
       }
     },
     "/register/name": {
       "post": {
-        "summary": "RegisterName registers a new \".snr\" name for the calling node. It is only allowed to be called\nonce per node.",
+        "summary": "Register a New SName",
         "operationId": "HighwayService_RegisterName",
         "responses": {
           "200": {
@@ -393,12 +414,13 @@
         },
         "tags": [
           "HighwayService"
-        ]
+        ],
+        "description": "RegisterName registers a new \".snr\" name for the calling node. It is only allowed to be calledonce per node."
       }
     },
     "/register/service": {
       "post": {
-        "summary": "RegisterService registers a new service for the calling node. The calling node must have\nalready been enabled for development.",
+        "summary": "Register a New Service",
         "operationId": "HighwayService_RegisterService",
         "responses": {
           "200": {
@@ -416,12 +438,13 @@
         },
         "tags": [
           "HighwayService"
-        ]
+        ],
+        "description": "RegisterService registers a new service for the calling node. The calling node must havealready been enabled for development."
       }
     },
     "/resolve/did": {
       "post": {
-        "summary": "ResolveDid resolves a DID to its DID document if the DID is valid and the calling node has\naccess to the DID Document.",
+        "summary": "Resolve a DID",
         "operationId": "HighwayService_ResolveDid",
         "responses": {
           "200": {
@@ -439,12 +462,13 @@
         },
         "tags": [
           "HighwayService"
-        ]
+        ],
+        "description": "ResolveDid resolves a DID to its DID document if the DID is valid and the calling node hasaccess to the DID Document."
       }
     },
     "/sync/blob": {
       "post": {
-        "summary": "SyncBlob synchronizes a local file from the calling node to the given service's IPFS storage.",
+        "summary": "Synchronize a Blob",
         "operationId": "HighwayService_SyncBlob",
         "responses": {
           "200": {
@@ -462,12 +486,13 @@
         },
         "tags": [
           "HighwayService"
-        ]
+        ],
+        "description": "SyncBlob synchronizes a local file from the calling node to the given service's IPFS storage."
       }
     },
     "/update/bucket": {
       "post": {
-        "summary": "UpdateBucket updates the configuration of the given bucket. The calling node must have access\nto the bucket.",
+        "summary": "Update a Bucket",
         "operationId": "HighwayService_UpdateBucket",
         "responses": {
           "200": {
@@ -485,12 +510,13 @@
         },
         "tags": [
           "HighwayService"
-        ]
+        ],
+        "description": "UpdateBucket updates the configuration of the given bucket. The calling node must have accessto the bucket."
       }
     },
     "/update/channel": {
       "post": {
-        "summary": "UpdateChannel updates the configuration of the given channel.",
+        "summary": "Update a Channel",
         "operationId": "HighwayService_UpdateChannel",
         "responses": {
           "200": {
@@ -508,12 +534,13 @@
         },
         "tags": [
           "HighwayService"
-        ]
+        ],
+        "description": "UpdateChannel updates the configuration of the given channel."
       }
     },
     "/update/name": {
       "post": {
-        "summary": "UpdateName updates the public information of the calling node.",
+        "summary": "Update a Name",
         "operationId": "HighwayService_UpdateName",
         "responses": {
           "200": {
@@ -531,12 +558,13 @@
         },
         "tags": [
           "HighwayService"
-        ]
+        ],
+        "description": "UpdateName updates the public information of the calling node."
       }
     },
     "/update/object": {
       "post": {
-        "summary": "UpdateObject modifies the property fields of the given object.",
+        "summary": "Update an Object",
         "operationId": "HighwayService_UpdateObject",
         "responses": {
           "200": {
@@ -554,12 +582,13 @@
         },
         "tags": [
           "HighwayService"
-        ]
+        ],
+        "description": "UpdateObject modifies the property fields of the given object."
       }
     },
     "/update/service": {
       "post": {
-        "summary": "UpdateService updates the details and public configuration of the calling node's service.",
+        "summary": "Update a Service",
         "operationId": "HighwayService_UpdateService",
         "responses": {
           "200": {
@@ -577,12 +606,13 @@
         },
         "tags": [
           "HighwayService"
-        ]
+        ],
+        "description": "UpdateService updates the details and public configuration of the calling node's service."
       }
     },
     "/upload/blob": {
       "post": {
-        "summary": "UploadBlob uploads a file or buffer to the calling node's service IPFS storage.",
+        "summary": "Upload a Blob",
         "operationId": "HighwayService_UploadBlob",
         "responses": {
           "200": {
@@ -600,7 +630,8 @@
         },
         "tags": [
           "HighwayService"
-        ]
+        ],
+        "description": "UploadBlob uploads a file or buffer to the calling node's service IPFS storage."
       }
     }
   },
@@ -616,7 +647,8 @@
         "ACTION_UPDATE"
       ],
       "default": "ACTION_UNSPECIFIED",
-      "description": " - ACTION_UNSPECIFIED: The service is being provisioned.\n - ACTION_ACCEPT: The service is being updated.\n - ACTION_REJECT: Action is to decline the request.\n - ACTION_CANCEL: Action is to cancel the request.\n - ACTION_DELETE: Action is to delete the request.\n - ACTION_UPDATE: Action is to update the request."
+      "description": " - ACTION_UNSPECIFIED: The service is being provisioned.\n - ACTION_ACCEPT: The service is being updated.\n - ACTION_REJECT: Action is to decline the request.\n - ACTION_CANCEL: Action is to cancel the request.\n - ACTION_DELETE: Action is to delete the request.\n - ACTION_UPDATE: Action is to update the request.",
+      "title": "Provision Action Type"
     },
     "PeerDevice": {
       "type": "object",
@@ -1676,5 +1708,8 @@
       },
       "title": "MsgUploadBlobResponse is a response to a request to upload a blob"
     }
-  }
+  },
+  "schemes": [
+    "https"
+  ]
 }
