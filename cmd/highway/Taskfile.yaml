@@ -17,3 +17,4 @@ tasks:
       - buf mod update
       - buf build
       - buf push
+      - protoc --doc_out=.../docs/static/json --doc_opt=json,proto_workspace.json ./proto/**/*.proto
