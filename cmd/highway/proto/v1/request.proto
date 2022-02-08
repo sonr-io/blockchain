@@ -8,7 +8,7 @@ import "object/object.proto";
 
 option go_package = "github.com/sonr-io/sonr/node/highway/v1";
 
-// MsgAccessName is a request to get details from the ".snr" name of a peer
+// MsgAccessName represents a request payload to get details from the ".snr" name of a peer
 message MsgAccessName {
   // The name of the peer to get the details from
   string name = 1;
@@ -17,7 +17,7 @@ message MsgAccessName {
   string public_key = 3; // optional
 }
 
-// MsgAccessService is a request to get the service details of a peer
+// MsgAccessService represents a request payload to get the service details of a peer
 message MsgAccessService {
   // The name of the peer to get the service details of
   string did = 1;
@@ -26,7 +26,7 @@ message MsgAccessService {
   map<string, string> metadata = 2; // optional
 }
 
-// MsgListenChannel is the request to subscribe to a channel
+// MsgListenChannel represents a request payload to subscribe to a channel
 message MsgListenChannel {
   // Name is the name of the channel
   string did = 1;
@@ -36,7 +36,7 @@ message MsgListenChannel {
 }
 
 
-// MsgUploadBlob is the request to upload a blob
+// MsgUploadBlob represents a request payload to upload a blob
 message MsgUploadBlob {
   // Label is the label of the blob
   string label = 1;
@@ -54,7 +54,7 @@ message MsgUploadBlob {
   int64 last_modified = 5;
 }
 
-// MsgDownloadBlob is the request to download a blob
+// MsgDownloadBlob represents a request payload to download a blob
 message MsgDownloadBlob {
   // DID is the identifier of the blob
   string did = 1;
@@ -63,7 +63,7 @@ message MsgDownloadBlob {
   string out_path = 2;
 }
 
-// MsgSyncBlob is the request to sync a blob
+// MsgSyncBlob represents a request payload to sync a blob
 message MsgSyncBlob {
   // DID is the identifier of the blob
   string did = 1;
@@ -74,7 +74,7 @@ message MsgSyncBlob {
   int32 timeout = 3; // optional
 }
 
-// MsgDeleteBlob is the request to delete a blob
+// MsgDeleteBlob represents a request payload to delete a blob
 message MsgDeleteBlob {
   // DID is the identifier of the blob
   string did = 1;
@@ -86,7 +86,7 @@ message MsgDeleteBlob {
   string public_key = 3;
 }
 
-// MsgParseDid is the request to convert a string to a DID object
+// MsgParseDid represents a request payload to convert a string to a DID object
 message MsgParseDid {
   // DID is the DID of the DID
   string did = 1;
@@ -95,7 +95,7 @@ message MsgParseDid {
   map<string, string> metadata = 2;
 }
 
-// MsgResolveDid is the request to resolve a DID
+// MsgResolveDid represents a request payload to resolve a DID
 message MsgResolveDid {
   // DID is the DID of the DID
   string did = 1;

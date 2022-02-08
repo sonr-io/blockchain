@@ -1,4 +1,3 @@
 version: v1
 directories:
   - cmd/highway/proto
-  - cmd/motor/proto

@@ -9,7 +9,7 @@ import "object/object.proto";
 
 option go_package = "github.com/sonr-io/sonr/node/highway/v1";
 
-// MsgAccessName is a response to a request for a name
+// MsgAccessNameResponse represents a response to a request for a name
 message MsgAccessNameResponse {
     // Code of the response
     int32 code = 1;
@@ -20,7 +20,7 @@ message MsgAccessNameResponse {
     // Data of the response
     sonrio.sonr.registry.Peer peer = 3;
 }
-// AccessServiceResponse is a response to a request for a service
+// AccessServiceResponse represents a response to a request for a service
 message MsgAccessServiceResponse {
     // Code of the response
     int32 code = 1;
@@ -32,7 +32,7 @@ message MsgAccessServiceResponse {
     map<string, string> metadata = 3;
 }
 
-// MsgUploadBlobResponse is a response to a request to upload a blob
+// MsgUploadBlobResponse represents a response to a request to upload a blob
 message MsgUploadBlobResponse {
     // Code of the response
     int32 code = 1;
@@ -47,7 +47,7 @@ message MsgUploadBlobResponse {
     bool pinned = 4;
 }
 
-// MsgDownloadBlobResponse is a response to a request to download a blob
+// MsgDownloadBlobResponse represents a response to a request to download a blob
 message MsgDownloadBlobResponse {
     // Code of the response
     int32 code = 1;
@@ -62,7 +62,7 @@ message MsgDownloadBlobResponse {
     string path = 4;
 }
 
-// MsgSyncBlobResponse is a response to a request to sync a blob
+// MsgSyncBlobResponse represents a response to a request to sync a blob
 message MsgSyncBlobResponse {
     // Code of the response
     int32 code = 1;
@@ -74,7 +74,7 @@ message MsgSyncBlobResponse {
     sonrio.sonr.registry.Did did = 3;
 }
 
-// MsgDeleteBlobResponse is a response to a request to delete a blob
+// MsgDeleteBlobResponse represents a response to a request to delete a blob
 message MsgDeleteBlobResponse {
     // Code of the response
     int32 code = 1;
@@ -86,7 +86,7 @@ message MsgDeleteBlobResponse {
     sonrio.sonr.registry.Did did = 3;
 }
 
-// MsgParseDidResponse is a response to a request to parse a DID
+// MsgParseDidResponse represents a response to a request to parse a DID
 message MsgParseDidResponse {
     // Code of the response
     int32 code = 1;
@@ -98,7 +98,7 @@ message MsgParseDidResponse {
     sonrio.sonr.registry.Did did = 3;
 }
 
-// MsgResolveDidResponse is a response to a request to resolve a DID
+// MsgResolveDidResponse represents a response to a request to resolve a DID
 message MsgResolveDidResponse {
     // Code of the response
     int32 code = 1;
