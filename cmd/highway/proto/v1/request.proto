@@ -89,7 +89,7 @@ message MsgDeleteBlob {
 // MsgParseDid represents a request payload to convert a string to a DID object
 message MsgParseDid {
   // DID is the DID of the DID
-  string did = 1;
+  string did_string = 1;
 
   // Metadata is the metadata of the blob thats being deleted
   map<string, string> metadata = 2;
@@ -98,7 +98,7 @@ message MsgParseDid {
 // MsgResolveDid represents a request payload to resolve a DID
 message MsgResolveDid {
   // DID is the DID of the DID
-  string did = 1;
+  string did_string = 1;
 
   // Metadata is the metadata of the blob thats being deleted
   map<string, string> metadata = 2;

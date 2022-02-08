@@ -62,7 +62,7 @@ message MsgAccessName {
 }
 
 message MsgAccessNameResponse {
-  string name = 1;
+  string did = 1;
   string publicKey = 2;
   string peerId = 3;
 }
@@ -71,8 +71,8 @@ message MsgUpdateName {
   // The account that owns the name.
   string creator = 1;
 
-  // The name of the peer to update the name of
-  string name = 2;
+  // The did of the peer to update the name of
+  string did = 2;
 
   // The Updated Metadata
   map<string, string> metadata = 3; // optional

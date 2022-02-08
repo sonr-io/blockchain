@@ -16,8 +16,8 @@
     "application/json"
   ],
   "paths": {
-    "/access/name": {
-      "post": {
+    "/access/name/{name}": {
+      "get": {
         "summary": "Access a Name",
         "description": "Returns details and publicly available information about the Peer given calling node\nhas permission to access.\ni.e `prad.snr` -\u003e \"firstname online profilePic city\"",
         "operationId": "Highway_AccessName",
@@ -35,13 +35,29 @@
             }
           }
         },
+        "parameters": [
+          {
+            "name": "name",
+            "description": "The name of the peer to get the details from",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "publicKey",
+            "description": "The public key of the peer to get the details from.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
         "tags": [
           "Highway"
         ]
       }
     },
-    "/access/service": {
-      "post": {
+    "/access/service/{did}": {
+      "get": {
         "summary": "Access a Service",
         "description": "Creates a new signing key for the calling node in order to be authorized to\naccess the service. It is only allowed to be called once per node.",
         "operationId": "Highway_AccessService",
@@ -59,6 +75,15 @@
             }
           }
         },
+        "parameters": [
+          {
+            "name": "did",
+            "description": "The name of the peer to get the service details of",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "tags": [
           "Highway"
         ]
@@ -136,8 +161,8 @@
         ]
       }
     },
-    "/delete/blob": {
-      "post": {
+    "/delete/blob/{did}": {
+      "delete": {
         "summary": "Delete a Blob",
         "description": "Deletes the given blob from the calling node's service IPFS storage.",
         "operationId": "Highway_DeleteBlob",
@@ -155,13 +180,29 @@
             }
           }
         },
+        "parameters": [
+          {
+            "name": "did",
+            "description": "DID is the identifier of the blob",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "publicKey",
+            "description": "Public key of the node that is deleting the blob.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
         "tags": [
           "Highway"
         ]
       }
     },
-    "/delete/bucket": {
-      "post": {
+    "/delete/bucket/{did}": {
+      "delete": {
         "summary": "Delete a Bucket",
         "description": "Deletes the given bucket if the calling node is the owner of the bucket.",
         "operationId": "Highway_DeleteBucket",
@@ -179,13 +220,33 @@
             }
           }
         },
+        "parameters": [
+          {
+            "name": "did",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "creator",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "publicKey",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
         "tags": [
           "Highway"
         ]
       }
     },
-    "/delete/channel": {
-      "post": {
+    "/delete/channel/{did}": {
+      "delete": {
         "summary": "Delete a Channel",
         "description": "Deletes the given channel if the calling node is the owner of the channel.",
         "operationId": "Highway_DeleteChannel",
@@ -203,13 +264,33 @@
             }
           }
         },
+        "parameters": [
+          {
+            "name": "did",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "creator",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "publicKey",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
         "tags": [
           "Highway"
         ]
       }
     },
-    "/delete/object": {
-      "post": {
+    "/delete/object/{did}": {
+      "delete": {
         "summary": "Delete a Object",
         "description": "Deletes the given object if the calling node is the owner of the object.",
         "operationId": "Highway_DeleteObject",
@@ -227,13 +308,66 @@
             }
           }
         },
+        "parameters": [
+          {
+            "name": "did",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "creator",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "publicKey",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
         "tags": [
           "Highway"
         ]
       }
     },
-    "/download/blob": {
-      "post": {
+    "/did/parse/{didString}": {
+      "get": {
+        "summary": "Parse a Did",
+        "description": "Parses a potential DID string into a DID object, using the calling node's network access.",
+        "operationId": "Highway_ParseDid",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1MsgResolveDidResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "didString",
+            "description": "DID is the DID of the DID",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Highway"
+        ]
+      }
+    },
+    "/download/blob/{did}": {
+      "get": {
         "summary": "Download a Blob",
         "description": "Downloads a file or buffer from the calling node's service IPFS storage.",
         "operationId": "Highway_DownloadBlob",
@@ -251,12 +385,28 @@
             }
           }
         },
+        "parameters": [
+          {
+            "name": "did",
+            "description": "DID is the identifier of the blob",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "outPath",
+            "description": "Out Path is the download path of the blob.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
         "tags": [
           "Highway"
         ]
       }
     },
-    "/listen/channel": {
+    "/listen/channel/{did}": {
       "post": {
         "summary": "Listen to a Channel",
         "description": "Subscribes the calling node to the given channel and returns all publish events\nas a stream.",
@@ -284,37 +434,22 @@
             }
           }
         },
-        "tags": [
-          "Highway"
-        ]
-      }
-    },
-    "/parse/did": {
-      "post": {
-        "summary": "Parse a Did",
-        "description": "Parses a potential DID string into a DID object, using the calling node's network access.",
-        "operationId": "Highway_ParseDid",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v1MsgResolveDidResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
+        "parameters": [
+          {
+            "name": "did",
+            "description": "Name is the name of the channel",
+            "in": "path",
+            "required": true,
+            "type": "string"
           }
-        },
+        ],
         "tags": [
           "Highway"
         ]
       }
     },
-    "/read/bucket": {
-      "post": {
+    "/read/bucket/{did}": {
+      "get": {
         "summary": "Read a Bucket",
         "description": "Lists all the blobs in the given bucket. The calling node must have access to the\nbucket.",
         "operationId": "Highway_ReadBucket",
@@ -332,13 +467,27 @@
             }
           }
         },
+        "parameters": [
+          {
+            "name": "did",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "creator",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
         "tags": [
           "Highway"
         ]
       }
     },
-    "/read/channel": {
-      "post": {
+    "/read/channel/{did}": {
+      "get": {
         "summary": "Read a Channel",
         "description": "Lists all peers subscribed to the given channel, and additional details about\nthe channels configuration.",
         "operationId": "Highway_ReadChannel",
@@ -356,13 +505,27 @@
             }
           }
         },
+        "parameters": [
+          {
+            "name": "did",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "creator",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
         "tags": [
           "Highway"
         ]
       }
     },
-    "/read/object": {
-      "post": {
+    "/read/object/{did}": {
+      "get": {
         "summary": "Read a Object",
         "description": "Returns the details of the given object provided its DID or Label.",
         "operationId": "Highway_ReadObject",
@@ -380,6 +543,20 @@
             }
           }
         },
+        "parameters": [
+          {
+            "name": "did",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "creator",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
         "tags": [
           "Highway"
         ]
@@ -433,7 +610,7 @@
         ]
       }
     },
-    "/resolve/did": {
+    "/resolve/did/{didString}": {
       "post": {
         "summary": "Resolve Did",
         "description": "Resolves a DID to its DID document if the DID is valid and the calling node has\naccess to the DID Document.",
@@ -452,13 +629,22 @@
             }
           }
         },
+        "parameters": [
+          {
+            "name": "didString",
+            "description": "DID is the DID of the DID",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "tags": [
           "Highway"
         ]
       }
     },
-    "/sync/blob": {
-      "post": {
+    "/sync/blob/{did}": {
+      "put": {
         "summary": "Synchronize Blob",
         "description": "Synchronizes a local file from the calling node to the given service's IPFS storage.",
         "operationId": "Highway_SyncBlob",
@@ -476,13 +662,22 @@
             }
           }
         },
+        "parameters": [
+          {
+            "name": "did",
+            "description": "DID is the identifier of the blob",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "tags": [
           "Highway"
         ]
       }
     },
-    "/update/bucket": {
-      "post": {
+    "/update/bucket/{did}": {
+      "put": {
         "summary": "Update a Bucket",
         "description": "Updates the configuration of the given bucket. The calling node must have access\nto the bucket.",
         "operationId": "Highway_UpdateBucket",
@@ -500,13 +695,21 @@
             }
           }
         },
+        "parameters": [
+          {
+            "name": "did",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "tags": [
           "Highway"
         ]
       }
     },
-    "/update/channel": {
-      "post": {
+    "/update/channel/{did}": {
+      "put": {
         "summary": "Update a Channel",
         "description": "Updates the configuration of the given channel.",
         "operationId": "Highway_UpdateChannel",
@@ -524,13 +727,21 @@
             }
           }
         },
+        "parameters": [
+          {
+            "name": "did",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "tags": [
           "Highway"
         ]
       }
     },
-    "/update/name": {
-      "post": {
+    "/update/name/{did}": {
+      "put": {
         "summary": "Update a Name",
         "description": "Updates the public information of the calling node.",
         "operationId": "Highway_UpdateName",
@@ -548,13 +759,22 @@
             }
           }
         },
+        "parameters": [
+          {
+            "name": "did",
+            "description": "The did of the peer to update the name of",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "tags": [
           "Highway"
         ]
       }
     },
-    "/update/object": {
-      "post": {
+    "/update/object/{did}": {
+      "put": {
         "summary": "Update a Object",
         "description": "Modifies the property fields of the given object.",
         "operationId": "Highway_UpdateObject",
@@ -572,13 +792,21 @@
             }
           }
         },
+        "parameters": [
+          {
+            "name": "did",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "tags": [
           "Highway"
         ]
       }
     },
-    "/update/service": {
-      "post": {
+    "/update/service/{did}": {
+      "put": {
         "summary": "Update a Service",
         "description": "Updates the details and public configuration of the calling node's service.",
         "operationId": "Highway_UpdateService",
@@ -596,6 +824,15 @@
             }
           }
         },
+        "parameters": [
+          {
+            "name": "did",
+            "description": "The name of the peer to update the service details of",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "tags": [
           "Highway"
         ]
