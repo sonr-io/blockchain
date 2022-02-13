@@ -1,21 +1,9 @@
 version: '3'
 
 includes:
-  cli:
-    taskfile: ./cmd/cli/Taskfile.yaml
-    dir: ./cmd/cli
-
   docs:
     taskfile: ./docs/Taskfile.yaml
     dir: ./docs/static/openapi
-
-  motor:
-    taskfile: ./cmd/motor/Taskfile.yaml
-    dir: ./cmd/motor
-
-  highway:
-    taskfile: ./cmd/highway/Taskfile.yaml
-    dir: ./cmd/highway
 
   types:
     taskfile: ./proto/Taskfile.yaml
@@ -28,17 +16,9 @@ includes:
 tasks:
   buf:
     cmds:
-      - task: motor:buf
-      - task: highway:buf
-      - task: types:buf
       - buf build
       - buf generate
       - task: docs:buf
-
-  bind:
-    cmds:
-      - mkdir -p ./dist
-      - task: motor:bind
 
   build:
     cmds:
@@ -47,7 +27,7 @@ tasks:
 
   serve:
     cmds:
-      - task: highway:serve
+      - starport chain serve
       - task: vue:serve
 
   release:

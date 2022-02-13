@@ -2,9 +2,10 @@ name: Sync OAS to ReadMe
 on:
   push:
     branches:
-      - master
-      - main
-      - release
+      - docs
+    tags:
+      - v*
+      
 jobs:
   build:
     runs-on: ubuntu-latest

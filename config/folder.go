@@ -1,4 +1,4 @@
-package io
+package config
 
 import (
 	"fmt"
@@ -106,4 +106,9 @@ func (f Folder) WriteFile(fileName string, data []byte) error {
 		return err
 	}
 	return os.WriteFile(filepath.Join(f.Path(), fileName), data, 0644)
+}
+
+// String returns the string representation of the folder.
+func (f Folder) String() string {
+	return string(f)
 }

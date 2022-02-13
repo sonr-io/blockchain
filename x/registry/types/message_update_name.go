@@ -12,7 +12,7 @@ var _ sdk.Msg = &MsgUpdateName{}
 func NewMsgUpdateName(creator string, name string) *MsgUpdateName {
 	return &MsgUpdateName{
 		Creator: creator,
-		Name:    name,
+		Did:     name,
 	}
 }
 

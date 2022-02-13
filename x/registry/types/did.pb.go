@@ -134,6 +134,7 @@ func (ServiceType) EnumDescriptor() ([]byte, []int) {
 	return fileDescriptor_36cc9cb5bc1486a2, []int{2}
 }
 
+// Type is the type of the verification method.
 type VerificationMethod_Type int32
 
 const (
