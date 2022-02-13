@@ -11,7 +11,8 @@ import (
 	"github.com/libp2p/go-libp2p-core/crypto"
 	"github.com/libp2p/go-libp2p-core/peer"
 	"github.com/mr-tron/base58/base58"
-	device "github.com/sonr-io/sonr/pkg/io"
+	"github.com/sonr-io/sonr/config"
+
 	"github.com/tendermint/tendermint/libs/bytes"
 )
 
@@ -66,7 +67,7 @@ type KeySet interface {
 	CryptoPubKey() crypto.PubKey
 
 	// DID returns the DID of the keyset.
-	DID() string
+	DID(deviceId string) string
 
 	// LegacyAminoPubKey returns the keyset as a legacy AminoPubKey.
 	LegacyAminoPubKey() *multisig.LegacyAminoPubKey
@@ -81,7 +82,7 @@ type KeySet interface {
 	Secp256k1PrivKey() *secp256k1.PrivKey
 
 	// Export writes the keyset configuration to the given folder.
-	Export(folder device.Folder) error
+	Export(folder config.Folder) error
 }
 
 // keySet implements KeySet
@@ -123,7 +124,7 @@ func CreateKeySet(seed string) (KeySet, error) {
 	}, nil
 }
 
-func LoadKeyset(folder device.Folder) (KeySet, error) {
+func LoadKeyset(folder config.Folder) (KeySet, error) {
 	buf, err := folder.ReadFile(DEVICE_PRIVKEY_FILE)
 	if err != nil {
 		return nil, err
@@ -188,8 +189,14 @@ func (k *keySet) CryptoPubKey() crypto.PubKey {
 }
 
 // DID returns the DID of the Sonr keyset
-func (k *keySet) DID() string {
-	return fmt.Sprintf("did:sonr:%s", k.Address())
+func (k *keySet) DID(deviceId string) string {
+	str := fmt.Sprintf("%s-%s", k.Address(), deviceId)
+	sig, err := k.Secp256k1PrivKey().Sign([]byte(str))
+	if err != nil {
+		return ""
+	}
+
+	return fmt.Sprintf("did:sonr:%s#%s", k.Address(), base58.Encode(sig))
 }
 
 // LegacyAminoPubKey returns the legacy amino public key for multisig
@@ -218,7 +225,7 @@ func (k *keySet) Secp256k1PrivKey() *secp256k1.PrivKey {
 }
 
 // Export exports the key to the given folder and name
-func (k *keySet) Export(folder device.Folder) error {
+func (k *keySet) Export(folder config.Folder) error {
 	buf, err := crypto.MarshalPrivateKey(k.motorCryptoPrivKey)
 	if err != nil {
 		return err

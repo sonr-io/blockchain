@@ -1,12 +1,11 @@
 package crypto
 
 import (
-	"errors"
 	"log"
 
 	"github.com/cosmos/cosmos-sdk/crypto"
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
-	device "github.com/sonr-io/sonr/pkg/io"
+	"github.com/sonr-io/sonr/config"
 )
 
 type GenerateOption func(*options) error
@@ -18,35 +17,17 @@ func WithPassphrase(s string) GenerateOption {
 	}
 }
 
-// WithFolder sets HD path for the keyring
-func WithFolder(f device.Folder) GenerateOption {
-	return func(o *options) error {
-		if device.Exists(f.Path()) {
-			o.walletFolder = f
-			return nil
-		}
-
-		if device.IsDesktop() {
-			p, err := device.Support.CreateFolder(".wallet")
-			if err != nil {
-				return err
-			}
-			o.walletFolder = device.Folder(p)
-		}
-		return errors.New("HD path does not exist")
-	}
-}
-
 type options struct {
-	sname        string
-	walletFolder device.Folder
-	passphrase   string
+	sname      string
+	config     *config.SonrConfig
+	passphrase string
 }
 
-func defaultOptions(sname string) *options {
+func defaultOptions(cnfg *config.SonrConfig) *options {
 	return &options{
-		sname:      sname,
+		sname:      cnfg.AccountName,
 		passphrase: "bad-passphrase",
+		config:     cnfg,
 	}
 }
 

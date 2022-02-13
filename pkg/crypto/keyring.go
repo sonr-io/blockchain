@@ -5,12 +5,13 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/crypto/hd"
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
+	"github.com/sonr-io/sonr/config"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
-func GenerateKeyring(sname string, kr keyring.Keyring, options ...GenerateOption) (KeySet, string, error) {
-	g := defaultOptions(sname)
+func GenerateKeyring(cnfg *config.SonrConfig, kr keyring.Keyring, options ...GenerateOption) (KeySet, string, error) {
+	g := defaultOptions(cnfg)
 	for _, option := range options {
 		if err := option(g); err != nil {
 			return nil, "", err
@@ -32,7 +33,7 @@ func GenerateKeyring(sname string, kr keyring.Keyring, options ...GenerateOption
 	// Copy keys to keyring if not already there
 	_, err = ks.CopyToKeyring(kr, g.sname)
 	if err == nil {
-		err = ks.Export(g.walletFolder)
+		err = ks.Export(g.config.WalletFolder())
 		if err != nil {
 			return nil, "", err
 		}

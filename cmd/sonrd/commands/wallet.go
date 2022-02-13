@@ -1,4 +1,4 @@
-package commands
+package cli
 
 import (
 	"fmt"
@@ -8,6 +8,7 @@ import (
 	// "github.com/sonr-io/sonr/core/crypto"
 
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
+	"github.com/sonr-io/sonr/config"
 	"github.com/sonr-io/sonr/pkg/crypto"
 	"github.com/spf13/cobra"
 )
@@ -107,8 +108,13 @@ var generateCmd = &cobra.Command{
 			fmt.Println("[ERROR]: Please enter your desired '.snr' name")
 			return
 		}
+		cnfg, err := config.Load()
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
 		sname := args[0]
-		kr, _, err := crypto.GenerateKeyring(sname, keyring.NewInMemory())
+		kr, _, err := crypto.GenerateKeyring(cnfg, keyring.NewInMemory())
 		if err != nil {
 			fmt.Println(err)
 			return
@@ -138,10 +144,8 @@ to quickly create a Cobra application.`,
 func init() {
 	restoreCmd.PersistentFlags().StringP("passhprase", "p", ".", "Passphrase for the armor file")
 	restoreCmd.PersistentFlags().StringP("armor", "a", ".", "Path to the Armor file")
-	exportCmd.PersistentFlags().StringP("password", "p", "-", "Password for the wallet file")
+	exportCmd.PersistentFlags().StringP("password", "w", "-", "Password for the wallet file")
 	exportCmd.PersistentFlags().StringP("outDir", "o", "", "The directory to export the armored wallet file to")
 	generateCmd.PersistentFlags().StringP("file", "f", "-", "Path to the wallet file")
-	generateCmd.PersistentFlags().StringP("password", "p", "-", "Password for the wallet file")
-	restoreCmd.PersistentFlags().StringP("password", "p", "-", "Password for the wallet file")
 	WalletCmd.AddCommand(generateCmd, restoreCmd, exportCmd)
 }

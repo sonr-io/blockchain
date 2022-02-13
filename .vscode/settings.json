@@ -35,7 +35,7 @@
         "**/buf.lock": true,
         "**/design": true,
         "**/sonr.wiki": true,
-        ".gitignore": true,
+
     },
     "material-icon-theme.folders.associations": {
         "sonrd": "interface",

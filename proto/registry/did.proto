@@ -133,14 +133,17 @@ enum ServiceType {
   // SERVICE_TYPE_UNSPECIFIED is the default value.
   SERVICE_TYPE_UNSPECIFIED = 0;
 
-  // SERVICE_TYPE_APPLICATION is the type of service that is a DApp.
+  // SERVICE_TYPE_DID_COMM_MESSAGING is the realtime communication on the sonr network.
   SERVICE_TYPE_DID_COMM_MESSAGING = 1;
 
-  // SERVICE_TYPE_SERVICE is the type of service that is a service.
+  // SERVICE_TYPE_LINKED_DOMAINS is for linking a URL to an endpoint.
   SERVICE_TYPE_LINKED_DOMAINS = 2;
 
   // SERVICE_TYPE_SONR is the type of service that is a DApp.
   SERVICE_TYPE_SONR = 3;
+
+  // SERVICE_TYPE_DATA_VAULT is the type of service for IPFS encrypted storage.
+  SERVICE_TYPE_DATA_VAULT = 4;
 }
 
 // VerificationMethod is a method that can be used to verify the DID.

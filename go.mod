@@ -8,11 +8,19 @@ require (
 	github.com/denisbrodbeck/machineid v1.0.1
 	github.com/gogo/protobuf v1.3.3
 	github.com/golang/protobuf v1.5.2
-	github.com/google/go-cmp v0.5.7 // indirect
-	github.com/gopherjs/gopherjs v0.0.0-20200217142428-fce0ec30dd00 // indirect
 	github.com/gorilla/mux v1.8.0
 	github.com/grpc-ecosystem/grpc-gateway v1.16.0
+	github.com/ipfs/go-cid v0.1.0
+	github.com/ipfs/go-ipfs v0.11.0
 	github.com/ipfs/go-ipfs-api v0.3.0
+	github.com/ipfs/go-ipfs-chunker v0.0.5
+	github.com/ipfs/go-ipfs-config v0.19.0
+	github.com/ipfs/go-ipfs-files v0.0.9
+	github.com/ipfs/go-ipfs-http-client v0.2.0
+	github.com/ipfs/go-ipld-format v0.2.0
+	github.com/ipfs/go-merkledag v0.5.1
+	github.com/ipfs/go-unixfs v0.3.1
+	github.com/ipfs/interface-go-ipfs-core v0.5.2
 	github.com/kataras/golog v0.1.7
 	github.com/libp2p/go-libp2p v0.16.0
 	github.com/libp2p/go-libp2p-connmgr v0.2.4
@@ -23,18 +31,15 @@ require (
 	github.com/libp2p/go-msgio v0.1.0
 	github.com/mr-tron/base58 v1.2.0
 	github.com/multiformats/go-multiaddr v0.4.1
+	github.com/multiformats/go-multihash v0.1.0
 	github.com/pkg/errors v0.9.1
-	github.com/smartystreets/assertions v1.2.0 // indirect
 	github.com/spf13/cast v1.4.1
 	github.com/spf13/cobra v1.3.0
 	github.com/spf13/viper v1.10.0
 	github.com/stretchr/testify v1.7.0
 	github.com/tendermint/spm v0.1.9
-	github.com/tendermint/starport v0.19.2
 	github.com/tendermint/tendermint v0.34.14
 	github.com/tendermint/tm-db v0.6.4
-	go.buf.build/grpc/go/sonr-io/highway v1.2.7
-	go.buf.build/grpc/go/sonr-io/sonr v1.2.5
 	google.golang.org/genproto v0.0.0-20220118154757-00ab72f36ad5
 	google.golang.org/grpc v1.43.0
 	google.golang.org/protobuf v1.27.1
