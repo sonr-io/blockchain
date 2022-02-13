@@ -9,12 +9,8 @@
       "name": "Highway"
     }
   ],
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json"
-  ],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
   "paths": {
     "/access/name/{name}": {
       "get": {
@@ -51,9 +47,7 @@
             "type": "string"
           }
         ],
-        "tags": [
-          "Highway"
-        ]
+        "tags": ["Highway"]
       }
     },
     "/access/service/{did}": {
@@ -84,9 +78,7 @@
             "type": "string"
           }
         ],
-        "tags": [
-          "Highway"
-        ]
+        "tags": ["Highway"]
       }
     },
     "/create/bucket": {
@@ -108,9 +100,7 @@
             }
           }
         },
-        "tags": [
-          "Highway"
-        ]
+        "tags": ["Highway"]
       }
     },
     "/create/channel": {
@@ -132,9 +122,7 @@
             }
           }
         },
-        "tags": [
-          "Highway"
-        ]
+        "tags": ["Highway"]
       }
     },
     "/create/object": {
@@ -156,9 +144,7 @@
             }
           }
         },
-        "tags": [
-          "Highway"
-        ]
+        "tags": ["Highway"]
       }
     },
     "/delete/blob/{did}": {
@@ -196,9 +182,7 @@
             "type": "string"
           }
         ],
-        "tags": [
-          "Highway"
-        ]
+        "tags": ["Highway"]
       }
     },
     "/delete/bucket/{did}": {
@@ -240,9 +224,7 @@
             "type": "string"
           }
         ],
-        "tags": [
-          "Highway"
-        ]
+        "tags": ["Highway"]
       }
     },
     "/delete/channel/{did}": {
@@ -284,9 +266,7 @@
             "type": "string"
           }
         ],
-        "tags": [
-          "Highway"
-        ]
+        "tags": ["Highway"]
       }
     },
     "/delete/object/{did}": {
@@ -328,9 +308,7 @@
             "type": "string"
           }
         ],
-        "tags": [
-          "Highway"
-        ]
+        "tags": ["Highway"]
       }
     },
     "/did/parse/{didString}": {
@@ -361,9 +339,7 @@
             "type": "string"
           }
         ],
-        "tags": [
-          "Highway"
-        ]
+        "tags": ["Highway"]
       }
     },
     "/download/blob/{did}": {
@@ -401,9 +377,7 @@
             "type": "string"
           }
         ],
-        "tags": [
-          "Highway"
-        ]
+        "tags": ["Highway"]
       }
     },
     "/listen/channel/{did}": {
@@ -443,9 +417,7 @@
             "type": "string"
           }
         ],
-        "tags": [
-          "Highway"
-        ]
+        "tags": ["Highway"]
       }
     },
     "/read/bucket/{did}": {
@@ -481,9 +453,7 @@
             "type": "string"
           }
         ],
-        "tags": [
-          "Highway"
-        ]
+        "tags": ["Highway"]
       }
     },
     "/read/channel/{did}": {
@@ -519,9 +489,7 @@
             "type": "string"
           }
         ],
-        "tags": [
-          "Highway"
-        ]
+        "tags": ["Highway"]
       }
     },
     "/read/object/{did}": {
@@ -557,9 +525,7 @@
             "type": "string"
           }
         ],
-        "tags": [
-          "Highway"
-        ]
+        "tags": ["Highway"]
       }
     },
     "/register/name": {
@@ -581,9 +547,7 @@
             }
           }
         },
-        "tags": [
-          "Highway"
-        ]
+        "tags": ["Highway"]
       }
     },
     "/register/service": {
@@ -605,9 +569,7 @@
             }
           }
         },
-        "tags": [
-          "Highway"
-        ]
+        "tags": ["Highway"]
       }
     },
     "/resolve/did/{didString}": {
@@ -638,9 +600,7 @@
             "type": "string"
           }
         ],
-        "tags": [
-          "Highway"
-        ]
+        "tags": ["Highway"]
       }
     },
     "/sync/blob/{did}": {
@@ -671,9 +631,7 @@
             "type": "string"
           }
         ],
-        "tags": [
-          "Highway"
-        ]
+        "tags": ["Highway"]
       }
     },
     "/update/bucket/{did}": {
@@ -703,9 +661,7 @@
             "type": "string"
           }
         ],
-        "tags": [
-          "Highway"
-        ]
+        "tags": ["Highway"]
       }
     },
     "/update/channel/{did}": {
@@ -735,9 +691,7 @@
             "type": "string"
           }
         ],
-        "tags": [
-          "Highway"
-        ]
+        "tags": ["Highway"]
       }
     },
     "/update/name/{did}": {
@@ -768,9 +722,7 @@
             "type": "string"
           }
         ],
-        "tags": [
-          "Highway"
-        ]
+        "tags": ["Highway"]
       }
     },
     "/update/object/{did}": {
@@ -800,9 +752,7 @@
             "type": "string"
           }
         ],
-        "tags": [
-          "Highway"
-        ]
+        "tags": ["Highway"]
       }
     },
     "/update/service/{did}": {
@@ -833,9 +783,7 @@
             "type": "string"
           }
         ],
-        "tags": [
-          "Highway"
-        ]
+        "tags": ["Highway"]
       }
     },
     "/upload/blob": {
@@ -857,9 +805,7 @@
             }
           }
         },
-        "tags": [
-          "Highway"
-        ]
+        "tags": ["Highway"]
       }
     }
   },
