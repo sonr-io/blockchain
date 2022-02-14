@@ -24,7 +24,7 @@
 <img alt="Lines of code" src="https://img.shields.io/tokei/lines/github/sonr-io/sonr?label=TLOC&style=for-the-badge">
   </a>
   <!-- Downloads -->
-<img alt="Twitter Follow" src="https://img.shields.io/twitter/follow/sonrprotocol?color=%2300ACEE&label=🐦 SonrProtocol&style=for-the-badge">
+<img alt="Twitter Follow" src="https://img.shields.io/twitter/follow/sonr_io?color=%2300ACEE&label=🐦 SonrProtocol&style=for-the-badge">
 </div>
 
 <div align="center">
