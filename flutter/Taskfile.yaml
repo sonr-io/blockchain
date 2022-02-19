@@ -1,0 +1,18 @@
+version: "3"
+
+tasks:
+  setup:
+    cmds:
+      - flutter pub get
+
+  build:
+    cmds:
+      - flutter build
+
+  run:
+    cmds:
+      - flutter run -d all
+
+  test:
+    cmds:
+      - flutter test

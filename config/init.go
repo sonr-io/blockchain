@@ -33,7 +33,6 @@ var (
 	instance *SonrConfig
 )
 
-
 // GetString returns the configuration value for the given key as a string.
 func GetString(key string) string {
 	return viper.GetString(key)
@@ -50,13 +49,6 @@ func SetKey(key string, value interface{}) {
 }
 
 func Load() (*SonrConfig, error) {
-	if !isSaved {
-		if err := viper.ReadInConfig(); err != nil {
-			return nil, err
-		}
-		isSaved = true
-	}
-
 	// Return the instance if it has been initialized.
 	if instance != nil {
 		return instance, nil
@@ -90,12 +82,6 @@ func Load() (*SonrConfig, error) {
 		return nil, err
 	}
 
-	// Read the configuration from the file.
-	err = viper.ReadInConfig()
-	if err != nil {
-		return nil, err
-	}
-
 	// Create the configuration object.
 	config := &SonrConfig{
 		HomeDir:         hp,
@@ -110,14 +96,9 @@ func Load() (*SonrConfig, error) {
 		LibP2PHighWater: viper.GetInt("libp2p.highWater"),
 		LibP2PRendevouz: viper.GetString("libp2p.rendevouz"),
 	}
-
-	// Unmarshal the configuration into the object.
-	err = viper.Unmarshal(config)
-	if err != nil {
-		return nil, err
-	}
+	config.Save()
 	instance = config
-	return instance.Save()
+	return config, nil
 }
 
 // Arch returns the current architecture.

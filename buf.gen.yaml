@@ -6,4 +6,4 @@ plugins:
     out: docs/static/openapi
     opt:
       - allow_merge=true
-      - merge_file_name=highway.json
+      - merge_file_name=highway.yaml

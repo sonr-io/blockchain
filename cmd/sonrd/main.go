@@ -8,8 +8,6 @@ import (
 	"github.com/sonr-io/sonr/app"
 	"github.com/spf13/viper"
 	cmd "github.com/tendermint/spm/cosmoscmd"
-
-	cli "github.com/sonr-io/sonr/cmd/sonrd/commands"
 )
 
 func init() {
@@ -57,11 +55,6 @@ func main() {
 
 	)
 	// rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.cli.yaml)")
-	cli.RootCmd.AddCommand(cli.WalletCmd)
-	cli.RootCmd.AddCommand(cli.ServeCmd)
-	cli.RootCmd.AddCommand(cli.HighwayCmd)
-	cli.RootCmd.AddCommand(cli.DeployCmd)
-	rootCmd.AddCommand(cli.RootCmd)
 
 	// Execute the root command.
 	if err := svrcmd.Execute(rootCmd, app.DefaultNodeHome); err != nil {

@@ -115,20 +115,17 @@ This project is a pseudo-monorepo, meaning it has a single root directory and al
 
 ### Plugins -->
 
-### CLI
-
-To install the latest version of the Sonr blockchain node's binary, execute the following command on your machine:
-
-```shell
-curl https://sonr.ws/sonr@latest! | sudo bash
-```
-
 ### Release
 
 To install the latest version of the Sonr blockchain node's binary, execute the following command on your machine:
 
 ```shell
-curl https://sonr.ws/sonr@latest! | sudo bash
+// For Non M1 Systems
+curl https://sonr.ws/sonr! | sudo bash
+
+// For M1 Systems
+curl https://sonr.ws/sonr | bash # Install
+sudo mv sonr /usr/local/bin/ # Move to Directory
 ```
 
 ## Usage

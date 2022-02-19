@@ -1,9 +1,13 @@
-version: '3'
+version: "3"
 
 includes:
   docs:
     taskfile: ./docs/Taskfile.yaml
     dir: ./docs/static/openapi
+
+  flutter:
+    taskfile: ./flutter/Taskfile.yaml
+    dir: ./flutter
 
   types:
     taskfile: ./proto/Taskfile.yaml
@@ -42,4 +46,3 @@ tasks:
       - rm -rf dist
       - rm -rf release
       - go mod tidy
-
