@@ -150,6 +150,7 @@ flutter pub get
 flutter run
 ```
 
+
 ### Run the Vue.js Frontend
 
 Starport has scaffolded a Vue.js-based web app in the `vue` directory. Run the following commands to install dependencies and start the app:
