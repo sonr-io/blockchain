@@ -24,7 +24,7 @@
 <img alt="Lines of code" src="https://img.shields.io/tokei/lines/github/sonr-io/sonr?label=TLOC&style=for-the-badge">
   </a>
   <!-- Downloads -->
-<img alt="Twitter Follow" src="https://img.shields.io/twitter/follow/sonrprotocol?color=%2300ACEE&label=🐦 SonrProtocol&style=for-the-badge">
+<img alt="Twitter Follow" src="https://img.shields.io/twitter/follow/sonr_io?color=%2300ACEE&label=🐦 sonr_io&style=for-the-badge">
 </div>
 
 <div align="center">
@@ -85,7 +85,7 @@ Peers in the network can dial other peers in the network to exchange messages us
 
 - [Golang](https://go.dev)
 - [Libp2p](https://libp2p.io)
-- [Starport](https://starport.com)
+- [Cosmos-SDK](https://cosmos.network)
 
 ### Configuration
 
@@ -109,11 +109,37 @@ This project is a pseudo-monorepo, meaning it has a single root directory and al
 /x               ->        Implementation of Cosmos-Sonr Schemas
 ```
 
-## Installation
+## Getting Started
 
-<!-- ### Framework
+To get a local copy up and running follow these simple steps.
 
-### Plugins -->
+### Requirements
+
+- [Go](https://golang.org/doc/install)
+- [Docker](https://docs.docker.com/docker-for-mac/install/mac/)
+- [Taskfile](https://taskfile.dev)
+  - `brew install go-task/tap/go-task`
+- [Starport](https://docs.starport.network/guide/install.html#upgrading-your-starport-installation)
+
+#### Development
+
+1. Download the `starport` CLI tool.
+
+```shell
+// For Non M1 Systems
+curl https://get.starport.network/starport! | bash
+
+// For M1 Systems
+curl https://get.starport.network/starport | bash # Install
+sudo mv starport /usr/local/bin/ # Move to Directory
+```
+
+2. Serve the Blockchain
+
+```sh
+starport chain serve # Serve without resetting the chain
+starport chain serve --reset-once # Reset the chain
+```
 
 ### Release
 
