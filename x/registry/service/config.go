@@ -9,14 +9,19 @@ import (
 	v1 "github.com/sonr-io/sonr/x/registry/types"
 )
 
+// Did is a DID object from the registry types
 type Did = v1.Did
 
+// NetworkType is a Service Option that sets the service network type.
 type NetworkType = v1.NetworkType
 
+// Option is a function that sets a service option.
 type Option = v1.Option
 
+// ServiceProtocol is a Service Option that sets the service protocol.
 type ServiceProtocol = v1.ServiceProtocol
 
+// VerificationMethod is a Service Option that sets the service verification method.
 type VerificationMethod = v1.VerificationMethod
 
 // WithFragment adds a fragment to a DID
@@ -138,6 +143,7 @@ func WithVersion(version string) ServiceOption {
 	}
 }
 
+// defaultConfig is the default service configuration.
 func defaultConfig() *types.ServiceConfig {
 	return &types.ServiceConfig{
 		Name:        "",

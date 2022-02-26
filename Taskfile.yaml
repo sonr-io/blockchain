@@ -32,7 +32,6 @@ tasks:
   serve:
     cmds:
       - starport chain serve
-      - task: vue:serve
 
   release:
     cmds:

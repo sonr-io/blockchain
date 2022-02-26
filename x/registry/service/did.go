@@ -105,6 +105,7 @@ func FromString(s string) (DID, error) {
 	}, nil
 }
 
+// didImpl is the implementation of the DID interface
 type didImpl struct {
 	DID
 	*v1.Did
@@ -129,46 +130,57 @@ func (di *didImpl) Generate(options ...Option) (DID, error) {
 	}, nil
 }
 
+// GetBase returns the did:method:network:identifier string of the DID
 func (di *didImpl) GetBase() string {
 	return di.Did.GetBase()
 }
 
+// HasNetwork returns true if the DID has the provided network
 func (di *didImpl) HasNetwork() bool {
 	return di.Did.HasNetwork()
 }
 
+// HasFragment returns true if the DID has the provided fragment
 func (di *didImpl) HasFragment() bool {
 	return di.Did.HasFragment()
 }
 
+// HasPath returns true if the DID has the provided path
 func (di *didImpl) HasPath() bool {
 	return di.Did.HasPath()
 }
 
+// HasQuery returns true if the DID has the provided query
 func (di *didImpl) HasQuery() bool {
 	return di.Did.HasQuery()
 }
 
+// IsValid returns true if the DID is valid
 func (di *didImpl) IsValid() bool {
 	return di.Did.IsValid()
 }
 
+// ToProto converts the DID to a proto representation v1.Did
 func (di *didImpl) ToProto() *v1.Did {
 	return di.Did
 }
 
+// ToString returns the string representation of the DID
 func (di *didImpl) ToString() string {
 	return di.Did.ToString()
 }
 
+// PublicKey returns the public key of the DID
 func (di *didImpl) PublicKey() crypto.PubKey {
 	return di.pubKey
 }
 
+// PublicKeyBuffer returns the public key of the DID as a byte array
 func (di *didImpl) PublicKeyBuffer() ([]byte, error) {
 	return crypto.MarshalPublicKey(di.pubKey)
 }
 
+// PublicKeyBase58 returns the base58 encoded public key of the DID
 func (di *didImpl) PublicKeyBase58() (string, error) {
 	pubBuf, err := di.PublicKeyBuffer()
 	if err != nil {
@@ -177,10 +189,12 @@ func (di *didImpl) PublicKeyBase58() (string, error) {
 	return base58.Encode(pubBuf), nil
 }
 
+// TODO: Resolve resolves the DID and returns the DID document
 func (di *didImpl) Resolve(ctx context.Context, resFunc ResolverFunc) (*v1.DidDocument, error) {
 	return nil, nil
 }
 
+// ToRegistryProto converts the DID to a proto representation sonrio.sonr.registry.Did
 func (di *didImpl) ToRegistryProto() *types.Did {
 	return &types.Did{
 		Method:   di.GetMethod(),

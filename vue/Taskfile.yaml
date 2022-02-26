@@ -19,4 +19,4 @@ tasks:
 
   serve:
     cmds:
-      - npm run serve
+      - npm run dev

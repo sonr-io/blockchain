@@ -7,6 +7,7 @@ import (
 	"github.com/sonr-io/sonr/x/registry/types"
 )
 
+// ServiceConfig is the service configuration interface.
 type ServiceConfig interface {
 	// GetConfig returns the service configuration.
 	GetConfig() *types.ServiceConfig
@@ -51,6 +52,7 @@ type ServiceConfig interface {
 	Save() error
 }
 
+// serviceConfig is the service configuration.
 type serviceConfig struct {
 	ServiceConfig
 	config *types.ServiceConfig

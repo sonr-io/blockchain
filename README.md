@@ -109,7 +109,7 @@ This project is a pseudo-monorepo, meaning it has a single root directory and al
 /x               ->        Implementation of Cosmos-Sonr Schemas
 ```
 
-## Getting Started
+## Install
 
 To get a local copy up and running follow these simple steps.
 
@@ -187,6 +187,28 @@ npm run serve
 ```
 
 The frontend app is built using the `@starport/vue` and `@starport/vuex` packages. For details, see the [monorepo for Starport front-end development](https://github.com/tendermint/vue).
+
+### Starport CLI Reference
+
+`starport chain serve`
+- This is the command that starts the blockchain.
+- By adding the flag `--reset-once` it will reset the blockchain on the first startup
+
+`starport scaffold vue`
+- This is the command that rescaffolds a vue frontend (web) interface for the Cosmos SDK.
+
+`starport scaffold flutter`
+- This is the command that rescaffolds a flutter frontend (mobile, desktop) interface for the Cosmos SDK.
+
+`starport generate openapi`
+- Generates an OpenAPI spec for your chain from your config.yml
+
+`starport generate dart`
+- Generate a Dart client
+
+`starport generate vuex`
+- Generate Vuex store for you chain's frontend from your config.yml
+
 
 ## Version History
 

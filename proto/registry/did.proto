@@ -166,6 +166,9 @@ message VerificationMethod {
   // BlockchainAccountId is the blockchain account id of the verification method.
   string blockchain_account_id = 6; // optional
 
+  // PublicKeyJwk is the public key of the verification method in JWK format.
+  map<string,string> public_key_jwk = 7;
+
   // Type is the type of the verification method.
   enum Type {
     // TYPE_UNSPECIFIED is the default value.
@@ -189,8 +192,7 @@ message VerificationMethod {
     // TYPE_RSA represents the RsaVerificationKey2018 key type.
     TYPE_RSA = 6;
 
-    // TYPE_VERIFIABLE_CONDITION represents the VerifiableCondition2021 key type.
-    TYPE_VERIFIABLE_CONDITION = 7;
+    // TYPE_JSON_WEB_KEY_2020 represents the VerifiableCondition2021 key type.
+    TYPE_JSON_WEB_KEY_2020 = 7;
   }
 }
-

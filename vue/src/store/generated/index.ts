@@ -11,11 +11,6 @@ import CosmosCosmosSdkCosmosSlashingV1Beta1 from './cosmos/cosmos-sdk/cosmos.sla
 import CosmosCosmosSdkCosmosStakingV1Beta1 from './cosmos/cosmos-sdk/cosmos.staking.v1beta1'
 import CosmosCosmosSdkCosmosVestingV1Beta1 from './cosmos/cosmos-sdk/cosmos.vesting.v1beta1'
 import CosmosIbcGoIbcApplicationsTransferV1 from './cosmos/ibc-go/ibc.applications.transfer.v1'
-import SonrIoSonrSonrioSonrBlob from './sonr-io/sonr/sonrio.sonr.blob'
-import SonrIoSonrSonrioSonrBucket from './sonr-io/sonr/sonrio.sonr.bucket'
-import SonrIoSonrSonrioSonrChannel from './sonr-io/sonr/sonrio.sonr.channel'
-import SonrIoSonrSonrioSonrObject from './sonr-io/sonr/sonrio.sonr.object'
-import SonrIoSonrSonrioSonrRegistry from './sonr-io/sonr/sonrio.sonr.registry'
 
 
 export default { 
@@ -30,11 +25,6 @@ export default {
   CosmosCosmosSdkCosmosStakingV1Beta1: load(CosmosCosmosSdkCosmosStakingV1Beta1, 'cosmos.staking.v1beta1'),
   CosmosCosmosSdkCosmosVestingV1Beta1: load(CosmosCosmosSdkCosmosVestingV1Beta1, 'cosmos.vesting.v1beta1'),
   CosmosIbcGoIbcApplicationsTransferV1: load(CosmosIbcGoIbcApplicationsTransferV1, 'ibc.applications.transfer.v1'),
-  SonrIoSonrSonrioSonrBlob: load(SonrIoSonrSonrioSonrBlob, 'sonrio.sonr.blob'),
-  SonrIoSonrSonrioSonrBucket: load(SonrIoSonrSonrioSonrBucket, 'sonrio.sonr.bucket'),
-  SonrIoSonrSonrioSonrChannel: load(SonrIoSonrSonrioSonrChannel, 'sonrio.sonr.channel'),
-  SonrIoSonrSonrioSonrObject: load(SonrIoSonrSonrioSonrObject, 'sonrio.sonr.object'),
-  SonrIoSonrSonrioSonrRegistry: load(SonrIoSonrSonrioSonrRegistry, 'sonrio.sonr.registry'),
   
 }
 
