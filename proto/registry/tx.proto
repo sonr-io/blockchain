@@ -1,5 +1,4 @@
 syntax = "proto3";
-import "registry/did.proto";
 package sonrio.sonr.registry;
 import "registry/who_is.proto";
 // this line is used by starport scaffolding # proto/tx/import
@@ -21,29 +20,60 @@ service Msg {
 }
 
 message MsgRegisterService {
+  // Creator is the account address of the creator of the service.
   string creator = 1;
+
+  // Service Name is the endpoint of the service.
   string serviceName = 2;
-  string publicKey = 3;
+
+  // JWT is the JWT used to authenticate the service.
+  string jwt = 3;
 }
 
 message MsgRegisterServiceResponse {
+  // The name that was registered
+  bool isSuccess = 1;
+
+  // The Did string in url format i.e. did:sonr:<did>
+  string didUrl = 2;
+
+  // The Document for the registered DID in Json format
+  string didDocumentJson = 3;
 }
 
 // MsgRegisterName is a request to register a name with the ".snr" name of a peer
 message MsgRegisterName {
+  // Account address of the name owner
   string creator = 1;
+
+  // Device Id of the client node
   string deviceId = 2;
+
+  // Operating System client side is running
   string os = 3;
+
+  // Model of device user is using - fetched from UserAgent
   string model = 4;
-  string arch = 5;
-  string publicKey = 6;
-  string nameToRegister = 7;
+
+  // Client side JSON Web Token for AssertionMethod
+  string jwt = 5;
+
+  // The name user is trying to register
+  string nameToRegister = 6;
+
+  // Ethereum address used to mint the name
+  string ethAddress = 7; // optional
 }
 
 message MsgRegisterNameResponse {
+  // The name that was registered
   bool isSuccess = 1;
-  Did did = 2;
-  DidDocument didDocument = 3;
+
+  // The Did string in url format i.e. did:sonr:<did>
+  string didUrl = 2;
+
+  // The Document for the registered DID in Json format
+  string didDocumentJson = 3;
 }
 
 // MsgAccessName defines the MsgAccessName transaction.
@@ -79,7 +109,7 @@ message MsgUpdateName {
 }
 
 message MsgUpdateNameResponse {
-  DidDocument didDocument = 1;
+  string didDocument = 1;
   map<string, string> metadata = 2; // optional
 }
 
@@ -117,7 +147,7 @@ message MsgUpdateService {
 }
 
 message MsgUpdateServiceResponse {
-  DidDocument didDocument = 1;
+  string didDocument = 1;
     // The updated configuration for the service
   map<string, string> configuration = 2;
 
@@ -130,7 +160,7 @@ message MsgCreateWhoIs {
   string index = 2;
 
   string did = 3;
-  DidDocument value = 4;
+  string value = 4;
 }
 message MsgCreateWhoIsResponse {}
 
@@ -139,7 +169,7 @@ message MsgUpdateWhoIs {
   string index = 2;
 
   string did = 3;
-  DidDocument value = 4;
+  string value = 4;
 }
 message MsgUpdateWhoIsResponse {}
 

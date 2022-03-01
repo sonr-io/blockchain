@@ -1,6 +1,5 @@
 syntax = "proto3";
 package sonrio.sonr.bucket;
-import "registry/did.proto";
 import "bucket/which_is.proto";
 // this line is used by starport scaffolding # proto/tx/import
 
@@ -60,7 +59,7 @@ message MsgCreateWhichIs {
   string index = 2;
 
   string did = 3;
-  sonrio.sonr.registry.DidDocument value = 4;
+  string documentJson = 4;
 }
 message MsgCreateWhichIsResponse {}
 
@@ -69,7 +68,7 @@ message MsgUpdateWhichIs {
   string index = 2;
 
   string did = 3;
-  sonrio.sonr.registry.DidDocument value = 4;
+  string documentJson = 4;
 }
 message MsgUpdateWhichIsResponse {}
 

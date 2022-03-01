@@ -1,7 +1,6 @@
 syntax = "proto3";
 package sonrio.sonr.registry;
 import "object/object.proto";
-import "registry/did.proto";
 option go_package = "github.com/sonr-io/sonr/x/registry/types";
 
 // ServiceConfig is the configuration for a service.
@@ -13,16 +12,16 @@ message ServiceConfig {
     string description = 2;
 
     // Id is the DID of the service.
-    sonrio.sonr.registry.Did did = 3;
+    string did = 3;
 
     // Maintainers is the DID of the service maintainers.
-    repeated sonrio.sonr.registry.Did maintainers = 4;
+    repeated string maintainers = 4;
 
     // Channels is a list of channels the service is registered on.
-    repeated sonrio.sonr.registry.Did channels = 5;
+    repeated string channels = 5;
 
     // Buckets is a list of buckets the service is registered on.
-    repeated sonrio.sonr.registry.Did buckets = 6;
+    repeated string buckets = 6;
 
     // Objects is a map of objects the service is registered on.
     map<string, sonrio.sonr.object.ObjectDoc> objects = 7;

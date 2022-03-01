@@ -1,7 +1,6 @@
 syntax = "proto3";
 package sonrio.sonr.channel;
 import "object/object.proto";
-import "registry/did.proto";
 import "registry/peer.proto";
 option go_package = "github.com/sonr-io/sonr/x/channel/types";
 
@@ -13,7 +12,7 @@ message Channel {
     string description = 2;
 
     // Did is the identifier of the channel.
-    sonrio.sonr.registry.Did did = 4;
+    string did = 4;
 
     // RegisterdObject is the object that is registered as the payload for the channel.
     sonrio.sonr.object.ObjectDoc registered_object = 5;
@@ -26,7 +25,7 @@ message ChannelMessage {
     sonrio.sonr.registry.Peer peer = 1;
 
     // Did is the identifier of the channel.
-    sonrio.sonr.registry.Did did = 2;
+    string did = 2;
 
     // Data is the data being sent.
     sonrio.sonr.object.ObjectDoc object = 3; // optional

@@ -21,10 +21,10 @@ func (k msgServer) CreateWhoIs(goCtx context.Context, msg *types.MsgCreateWhoIs)
 	}
 
 	var whoIs = types.WhoIs{
-		Creator: msg.Creator,
-		Address: msg.Index,
-		Did:     msg.Did,
-		Value:   msg.Value,
+		Creator:  msg.Creator,
+		Name:     msg.Index,
+		Did:      msg.Did,
+		Document: []byte(msg.Value),
 	}
 
 	k.SetWhoIs(
@@ -52,10 +52,10 @@ func (k msgServer) UpdateWhoIs(goCtx context.Context, msg *types.MsgUpdateWhoIs)
 	}
 
 	var whoIs = types.WhoIs{
-		Creator: msg.Creator,
-		Address: msg.Index,
-		Did:     msg.Did,
-		Value:   msg.Value,
+		Creator:  msg.Creator,
+		Name:     msg.Index,
+		Did:      msg.Did,
+		Document: []byte(msg.Value),
 	}
 
 	k.SetWhoIs(ctx, whoIs)

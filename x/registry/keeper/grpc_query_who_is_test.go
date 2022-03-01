@@ -31,14 +31,14 @@ func TestWhoIsQuerySingle(t *testing.T) {
 		{
 			desc: "First",
 			request: &types.QueryGetWhoIsRequest{
-				Index: msgs[0].Address,
+				Index: msgs[0].Name,
 			},
 			response: &types.QueryGetWhoIsResponse{WhoIs: msgs[0]},
 		},
 		{
 			desc: "Second",
 			request: &types.QueryGetWhoIsRequest{
-				Index: msgs[1].Address,
+				Index: msgs[1].Name,
 			},
 			response: &types.QueryGetWhoIsResponse{WhoIs: msgs[1]},
 		},

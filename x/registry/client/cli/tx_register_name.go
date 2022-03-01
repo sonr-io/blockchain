@@ -21,9 +21,8 @@ func CmdRegisterName() *cobra.Command {
 			argDeviceId := args[0]
 			argOs := args[1]
 			argModel := args[2]
-			argArch := args[3]
-			argPublicKey := args[4]
-			argNameToRegister := args[5]
+			argJwt := args[3]
+			argNameToRegister := args[4]
 
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
@@ -35,8 +34,7 @@ func CmdRegisterName() *cobra.Command {
 				argDeviceId,
 				argOs,
 				argModel,
-				argArch,
-				argPublicKey,
+				argJwt,
 				argNameToRegister,
 			)
 			if err := msg.ValidateBasic(); err != nil {

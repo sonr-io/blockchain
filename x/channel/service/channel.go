@@ -10,7 +10,6 @@ import (
 
 	"github.com/sonr-io/sonr/pkg/p2p"
 	o "github.com/sonr-io/sonr/x/object/types"
-	"github.com/sonr-io/sonr/x/registry/service"
 
 	v1 "github.com/sonr-io/sonr/x/channel/types"
 )
@@ -25,7 +24,7 @@ var (
 // Channel is a pubsub based Key-Value store for Libp2p nodes.
 type Channel interface {
 	// Did returns the DID of the channel.
-	DID() service.DID
+	DID() string
 
 	// Read returns a list of all peers subscribed to the channel topic.
 	Read() []peer.ID
@@ -48,7 +47,7 @@ type channel struct {
 	n      p2p.HostImpl
 	config *v1.Channel
 	name   string
-	did    service.DID
+	did    string
 	object *o.ObjectDoc
 
 	// Channel Messages
@@ -59,7 +58,7 @@ type channel struct {
 }
 
 // New creates a new beam with the given name and options.
-func New(ctx context.Context, h p2p.HostImpl, config service.ServiceConfig, registeredObject *o.ObjectDoc, options ...Option) (Channel, error) {
+func New(ctx context.Context, h p2p.HostImpl, did string, registeredObject *o.ObjectDoc, options ...Option) (Channel, error) {
 	c := &channel{
 		ctx:    ctx,
 		n:      h,
@@ -70,8 +69,8 @@ func New(ctx context.Context, h p2p.HostImpl, config service.ServiceConfig, regi
 	for _, option := range options {
 		option(opts)
 	}
-	id := opts.Apply(c)
-	mTopic, mHandler, mSub, err := h.NewTopic(id.ToString())
+	opts.Apply(c)
+	mTopic, mHandler, mSub, err := h.NewTopic(did)
 	if err != nil {
 		return nil, err
 	}
@@ -79,7 +78,7 @@ func New(ctx context.Context, h p2p.HostImpl, config service.ServiceConfig, regi
 	b := &channel{
 		ctx:             ctx,
 		n:               h,
-		did:             id,
+		did:             did,
 		messages:        make(chan *v1.ChannelMessage),
 		messagesHandler: mHandler,
 		messagesSub:     mSub,
@@ -129,7 +128,7 @@ func (b *channel) Publish(obj *o.ObjectDoc, options ...PublishOption) error {
 	if b.object.Validate(obj) {
 		// Create the message.
 		msg := &v1.ChannelMessage{
-			Did:    b.did.ToProto(),
+			Did:    b.did,
 			Object: obj,
 		}
 

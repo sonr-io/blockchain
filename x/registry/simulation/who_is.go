@@ -80,7 +80,7 @@ func SimulateMsgUpdateWhoIs(
 		}
 		msg.Creator = simAccount.Address.String()
 
-		msg.Index = whoIs.Address
+		msg.Index = whoIs.Name
 
 		txCtx := simulation.OperationInput{
 			R:               r,
@@ -126,7 +126,7 @@ func SimulateMsgDeleteWhoIs(
 		}
 		msg.Creator = simAccount.Address.String()
 
-		msg.Index = whoIs.Address
+		msg.Index = whoIs.Name
 
 		txCtx := simulation.OperationInput{
 			R:               r,

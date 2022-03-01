@@ -17,7 +17,7 @@ func NewMsgCreateWhoIs(
 	creator string,
 	index string,
 	did string,
-	value *DidDocument,
+	value string,
 
 ) *MsgCreateWhoIs {
 	return &MsgCreateWhoIs{
@@ -63,7 +63,7 @@ func NewMsgUpdateWhoIs(
 	creator string,
 	index string,
 	did string,
-	value *DidDocument,
+	value string,
 
 ) *MsgUpdateWhoIs {
 	return &MsgUpdateWhoIs{

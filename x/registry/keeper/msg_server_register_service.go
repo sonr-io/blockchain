@@ -6,7 +6,6 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 
-	"github.com/sonr-io/sonr/x/registry/service"
 	"github.com/sonr-io/sonr/x/registry/types"
 )
 
@@ -21,20 +20,15 @@ func (k msgServer) RegisterService(goCtx context.Context, msg *types.MsgRegister
 		return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "Incorrect Owner")
 	}
 
-	buyer, err := sdk.AccAddressFromBech32(msg.Creator)
-	if err != nil {
-		return nil, err
-	}
-
-	did, err := service.Create(buyer.String(), service.WithPathSegments(msg.ServiceName))
-	if err != nil {
-		return nil, err
-	}
+	// buyer, err := sdk.AccAddressFromBech32(msg.Creator)
+	// if err != nil {
+	// 	return nil, err
+	// }
 
 	// Otherwise, create an updated whois record
 	newWhois := types.WhoIs{
-		Address: buyer.String(),
-		Did:     did.ToString(),
+		//Address: buyer.String(),
+		//		Did:     did.ToString(),
 		//Value:  msg.GetValue(),
 		Creator: msg.Creator,
 	}

@@ -9,11 +9,11 @@ const TypeMsgRegisterService = "register_service"
 
 var _ sdk.Msg = &MsgRegisterService{}
 
-func NewMsgRegisterService(creator string, serviceName string, publicKey string) *MsgRegisterService {
+func NewMsgRegisterService(creator string, serviceName string, jwt string) *MsgRegisterService {
 	return &MsgRegisterService{
 		Creator:     creator,
 		ServiceName: serviceName,
-		PublicKey:   publicKey,
+		Jwt:         jwt,
 	}
 }
 
