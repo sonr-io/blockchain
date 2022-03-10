@@ -19,7 +19,7 @@ import (
 func (k msgServer) RegisterName(goCtx context.Context, msg *types.MsgRegisterName) (*types.MsgRegisterNameResponse, error) {
 	// Get the sender address and Generate BaseID
 	ctx := sdk.UnwrapSDKContext(goCtx)
-	doc, err := GenerateDid(msg.GetCreator())
+	doc, err := GenerateDid(msg.GetCreator(), msg.GetNameToRegister())
 	if err != nil {
 		return nil, err
 	}
@@ -69,7 +69,7 @@ func (k msgServer) RegisterName(goCtx context.Context, msg *types.MsgRegisterNam
 }
 
 // GenerateDid generates a new did document
-func GenerateDid(accountAddr string) (*did.Document, error) {
+func GenerateDid(accountAddr, nameToRegister string) (*did.Document, error) {
 	didStr, err := did.Build(accountAddr)
 	if err != nil {
 		return nil, sdkerrors.Wrap(err, "failed to build did")
@@ -84,6 +84,9 @@ func GenerateDid(accountAddr string) (*did.Document, error) {
 	doc := &did.Document{
 		Context: []ssi.URI{did.DIDContextV1URI()},
 		ID:      *didID,
+		AlsoKnownAs: []string{
+			nameToRegister,
+		},
 	}
 
 	// Add an assertionMethod
