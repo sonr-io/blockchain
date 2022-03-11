@@ -9,7 +9,7 @@ option go_package = "github.com/sonr-io/sonr/x/registry/types";
 service Msg {
   rpc RegisterService(MsgRegisterService) returns (MsgRegisterServiceResponse);
   rpc RegisterName(MsgRegisterName) returns (MsgRegisterNameResponse);
-  rpc CheckName(MsgRequestName) returns (MsgRequestNameResponse);
+  rpc CheckName(MsgCheckName) returns (MsgCheckNameResponse);
   rpc AccessName(MsgAccessName) returns (MsgAccessNameResponse);
   rpc UpdateName(MsgUpdateName) returns (MsgUpdateNameResponse);
   rpc AccessService(MsgAccessService) returns (MsgAccessServiceResponse);
@@ -89,13 +89,13 @@ message MsgRegisterNameResponse {
 }
 
 // ask to see if a name is available
-message MsgRequestName {
+message MsgCheckName {
   // Account address of the name owner
   string nameToRegister = 1;
 }
 
 // ask to see if a name is available
-message MsgRequestNameResponse {
+message MsgCheckNameResponse {
   // Is the name available
   bool isAvailable = 1;
 }

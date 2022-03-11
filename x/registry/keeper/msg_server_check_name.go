@@ -7,7 +7,7 @@ import (
 	"github.com/sonr-io/sonr/x/registry/types"
 )
 
-func (k msgServer) CheckName(goCtx context.Context, msg *types.MsgRequestName) (*types.MsgCheckNameResponse, error) {
+func (k msgServer) CheckName(goCtx context.Context, msg *types.MsgCheckName) (*types.MsgCheckNameResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	// TODO: Handling the message
