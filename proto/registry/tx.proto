@@ -9,7 +9,6 @@ option go_package = "github.com/sonr-io/sonr/x/registry/types";
 service Msg {
   rpc RegisterService(MsgRegisterService) returns (MsgRegisterServiceResponse);
   rpc RegisterName(MsgRegisterName) returns (MsgRegisterNameResponse);
-  rpc CheckName(MsgCheckName) returns (MsgCheckNameResponse);
   rpc AccessName(MsgAccessName) returns (MsgAccessNameResponse);
   rpc UpdateName(MsgUpdateName) returns (MsgUpdateNameResponse);
   rpc AccessService(MsgAccessService) returns (MsgAccessServiceResponse);

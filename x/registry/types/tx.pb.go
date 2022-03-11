@@ -379,107 +379,6 @@ func (m *MsgRegisterNameResponse) GetDidDocumentJson() string {
 	return ""
 }
 
-// ask to see if a name is available
-type MsgCheckName struct {
-	// Account address of the name owner
-	NameToRegister string `protobuf:"bytes,1,opt,name=nameToRegister,proto3" json:"nameToRegister,omitempty"`
-	// Account address of the name owner
-	Creator string `protobuf:"bytes,2,opt,name=creator,proto3" json:"creator,omitempty"`
-}
-
-func (m *MsgCheckName) Reset()         { *m = MsgCheckName{} }
-func (m *MsgCheckName) String() string { return proto.CompactTextString(m) }
-func (*MsgCheckName) ProtoMessage()    {}
-func (*MsgCheckName) Descriptor() ([]byte, []int) {
-	return fileDescriptor_33996d822bb1b5d4, []int{4}
-}
-func (m *MsgCheckName) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *MsgCheckName) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_MsgCheckName.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *MsgCheckName) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgCheckName.Merge(m, src)
-}
-func (m *MsgCheckName) XXX_Size() int {
-	return m.Size()
-}
-func (m *MsgCheckName) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgCheckName.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_MsgCheckName proto.InternalMessageInfo
-
-func (m *MsgCheckName) GetNameToRegister() string {
-	if m != nil {
-		return m.NameToRegister
-	}
-	return ""
-}
-
-func (m *MsgCheckName) GetCreator() string {
-	if m != nil {
-		return m.Creator
-	}
-	return ""
-}
-
-// ask to see if a name is available
-type MsgCheckNameResponse struct {
-	// Is the name available
-	IsAvailable bool `protobuf:"varint,1,opt,name=isAvailable,proto3" json:"isAvailable,omitempty"`
-}
-
-func (m *MsgCheckNameResponse) Reset()         { *m = MsgCheckNameResponse{} }
-func (m *MsgCheckNameResponse) String() string { return proto.CompactTextString(m) }
-func (*MsgCheckNameResponse) ProtoMessage()    {}
-func (*MsgCheckNameResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_33996d822bb1b5d4, []int{5}
-}
-func (m *MsgCheckNameResponse) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *MsgCheckNameResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_MsgCheckNameResponse.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *MsgCheckNameResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgCheckNameResponse.Merge(m, src)
-}
-func (m *MsgCheckNameResponse) XXX_Size() int {
-	return m.Size()
-}
-func (m *MsgCheckNameResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgCheckNameResponse.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_MsgCheckNameResponse proto.InternalMessageInfo
-
-func (m *MsgCheckNameResponse) GetIsAvailable() bool {
-	if m != nil {
-		return m.IsAvailable
-	}
-	return false
-}
-
 // MsgAccessName defines the MsgAccessName transaction.
 type MsgAccessName struct {
 	// The account that is accessing the name
@@ -1282,8 +1181,6 @@ func init() {
 	proto.RegisterMapType((map[string]string)(nil), "sonrio.sonr.registry.MsgRegisterName.PayloadEntry")
 	proto.RegisterType((*MsgRegisterName_JwkEntry)(nil), "sonrio.sonr.registry.MsgRegisterName.JwkEntry")
 	proto.RegisterType((*MsgRegisterNameResponse)(nil), "sonrio.sonr.registry.MsgRegisterNameResponse")
-	proto.RegisterType((*MsgCheckName)(nil), "sonrio.sonr.registry.MsgCheckName")
-	proto.RegisterType((*MsgCheckNameResponse)(nil), "sonrio.sonr.registry.MsgCheckNameResponse")
 	proto.RegisterType((*MsgAccessName)(nil), "sonrio.sonr.registry.MsgAccessName")
 	proto.RegisterType((*MsgAccessNameResponse)(nil), "sonrio.sonr.registry.MsgAccessNameResponse")
 	proto.RegisterType((*MsgUpdateName)(nil), "sonrio.sonr.registry.MsgUpdateName")
@@ -1390,7 +1287,6 @@ const _ = grpc.SupportPackageIsVersion4
 type MsgClient interface {
 	RegisterService(ctx context.Context, in *MsgRegisterService, opts ...grpc.CallOption) (*MsgRegisterServiceResponse, error)
 	RegisterName(ctx context.Context, in *MsgRegisterName, opts ...grpc.CallOption) (*MsgRegisterNameResponse, error)
-	CheckName(ctx context.Context, in *MsgCheckName, opts ...grpc.CallOption) (*MsgCheckNameResponse, error)
 	AccessName(ctx context.Context, in *MsgAccessName, opts ...grpc.CallOption) (*MsgAccessNameResponse, error)
 	UpdateName(ctx context.Context, in *MsgUpdateName, opts ...grpc.CallOption) (*MsgUpdateNameResponse, error)
 	AccessService(ctx context.Context, in *MsgAccessService, opts ...grpc.CallOption) (*MsgAccessServiceResponse, error)
@@ -1420,15 +1316,6 @@ func (c *msgClient) RegisterService(ctx context.Context, in *MsgRegisterService,
 func (c *msgClient) RegisterName(ctx context.Context, in *MsgRegisterName, opts ...grpc.CallOption) (*MsgRegisterNameResponse, error) {
 	out := new(MsgRegisterNameResponse)
 	err := c.cc.Invoke(ctx, "/sonrio.sonr.registry.Msg/RegisterName", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *msgClient) CheckName(ctx context.Context, in *MsgCheckName, opts ...grpc.CallOption) (*MsgCheckNameResponse, error) {
-	out := new(MsgCheckNameResponse)
-	err := c.cc.Invoke(ctx, "/sonrio.sonr.registry.Msg/CheckName", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1502,7 +1389,6 @@ func (c *msgClient) DeleteWhoIs(ctx context.Context, in *MsgDeleteWhoIs, opts ..
 type MsgServer interface {
 	RegisterService(context.Context, *MsgRegisterService) (*MsgRegisterServiceResponse, error)
 	RegisterName(context.Context, *MsgRegisterName) (*MsgRegisterNameResponse, error)
-	CheckName(context.Context, *MsgCheckName) (*MsgCheckNameResponse, error)
 	AccessName(context.Context, *MsgAccessName) (*MsgAccessNameResponse, error)
 	UpdateName(context.Context, *MsgUpdateName) (*MsgUpdateNameResponse, error)
 	AccessService(context.Context, *MsgAccessService) (*MsgAccessServiceResponse, error)
@@ -1521,9 +1407,6 @@ func (*UnimplementedMsgServer) RegisterService(ctx context.Context, req *MsgRegi
 }
 func (*UnimplementedMsgServer) RegisterName(ctx context.Context, req *MsgRegisterName) (*MsgRegisterNameResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RegisterName not implemented")
-}
-func (*UnimplementedMsgServer) CheckName(ctx context.Context, req *MsgCheckName) (*MsgCheckNameResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CheckName not implemented")
 }
 func (*UnimplementedMsgServer) AccessName(ctx context.Context, req *MsgAccessName) (*MsgAccessNameResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AccessName not implemented")
@@ -1583,24 +1466,6 @@ func _Msg_RegisterName_Handler(srv interface{}, ctx context.Context, dec func(in
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(MsgServer).RegisterName(ctx, req.(*MsgRegisterName))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Msg_CheckName_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MsgCheckName)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(MsgServer).CheckName(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/sonrio.sonr.registry.Msg/CheckName",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServer).CheckName(ctx, req.(*MsgCheckName))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1742,10 +1607,6 @@ var _Msg_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RegisterName",
 			Handler:    _Msg_RegisterName_Handler,
-		},
-		{
-			MethodName: "CheckName",
-			Handler:    _Msg_CheckName_Handler,
 		},
 		{
 			MethodName: "AccessName",
@@ -2043,76 +1904,6 @@ func (m *MsgRegisterNameResponse) MarshalToSizedBuffer(dAtA []byte) (int, error)
 	if m.IsSuccess {
 		i--
 		if m.IsSuccess {
-			dAtA[i] = 1
-		} else {
-			dAtA[i] = 0
-		}
-		i--
-		dAtA[i] = 0x8
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *MsgCheckName) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *MsgCheckName) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *MsgCheckName) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if len(m.Creator) > 0 {
-		i -= len(m.Creator)
-		copy(dAtA[i:], m.Creator)
-		i = encodeVarintTx(dAtA, i, uint64(len(m.Creator)))
-		i--
-		dAtA[i] = 0x12
-	}
-	if len(m.NameToRegister) > 0 {
-		i -= len(m.NameToRegister)
-		copy(dAtA[i:], m.NameToRegister)
-		i = encodeVarintTx(dAtA, i, uint64(len(m.NameToRegister)))
-		i--
-		dAtA[i] = 0xa
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *MsgCheckNameResponse) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *MsgCheckNameResponse) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *MsgCheckNameResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if m.IsAvailable {
-		i--
-		if m.IsAvailable {
 			dAtA[i] = 1
 		} else {
 			dAtA[i] = 0
@@ -2897,35 +2688,6 @@ func (m *MsgRegisterNameResponse) Size() (n int) {
 	l = len(m.DidDocumentJson)
 	if l > 0 {
 		n += 1 + l + sovTx(uint64(l))
-	}
-	return n
-}
-
-func (m *MsgCheckName) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	l = len(m.NameToRegister)
-	if l > 0 {
-		n += 1 + l + sovTx(uint64(l))
-	}
-	l = len(m.Creator)
-	if l > 0 {
-		n += 1 + l + sovTx(uint64(l))
-	}
-	return n
-}
-
-func (m *MsgCheckNameResponse) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	if m.IsAvailable {
-		n += 2
 	}
 	return n
 }
@@ -4135,190 +3897,6 @@ func (m *MsgRegisterNameResponse) Unmarshal(dAtA []byte) error {
 			}
 			m.DidDocumentJson = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipTx(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthTx
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *MsgCheckName) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowTx
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: MsgCheckName: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgCheckName: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field NameToRegister", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTx
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthTx
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthTx
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.NameToRegister = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 2:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Creator", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTx
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthTx
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthTx
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Creator = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipTx(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthTx
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *MsgCheckNameResponse) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowTx
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: MsgCheckNameResponse: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgCheckNameResponse: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field IsAvailable", wireType)
-			}
-			var v int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTx
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				v |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			m.IsAvailable = bool(v != 0)
 		default:
 			iNdEx = preIndex
 			skippy, err := skipTx(dAtA[iNdEx:])
