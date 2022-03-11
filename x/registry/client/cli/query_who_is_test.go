@@ -29,7 +29,7 @@ func networkWithWhoIsObjects(t *testing.T, n int) (*network.Network, []types.Who
 
 	for i := 0; i < n; i++ {
 		whoIs := types.WhoIs{
-			Address: strconv.Itoa(i),
+			Name: strconv.Itoa(i),
 		}
 		nullify.Fill(&whoIs)
 		state.WhoIsList = append(state.WhoIsList, whoIs)
@@ -57,7 +57,7 @@ func TestShowWhoIs(t *testing.T) {
 	}{
 		{
 			desc:    "found",
-			idIndex: objs[0].Address,
+			idIndex: objs[0].Name,
 
 			args: common,
 			obj:  objs[0],

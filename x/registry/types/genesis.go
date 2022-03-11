@@ -23,7 +23,7 @@ func (gs GenesisState) Validate() error {
 	whoIsIndexMap := make(map[string]struct{})
 
 	for _, elem := range gs.WhoIsList {
-		index := string(WhoIsKey(elem.Address))
+		index := string(WhoIsKey(elem.Name))
 		if _, ok := whoIsIndexMap[index]; ok {
 			return fmt.Errorf("duplicated index for whoIs")
 		}

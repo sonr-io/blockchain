@@ -11,8 +11,6 @@ import (
 	"syscall"
 
 	"github.com/pkg/errors"
-	service "github.com/sonr-io/sonr/x/registry/service"
-	"github.com/sonr-io/sonr/x/registry/types"
 )
 
 // SetStatus sets the host status and emits the event
@@ -132,16 +130,16 @@ func (sm *SockManager) NewSockPath() (string, error) {
 }
 
 // ParseDid converts string into a DID struct
-func (n *host) ParseDid(didUrl string) (*types.Did, error) {
-	d, err := service.FromString(didUrl)
-	if err != nil {
-		return nil, err
-	}
-	return d.ToProto(), nil
+func (n *host) ParseDid(didUrl string) (string, error) {
+	// d, err := service.FromString(didUrl)
+	// if err != nil {
+	// 	return "", err
+	// }
+	// return d.ToProto(), nil
+	return "", nil
 }
 
 // ResolveDid resolves a DID to a Did Document
-func (n *host) ResolveDid(didUrl string) (*types.DidDocument, error) {
-	doc := &types.DidDocument{}
-	return doc, nil
+func (n *host) ResolveDid(didUrl string) (string, error) {
+	return "", nil
 }

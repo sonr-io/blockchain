@@ -1,7 +1,6 @@
 syntax = "proto3";
 package sonrio.sonr.bucket;
 import "object/object.proto";
-import "registry/did.proto";
 import "registry/peer.proto";
 option go_package = "github.com/sonr-io/sonr/x/bucket/types";
 
@@ -17,7 +16,7 @@ message Bucket {
     BucketType type = 3;
 
     // Did is the identifier of the bucket.
-    sonrio.sonr.registry.Did did = 4;
+    string did = 4;
 
     // Objects are stored in a tree structure.
     repeated sonrio.sonr.object.ObjectDoc objects = 5;

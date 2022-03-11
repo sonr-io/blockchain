@@ -24,7 +24,7 @@ func (k msgServer) CreateHowIs(goCtx context.Context, msg *types.MsgCreateHowIs)
 		Creator:  msg.Creator,
 		Index:    msg.Index,
 		Did:      msg.Did,
-		Document: msg.Value,
+		Document: []byte(msg.DocumentJson),
 	}
 
 	k.SetHowIs(
@@ -55,7 +55,7 @@ func (k msgServer) UpdateHowIs(goCtx context.Context, msg *types.MsgUpdateHowIs)
 		Creator:  msg.Creator,
 		Index:    msg.Index,
 		Did:      msg.Did,
-		Document: msg.Value,
+		Document: []byte(msg.DocumentJson),
 	}
 
 	k.SetHowIs(ctx, howIs)

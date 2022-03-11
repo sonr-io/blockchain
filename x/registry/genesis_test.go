@@ -16,10 +16,10 @@ func TestGenesis(t *testing.T) {
 
 		WhoIsList: []types.WhoIs{
 			{
-				Address: "0",
+				Name: "0",
 			},
 			{
-				Address: "1",
+				Name: "1",
 			},
 		},
 		// this line is used by starport scaffolding # genesis/test/state

@@ -1,7 +1,6 @@
 syntax = "proto3";
 import "object/object.proto";
 package sonrio.sonr.channel;
-import "registry/did.proto";
 import "channel/how_is.proto";
 // this line is used by starport scaffolding # proto/tx/import
 
@@ -62,7 +61,7 @@ message MsgCreateHowIs {
   string index = 2;
 
   string did = 3;
-  sonrio.sonr.registry.DidDocument value = 4;
+  string documentJson = 4;
 }
 message MsgCreateHowIsResponse {}
 
@@ -71,7 +70,7 @@ message MsgUpdateHowIs {
   string index = 2;
 
   string did = 3;
-  sonrio.sonr.registry.DidDocument value = 4;
+  string documentJson = 4;
 }
 message MsgUpdateHowIsResponse {}
 

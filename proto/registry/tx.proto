@@ -1,5 +1,4 @@
 syntax = "proto3";
-import "registry/did.proto";
 package sonrio.sonr.registry;
 import "registry/who_is.proto";
 // this line is used by starport scaffolding # proto/tx/import
@@ -10,6 +9,7 @@ option go_package = "github.com/sonr-io/sonr/x/registry/types";
 service Msg {
   rpc RegisterService(MsgRegisterService) returns (MsgRegisterServiceResponse);
   rpc RegisterName(MsgRegisterName) returns (MsgRegisterNameResponse);
+  rpc CheckName(MsgCheckName) returns (MsgCheckNameResponse);
   rpc AccessName(MsgAccessName) returns (MsgAccessNameResponse);
   rpc UpdateName(MsgUpdateName) returns (MsgUpdateNameResponse);
   rpc AccessService(MsgAccessService) returns (MsgAccessServiceResponse);
@@ -21,29 +21,83 @@ service Msg {
 }
 
 message MsgRegisterService {
+  // Creator is the account address of the creator of the service.
   string creator = 1;
+
+  // Service Name is the endpoint of the service.
   string serviceName = 2;
-  string publicKey = 3;
+
+  // JWT is the JWT used to authenticate the service.
+  string jwt = 3;
 }
 
 message MsgRegisterServiceResponse {
+  // The name that was registered
+  bool isSuccess = 1;
+
+  // The Did string in url format i.e. did:sonr:<did>
+  string didUrl = 2;
+
+  // The Document for the registered DID in Json format
+  string didDocumentJson = 3;
 }
 
 // MsgRegisterName is a request to register a name with the ".snr" name of a peer
 message MsgRegisterName {
+  // Account address of the name owner
   string creator = 1;
-  string deviceId = 2;
-  string os = 3;
-  string model = 4;
-  string arch = 5;
-  string publicKey = 6;
-  string nameToRegister = 7;
+
+  string nameToRegister = 2;
+
+  // Device Id of the client node
+  map<string, string> payload = 3;
+
+  // Client side JSON Web Token for AssertionMethod
+  repeated JwkEntry jwk = 4;
+
+  // JwkEntry used to mint the name
+  message JwkEntry {
+    // Key Id
+    string kid = 1;
+
+    // Key Curve
+    string crv = 2;
+
+    // Key Use
+    string use = 3;
+
+    // Key Algorithm
+    string alg = 4;
+
+    // Key Value
+    string x = 5;
+
+    // Key Value
+    string y = 6;
+  }
 }
 
 message MsgRegisterNameResponse {
+  // The name that was registered
   bool isSuccess = 1;
-  Did did = 2;
-  DidDocument didDocument = 3;
+
+  // The Did string in url format i.e. did:sonr:<did>
+  string didUrl = 2;
+
+  // The Document for the registered DID in Json format
+  string didDocumentJson = 3;
+}
+
+// ask to see if a name is available
+message MsgCheckName {
+  // Account address of the name owner
+  string nameToRegister = 1;
+}
+
+// ask to see if a name is available
+message MsgCheckNameResponse {
+  // Is the name available
+  bool isAvailable = 1;
 }
 
 // MsgAccessName defines the MsgAccessName transaction.
@@ -79,7 +133,7 @@ message MsgUpdateName {
 }
 
 message MsgUpdateNameResponse {
-  DidDocument didDocument = 1;
+  string didDocument = 1;
   map<string, string> metadata = 2; // optional
 }
 
@@ -117,7 +171,7 @@ message MsgUpdateService {
 }
 
 message MsgUpdateServiceResponse {
-  DidDocument didDocument = 1;
+  string didDocument = 1;
     // The updated configuration for the service
   map<string, string> configuration = 2;
 
@@ -130,7 +184,7 @@ message MsgCreateWhoIs {
   string index = 2;
 
   string did = 3;
-  DidDocument value = 4;
+  string value = 4;
 }
 message MsgCreateWhoIsResponse {}
 
@@ -139,7 +193,7 @@ message MsgUpdateWhoIs {
   string index = 2;
 
   string did = 3;
-  DidDocument value = 4;
+  string value = 4;
 }
 message MsgUpdateWhoIsResponse {}
 

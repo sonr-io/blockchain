@@ -3,7 +3,6 @@ package types
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-	"github.com/sonr-io/sonr/x/registry/types"
 )
 
 const (
@@ -18,14 +17,14 @@ func NewMsgCreateHowIs(
 	creator string,
 	index string,
 	did string,
-	value *types.DidDocument,
+	value string,
 
 ) *MsgCreateHowIs {
 	return &MsgCreateHowIs{
-		Creator: creator,
-		Index:   index,
-		Did:     did,
-		Value:   value,
+		Creator:      creator,
+		Index:        index,
+		Did:          did,
+		DocumentJson: value,
 	}
 }
 
@@ -64,14 +63,14 @@ func NewMsgUpdateHowIs(
 	creator string,
 	index string,
 	did string,
-	value *types.DidDocument,
+	value string,
 
 ) *MsgUpdateHowIs {
 	return &MsgUpdateHowIs{
-		Creator: creator,
-		Index:   index,
-		Did:     did,
-		Value:   value,
+		Creator:      creator,
+		Index:        index,
+		Did:          did,
+		DocumentJson: value,
 	}
 }
 
