@@ -92,6 +92,9 @@ message MsgRegisterNameResponse {
 message MsgCheckName {
   // Account address of the name owner
   string nameToRegister = 1;
+
+  // Account address of the name owner
+  string creator = 2;
 }
 
 // ask to see if a name is available
