@@ -52,28 +52,7 @@ message MsgRegisterName {
   map<string, string> payload = 3;
 
   // Client side JSON Web Token for AssertionMethod
-  repeated JwkEntry jwk = 4;
-
-  // JwkEntry used to mint the name
-  message JwkEntry {
-    // Key Id
-    string kid = 1;
-
-    // Key Curve
-    string crv = 2;
-
-    // Key Use
-    string use = 3;
-
-    // Key Algorithm
-    string alg = 4;
-
-    // Key Value
-    string x = 5;
-
-    // Key Value
-    string y = 6;
-  }
+  bytes publicKeyBuffer = 4;
 }
 
 message MsgRegisterNameResponse {

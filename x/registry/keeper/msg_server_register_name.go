@@ -2,11 +2,12 @@ package keeper
 
 import (
 	"context"
-	"crypto/ecdsa"
-	"crypto/elliptic"
-	"crypto/rand"
+	"crypto/rsa"
+	"crypto/x509"
 	"encoding/json"
+	"encoding/pem"
 	"fmt"
+	"log"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
@@ -19,7 +20,7 @@ import (
 func (k msgServer) RegisterName(goCtx context.Context, msg *types.MsgRegisterName) (*types.MsgRegisterNameResponse, error) {
 	// Get the sender address and Generate BaseID
 	ctx := sdk.UnwrapSDKContext(goCtx)
-	doc, err := GenerateDid(msg.GetCreator(), msg.GetNameToRegister())
+	doc, err := GenerateDid(msg.GetCreator(), msg.String(), msg.GetPublicKeyBuffer())
 	if err != nil {
 		return nil, err
 	}
@@ -69,7 +70,7 @@ func (k msgServer) RegisterName(goCtx context.Context, msg *types.MsgRegisterNam
 }
 
 // GenerateDid generates a new did document
-func GenerateDid(accountAddr, nameToRegister string) (*did.Document, error) {
+func GenerateDid(accountAddr, nameToRegister string, pubBuf []byte) (*did.Document, error) {
 	didStr, err := did.Build(accountAddr)
 	if err != nil {
 		return nil, sdkerrors.Wrap(err, "failed to build did")
@@ -92,13 +93,8 @@ func GenerateDid(accountAddr, nameToRegister string) (*did.Document, error) {
 	// Add an assertionMethod
 	keyIDstr := fmt.Sprintf("%s#key1", didStr)
 	keyID, _ := did.ParseDIDURL(keyIDstr)
-	keyPair, err := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
-	if err != nil {
-		return nil, sdkerrors.Wrap(err, "failed to generate key pair")
-	}
-
 	// Create a new JWK
-	verificationMethod, err := did.NewVerificationMethod(*keyID, ssi.JsonWebKey2020, did.DID{}, keyPair.Public())
+	verificationMethod, err := did.NewVerificationMethod(*keyID, ssi.JsonWebKey2020, did.DID{}, BytesToPublicKey(pubBuf))
 	if err != nil {
 		return nil, sdkerrors.Wrap(err, "failed to create verification method")
 	}
@@ -106,4 +102,28 @@ func GenerateDid(accountAddr, nameToRegister string) (*did.Document, error) {
 	// This adds the method to the VerificationMethod list and stores a reference to the assertion list
 	doc.AddAssertionMethod(verificationMethod)
 	return doc, nil
+}
+
+// BytesToPublicKey bytes to public key
+func BytesToPublicKey(pub []byte) *rsa.PublicKey {
+	block, _ := pem.Decode(pub)
+	enc := x509.IsEncryptedPEMBlock(block)
+	b := block.Bytes
+	var err error
+	if enc {
+		log.Println("is encrypted pem block")
+		b, err = x509.DecryptPEMBlock(block, nil)
+		if err != nil {
+			log.Fatalln(err)
+		}
+	}
+	ifc, err := x509.ParsePKIXPublicKey(b)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	key, ok := ifc.(*rsa.PublicKey)
+	if !ok {
+		log.Fatalln("not ok")
+	}
+	return key
 }
