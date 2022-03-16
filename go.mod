@@ -11,7 +11,6 @@ require (
 	github.com/google/go-cmp v0.5.7 // indirect
 	github.com/gorilla/mux v1.8.0
 	github.com/grpc-ecosystem/grpc-gateway v1.16.0
-	github.com/grpc-ecosystem/grpc-gateway/v2 v2.8.0 // indirect
 	github.com/ipfs/go-cid v0.1.0
 	github.com/ipfs/go-ipfs v0.11.0
 	github.com/ipfs/go-ipfs-api v0.3.0
@@ -35,7 +34,6 @@ require (
 	github.com/multiformats/go-multiaddr v0.4.1
 	github.com/multiformats/go-multihash v0.1.0
 	github.com/pkg/errors v0.9.1
-	github.com/regen-network/cosmos-proto v0.3.1 // indirect
 	github.com/sonr-io/go-did v0.3.1
 	github.com/spf13/cast v1.4.1
 	github.com/spf13/cobra v1.3.0
