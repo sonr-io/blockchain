@@ -11,7 +11,7 @@ var _ sdk.Msg = &MsgRegisterName{}
 
 func NewMsgRegisterName(creator string, deviceId string, os string, model string, jwt string, nameToRegister string) *MsgRegisterName {
 	return &MsgRegisterName{
-		Creator:        creator,
+		Creator: creator,
 		// DeviceId:       deviceId,
 		// Os:             os,
 		// Model:          model,

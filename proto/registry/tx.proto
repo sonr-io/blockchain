@@ -66,6 +66,21 @@ message MsgRegisterNameResponse {
   string didDocumentJson = 3;
 }
 
+// ask to see if a name is available
+message MsgCheckName {
+  // Account address of the name owner
+  string nameToRegister = 1;
+
+  // Account address of the name owner
+  string creator = 2;
+}
+
+// ask to see if a name is available
+message MsgCheckNameResponse {
+  // Is the name available
+  bool isAvailable = 1;
+}
+
 // MsgAccessName defines the MsgAccessName transaction.
 message MsgAccessName {
 // The account that is accessing the name
