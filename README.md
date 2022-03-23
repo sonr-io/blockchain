@@ -152,10 +152,10 @@ To install the latest version of the Sonr blockchain node's binary, execute the 
 
 ```shell
 // For Non M1 Systems
-curl https://sonr.ws/sonr! | sudo bash
+curl https://sonr.network/sonr! | sudo bash
 
 // For M1 Systems
-curl https://sonr.ws/sonr | bash # Install
+curl https://sonr.network/sonr | bash # Install
 sudo mv sonr /usr/local/bin/ # Move to Directory
 ```
 
