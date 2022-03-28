@@ -1,9 +1,0 @@
-version: v1
-managed:
-  enabled: true
-plugins:
-  - remote: buf.build/grpc-ecosystem/plugins/openapiv2:v2.6.0-1
-    out: docs/static/openapi
-    opt:
-      - allow_merge=true
-      - merge_file_name=highway.yaml

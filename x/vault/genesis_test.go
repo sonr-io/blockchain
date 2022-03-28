@@ -3,10 +3,10 @@ package vault_test
 import (
 	"testing"
 
-	keepertest "github.com/sonr-io/sonr/testutil/keeper"
-	"github.com/sonr-io/sonr/testutil/nullify"
-	"github.com/sonr-io/sonr/x/vault"
-	"github.com/sonr-io/sonr/x/vault/types"
+	keepertest "github.com/sonr-io/blockchain/testutil/keeper"
+	"github.com/sonr-io/blockchain/testutil/nullify"
+	"github.com/sonr-io/blockchain/x/vault"
+	"github.com/sonr-io/blockchain/x/vault/types"
 	"github.com/stretchr/testify/require"
 )
 

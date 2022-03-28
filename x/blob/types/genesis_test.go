@@ -3,7 +3,7 @@ package types_test
 import (
 	"testing"
 
-	"github.com/sonr-io/sonr/x/blob/types"
+	"github.com/sonr-io/blockchain/x/blob/types"
 	"github.com/stretchr/testify/require"
 )
 

@@ -4,7 +4,7 @@ import (
 	"context"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/sonr-io/sonr/x/blob/types"
+	"github.com/sonr-io/blockchain/x/blob/types"
 )
 
 func (k msgServer) SyncBlob(goCtx context.Context, msg *types.MsgSyncBlob) (*types.MsgSyncBlobResponse, error) {

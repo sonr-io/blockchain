@@ -1,7 +1,7 @@
 syntax = "proto3";
 package sonrio.sonr.registry;
 import "object/object.proto";
-option go_package = "github.com/sonr-io/sonr/x/registry/types";
+option go_package = "github.com/sonr-io/blockchain/x/registry/types";
 
 // ServiceConfig is the configuration for a service.
 message ServiceConfig {

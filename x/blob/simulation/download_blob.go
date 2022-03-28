@@ -6,8 +6,8 @@ import (
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
-	"github.com/sonr-io/sonr/x/blob/keeper"
-	"github.com/sonr-io/sonr/x/blob/types"
+	"github.com/sonr-io/blockchain/x/blob/keeper"
+	"github.com/sonr-io/blockchain/x/blob/types"
 )
 
 func SimulateMsgDownloadBlob(

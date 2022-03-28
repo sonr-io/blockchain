@@ -3,6 +3,7 @@ package vault
 import (
 	"encoding/json"
 	"fmt"
+
 	// this line is used by starport scaffolding # 1
 
 	"github.com/gorilla/mux"
@@ -16,9 +17,9 @@ import (
 	cdctypes "github.com/cosmos/cosmos-sdk/codec/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
-	"github.com/sonr-io/sonr/x/vault/client/cli"
-	"github.com/sonr-io/sonr/x/vault/keeper"
-	"github.com/sonr-io/sonr/x/vault/types"
+	"github.com/sonr-io/blockchain/x/vault/client/cli"
+	"github.com/sonr-io/blockchain/x/vault/keeper"
+	"github.com/sonr-io/blockchain/x/vault/types"
 )
 
 var (

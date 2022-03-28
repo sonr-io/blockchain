@@ -12,7 +12,7 @@ name = "go"
 enabled = true
 
   [analyzers.meta]
-  import_root = "github.com/sonr-io/sonr"
+  import_root = "github.com/sonr-io/blockchain"
 
 [[transformers]]
 name = "prettier"

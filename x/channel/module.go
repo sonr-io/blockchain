@@ -16,9 +16,9 @@ import (
 	cdctypes "github.com/cosmos/cosmos-sdk/codec/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
-	"github.com/sonr-io/sonr/x/channel/client/cli"
-	"github.com/sonr-io/sonr/x/channel/keeper"
-	"github.com/sonr-io/sonr/x/channel/types"
+	"github.com/sonr-io/blockchain/x/channel/client/cli"
+	"github.com/sonr-io/blockchain/x/channel/keeper"
+	"github.com/sonr-io/blockchain/x/channel/types"
 )
 
 var (

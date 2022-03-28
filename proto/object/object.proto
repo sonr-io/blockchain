@@ -1,6 +1,6 @@
 syntax = "proto3";
 package sonrio.sonr.object;
-option go_package = "github.com/sonr-io/sonr/x/object/types";
+option go_package = "github.com/sonr-io/blockchain/x/object/types";
 
  // ObjectFieldType is the type of the field
 enum ObjectFieldType {

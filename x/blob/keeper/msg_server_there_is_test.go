@@ -8,9 +8,9 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/stretchr/testify/require"
 
-	keepertest "github.com/sonr-io/sonr/testutil/keeper"
-	"github.com/sonr-io/sonr/x/blob/keeper"
-	"github.com/sonr-io/sonr/x/blob/types"
+	keepertest "github.com/sonr-io/blockchain/testutil/keeper"
+	"github.com/sonr-io/blockchain/x/blob/keeper"
+	"github.com/sonr-io/blockchain/x/blob/types"
 )
 
 // Prevent strconv unused error

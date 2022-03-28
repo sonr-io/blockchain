@@ -1,4 +1,4 @@
-module github.com/sonr-io/sonr
+module github.com/sonr-io/blockchain
 
 go 1.16
 
@@ -23,7 +23,7 @@ require (
 	github.com/tendermint/tm-db v0.6.4
 	golang.org/x/crypto v0.0.0-20210921155107-089bfa567519 // indirect
 	golang.org/x/net v0.0.0-20220127200216-cd36cc0744dd // indirect
-	google.golang.org/genproto v0.0.0-20220314164441-57ef72a4c106
+	google.golang.org/genproto v0.0.0-20220317150908-0efb43f6373e
 	google.golang.org/grpc v1.45.0
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 	gopkg.in/yaml.v2 v2.4.0

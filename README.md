@@ -16,7 +16,7 @@
   <!-- Stability -->
     <img alt="CodeFactor Grade" src="https://img.shields.io/codefactor/grade/github/sonr-io/sonr/master?style=for-the-badge">
   <!-- NPM version -->
-  <a href="https://godoc.org/github.com/sonr-io/sonr">
+  <a href="https://godoc.org/github.com/sonr-io/blockchain">
   <img src="http://img.shields.io/badge/godoc-reference-5272B4.svg?style=for-the-badge" />
   </a>
   <!-- Test Coverage -->
@@ -37,12 +37,12 @@
       Discord
     </a>
     <span> | </span>
-    <a href="https://github.com/sonr-io/sonr/wiki">
+    <a href="https://github.com/sonr-io/blockchain/wiki">
       Wiki
     </a>
     <span> | </span>
       <!-- <span> | </span> -->
-    <a href="https://github.com/sonr-io/sonr/issues">
+    <a href="https://github.com/sonr-io/blockchain/issues">
       Issues
     </a>
   </h3>
@@ -51,7 +51,7 @@
 <div align="center">
   <sub>The most comprehensive framework for the DWeb. Built with ❤︎ by the
   <a href="mailto:team@sonr.io">Sonr Team</a> and
-  <a href="https://github.com/sonr-io/sonr/graphs/contributors">
+  <a href="https://github.com/sonr-io/blockchain/graphs/contributors">
     contributors
   </a>
 </div>

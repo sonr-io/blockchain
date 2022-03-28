@@ -3,10 +3,10 @@ package sonrio.sonr.blob;
 
 import "gogoproto/gogo.proto";
 
-option go_package = "github.com/sonr-io/sonr/x/blob/types";
+option go_package = "github.com/sonr-io/blockchain/x/blob/types";
 
 // Params defines the parameters for the module.
 message Params {
   option (gogoproto.goproto_stringer) = false;
-  
+
 }

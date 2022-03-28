@@ -5,7 +5,7 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-	"github.com/sonr-io/sonr/x/channel/types"
+	"github.com/sonr-io/blockchain/x/channel/types"
 )
 
 func (k msgServer) CreateHowIs(goCtx context.Context, msg *types.MsgCreateHowIs) (*types.MsgCreateHowIsResponse, error) {

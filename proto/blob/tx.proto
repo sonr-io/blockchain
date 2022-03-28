@@ -3,7 +3,7 @@ package sonrio.sonr.blob;
 import "blob/there_is.proto";
 // this line is used by starport scaffolding # proto/tx/import
 
-option go_package = "github.com/sonr-io/sonr/x/blob/types";
+option go_package = "github.com/sonr-io/blockchain/x/blob/types";
 
 // Msg defines the Msg service.
 service Msg {

@@ -5,8 +5,8 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-	"github.com/sonr-io/sonr/x/channel/keeper"
-	"github.com/sonr-io/sonr/x/channel/types"
+	"github.com/sonr-io/blockchain/x/channel/keeper"
+	"github.com/sonr-io/blockchain/x/channel/types"
 )
 
 // NewHandler ...

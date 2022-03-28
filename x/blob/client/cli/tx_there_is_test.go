@@ -11,8 +11,8 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/stretchr/testify/require"
 
-	"github.com/sonr-io/sonr/testutil/network"
-	"github.com/sonr-io/sonr/x/blob/client/cli"
+	"github.com/sonr-io/blockchain/testutil/network"
+	"github.com/sonr-io/blockchain/x/blob/client/cli"
 )
 
 // Prevent strconv unused error

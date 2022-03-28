@@ -8,7 +8,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
-	"github.com/sonr-io/sonr/x/channel/types"
+	"github.com/sonr-io/blockchain/x/channel/types"
 )
 
 type (

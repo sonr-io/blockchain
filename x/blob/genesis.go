@@ -2,8 +2,8 @@ package blob
 
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/sonr-io/sonr/x/blob/keeper"
-	"github.com/sonr-io/sonr/x/blob/types"
+	"github.com/sonr-io/blockchain/x/blob/keeper"
+	"github.com/sonr-io/blockchain/x/blob/types"
 )
 
 // InitGenesis initializes the capability module's state from a provided genesis

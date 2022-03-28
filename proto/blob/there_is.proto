@@ -1,6 +1,6 @@
 syntax = "proto3";
 package sonrio.sonr.blob;
-option go_package = "github.com/sonr-io/sonr/x/blob/types";
+option go_package = "github.com/sonr-io/blockchain/x/blob/types";
 
 message ThereIs {
   string index = 1;

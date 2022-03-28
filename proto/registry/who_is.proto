@@ -1,6 +1,6 @@
 syntax = "proto3";
 package sonrio.sonr.registry;
-option go_package = "github.com/sonr-io/sonr/x/registry/types";
+option go_package = "github.com/sonr-io/blockchain/x/registry/types";
 
 // WhoIs is the entry pointing a registered name to a user account address, Did Url string, and a DIDDocument.
 message WhoIs {

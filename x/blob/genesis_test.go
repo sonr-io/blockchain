@@ -3,10 +3,10 @@ package blob_test
 import (
 	"testing"
 
-	keepertest "github.com/sonr-io/sonr/testutil/keeper"
-	"github.com/sonr-io/sonr/testutil/nullify"
-	"github.com/sonr-io/sonr/x/blob"
-	"github.com/sonr-io/sonr/x/blob/types"
+	keepertest "github.com/sonr-io/blockchain/testutil/keeper"
+	"github.com/sonr-io/blockchain/testutil/nullify"
+	"github.com/sonr-io/blockchain/x/blob"
+	"github.com/sonr-io/blockchain/x/blob/types"
 	"github.com/stretchr/testify/require"
 )
 

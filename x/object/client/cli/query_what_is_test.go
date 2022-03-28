@@ -12,10 +12,10 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/sonr-io/sonr/testutil/network"
-	"github.com/sonr-io/sonr/testutil/nullify"
-	"github.com/sonr-io/sonr/x/object/client/cli"
-	"github.com/sonr-io/sonr/x/object/types"
+	"github.com/sonr-io/blockchain/testutil/network"
+	"github.com/sonr-io/blockchain/testutil/nullify"
+	"github.com/sonr-io/blockchain/x/object/client/cli"
+	"github.com/sonr-io/blockchain/x/object/types"
 )
 
 // Prevent strconv unused error

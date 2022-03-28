@@ -1,7 +1,7 @@
 package keeper
 
 import (
-	"github.com/sonr-io/sonr/x/channel/types"
+	"github.com/sonr-io/blockchain/x/channel/types"
 )
 
 type msgServer struct {
