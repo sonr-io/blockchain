@@ -1,4 +1,4 @@
-<h1 align="center">Sonr</h1>
+<h1 align="center">Sonr Blockchain</h1>
 
 <div align="center">
   :trident: :dolphin: :godmode: :trident:
@@ -94,19 +94,19 @@ This project is a pseudo-monorepo, meaning it has a single root directory and al
 ```text
 /app             ->        Exported Starport app
 /cmd             ->        Packaged libraries
-  └─ cli         ->        +   CLI Interface for Developers
-  └─ highway     ->        +   Highway Node Binary
-  └─ motor       ->        +   Motor Node Framework
   └─ sonrd       ->        +   Blockchain Binary
 /docs            ->        Documentation.
-/pkg             ->        Developed package interfaces for Sonr.
-  └─ crypto      ->        +   Cryptographic utilities
-  └─ io          ->        +   Device and File System utilities
-  └─ p2p         ->        +   Libp2p implementation
+/flutter         ->        Developed package interfaces for Sonr.
 /proto           ->        Cosmos SDK Protocol Definitions
 /testutil        ->        Blockchain test utilities.
 /vue             ->        Vue.js frontend for Cosmos SDK
 /x               ->        Implementation of Cosmos-Sonr Schemas
+  └─ blob        ->        +   Storage for buffers
+  └─ bucket      ->        +   Collections of blobs and objects
+  └─ channel     ->        +   Realtime Data Transmissions
+  └─ object      ->        +   Verifiable Custom Objects
+  └─ registry    ->        +   Name and Service Registration
+  └─ vault       ->        +   User secure storage
 ```
 
 ### Resources
