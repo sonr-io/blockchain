@@ -2,43 +2,20 @@ package keeper
 
 import (
 	"context"
-	"crypto/rsa"
-	"crypto/x509"
-	"encoding/json"
-	"encoding/pem"
 	"fmt"
 	"log"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/sonr-io/blockchain/x/registry/types"
-	ssi "github.com/sonr-io/go-did"
-	"github.com/sonr-io/go-did/did"
+	"github.com/sonr-io/core/did"
+	ssi "github.com/sonr-io/core/did/ssi"
 )
 
 // RegisterName registers a name with the registry for the given validated
 func (k msgServer) RegisterName(goCtx context.Context, msg *types.MsgRegisterName) (*types.MsgRegisterNameResponse, error) {
 	// Get the sender address and Generate BaseID
 	ctx := sdk.UnwrapSDKContext(goCtx)
-	doc, err := GenerateDid(msg.GetCreator(), msg.String(), msg.GetPublicKeyBuffer())
-	if err != nil {
-		return nil, err
-	}
-
-	// Convert to chain type
-	// Marshal to json
-	didJson, err := json.MarshalIndent(doc, "", "  ")
-	if err != nil {
-		return nil, err
-	}
-	print(string(didJson))
-
-	// Unmarshalling of a json did document:
-	parsedDIDDoc := did.Document{}
-	err = json.Unmarshal(didJson, &parsedDIDDoc)
-	if err != nil {
-		return nil, sdkerrors.Wrap(err, "failed to unmarshal did document")
-	}
 
 	// Try getting name information from the store
 	whois, found := k.GetWhoIs(ctx, msg.GetNameToRegister())
@@ -51,13 +28,27 @@ func (k msgServer) RegisterName(goCtx context.Context, msg *types.MsgRegisterNam
 		}
 	}
 
-	// Otherwise, create an updated whois record
+	// Create a new DID Document
+	doc, err := GenerateDid(msg.GetCreator(), msg.GetNameToRegister(), msg.GetCredential())
+	if err != nil {
+		return nil, err
+	}
+
+	// Marshal the DID Document
+	didJson, err := doc.MarshalJSON()
+	if err != nil {
+		return nil, err
+	}
+
+	// Create a new who is record
 	newWhois := types.WhoIs{
 		Name:     msg.GetNameToRegister(),
 		Did:      doc.ID.ID,
 		Document: didJson,
-		Creator:  msg.Creator,
+		Creator:  msg.GetCreator(),
 	}
+
+	newWhois.AddCredential(msg.GetCredential())
 
 	// Write whois information to the store
 	k.SetWhoIs(ctx, newWhois)
@@ -65,65 +56,42 @@ func (k msgServer) RegisterName(goCtx context.Context, msg *types.MsgRegisterNam
 	return &types.MsgRegisterNameResponse{
 		IsSuccess:       true,
 		DidUrl:          doc.ID.ID,
-		DidDocumentJson: string(didJson),
+		DidDocumentJson: didJson,
 	}, nil
 }
 
 // GenerateDid generates a new did document
-func GenerateDid(accountAddr, nameToRegister string, pubBuf []byte) (*did.Document, error) {
-	didStr, err := did.Build(accountAddr)
+func GenerateDid(accountAddr, nameToRegister string, cred *types.Credential) (*did.Document, error) {
+	// Generate a new DID String
+	id, err := did.ParseDID(fmt.Sprintf("did:sonr:%s", accountAddr))
 	if err != nil {
-		return nil, sdkerrors.Wrap(err, "failed to build did")
+		log.Println(err)
+		return nil, err
 	}
 
-	didID, err := did.ParseDID(didStr.String())
+	// Get PubKey from Credential
+	pubKey, err := cred.DecodePublicKey()
 	if err != nil {
-		return nil, sdkerrors.Wrap(err, "failed to parse did")
+		log.Println(err)
+		return nil, err
+	}
+
+	verf, err := did.NewVerificationMethod(*id, ssi.JsonWebKey2020, *id, pubKey)
+	if err != nil {
+		log.Println(err)
+		return nil, err
 	}
 
 	// Empty did document:
 	doc := &did.Document{
 		Context: []ssi.URI{did.DIDContextV1URI()},
-		ID:      *didID,
+		ID:      *id,
 		AlsoKnownAs: []string{
 			nameToRegister,
 		},
 	}
 
-	// Add an assertionMethod
-	keyIDstr := fmt.Sprintf("%s#key1", didStr)
-	keyID, _ := did.ParseDIDURL(keyIDstr)
-	// Create a new JWK
-	verificationMethod, err := did.NewVerificationMethod(*keyID, ssi.JsonWebKey2020, did.DID{}, BytesToPublicKey(pubBuf))
-	if err != nil {
-		return nil, sdkerrors.Wrap(err, "failed to create verification method")
-	}
-
 	// This adds the method to the VerificationMethod list and stores a reference to the assertion list
-	doc.AddAssertionMethod(verificationMethod)
+	doc.AddAssertionMethod(verf)
 	return doc, nil
-}
-
-// BytesToPublicKey bytes to public key
-func BytesToPublicKey(pub []byte) *rsa.PublicKey {
-	block, _ := pem.Decode(pub)
-	enc := x509.IsEncryptedPEMBlock(block)
-	b := block.Bytes
-	var err error
-	if enc {
-		log.Println("is encrypted pem block")
-		b, err = x509.DecryptPEMBlock(block, nil)
-		if err != nil {
-			log.Fatalln(err)
-		}
-	}
-	ifc, err := x509.ParsePKIXPublicKey(b)
-	if err != nil {
-		log.Fatalln(err)
-	}
-	key, ok := ifc.(*rsa.PublicKey)
-	if !ok {
-		log.Fatalln("not ok")
-	}
-	return key
 }
