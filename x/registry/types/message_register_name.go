@@ -9,10 +9,6 @@ import (
 	"github.com/duo-labs/webauthn/webauthn"
 )
 
-var (
-	re = regexp.MustCompile("^[a-z0-9]*$")
-)
-
 const TypeMsgRegisterName = "register_name"
 
 var _ sdk.Msg = &MsgRegisterName{}
@@ -70,9 +66,9 @@ func (msg *MsgRegisterName) ValidateBasic() error {
 	if len(msg.GetNameToRegister()) < 3 {
 		return ErrNameTooShort
 	}
-
+	isAlpha := regexp.MustCompile(`^[0-9a-z]+$`).MatchString
 	// Check for valid characters
-	if !re.MatchString(msg.GetNameToRegister()) {
+	if !isAlpha(msg.GetNameToRegister()) {
 		return ErrNameInvalid
 	}
 	return nil
