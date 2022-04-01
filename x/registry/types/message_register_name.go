@@ -1,7 +1,6 @@
 package types
 
 import (
-	"regexp"
 	"strings"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -60,16 +59,6 @@ func (msg *MsgRegisterName) ValidateBasic() error {
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
-	}
-
-	// Check for valid length
-	if len(msg.GetNameToRegister()) < 3 {
-		return ErrNameTooShort
-	}
-	isAlpha := regexp.MustCompile(`^[0-9a-z]+$`).MatchString
-	// Check for valid characters
-	if !isAlpha(msg.GetNameToRegister()) {
-		return ErrNameInvalid
 	}
 	return nil
 }

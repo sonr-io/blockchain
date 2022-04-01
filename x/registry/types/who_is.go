@@ -1,6 +1,8 @@
 package types
 
 import (
+	"fmt"
+
 	"github.com/duo-labs/webauthn/protocol"
 	"github.com/duo-labs/webauthn/webauthn"
 )
@@ -15,7 +17,8 @@ func (w *WhoIs) AddCredential(cred *Credential) {
 
 // WebAuthnID returns the ID of the user's authenticator
 func (w *WhoIs) WebAuthnID() []byte {
-	return []byte(w.GetCreator())
+	// Unmarshal DID document from JSON
+	return []byte(w.GetName())
 }
 
 // WebAuthnDisplayName returns the display name of the user's authenticator
@@ -25,7 +28,7 @@ func (w *WhoIs) WebAuthnName() string {
 
 // WebAuthnDisplayName returns the display name of the user's authenticator
 func (w *WhoIs) WebAuthnDisplayName() string {
-	return w.GetName()
+	return fmt.Sprintf("%s.snr", w.GetName())
 }
 
 // WebAuthnIcon returns the icon of the user's authenticator

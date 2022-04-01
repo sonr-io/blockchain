@@ -4,27 +4,27 @@ import { StdFee } from "@cosmjs/launchpad";
 import { SigningStargateClient } from "@cosmjs/stargate";
 import { Registry, OfflineSigner, EncodeObject, DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
 import { Api } from "./rest";
+import { MsgDeleteWhoIs } from "./types/registry/tx";
 import { MsgRegisterName } from "./types/registry/tx";
-import { MsgAccessName } from "./types/registry/tx";
+import { MsgUpdateWhoIs } from "./types/registry/tx";
 import { MsgUpdateService } from "./types/registry/tx";
 import { MsgRegisterService } from "./types/registry/tx";
-import { MsgUpdateName } from "./types/registry/tx";
-import { MsgDeleteWhoIs } from "./types/registry/tx";
-import { MsgUpdateWhoIs } from "./types/registry/tx";
 import { MsgCreateWhoIs } from "./types/registry/tx";
+import { MsgAccessName } from "./types/registry/tx";
 import { MsgAccessService } from "./types/registry/tx";
+import { MsgUpdateName } from "./types/registry/tx";
 
 
 const types = [
+  ["/sonrio.sonr.registry.MsgDeleteWhoIs", MsgDeleteWhoIs],
   ["/sonrio.sonr.registry.MsgRegisterName", MsgRegisterName],
-  ["/sonrio.sonr.registry.MsgAccessName", MsgAccessName],
+  ["/sonrio.sonr.registry.MsgUpdateWhoIs", MsgUpdateWhoIs],
   ["/sonrio.sonr.registry.MsgUpdateService", MsgUpdateService],
   ["/sonrio.sonr.registry.MsgRegisterService", MsgRegisterService],
-  ["/sonrio.sonr.registry.MsgUpdateName", MsgUpdateName],
-  ["/sonrio.sonr.registry.MsgDeleteWhoIs", MsgDeleteWhoIs],
-  ["/sonrio.sonr.registry.MsgUpdateWhoIs", MsgUpdateWhoIs],
   ["/sonrio.sonr.registry.MsgCreateWhoIs", MsgCreateWhoIs],
+  ["/sonrio.sonr.registry.MsgAccessName", MsgAccessName],
   ["/sonrio.sonr.registry.MsgAccessService", MsgAccessService],
+  ["/sonrio.sonr.registry.MsgUpdateName", MsgUpdateName],
   
 ];
 export const MissingWalletError = new Error("wallet is required");
@@ -57,15 +57,15 @@ const txClient = async (wallet: OfflineSigner, { addr: addr }: TxClientOptions =
 
   return {
     signAndBroadcast: (msgs: EncodeObject[], { fee, memo }: SignAndBroadcastOptions = {fee: defaultFee, memo: ""}) => client.signAndBroadcast(address, msgs, fee,memo),
+    msgDeleteWhoIs: (data: MsgDeleteWhoIs): EncodeObject => ({ typeUrl: "/sonrio.sonr.registry.MsgDeleteWhoIs", value: MsgDeleteWhoIs.fromPartial( data ) }),
     msgRegisterName: (data: MsgRegisterName): EncodeObject => ({ typeUrl: "/sonrio.sonr.registry.MsgRegisterName", value: MsgRegisterName.fromPartial( data ) }),
-    msgAccessName: (data: MsgAccessName): EncodeObject => ({ typeUrl: "/sonrio.sonr.registry.MsgAccessName", value: MsgAccessName.fromPartial( data ) }),
+    msgUpdateWhoIs: (data: MsgUpdateWhoIs): EncodeObject => ({ typeUrl: "/sonrio.sonr.registry.MsgUpdateWhoIs", value: MsgUpdateWhoIs.fromPartial( data ) }),
     msgUpdateService: (data: MsgUpdateService): EncodeObject => ({ typeUrl: "/sonrio.sonr.registry.MsgUpdateService", value: MsgUpdateService.fromPartial( data ) }),
     msgRegisterService: (data: MsgRegisterService): EncodeObject => ({ typeUrl: "/sonrio.sonr.registry.MsgRegisterService", value: MsgRegisterService.fromPartial( data ) }),
-    msgUpdateName: (data: MsgUpdateName): EncodeObject => ({ typeUrl: "/sonrio.sonr.registry.MsgUpdateName", value: MsgUpdateName.fromPartial( data ) }),
-    msgDeleteWhoIs: (data: MsgDeleteWhoIs): EncodeObject => ({ typeUrl: "/sonrio.sonr.registry.MsgDeleteWhoIs", value: MsgDeleteWhoIs.fromPartial( data ) }),
-    msgUpdateWhoIs: (data: MsgUpdateWhoIs): EncodeObject => ({ typeUrl: "/sonrio.sonr.registry.MsgUpdateWhoIs", value: MsgUpdateWhoIs.fromPartial( data ) }),
     msgCreateWhoIs: (data: MsgCreateWhoIs): EncodeObject => ({ typeUrl: "/sonrio.sonr.registry.MsgCreateWhoIs", value: MsgCreateWhoIs.fromPartial( data ) }),
+    msgAccessName: (data: MsgAccessName): EncodeObject => ({ typeUrl: "/sonrio.sonr.registry.MsgAccessName", value: MsgAccessName.fromPartial( data ) }),
     msgAccessService: (data: MsgAccessService): EncodeObject => ({ typeUrl: "/sonrio.sonr.registry.MsgAccessService", value: MsgAccessService.fromPartial( data ) }),
+    msgUpdateName: (data: MsgUpdateName): EncodeObject => ({ typeUrl: "/sonrio.sonr.registry.MsgUpdateName", value: MsgUpdateName.fromPartial( data ) }),
     
   };
 };
