@@ -40,6 +40,8 @@ export interface MsgRegisterNameResponse {
   didUrl: string;
   /** The Document for the registered DID in Json format */
   didDocumentJson: Uint8Array;
+  /** WhoIs for the registered name */
+  whoIs: WhoIs | undefined;
 }
 
 /** MsgAccessName defines the MsgAccessName transaction. */
@@ -493,6 +495,9 @@ export const MsgRegisterNameResponse = {
     if (message.didDocumentJson.length !== 0) {
       writer.uint32(26).bytes(message.didDocumentJson);
     }
+    if (message.whoIs !== undefined) {
+      WhoIs.encode(message.whoIs, writer.uint32(34).fork()).ldelim();
+    }
     return writer;
   },
 
@@ -513,6 +518,9 @@ export const MsgRegisterNameResponse = {
           break;
         case 3:
           message.didDocumentJson = reader.bytes();
+          break;
+        case 4:
+          message.whoIs = WhoIs.decode(reader, reader.uint32());
           break;
         default:
           reader.skipType(tag & 7);
@@ -542,6 +550,11 @@ export const MsgRegisterNameResponse = {
     ) {
       message.didDocumentJson = bytesFromBase64(object.didDocumentJson);
     }
+    if (object.whoIs !== undefined && object.whoIs !== null) {
+      message.whoIs = WhoIs.fromJSON(object.whoIs);
+    } else {
+      message.whoIs = undefined;
+    }
     return message;
   },
 
@@ -555,6 +568,8 @@ export const MsgRegisterNameResponse = {
           ? message.didDocumentJson
           : new Uint8Array()
       ));
+    message.whoIs !== undefined &&
+      (obj.whoIs = message.whoIs ? WhoIs.toJSON(message.whoIs) : undefined);
     return obj;
   },
 
@@ -581,6 +596,11 @@ export const MsgRegisterNameResponse = {
       message.didDocumentJson = object.didDocumentJson;
     } else {
       message.didDocumentJson = new Uint8Array();
+    }
+    if (object.whoIs !== undefined && object.whoIs !== null) {
+      message.whoIs = WhoIs.fromPartial(object.whoIs);
+    } else {
+      message.whoIs = undefined;
     }
     return message;
   },

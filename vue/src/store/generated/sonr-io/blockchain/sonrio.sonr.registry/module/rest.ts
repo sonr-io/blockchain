@@ -94,6 +94,9 @@ export interface RegistryMsgRegisterNameResponse {
 
   /** @format byte */
   didDocumentJson?: string;
+
+  /** WhoIs is the entry pointing a registered name to a user account address, Did Url string, and a DIDDocument. */
+  whoIs?: RegistryWhoIs;
 }
 
 export interface RegistryMsgRegisterServiceResponse {

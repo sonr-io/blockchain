@@ -10,8 +10,6 @@ import (
 
 // x/registry module sentinel errors
 var (
-	ErrSample = sdkerrors.Register(ModuleName, 1100, "sample error")
-
 	// Validator Errors
 	ErrNameTooShort   = sdkerrors.Register(ModuleName, 1100, "Provided Sonr Name is Too Short")
 	ErrNameInvalid    = sdkerrors.Register(ModuleName, 1101, "Provided Sonr Name contains invalid characters")
