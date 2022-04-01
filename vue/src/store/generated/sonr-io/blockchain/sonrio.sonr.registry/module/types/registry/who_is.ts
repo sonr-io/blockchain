@@ -1,4 +1,5 @@
 /* eslint-disable */
+import { Credential } from "../registry/credential";
 import { Writer, Reader } from "protobufjs/minimal";
 
 export const protobufPackage = "sonrio.sonr.registry";
@@ -13,6 +14,8 @@ export interface WhoIs {
   document: Uint8Array;
   /** Creator is the DID of the creator of the DID Document */
   creator: string;
+  /** Credentials are the biometric info of the registered name and account encoded with public key */
+  credentials: Credential[];
 }
 
 const baseWhoIs: object = { name: "", did: "", creator: "" };
@@ -31,6 +34,9 @@ export const WhoIs = {
     if (message.creator !== "") {
       writer.uint32(34).string(message.creator);
     }
+    for (const v of message.credentials) {
+      Credential.encode(v!, writer.uint32(42).fork()).ldelim();
+    }
     return writer;
   },
 
@@ -38,6 +44,7 @@ export const WhoIs = {
     const reader = input instanceof Uint8Array ? new Reader(input) : input;
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = { ...baseWhoIs } as WhoIs;
+    message.credentials = [];
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -53,6 +60,9 @@ export const WhoIs = {
         case 4:
           message.creator = reader.string();
           break;
+        case 5:
+          message.credentials.push(Credential.decode(reader, reader.uint32()));
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -63,6 +73,7 @@ export const WhoIs = {
 
   fromJSON(object: any): WhoIs {
     const message = { ...baseWhoIs } as WhoIs;
+    message.credentials = [];
     if (object.name !== undefined && object.name !== null) {
       message.name = String(object.name);
     } else {
@@ -81,6 +92,11 @@ export const WhoIs = {
     } else {
       message.creator = "";
     }
+    if (object.credentials !== undefined && object.credentials !== null) {
+      for (const e of object.credentials) {
+        message.credentials.push(Credential.fromJSON(e));
+      }
+    }
     return message;
   },
 
@@ -93,11 +109,19 @@ export const WhoIs = {
         message.document !== undefined ? message.document : new Uint8Array()
       ));
     message.creator !== undefined && (obj.creator = message.creator);
+    if (message.credentials) {
+      obj.credentials = message.credentials.map((e) =>
+        e ? Credential.toJSON(e) : undefined
+      );
+    } else {
+      obj.credentials = [];
+    }
     return obj;
   },
 
   fromPartial(object: DeepPartial<WhoIs>): WhoIs {
     const message = { ...baseWhoIs } as WhoIs;
+    message.credentials = [];
     if (object.name !== undefined && object.name !== null) {
       message.name = object.name;
     } else {
@@ -117,6 +141,11 @@ export const WhoIs = {
       message.creator = object.creator;
     } else {
       message.creator = "";
+    }
+    if (object.credentials !== undefined && object.credentials !== null) {
+      for (const e of object.credentials) {
+        message.credentials.push(Credential.fromPartial(e));
+      }
     }
     return message;
   },

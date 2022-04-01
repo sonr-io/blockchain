@@ -1,6 +1,8 @@
 syntax = "proto3";
 package sonrio.sonr.registry;
 import "registry/who_is.proto";
+import "registry/credential.proto";
+
 // this line is used by starport scaffolding # proto/tx/import
 
 option go_package = "github.com/sonr-io/blockchain/x/registry/types";
@@ -46,13 +48,11 @@ message MsgRegisterName {
   // Account address of the name owner
   string creator = 1;
 
+  // Selected Name to register
   string nameToRegister = 2;
 
-  // Device Id of the client node
-  map<string, string> payload = 3;
-
   // Client side JSON Web Token for AssertionMethod
-  bytes publicKeyBuffer = 4;
+  Credential credential = 3;
 }
 
 message MsgRegisterNameResponse {
@@ -63,22 +63,10 @@ message MsgRegisterNameResponse {
   string didUrl = 2;
 
   // The Document for the registered DID in Json format
-  string didDocumentJson = 3;
-}
+  bytes didDocumentJson = 3;
 
-// ask to see if a name is available
-message MsgCheckName {
-  // Account address of the name owner
-  string nameToRegister = 1;
-
-  // Account address of the name owner
-  string creator = 2;
-}
-
-// ask to see if a name is available
-message MsgCheckNameResponse {
-  // Is the name available
-  bool isAvailable = 1;
+  // WhoIs for the registered name
+  WhoIs whoIs = 4;
 }
 
 // MsgAccessName defines the MsgAccessName transaction.
@@ -90,16 +78,21 @@ message MsgAccessName {
   string name = 2;
 
   // The Public Key of the peer to access
-  string publicKey = 3;
+  string publicKey = 3; //optional
 
   // The Libp2p peer ID of the peer to access
-  string peerId = 4;
+  string peerId = 4; //optional
 }
 
 message MsgAccessNameResponse {
+  // The DID Url of the name
   string did = 1;
-  string publicKey = 2;
-  string peerId = 3;
+
+  // The Document for the registered DID in Json format
+  bytes didDocumentJson = 2;
+
+  // WhoIs for the name
+  WhoIs whoIs = 3;
 }
 
 message MsgUpdateName {
