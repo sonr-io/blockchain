@@ -162,9 +162,6 @@ export interface RegistryWhoIs {
   document?: string;
   creator?: string;
   credentials?: RegistryCredential[];
-
-  /** @format byte */
-  id?: string;
 }
 
 /**

@@ -28659,12 +28659,6 @@ paths:
                       title: >-
                         Credentials are the biometric info of the registered
                         name and account encoded with public key
-                    id:
-                      type: string
-                      format: byte
-                      title: >-
-                        ID is the unique identifier of the entry used for
-                        Webauthn
                   description: >-
                     WhoIs is the entry pointing a registered name to a user
                     account address, Did Url string, and a DIDDocument.
@@ -28888,10 +28882,6 @@ paths:
                     title: >-
                       Credentials are the biometric info of the registered name
                       and account encoded with public key
-                  id:
-                    type: string
-                    format: byte
-                    title: ID is the unique identifier of the entry used for Webauthn
                 description: >-
                   WhoIs is the entry pointing a registered name to a user
                   account address, Did Url string, and a DIDDocument.
@@ -49342,10 +49332,6 @@ definitions:
             title: >-
               Credentials are the biometric info of the registered name and
               account encoded with public key
-          id:
-            type: string
-            format: byte
-            title: ID is the unique identifier of the entry used for Webauthn
         description: >-
           WhoIs is the entry pointing a registered name to a user account
           address, Did Url string, and a DIDDocument.
@@ -49478,10 +49464,6 @@ definitions:
             title: >-
               Credentials are the biometric info of the registered name and
               account encoded with public key
-          id:
-            type: string
-            format: byte
-            title: ID is the unique identifier of the entry used for Webauthn
         description: >-
           WhoIs is the entry pointing a registered name to a user account
           address, Did Url string, and a DIDDocument.
@@ -49628,10 +49610,6 @@ definitions:
               title: >-
                 Credentials are the biometric info of the registered name and
                 account encoded with public key
-            id:
-              type: string
-              format: byte
-              title: ID is the unique identifier of the entry used for Webauthn
           description: >-
             WhoIs is the entry pointing a registered name to a user account
             address, Did Url string, and a DIDDocument.
@@ -49759,10 +49737,6 @@ definitions:
             title: >-
               Credentials are the biometric info of the registered name and
               account encoded with public key
-          id:
-            type: string
-            format: byte
-            title: ID is the unique identifier of the entry used for Webauthn
         description: >-
           WhoIs is the entry pointing a registered name to a user account
           address, Did Url string, and a DIDDocument.
@@ -49865,10 +49839,6 @@ definitions:
         title: >-
           Credentials are the biometric info of the registered name and account
           encoded with public key
-      id:
-        type: string
-        format: byte
-        title: ID is the unique identifier of the entry used for Webauthn
     description: >-
       WhoIs is the entry pointing a registered name to a user account address,
       Did Url string, and a DIDDocument.

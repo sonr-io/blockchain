@@ -16,8 +16,6 @@ export interface WhoIs {
   creator: string;
   /** Credentials are the biometric info of the registered name and account encoded with public key */
   credentials: Credential[];
-  /** ID is the unique identifier of the entry used for Webauthn */
-  id: Uint8Array;
 }
 
 const baseWhoIs: object = { name: "", did: "", creator: "" };
@@ -38,9 +36,6 @@ export const WhoIs = {
     }
     for (const v of message.credentials) {
       Credential.encode(v!, writer.uint32(42).fork()).ldelim();
-    }
-    if (message.id.length !== 0) {
-      writer.uint32(50).bytes(message.id);
     }
     return writer;
   },
@@ -67,9 +62,6 @@ export const WhoIs = {
           break;
         case 5:
           message.credentials.push(Credential.decode(reader, reader.uint32()));
-          break;
-        case 6:
-          message.id = reader.bytes();
           break;
         default:
           reader.skipType(tag & 7);
@@ -105,9 +97,6 @@ export const WhoIs = {
         message.credentials.push(Credential.fromJSON(e));
       }
     }
-    if (object.id !== undefined && object.id !== null) {
-      message.id = bytesFromBase64(object.id);
-    }
     return message;
   },
 
@@ -127,10 +116,6 @@ export const WhoIs = {
     } else {
       obj.credentials = [];
     }
-    message.id !== undefined &&
-      (obj.id = base64FromBytes(
-        message.id !== undefined ? message.id : new Uint8Array()
-      ));
     return obj;
   },
 
@@ -161,11 +146,6 @@ export const WhoIs = {
       for (const e of object.credentials) {
         message.credentials.push(Credential.fromPartial(e));
       }
-    }
-    if (object.id !== undefined && object.id !== null) {
-      message.id = object.id;
-    } else {
-      message.id = new Uint8Array();
     }
     return message;
   },

@@ -14,4 +14,7 @@ client:
 faucet:
   name: bob
   coins: ["5snr", "100000stake"]
-binary: "sonr-testnet"
+build:
+  binary: "sonrd"
+genesis:
+  chain_id: "i95"
