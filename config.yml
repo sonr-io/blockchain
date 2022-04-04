@@ -16,5 +16,3 @@ faucet:
   coins: ["5snr", "100000stake"]
 build:
   binary: "sonrd"
-genesis:
-  chain_id: "i95"
