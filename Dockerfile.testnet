@@ -1,0 +1,9 @@
+## Pull the latest sonrd binary
+
+## Pull the genesis file
+
+## Copy the genesis file to the data directory
+
+## Sed replace the appropriate values in the genesis file
+
+## Start the node
