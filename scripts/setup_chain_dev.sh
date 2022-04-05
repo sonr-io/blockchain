@@ -4,12 +4,14 @@ sonrd init my-node --chain-id sonr
 export ALICE_TEXT=$(sonrd keys add --keyring-backend test alice --home /root/.sonr)
 export ALICE_ACCOUNT=$(echo $ALICE_TEXT| grep address | awk '{ print $2 }')
 echo "ALICE_TEXT:"; echo $ALICE_TEXT \n
-echo "ALICE_ACCOUNT:"; echo $ALICE_ACCOUNT \n
+echo "ALICE_ACCOUNT:"; echo $(sonrd keys show -a alice --keyring-backend test)
 echo $ALICE_TEXT >> alice.txt
 
 # Setup a bob account
 export BOB_TEXT=$(sonrd keys add --keyring-backend test bob --home /root/.sonr| grep address | awk '{ print $2 }')
-echo "BOB_ACCOUNT:", $BOB_TEXT \n
+echo "BOB_TEXT:"; echo $BOB_TEXT \n
+echo "BOB_ACCOUNT:"; echo $(sonrd keys show -a bob --keyring-backend test)
+echo $BOB_TEXT >> bob.txt
 # Setup the genesis accounts with $$
 sonrd add-genesis-account $(sonrd keys show -a alice --keyring-backend test) 1000000000000000stake,1000000000000snr
 sonrd add-genesis-account $(sonrd keys show -a bob --keyring-backend test) 1000000000000000stake,1000000000000snr
