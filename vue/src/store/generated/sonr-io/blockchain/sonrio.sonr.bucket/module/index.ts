@@ -2,7 +2,12 @@
 
 import { StdFee } from "@cosmjs/launchpad";
 import { SigningStargateClient } from "@cosmjs/stargate";
-import { Registry, OfflineSigner, EncodeObject, DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
+import {
+  Registry,
+  OfflineSigner,
+  EncodeObject,
+  DirectSecp256k1HdWallet,
+} from "@cosmjs/proto-signing";
 import { Api } from "./rest";
 import { MsgCreateBucket } from "./types/bucket/tx";
 import { MsgDeleteBucket } from "./types/bucket/tx";
@@ -12,7 +17,6 @@ import { MsgUpdateBucket } from "./types/bucket/tx";
 import { MsgCreateWhichIs } from "./types/bucket/tx";
 import { MsgReadBucket } from "./types/bucket/tx";
 
-
 const types = [
   ["/sonrio.sonr.bucket.MsgCreateBucket", MsgCreateBucket],
   ["/sonrio.sonr.bucket.MsgDeleteBucket", MsgDeleteBucket],
@@ -21,7 +25,6 @@ const types = [
   ["/sonrio.sonr.bucket.MsgUpdateBucket", MsgUpdateBucket],
   ["/sonrio.sonr.bucket.MsgCreateWhichIs", MsgCreateWhichIs],
   ["/sonrio.sonr.bucket.MsgReadBucket", MsgReadBucket],
-  
 ];
 export const MissingWalletError = new Error("wallet is required");
 
@@ -33,46 +36,73 @@ const defaultFee = {
 };
 
 interface TxClientOptions {
-  addr: string
+  addr: string;
 }
 
 interface SignAndBroadcastOptions {
-  fee: StdFee,
-  memo?: string
+  fee: StdFee;
+  memo?: string;
 }
 
-const txClient = async (wallet: OfflineSigner, { addr: addr }: TxClientOptions = { addr: "http://localhost:26657" }) => {
+const txClient = async (
+  wallet: OfflineSigner,
+  { addr: addr }: TxClientOptions = { addr: "http://localhost:26657" }
+) => {
   if (!wallet) throw MissingWalletError;
   let client;
   if (addr) {
-    client = await SigningStargateClient.connectWithSigner(addr, wallet, { registry });
-  }else{
-    client = await SigningStargateClient.offline( wallet, { registry });
+    client = await SigningStargateClient.connectWithSigner(addr, wallet, {
+      registry,
+    });
+  } else {
+    client = await SigningStargateClient.offline(wallet, { registry });
   }
   const { address } = (await wallet.getAccounts())[0];
 
   return {
-    signAndBroadcast: (msgs: EncodeObject[], { fee, memo }: SignAndBroadcastOptions = {fee: defaultFee, memo: ""}) => client.signAndBroadcast(address, msgs, fee,memo),
-    msgCreateBucket: (data: MsgCreateBucket): EncodeObject => ({ typeUrl: "/sonrio.sonr.bucket.MsgCreateBucket", value: MsgCreateBucket.fromPartial( data ) }),
-    msgDeleteBucket: (data: MsgDeleteBucket): EncodeObject => ({ typeUrl: "/sonrio.sonr.bucket.MsgDeleteBucket", value: MsgDeleteBucket.fromPartial( data ) }),
-    msgUpdateWhichIs: (data: MsgUpdateWhichIs): EncodeObject => ({ typeUrl: "/sonrio.sonr.bucket.MsgUpdateWhichIs", value: MsgUpdateWhichIs.fromPartial( data ) }),
-    msgDeleteWhichIs: (data: MsgDeleteWhichIs): EncodeObject => ({ typeUrl: "/sonrio.sonr.bucket.MsgDeleteWhichIs", value: MsgDeleteWhichIs.fromPartial( data ) }),
-    msgUpdateBucket: (data: MsgUpdateBucket): EncodeObject => ({ typeUrl: "/sonrio.sonr.bucket.MsgUpdateBucket", value: MsgUpdateBucket.fromPartial( data ) }),
-    msgCreateWhichIs: (data: MsgCreateWhichIs): EncodeObject => ({ typeUrl: "/sonrio.sonr.bucket.MsgCreateWhichIs", value: MsgCreateWhichIs.fromPartial( data ) }),
-    msgReadBucket: (data: MsgReadBucket): EncodeObject => ({ typeUrl: "/sonrio.sonr.bucket.MsgReadBucket", value: MsgReadBucket.fromPartial( data ) }),
-    
+    signAndBroadcast: (
+      msgs: EncodeObject[],
+      { fee, memo }: SignAndBroadcastOptions = { fee: defaultFee, memo: "" }
+    ) => client.signAndBroadcast(address, msgs, fee, memo),
+    msgCreateBucket: (data: MsgCreateBucket): EncodeObject => ({
+      typeUrl: "/sonrio.sonr.bucket.MsgCreateBucket",
+      value: MsgCreateBucket.fromPartial(data),
+    }),
+    msgDeleteBucket: (data: MsgDeleteBucket): EncodeObject => ({
+      typeUrl: "/sonrio.sonr.bucket.MsgDeleteBucket",
+      value: MsgDeleteBucket.fromPartial(data),
+    }),
+    msgUpdateWhichIs: (data: MsgUpdateWhichIs): EncodeObject => ({
+      typeUrl: "/sonrio.sonr.bucket.MsgUpdateWhichIs",
+      value: MsgUpdateWhichIs.fromPartial(data),
+    }),
+    msgDeleteWhichIs: (data: MsgDeleteWhichIs): EncodeObject => ({
+      typeUrl: "/sonrio.sonr.bucket.MsgDeleteWhichIs",
+      value: MsgDeleteWhichIs.fromPartial(data),
+    }),
+    msgUpdateBucket: (data: MsgUpdateBucket): EncodeObject => ({
+      typeUrl: "/sonrio.sonr.bucket.MsgUpdateBucket",
+      value: MsgUpdateBucket.fromPartial(data),
+    }),
+    msgCreateWhichIs: (data: MsgCreateWhichIs): EncodeObject => ({
+      typeUrl: "/sonrio.sonr.bucket.MsgCreateWhichIs",
+      value: MsgCreateWhichIs.fromPartial(data),
+    }),
+    msgReadBucket: (data: MsgReadBucket): EncodeObject => ({
+      typeUrl: "/sonrio.sonr.bucket.MsgReadBucket",
+      value: MsgReadBucket.fromPartial(data),
+    }),
   };
 };
 
 interface QueryClientOptions {
-  addr: string
+  addr: string;
 }
 
-const queryClient = async ({ addr: addr }: QueryClientOptions = { addr: "http://localhost:1317" }) => {
+const queryClient = async (
+  { addr: addr }: QueryClientOptions = { addr: "http://localhost:1317" }
+) => {
   return new Api({ baseUrl: addr });
 };
 
-export {
-  txClient,
-  queryClient,
-};
+export { txClient, queryClient };
