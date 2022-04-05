@@ -20,7 +20,3 @@ RUN ./setup_chain_dev.sh
 
 # # Start the node
 ENTRYPOINT [ "sonrd", "start" ]
-
-## Sed replace the appropriate values in the genesis file
-
-## Start the node
