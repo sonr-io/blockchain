@@ -71,7 +71,7 @@ func (k msgServer) RegisterName(goCtx context.Context, msg *types.MsgRegisterNam
 // GenerateDid generates a new did document
 func GenerateDid(accountAddr, nameToRegister string, cred *types.Credential) (*did.Document, error) {
 	// Generate a new DID String
-	baseDid, err := did.ParseDID("did:sonr:" + accountAddr)
+	baseDid, err := did.ParseDID("did:snr:" + strings.TrimPrefix(accountAddr, "snr"))
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to parse base DID")
 	}
