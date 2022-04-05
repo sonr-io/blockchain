@@ -1,0 +1,22 @@
+FROM alpine
+WORKDIR /root
+## Pull the latest sonrd binary
+COPY release/blockchain_linux_amd64.tar.gz blockchain_linux_amd64.tar.gz
+COPY scripts/setup_chain_dev.sh setup_chain_dev.sh
+
+
+RUN apk add --no-cache bash
+RUN tar -xzvf blockchain_linux_amd64.tar.gz
+RUN mv sonrd /usr/local/bin/
+RUN chmod +x /usr/local/bin/sonrd
+RUN sonrd version
+RUN chmod +x setup_chain_dev.sh
+RUN ls
+RUN ./setup_chain_dev.sh
+
+# # Start the node
+# ENTRYPOINT [ "sonrd", "start" ]
+
+## Sed replace the appropriate values in the genesis file
+
+## Start the node
