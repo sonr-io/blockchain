@@ -17,8 +17,8 @@ func NewHandler(k keeper.Keeper) sdk.Handler {
 		ctx = ctx.WithEventManager(sdk.NewEventManager())
 
 		switch msg := msg.(type) {
-		case *types.MsgRegisterService:
-			res, err := msgServer.RegisterService(sdk.WrapSDKContext(ctx), msg)
+		case *types.MsgRegisterApplication:
+			res, err := msgServer.RegisterApplication(sdk.WrapSDKContext(ctx), msg)
 			return sdk.WrapServiceResult(ctx, res, err)
 		case *types.MsgRegisterName:
 			res, err := msgServer.RegisterName(sdk.WrapSDKContext(ctx), msg)
@@ -29,11 +29,11 @@ func NewHandler(k keeper.Keeper) sdk.Handler {
 		case *types.MsgUpdateName:
 			res, err := msgServer.UpdateName(sdk.WrapSDKContext(ctx), msg)
 			return sdk.WrapServiceResult(ctx, res, err)
-		case *types.MsgAccessService:
-			res, err := msgServer.AccessService(sdk.WrapSDKContext(ctx), msg)
+		case *types.MsgAccessApplication:
+			res, err := msgServer.AccessApplication(sdk.WrapSDKContext(ctx), msg)
 			return sdk.WrapServiceResult(ctx, res, err)
-		case *types.MsgUpdateService:
-			res, err := msgServer.UpdateService(sdk.WrapSDKContext(ctx), msg)
+		case *types.MsgUpdateApplication:
+			res, err := msgServer.UpdateApplication(sdk.WrapSDKContext(ctx), msg)
 			return sdk.WrapServiceResult(ctx, res, err)
 		case *types.MsgCreateWhoIs:
 			res, err := msgServer.CreateWhoIs(sdk.WrapSDKContext(ctx), msg)

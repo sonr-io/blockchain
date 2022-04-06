@@ -104,9 +104,6 @@ import (
 	registrymodule "github.com/sonr-io/blockchain/x/registry"
 	registrymodulekeeper "github.com/sonr-io/blockchain/x/registry/keeper"
 	registrymoduletypes "github.com/sonr-io/blockchain/x/registry/types"
-	vaultmodule "github.com/sonr-io/blockchain/x/vault"
-	vaultmodulekeeper "github.com/sonr-io/blockchain/x/vault/keeper"
-	vaultmoduletypes "github.com/sonr-io/blockchain/x/vault/types"
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 )
 
@@ -162,7 +159,6 @@ var (
 		bucketmodule.AppModuleBasic{},
 		blobmodule.AppModuleBasic{},
 		registrymodule.AppModuleBasic{},
-		vaultmodule.AppModuleBasic{},
 		// this line is used by starport scaffolding # stargate/app/moduleBasic
 	)
 
@@ -181,7 +177,6 @@ var (
 		blobmoduletypes.ModuleName:     {authtypes.Minter, authtypes.Burner, authtypes.Staking},
 
 		registrymoduletypes.ModuleName: {authtypes.Minter, authtypes.Burner, authtypes.Staking},
-		vaultmoduletypes.ModuleName:    {authtypes.Minter, authtypes.Burner, authtypes.Staking},
 		// this line is used by starport scaffolding # stargate/app/maccPerms
 	}
 )
@@ -249,7 +244,6 @@ type App struct {
 
 	RegistryKeeper registrymodulekeeper.Keeper
 
-	VaultKeeper vaultmodulekeeper.Keeper
 	// this line is used by starport scaffolding # stargate/app/keeperDeclaration
 
 	// mm is the module manager
@@ -291,7 +285,6 @@ func New(
 		bucketmoduletypes.StoreKey,
 		blobmoduletypes.StoreKey,
 		registrymoduletypes.StoreKey,
-		vaultmoduletypes.StoreKey,
 		// this line is used by starport scaffolding # stargate/app/storeKey
 	)
 	tkeys := sdk.NewTransientStoreKeys(paramstypes.TStoreKey)
@@ -455,19 +448,6 @@ func New(
 	)
 	registryModule := registrymodule.NewAppModule(appCodec, app.RegistryKeeper, app.AccountKeeper, app.BankKeeper)
 
-	app.VaultKeeper = *vaultmodulekeeper.NewKeeper(
-		appCodec,
-		keys[vaultmoduletypes.StoreKey],
-		keys[vaultmoduletypes.MemStoreKey],
-		app.GetSubspace(vaultmoduletypes.ModuleName),
-
-		app.AccountKeeper,
-		app.BankKeeper,
-		app.CapabilityKeeper,
-		app.MintKeeper,
-	)
-	vaultModule := vaultmodule.NewAppModule(appCodec, app.VaultKeeper, app.AccountKeeper, app.BankKeeper)
-
 	// this line is used by starport scaffolding # stargate/app/keeperDefinition
 
 	// Create static IBC router, add transfer route, then set and seal it
@@ -511,7 +491,6 @@ func New(
 		bucketModule,
 		blobModule,
 		registryModule,
-		vaultModule,
 		// this line is used by starport scaffolding # stargate/app/appModule
 	)
 
@@ -551,7 +530,6 @@ func New(
 		bucketmoduletypes.ModuleName,
 		blobmoduletypes.ModuleName,
 		registrymoduletypes.ModuleName,
-		vaultmoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/initGenesis
 	)
 
@@ -579,7 +557,6 @@ func New(
 		bucketModule,
 		blobModule,
 		registryModule,
-		vaultModule,
 		// this line is used by starport scaffolding # stargate/app/appModule
 	)
 	app.sm.RegisterStoreDecoders()
@@ -772,7 +749,6 @@ func initParamsKeeper(appCodec codec.BinaryCodec, legacyAmino *codec.LegacyAmino
 	paramsKeeper.Subspace(bucketmoduletypes.ModuleName)
 	paramsKeeper.Subspace(blobmoduletypes.ModuleName)
 	paramsKeeper.Subspace(registrymoduletypes.ModuleName)
-	paramsKeeper.Subspace(vaultmoduletypes.ModuleName)
 	// this line is used by starport scaffolding # stargate/app/paramSubspace
 
 	return paramsKeeper

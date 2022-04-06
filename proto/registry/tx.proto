@@ -7,32 +7,32 @@ import "registry/credential.proto";
 
 option go_package = "github.com/sonr-io/blockchain/x/registry/types";
 
-// Msg defines the Msg service.
+// Msg defines the Msg Application.
 service Msg {
-  rpc RegisterService(MsgRegisterService) returns (MsgRegisterServiceResponse);
+  rpc RegisterApplication(MsgRegisterApplication) returns (MsgRegisterApplicationResponse);
   rpc RegisterName(MsgRegisterName) returns (MsgRegisterNameResponse);
   rpc AccessName(MsgAccessName) returns (MsgAccessNameResponse);
   rpc UpdateName(MsgUpdateName) returns (MsgUpdateNameResponse);
-  rpc AccessService(MsgAccessService) returns (MsgAccessServiceResponse);
-  rpc UpdateService(MsgUpdateService) returns (MsgUpdateServiceResponse);
+  rpc AccessApplication(MsgAccessApplication) returns (MsgAccessApplicationResponse);
+  rpc UpdateApplication(MsgUpdateApplication) returns (MsgUpdateApplicationResponse);
   rpc CreateWhoIs(MsgCreateWhoIs) returns (MsgCreateWhoIsResponse);
   rpc UpdateWhoIs(MsgUpdateWhoIs) returns (MsgUpdateWhoIsResponse);
   rpc DeleteWhoIs(MsgDeleteWhoIs) returns (MsgDeleteWhoIsResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }
 
-message MsgRegisterService {
-  // Creator is the account address of the creator of the service.
+message MsgRegisterApplication {
+  // Creator is the account address of the creator of the Application.
   string creator = 1;
 
-  // Service Name is the endpoint of the service.
-  string serviceName = 2;
+  // Application Name is the endpoint of the Application.
+  string ApplicationName = 2;
 
-  // JWT is the JWT used to authenticate the service.
-  string jwt = 3;
+  // Client side JSON Web Token for AssertionMethod
+  Credential credential = 3;
 }
 
-message MsgRegisterServiceResponse {
+message MsgRegisterApplicationResponse {
   // The name that was registered
   bool isSuccess = 1;
 
@@ -40,7 +40,10 @@ message MsgRegisterServiceResponse {
   string didUrl = 2;
 
   // The Document for the registered DID in Json format
-  string didDocumentJson = 3;
+  bytes didDocumentJson = 3;
+
+  // WhoIs for the registered name
+  WhoIs whoIs = 4;
 }
 
 // MsgRegisterName is a request to register a name with the ".snr" name of a peer
@@ -107,19 +110,25 @@ message MsgUpdateName {
 }
 
 message MsgUpdateNameResponse {
-  string didDocument = 1;
-  map<string, string> metadata = 2; // optional
-}
-
-message MsgAccessService {
-  // The account that is accessing the service
+  // The account that owns the name.
   string creator = 1;
 
-  // The name of the service to access
+  // The did of the peer to update the name of
   string did = 2;
+
+  // The Updated Metadata
+  map<string, string> metadata = 3; // optional
 }
 
-message MsgAccessServiceResponse {
+message MsgAccessApplication {
+  // The account that is accessing the Application
+  string creator = 1;
+
+  // The name of the Application to access
+  string appName = 2;
+}
+
+message MsgAccessApplicationResponse {
     // Code of the response
     int32 code = 1;
 
@@ -128,29 +137,34 @@ message MsgAccessServiceResponse {
 
     // Data of the response
     map<string, string> metadata = 3;
+
+    // WhoIs for the registered name
+    WhoIs whoIs = 4;
 }
 
-message MsgUpdateService {
+message MsgUpdateApplication {
   // The account that owns the name.
   string creator = 1;
 
-  // The name of the peer to update the service details of
+  // The name of the peer to update the Application details of
   string did = 2;
 
-  // The updated configuration for the service
-  map<string, string> configuration = 3;
-
-  // The metadata for any service information required
-  map<string, string> metadata = 4; // optional
+  // The updated configuration for the Application
+  map<string, string> metadata = 3;
 }
 
-message MsgUpdateServiceResponse {
-  string didDocument = 1;
-    // The updated configuration for the service
-  map<string, string> configuration = 2;
+message MsgUpdateApplicationResponse {
+    // Code of the response
+    int32 code = 1;
 
-  // The metadata for any service information required
-  map<string, string> metadata = 3; // optional
+    // Message of the response
+    string message = 2;
+
+    // Data of the response
+    map<string, string> metadata = 3;
+
+    // WhoIs for the registered name
+    WhoIs whoIs = 4;
 }
 
 message MsgCreateWhoIs {

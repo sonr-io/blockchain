@@ -11,10 +11,11 @@ import (
 // x/registry module sentinel errors
 var (
 	// Validator Errors
-	ErrNameTooShort   = sdkerrors.Register(ModuleName, 1100, "Provided Sonr Name is Too Short")
-	ErrNameInvalid    = sdkerrors.Register(ModuleName, 1101, "Provided Sonr Name contains invalid characters")
-	ErrNameRegistered = sdkerrors.Register(ModuleName, 1102, "Provided Sonr Name has already been registered")
-
+	ErrNameTooShort     = sdkerrors.Register(ModuleName, 1100, "Provided Sonr Name is Too Short")
+	ErrNameInvalid      = sdkerrors.Register(ModuleName, 1101, "Provided Sonr Name contains invalid characters")
+	ErrNameRegistered   = sdkerrors.Register(ModuleName, 1102, "Provided Sonr Name has already been registered")
+	ErrInvalidWhoisType = sdkerrors.Register(ModuleName, 1103, "Returned whois type for name is not of required type")
+	
 	// COSEKey Errors
 	ErrDecodeAttestedCredentialData = Error{err: "error decoding attested credential data"}
 	ErrDecodeAuthenticatorData      = Error{err: "error decoding authenticator data"}

@@ -12,24 +12,22 @@ import (
 
 var _ = strconv.Itoa(0)
 
-func CmdRegisterService() *cobra.Command {
+func CmdAccessApplication() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "register-service [service-name] [public-key]",
-		Short: "Broadcast message register-service",
-		Args:  cobra.ExactArgs(2),
+		Use:   "access-service [did]",
+		Short: "Broadcast message access-service",
+		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
-			argServiceName := args[0]
-			argPublicKey := args[1]
+			argDid := args[0]
 
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
 				return err
 			}
 
-			msg := types.NewMsgRegisterService(
+			msg := types.NewMsgAccessApplication(
 				clientCtx.GetFromAddress().String(),
-				argServiceName,
-				argPublicKey,
+				argDid,
 			)
 			if err := msg.ValidateBasic(); err != nil {
 				return err

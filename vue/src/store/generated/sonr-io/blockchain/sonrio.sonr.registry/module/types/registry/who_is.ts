@@ -6,7 +6,7 @@ export const protobufPackage = "sonrio.sonr.registry";
 
 /** WhoIs is the entry pointing a registered name to a user account address, Did Url string, and a DIDDocument. */
 export interface WhoIs {
-  /** Name is the registered name of the User */
+  /** Name is the registered name of the User or Application */
   name: string;
   /** DID is the DID of the account */
   did: string;
@@ -16,9 +16,46 @@ export interface WhoIs {
   creator: string;
   /** Credentials are the biometric info of the registered name and account encoded with public key */
   credentials: Credential[];
+  /** Type is the type of the registered name */
+  type: WhoIs_Type;
 }
 
-const baseWhoIs: object = { name: "", did: "", creator: "" };
+/** Type is the type of the registered name */
+export enum WhoIs_Type {
+  /** User - User is the type of the registered name */
+  User = 0,
+  /** Application - Application is the type of the registered name */
+  Application = 1,
+  UNRECOGNIZED = -1,
+}
+
+export function whoIs_TypeFromJSON(object: any): WhoIs_Type {
+  switch (object) {
+    case 0:
+    case "User":
+      return WhoIs_Type.User;
+    case 1:
+    case "Application":
+      return WhoIs_Type.Application;
+    case -1:
+    case "UNRECOGNIZED":
+    default:
+      return WhoIs_Type.UNRECOGNIZED;
+  }
+}
+
+export function whoIs_TypeToJSON(object: WhoIs_Type): string {
+  switch (object) {
+    case WhoIs_Type.User:
+      return "User";
+    case WhoIs_Type.Application:
+      return "Application";
+    default:
+      return "UNKNOWN";
+  }
+}
+
+const baseWhoIs: object = { name: "", did: "", creator: "", type: 0 };
 
 export const WhoIs = {
   encode(message: WhoIs, writer: Writer = Writer.create()): Writer {
@@ -36,6 +73,9 @@ export const WhoIs = {
     }
     for (const v of message.credentials) {
       Credential.encode(v!, writer.uint32(42).fork()).ldelim();
+    }
+    if (message.type !== 0) {
+      writer.uint32(48).int32(message.type);
     }
     return writer;
   },
@@ -62,6 +102,9 @@ export const WhoIs = {
           break;
         case 5:
           message.credentials.push(Credential.decode(reader, reader.uint32()));
+          break;
+        case 6:
+          message.type = reader.int32() as any;
           break;
         default:
           reader.skipType(tag & 7);
@@ -97,6 +140,11 @@ export const WhoIs = {
         message.credentials.push(Credential.fromJSON(e));
       }
     }
+    if (object.type !== undefined && object.type !== null) {
+      message.type = whoIs_TypeFromJSON(object.type);
+    } else {
+      message.type = 0;
+    }
     return message;
   },
 
@@ -116,6 +164,7 @@ export const WhoIs = {
     } else {
       obj.credentials = [];
     }
+    message.type !== undefined && (obj.type = whoIs_TypeToJSON(message.type));
     return obj;
   },
 
@@ -146,6 +195,11 @@ export const WhoIs = {
       for (const e of object.credentials) {
         message.credentials.push(Credential.fromPartial(e));
       }
+    }
+    if (object.type !== undefined && object.type !== null) {
+      message.type = object.type;
+    } else {
+      message.type = 0;
     }
     return message;
   },

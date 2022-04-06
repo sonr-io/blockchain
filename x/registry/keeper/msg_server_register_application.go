@@ -5,16 +5,17 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+
 	"github.com/sonr-io/blockchain/x/registry/types"
 )
 
-// RegisterName registers a name with the registry for the given validated
-func (k msgServer) RegisterName(goCtx context.Context, msg *types.MsgRegisterName) (*types.MsgRegisterNameResponse, error) {
+// RegisterApplication registers an application with the registry
+func (k msgServer) RegisterApplication(goCtx context.Context, msg *types.MsgRegisterApplication) (*types.MsgRegisterApplicationResponse, error) {
 	// Get the sender address and Generate BaseID
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	// Check for valid length
-	name, err := types.ValidateName(msg.GetNameToRegister())
+	name, err := types.ValidateAppName(msg.GetApplicationName())
 	if err != nil {
 		return nil, err
 	}
@@ -31,7 +32,7 @@ func (k msgServer) RegisterName(goCtx context.Context, msg *types.MsgRegisterNam
 	}
 
 	// Create a new DID Document
-	doc, err := types.GenerateNameDid(msg.GetCreator(), name, msg.GetCredential())
+	doc, err := types.GenerateApplicationDid(msg.GetCreator(), name, msg.GetCredential())
 	if err != nil {
 		return nil, err
 	}
@@ -48,7 +49,7 @@ func (k msgServer) RegisterName(goCtx context.Context, msg *types.MsgRegisterNam
 		Did:      doc.ID.ID,
 		Document: didJson,
 		Creator:  msg.GetCreator(),
-		Type:     types.WhoIs_User,
+		Type:     types.WhoIs_Application,
 	}
 
 	newWhois.AddCredential(msg.GetCredential())
@@ -56,7 +57,7 @@ func (k msgServer) RegisterName(goCtx context.Context, msg *types.MsgRegisterNam
 	// Write whois information to the store
 	k.SetWhoIs(ctx, newWhois)
 
-	return &types.MsgRegisterNameResponse{
+	return &types.MsgRegisterApplicationResponse{
 		IsSuccess:       true,
 		DidUrl:          doc.ID.ID,
 		DidDocumentJson: didJson,

@@ -27,27 +27,27 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-type MsgRegisterService struct {
-	// Creator is the account address of the creator of the service.
+type MsgRegisterApplication struct {
+	// Creator is the account address of the creator of the Application.
 	Creator string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
-	// Service Name is the endpoint of the service.
-	ServiceName string `protobuf:"bytes,2,opt,name=serviceName,proto3" json:"serviceName,omitempty"`
-	// JWT is the JWT used to authenticate the service.
-	Jwt string `protobuf:"bytes,3,opt,name=jwt,proto3" json:"jwt,omitempty"`
+	// Application Name is the endpoint of the Application.
+	ApplicationName string `protobuf:"bytes,2,opt,name=ApplicationName,proto3" json:"ApplicationName,omitempty"`
+	// Client side JSON Web Token for AssertionMethod
+	Credential *Credential `protobuf:"bytes,3,opt,name=credential,proto3" json:"credential,omitempty"`
 }
 
-func (m *MsgRegisterService) Reset()         { *m = MsgRegisterService{} }
-func (m *MsgRegisterService) String() string { return proto.CompactTextString(m) }
-func (*MsgRegisterService) ProtoMessage()    {}
-func (*MsgRegisterService) Descriptor() ([]byte, []int) {
+func (m *MsgRegisterApplication) Reset()         { *m = MsgRegisterApplication{} }
+func (m *MsgRegisterApplication) String() string { return proto.CompactTextString(m) }
+func (*MsgRegisterApplication) ProtoMessage()    {}
+func (*MsgRegisterApplication) Descriptor() ([]byte, []int) {
 	return fileDescriptor_33996d822bb1b5d4, []int{0}
 }
-func (m *MsgRegisterService) XXX_Unmarshal(b []byte) error {
+func (m *MsgRegisterApplication) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *MsgRegisterService) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *MsgRegisterApplication) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_MsgRegisterService.Marshal(b, m, deterministic)
+		return xxx_messageInfo_MsgRegisterApplication.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -57,60 +57,62 @@ func (m *MsgRegisterService) XXX_Marshal(b []byte, deterministic bool) ([]byte, 
 		return b[:n], nil
 	}
 }
-func (m *MsgRegisterService) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgRegisterService.Merge(m, src)
+func (m *MsgRegisterApplication) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgRegisterApplication.Merge(m, src)
 }
-func (m *MsgRegisterService) XXX_Size() int {
+func (m *MsgRegisterApplication) XXX_Size() int {
 	return m.Size()
 }
-func (m *MsgRegisterService) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgRegisterService.DiscardUnknown(m)
+func (m *MsgRegisterApplication) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgRegisterApplication.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_MsgRegisterService proto.InternalMessageInfo
+var xxx_messageInfo_MsgRegisterApplication proto.InternalMessageInfo
 
-func (m *MsgRegisterService) GetCreator() string {
+func (m *MsgRegisterApplication) GetCreator() string {
 	if m != nil {
 		return m.Creator
 	}
 	return ""
 }
 
-func (m *MsgRegisterService) GetServiceName() string {
+func (m *MsgRegisterApplication) GetApplicationName() string {
 	if m != nil {
-		return m.ServiceName
+		return m.ApplicationName
 	}
 	return ""
 }
 
-func (m *MsgRegisterService) GetJwt() string {
+func (m *MsgRegisterApplication) GetCredential() *Credential {
 	if m != nil {
-		return m.Jwt
+		return m.Credential
 	}
-	return ""
+	return nil
 }
 
-type MsgRegisterServiceResponse struct {
+type MsgRegisterApplicationResponse struct {
 	// The name that was registered
 	IsSuccess bool `protobuf:"varint,1,opt,name=isSuccess,proto3" json:"isSuccess,omitempty"`
 	// The Did string in url format i.e. did:sonr:<did>
 	DidUrl string `protobuf:"bytes,2,opt,name=didUrl,proto3" json:"didUrl,omitempty"`
 	// The Document for the registered DID in Json format
-	DidDocumentJson string `protobuf:"bytes,3,opt,name=didDocumentJson,proto3" json:"didDocumentJson,omitempty"`
+	DidDocumentJson []byte `protobuf:"bytes,3,opt,name=didDocumentJson,proto3" json:"didDocumentJson,omitempty"`
+	// WhoIs for the registered name
+	WhoIs *WhoIs `protobuf:"bytes,4,opt,name=whoIs,proto3" json:"whoIs,omitempty"`
 }
 
-func (m *MsgRegisterServiceResponse) Reset()         { *m = MsgRegisterServiceResponse{} }
-func (m *MsgRegisterServiceResponse) String() string { return proto.CompactTextString(m) }
-func (*MsgRegisterServiceResponse) ProtoMessage()    {}
-func (*MsgRegisterServiceResponse) Descriptor() ([]byte, []int) {
+func (m *MsgRegisterApplicationResponse) Reset()         { *m = MsgRegisterApplicationResponse{} }
+func (m *MsgRegisterApplicationResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgRegisterApplicationResponse) ProtoMessage()    {}
+func (*MsgRegisterApplicationResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_33996d822bb1b5d4, []int{1}
 }
-func (m *MsgRegisterServiceResponse) XXX_Unmarshal(b []byte) error {
+func (m *MsgRegisterApplicationResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *MsgRegisterServiceResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *MsgRegisterApplicationResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_MsgRegisterServiceResponse.Marshal(b, m, deterministic)
+		return xxx_messageInfo_MsgRegisterApplicationResponse.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -120,37 +122,44 @@ func (m *MsgRegisterServiceResponse) XXX_Marshal(b []byte, deterministic bool) (
 		return b[:n], nil
 	}
 }
-func (m *MsgRegisterServiceResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgRegisterServiceResponse.Merge(m, src)
+func (m *MsgRegisterApplicationResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgRegisterApplicationResponse.Merge(m, src)
 }
-func (m *MsgRegisterServiceResponse) XXX_Size() int {
+func (m *MsgRegisterApplicationResponse) XXX_Size() int {
 	return m.Size()
 }
-func (m *MsgRegisterServiceResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgRegisterServiceResponse.DiscardUnknown(m)
+func (m *MsgRegisterApplicationResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgRegisterApplicationResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_MsgRegisterServiceResponse proto.InternalMessageInfo
+var xxx_messageInfo_MsgRegisterApplicationResponse proto.InternalMessageInfo
 
-func (m *MsgRegisterServiceResponse) GetIsSuccess() bool {
+func (m *MsgRegisterApplicationResponse) GetIsSuccess() bool {
 	if m != nil {
 		return m.IsSuccess
 	}
 	return false
 }
 
-func (m *MsgRegisterServiceResponse) GetDidUrl() string {
+func (m *MsgRegisterApplicationResponse) GetDidUrl() string {
 	if m != nil {
 		return m.DidUrl
 	}
 	return ""
 }
 
-func (m *MsgRegisterServiceResponse) GetDidDocumentJson() string {
+func (m *MsgRegisterApplicationResponse) GetDidDocumentJson() []byte {
 	if m != nil {
 		return m.DidDocumentJson
 	}
-	return ""
+	return nil
+}
+
+func (m *MsgRegisterApplicationResponse) GetWhoIs() *WhoIs {
+	if m != nil {
+		return m.WhoIs
+	}
+	return nil
 }
 
 // MsgRegisterName is a request to register a name with the ".snr" name of a peer
@@ -489,8 +498,12 @@ func (m *MsgUpdateName) GetMetadata() map[string]string {
 }
 
 type MsgUpdateNameResponse struct {
-	DidDocument string            `protobuf:"bytes,1,opt,name=didDocument,proto3" json:"didDocument,omitempty"`
-	Metadata    map[string]string `protobuf:"bytes,2,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	// The account that owns the name.
+	Creator string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
+	// The did of the peer to update the name of
+	Did string `protobuf:"bytes,2,opt,name=did,proto3" json:"did,omitempty"`
+	// The Updated Metadata
+	Metadata map[string]string `protobuf:"bytes,3,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 }
 
 func (m *MsgUpdateNameResponse) Reset()         { *m = MsgUpdateNameResponse{} }
@@ -526,9 +539,16 @@ func (m *MsgUpdateNameResponse) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_MsgUpdateNameResponse proto.InternalMessageInfo
 
-func (m *MsgUpdateNameResponse) GetDidDocument() string {
+func (m *MsgUpdateNameResponse) GetCreator() string {
 	if m != nil {
-		return m.DidDocument
+		return m.Creator
+	}
+	return ""
+}
+
+func (m *MsgUpdateNameResponse) GetDid() string {
+	if m != nil {
+		return m.Did
 	}
 	return ""
 }
@@ -540,25 +560,25 @@ func (m *MsgUpdateNameResponse) GetMetadata() map[string]string {
 	return nil
 }
 
-type MsgAccessService struct {
-	// The account that is accessing the service
+type MsgAccessApplication struct {
+	// The account that is accessing the Application
 	Creator string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
-	// The name of the service to access
-	Did string `protobuf:"bytes,2,opt,name=did,proto3" json:"did,omitempty"`
+	// The name of the Application to access
+	AppName string `protobuf:"bytes,2,opt,name=appName,proto3" json:"appName,omitempty"`
 }
 
-func (m *MsgAccessService) Reset()         { *m = MsgAccessService{} }
-func (m *MsgAccessService) String() string { return proto.CompactTextString(m) }
-func (*MsgAccessService) ProtoMessage()    {}
-func (*MsgAccessService) Descriptor() ([]byte, []int) {
+func (m *MsgAccessApplication) Reset()         { *m = MsgAccessApplication{} }
+func (m *MsgAccessApplication) String() string { return proto.CompactTextString(m) }
+func (*MsgAccessApplication) ProtoMessage()    {}
+func (*MsgAccessApplication) Descriptor() ([]byte, []int) {
 	return fileDescriptor_33996d822bb1b5d4, []int{8}
 }
-func (m *MsgAccessService) XXX_Unmarshal(b []byte) error {
+func (m *MsgAccessApplication) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *MsgAccessService) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *MsgAccessApplication) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_MsgAccessService.Marshal(b, m, deterministic)
+		return xxx_messageInfo_MsgAccessApplication.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -568,53 +588,55 @@ func (m *MsgAccessService) XXX_Marshal(b []byte, deterministic bool) ([]byte, er
 		return b[:n], nil
 	}
 }
-func (m *MsgAccessService) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgAccessService.Merge(m, src)
+func (m *MsgAccessApplication) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgAccessApplication.Merge(m, src)
 }
-func (m *MsgAccessService) XXX_Size() int {
+func (m *MsgAccessApplication) XXX_Size() int {
 	return m.Size()
 }
-func (m *MsgAccessService) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgAccessService.DiscardUnknown(m)
+func (m *MsgAccessApplication) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgAccessApplication.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_MsgAccessService proto.InternalMessageInfo
+var xxx_messageInfo_MsgAccessApplication proto.InternalMessageInfo
 
-func (m *MsgAccessService) GetCreator() string {
+func (m *MsgAccessApplication) GetCreator() string {
 	if m != nil {
 		return m.Creator
 	}
 	return ""
 }
 
-func (m *MsgAccessService) GetDid() string {
+func (m *MsgAccessApplication) GetAppName() string {
 	if m != nil {
-		return m.Did
+		return m.AppName
 	}
 	return ""
 }
 
-type MsgAccessServiceResponse struct {
+type MsgAccessApplicationResponse struct {
 	// Code of the response
 	Code int32 `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`
 	// Message of the response
 	Message string `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
 	// Data of the response
 	Metadata map[string]string `protobuf:"bytes,3,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	// WhoIs for the registered name
+	WhoIs *WhoIs `protobuf:"bytes,4,opt,name=whoIs,proto3" json:"whoIs,omitempty"`
 }
 
-func (m *MsgAccessServiceResponse) Reset()         { *m = MsgAccessServiceResponse{} }
-func (m *MsgAccessServiceResponse) String() string { return proto.CompactTextString(m) }
-func (*MsgAccessServiceResponse) ProtoMessage()    {}
-func (*MsgAccessServiceResponse) Descriptor() ([]byte, []int) {
+func (m *MsgAccessApplicationResponse) Reset()         { *m = MsgAccessApplicationResponse{} }
+func (m *MsgAccessApplicationResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgAccessApplicationResponse) ProtoMessage()    {}
+func (*MsgAccessApplicationResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_33996d822bb1b5d4, []int{9}
 }
-func (m *MsgAccessServiceResponse) XXX_Unmarshal(b []byte) error {
+func (m *MsgAccessApplicationResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *MsgAccessServiceResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *MsgAccessApplicationResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_MsgAccessServiceResponse.Marshal(b, m, deterministic)
+		return xxx_messageInfo_MsgAccessApplicationResponse.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -624,62 +646,67 @@ func (m *MsgAccessServiceResponse) XXX_Marshal(b []byte, deterministic bool) ([]
 		return b[:n], nil
 	}
 }
-func (m *MsgAccessServiceResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgAccessServiceResponse.Merge(m, src)
+func (m *MsgAccessApplicationResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgAccessApplicationResponse.Merge(m, src)
 }
-func (m *MsgAccessServiceResponse) XXX_Size() int {
+func (m *MsgAccessApplicationResponse) XXX_Size() int {
 	return m.Size()
 }
-func (m *MsgAccessServiceResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgAccessServiceResponse.DiscardUnknown(m)
+func (m *MsgAccessApplicationResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgAccessApplicationResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_MsgAccessServiceResponse proto.InternalMessageInfo
+var xxx_messageInfo_MsgAccessApplicationResponse proto.InternalMessageInfo
 
-func (m *MsgAccessServiceResponse) GetCode() int32 {
+func (m *MsgAccessApplicationResponse) GetCode() int32 {
 	if m != nil {
 		return m.Code
 	}
 	return 0
 }
 
-func (m *MsgAccessServiceResponse) GetMessage() string {
+func (m *MsgAccessApplicationResponse) GetMessage() string {
 	if m != nil {
 		return m.Message
 	}
 	return ""
 }
 
-func (m *MsgAccessServiceResponse) GetMetadata() map[string]string {
+func (m *MsgAccessApplicationResponse) GetMetadata() map[string]string {
 	if m != nil {
 		return m.Metadata
 	}
 	return nil
 }
 
-type MsgUpdateService struct {
-	// The account that owns the name.
-	Creator string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
-	// The name of the peer to update the service details of
-	Did string `protobuf:"bytes,2,opt,name=did,proto3" json:"did,omitempty"`
-	// The updated configuration for the service
-	Configuration map[string]string `protobuf:"bytes,3,rep,name=configuration,proto3" json:"configuration,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
-	// The metadata for any service information required
-	Metadata map[string]string `protobuf:"bytes,4,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+func (m *MsgAccessApplicationResponse) GetWhoIs() *WhoIs {
+	if m != nil {
+		return m.WhoIs
+	}
+	return nil
 }
 
-func (m *MsgUpdateService) Reset()         { *m = MsgUpdateService{} }
-func (m *MsgUpdateService) String() string { return proto.CompactTextString(m) }
-func (*MsgUpdateService) ProtoMessage()    {}
-func (*MsgUpdateService) Descriptor() ([]byte, []int) {
+type MsgUpdateApplication struct {
+	// The account that owns the name.
+	Creator string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
+	// The name of the peer to update the Application details of
+	Did string `protobuf:"bytes,2,opt,name=did,proto3" json:"did,omitempty"`
+	// The updated configuration for the Application
+	Metadata map[string]string `protobuf:"bytes,3,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+}
+
+func (m *MsgUpdateApplication) Reset()         { *m = MsgUpdateApplication{} }
+func (m *MsgUpdateApplication) String() string { return proto.CompactTextString(m) }
+func (*MsgUpdateApplication) ProtoMessage()    {}
+func (*MsgUpdateApplication) Descriptor() ([]byte, []int) {
 	return fileDescriptor_33996d822bb1b5d4, []int{10}
 }
-func (m *MsgUpdateService) XXX_Unmarshal(b []byte) error {
+func (m *MsgUpdateApplication) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *MsgUpdateService) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *MsgUpdateApplication) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_MsgUpdateService.Marshal(b, m, deterministic)
+		return xxx_messageInfo_MsgUpdateApplication.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -689,66 +716,62 @@ func (m *MsgUpdateService) XXX_Marshal(b []byte, deterministic bool) ([]byte, er
 		return b[:n], nil
 	}
 }
-func (m *MsgUpdateService) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgUpdateService.Merge(m, src)
+func (m *MsgUpdateApplication) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgUpdateApplication.Merge(m, src)
 }
-func (m *MsgUpdateService) XXX_Size() int {
+func (m *MsgUpdateApplication) XXX_Size() int {
 	return m.Size()
 }
-func (m *MsgUpdateService) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgUpdateService.DiscardUnknown(m)
+func (m *MsgUpdateApplication) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgUpdateApplication.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_MsgUpdateService proto.InternalMessageInfo
+var xxx_messageInfo_MsgUpdateApplication proto.InternalMessageInfo
 
-func (m *MsgUpdateService) GetCreator() string {
+func (m *MsgUpdateApplication) GetCreator() string {
 	if m != nil {
 		return m.Creator
 	}
 	return ""
 }
 
-func (m *MsgUpdateService) GetDid() string {
+func (m *MsgUpdateApplication) GetDid() string {
 	if m != nil {
 		return m.Did
 	}
 	return ""
 }
 
-func (m *MsgUpdateService) GetConfiguration() map[string]string {
-	if m != nil {
-		return m.Configuration
-	}
-	return nil
-}
-
-func (m *MsgUpdateService) GetMetadata() map[string]string {
+func (m *MsgUpdateApplication) GetMetadata() map[string]string {
 	if m != nil {
 		return m.Metadata
 	}
 	return nil
 }
 
-type MsgUpdateServiceResponse struct {
-	DidDocument string `protobuf:"bytes,1,opt,name=didDocument,proto3" json:"didDocument,omitempty"`
-	// The updated configuration for the service
-	Configuration map[string]string `protobuf:"bytes,2,rep,name=configuration,proto3" json:"configuration,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
-	// The metadata for any service information required
+type MsgUpdateApplicationResponse struct {
+	// Code of the response
+	Code int32 `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`
+	// Message of the response
+	Message string `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	// Data of the response
 	Metadata map[string]string `protobuf:"bytes,3,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	// WhoIs for the registered name
+	WhoIs *WhoIs `protobuf:"bytes,4,opt,name=whoIs,proto3" json:"whoIs,omitempty"`
 }
 
-func (m *MsgUpdateServiceResponse) Reset()         { *m = MsgUpdateServiceResponse{} }
-func (m *MsgUpdateServiceResponse) String() string { return proto.CompactTextString(m) }
-func (*MsgUpdateServiceResponse) ProtoMessage()    {}
-func (*MsgUpdateServiceResponse) Descriptor() ([]byte, []int) {
+func (m *MsgUpdateApplicationResponse) Reset()         { *m = MsgUpdateApplicationResponse{} }
+func (m *MsgUpdateApplicationResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgUpdateApplicationResponse) ProtoMessage()    {}
+func (*MsgUpdateApplicationResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_33996d822bb1b5d4, []int{11}
 }
-func (m *MsgUpdateServiceResponse) XXX_Unmarshal(b []byte) error {
+func (m *MsgUpdateApplicationResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *MsgUpdateServiceResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *MsgUpdateApplicationResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_MsgUpdateServiceResponse.Marshal(b, m, deterministic)
+		return xxx_messageInfo_MsgUpdateApplicationResponse.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -758,35 +781,42 @@ func (m *MsgUpdateServiceResponse) XXX_Marshal(b []byte, deterministic bool) ([]
 		return b[:n], nil
 	}
 }
-func (m *MsgUpdateServiceResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgUpdateServiceResponse.Merge(m, src)
+func (m *MsgUpdateApplicationResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgUpdateApplicationResponse.Merge(m, src)
 }
-func (m *MsgUpdateServiceResponse) XXX_Size() int {
+func (m *MsgUpdateApplicationResponse) XXX_Size() int {
 	return m.Size()
 }
-func (m *MsgUpdateServiceResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgUpdateServiceResponse.DiscardUnknown(m)
+func (m *MsgUpdateApplicationResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgUpdateApplicationResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_MsgUpdateServiceResponse proto.InternalMessageInfo
+var xxx_messageInfo_MsgUpdateApplicationResponse proto.InternalMessageInfo
 
-func (m *MsgUpdateServiceResponse) GetDidDocument() string {
+func (m *MsgUpdateApplicationResponse) GetCode() int32 {
 	if m != nil {
-		return m.DidDocument
+		return m.Code
+	}
+	return 0
+}
+
+func (m *MsgUpdateApplicationResponse) GetMessage() string {
+	if m != nil {
+		return m.Message
 	}
 	return ""
 }
 
-func (m *MsgUpdateServiceResponse) GetConfiguration() map[string]string {
+func (m *MsgUpdateApplicationResponse) GetMetadata() map[string]string {
 	if m != nil {
-		return m.Configuration
+		return m.Metadata
 	}
 	return nil
 }
 
-func (m *MsgUpdateServiceResponse) GetMetadata() map[string]string {
+func (m *MsgUpdateApplicationResponse) GetWhoIs() *WhoIs {
 	if m != nil {
-		return m.Metadata
+		return m.WhoIs
 	}
 	return nil
 }
@@ -1088,8 +1118,8 @@ func (m *MsgDeleteWhoIsResponse) XXX_DiscardUnknown() {
 var xxx_messageInfo_MsgDeleteWhoIsResponse proto.InternalMessageInfo
 
 func init() {
-	proto.RegisterType((*MsgRegisterService)(nil), "sonrio.sonr.registry.MsgRegisterService")
-	proto.RegisterType((*MsgRegisterServiceResponse)(nil), "sonrio.sonr.registry.MsgRegisterServiceResponse")
+	proto.RegisterType((*MsgRegisterApplication)(nil), "sonrio.sonr.registry.MsgRegisterApplication")
+	proto.RegisterType((*MsgRegisterApplicationResponse)(nil), "sonrio.sonr.registry.MsgRegisterApplicationResponse")
 	proto.RegisterType((*MsgRegisterName)(nil), "sonrio.sonr.registry.MsgRegisterName")
 	proto.RegisterType((*MsgRegisterNameResponse)(nil), "sonrio.sonr.registry.MsgRegisterNameResponse")
 	proto.RegisterType((*MsgAccessName)(nil), "sonrio.sonr.registry.MsgAccessName")
@@ -1098,15 +1128,13 @@ func init() {
 	proto.RegisterMapType((map[string]string)(nil), "sonrio.sonr.registry.MsgUpdateName.MetadataEntry")
 	proto.RegisterType((*MsgUpdateNameResponse)(nil), "sonrio.sonr.registry.MsgUpdateNameResponse")
 	proto.RegisterMapType((map[string]string)(nil), "sonrio.sonr.registry.MsgUpdateNameResponse.MetadataEntry")
-	proto.RegisterType((*MsgAccessService)(nil), "sonrio.sonr.registry.MsgAccessService")
-	proto.RegisterType((*MsgAccessServiceResponse)(nil), "sonrio.sonr.registry.MsgAccessServiceResponse")
-	proto.RegisterMapType((map[string]string)(nil), "sonrio.sonr.registry.MsgAccessServiceResponse.MetadataEntry")
-	proto.RegisterType((*MsgUpdateService)(nil), "sonrio.sonr.registry.MsgUpdateService")
-	proto.RegisterMapType((map[string]string)(nil), "sonrio.sonr.registry.MsgUpdateService.ConfigurationEntry")
-	proto.RegisterMapType((map[string]string)(nil), "sonrio.sonr.registry.MsgUpdateService.MetadataEntry")
-	proto.RegisterType((*MsgUpdateServiceResponse)(nil), "sonrio.sonr.registry.MsgUpdateServiceResponse")
-	proto.RegisterMapType((map[string]string)(nil), "sonrio.sonr.registry.MsgUpdateServiceResponse.ConfigurationEntry")
-	proto.RegisterMapType((map[string]string)(nil), "sonrio.sonr.registry.MsgUpdateServiceResponse.MetadataEntry")
+	proto.RegisterType((*MsgAccessApplication)(nil), "sonrio.sonr.registry.MsgAccessApplication")
+	proto.RegisterType((*MsgAccessApplicationResponse)(nil), "sonrio.sonr.registry.MsgAccessApplicationResponse")
+	proto.RegisterMapType((map[string]string)(nil), "sonrio.sonr.registry.MsgAccessApplicationResponse.MetadataEntry")
+	proto.RegisterType((*MsgUpdateApplication)(nil), "sonrio.sonr.registry.MsgUpdateApplication")
+	proto.RegisterMapType((map[string]string)(nil), "sonrio.sonr.registry.MsgUpdateApplication.MetadataEntry")
+	proto.RegisterType((*MsgUpdateApplicationResponse)(nil), "sonrio.sonr.registry.MsgUpdateApplicationResponse")
+	proto.RegisterMapType((map[string]string)(nil), "sonrio.sonr.registry.MsgUpdateApplicationResponse.MetadataEntry")
 	proto.RegisterType((*MsgCreateWhoIs)(nil), "sonrio.sonr.registry.MsgCreateWhoIs")
 	proto.RegisterType((*MsgCreateWhoIsResponse)(nil), "sonrio.sonr.registry.MsgCreateWhoIsResponse")
 	proto.RegisterType((*MsgUpdateWhoIs)(nil), "sonrio.sonr.registry.MsgUpdateWhoIs")
@@ -1118,64 +1146,61 @@ func init() {
 func init() { proto.RegisterFile("registry/tx.proto", fileDescriptor_33996d822bb1b5d4) }
 
 var fileDescriptor_33996d822bb1b5d4 = []byte{
-	// 912 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xcc, 0x57, 0x4d, 0x6f, 0xe3, 0x44,
-	0x18, 0xae, 0xe3, 0x64, 0x77, 0xfb, 0x66, 0xb3, 0x2d, 0xa3, 0xee, 0x62, 0x0c, 0x8a, 0x22, 0x6f,
-	0xa9, 0x22, 0x41, 0x1d, 0x5a, 0x38, 0xf0, 0x25, 0xd4, 0xd2, 0x22, 0x51, 0x50, 0x10, 0x72, 0xa9,
-	0x40, 0x1c, 0xa8, 0x1c, 0x7b, 0x70, 0x86, 0x26, 0x9e, 0xc8, 0xe3, 0xb4, 0x8d, 0xc4, 0x99, 0x33,
-	0x97, 0xfe, 0x0b, 0xfe, 0x07, 0x5c, 0x90, 0x7a, 0xe4, 0x06, 0x6a, 0xff, 0x00, 0xbf, 0x00, 0x21,
-	0x8f, 0xbf, 0xc6, 0x89, 0x13, 0x3b, 0x45, 0x45, 0x7b, 0x8a, 0x67, 0xe6, 0xf5, 0xf3, 0x3c, 0xef,
-	0x33, 0xef, 0x3b, 0xe3, 0xc0, 0x4b, 0x1e, 0x76, 0x08, 0xf3, 0xbd, 0x49, 0xc7, 0xbf, 0xd4, 0x47,
-	0x1e, 0xf5, 0x29, 0xda, 0x60, 0xd4, 0xf5, 0x08, 0xd5, 0x83, 0x1f, 0x3d, 0x5e, 0x56, 0x9f, 0x26,
-	0x81, 0x17, 0x7d, 0x7a, 0x4a, 0x58, 0x18, 0xac, 0xbe, 0x92, 0x4c, 0x5b, 0x1e, 0xb6, 0xb1, 0xeb,
-	0x13, 0x73, 0x10, 0x2e, 0x69, 0x3d, 0x40, 0x5d, 0xe6, 0x18, 0x7c, 0x1d, 0x7b, 0xc7, 0xd8, 0x3b,
-	0x27, 0x16, 0x46, 0x0a, 0x3c, 0xb4, 0x3c, 0x6c, 0xfa, 0xd4, 0x53, 0xa4, 0x96, 0xd4, 0x5e, 0x35,
-	0xe2, 0x21, 0x6a, 0x41, 0x9d, 0x85, 0x41, 0x5f, 0x98, 0x43, 0xac, 0x54, 0xf8, 0xaa, 0x38, 0x85,
-	0xd6, 0x41, 0xfe, 0xe1, 0xc2, 0x57, 0x64, 0xbe, 0x12, 0x3c, 0x6a, 0x3f, 0x82, 0x3a, 0xcb, 0x61,
-	0x60, 0x36, 0xa2, 0x2e, 0xc3, 0xe8, 0x35, 0x58, 0x25, 0xec, 0x78, 0x6c, 0x59, 0x98, 0x31, 0xce,
-	0xf6, 0xc8, 0x48, 0x27, 0xd0, 0x33, 0x78, 0x60, 0x13, 0xfb, 0xc4, 0x1b, 0x44, 0x54, 0xd1, 0x08,
-	0xb5, 0x61, 0xcd, 0x26, 0xf6, 0x21, 0xb5, 0xc6, 0x43, 0xec, 0xfa, 0x9f, 0x31, 0xea, 0x46, 0x8c,
-	0xd3, 0xd3, 0xda, 0x95, 0x04, 0x6b, 0x02, 0x3d, 0xd7, 0x38, 0x3f, 0xbf, 0x2d, 0x78, 0xe2, 0x9a,
-	0x43, 0xfc, 0x15, 0x8d, 0xe3, 0x23, 0xde, 0xa9, 0x59, 0xb4, 0x07, 0x90, 0x7a, 0xc9, 0xa9, 0xeb,
-	0xbb, 0x2d, 0x3d, 0x6f, 0x53, 0xf4, 0x83, 0x24, 0xce, 0x10, 0xde, 0xd1, 0x7e, 0x91, 0xe0, 0xe5,
-	0x29, 0x5d, 0xf7, 0xe3, 0xc9, 0xe3, 0x19, 0x4f, 0xd0, 0x0e, 0xd4, 0x2e, 0xfa, 0xf4, 0x88, 0x29,
-	0x55, 0x2e, 0xfc, 0xd5, 0x7c, 0xe1, 0x5f, 0x07, 0x21, 0x46, 0x18, 0xa9, 0x31, 0x68, 0x74, 0x99,
-	0xb3, 0xcf, 0x15, 0x14, 0x78, 0x88, 0xa0, 0xea, 0xa6, 0xc5, 0xc1, 0x9f, 0x83, 0x8c, 0x46, 0xe3,
-	0xde, 0x80, 0x58, 0x9f, 0xe3, 0x49, 0xb4, 0x53, 0xe9, 0x44, 0x90, 0xd1, 0x08, 0x63, 0xef, 0xc8,
-	0xe6, 0x82, 0x56, 0x8d, 0x68, 0xa4, 0xfd, 0x24, 0xc1, 0xd3, 0x0c, 0x6b, 0xe2, 0xd0, 0x3a, 0xc8,
-	0x36, 0xb1, 0x23, 0xe6, 0xe0, 0x31, 0x2f, 0xfb, 0x4a, 0x41, 0xf6, 0x72, 0xe9, 0xec, 0x7f, 0x95,
-	0x78, 0xfa, 0x27, 0x23, 0xdb, 0xf4, 0x71, 0x41, 0xfa, 0x91, 0xb4, 0x4a, 0x2a, 0xad, 0x0b, 0x8f,
-	0x86, 0xd8, 0x37, 0x6d, 0xd3, 0x37, 0x15, 0xb9, 0x25, 0xb7, 0xeb, 0xbb, 0x3b, 0xf9, 0x9c, 0x19,
-	0x0a, 0xbd, 0x1b, 0xbd, 0xf3, 0x89, 0xeb, 0x7b, 0x13, 0x23, 0x81, 0x50, 0x3f, 0x80, 0x46, 0x66,
-	0x29, 0x60, 0x3c, 0xc3, 0x93, 0xd8, 0x8c, 0x33, 0x3c, 0x41, 0x1b, 0x50, 0x3b, 0x37, 0x07, 0xe3,
-	0x78, 0x0f, 0xc2, 0xc1, 0xfb, 0x95, 0x77, 0x25, 0xed, 0xf7, 0xd0, 0xd2, 0x94, 0x26, 0xb1, 0xb4,
-	0x05, 0x75, 0xc1, 0xa9, 0x08, 0x4d, 0x9c, 0x42, 0x27, 0x42, 0x1e, 0x15, 0x9e, 0xc7, 0x7b, 0x25,
-	0xf2, 0x88, 0x09, 0xee, 0x27, 0x9f, 0x8f, 0x60, 0x3d, 0xa9, 0x90, 0xe2, 0xe3, 0x6b, 0x66, 0x6f,
-	0xb4, 0x3f, 0x25, 0x50, 0xa6, 0x01, 0x12, 0x4b, 0x10, 0x54, 0x2d, 0x6a, 0x63, 0x8e, 0x52, 0x33,
-	0xf8, 0x73, 0x00, 0x3e, 0xc4, 0x8c, 0x99, 0x4e, 0x2c, 0x26, 0x1e, 0xa2, 0x6f, 0x66, 0xb6, 0xf9,
-	0xc3, 0xb9, 0xf6, 0xe4, 0xf2, 0xdd, 0x8f, 0x43, 0x7f, 0x57, 0xb8, 0x45, 0xe1, 0x86, 0xdc, 0xc1,
-	0x22, 0x74, 0x0a, 0x0d, 0x8b, 0xba, 0xdf, 0x13, 0x67, 0xec, 0x99, 0x3e, 0xe1, 0xa7, 0x4a, 0x99,
-	0xbd, 0x8f, 0xa8, 0xf4, 0x03, 0xf1, 0xdd, 0x30, 0xb3, 0x2c, 0x1e, 0xfa, 0x52, 0x30, 0xae, 0xca,
-	0xb1, 0xdf, 0x29, 0x89, 0x3d, 0xcf, 0xb0, 0x3d, 0x40, 0xb3, 0xb4, 0xcb, 0xb8, 0xf6, 0xdf, 0x2c,
-	0xff, 0xa7, 0xc2, 0x8b, 0x2a, 0xa3, 0x75, 0x89, 0x3e, 0x73, 0xa6, 0x0d, 0x0f, 0x9b, 0x6d, 0xbf,
-	0x9c, 0x29, 0x49, 0x35, 0x15, 0x1b, 0xbf, 0x4c, 0xc5, 0xe6, 0x73, 0xbc, 0xa0, 0x1b, 0xd0, 0x87,
-	0x27, 0x5d, 0xe6, 0x1c, 0x04, 0x25, 0x8d, 0xf9, 0x41, 0xbe, 0xa0, 0xe0, 0x37, 0xa0, 0x46, 0x5c,
-	0x1b, 0x5f, 0xc6, 0x28, 0x7c, 0x10, 0xb7, 0x81, 0x9c, 0xb6, 0x41, 0xc2, 0x56, 0x15, 0xd8, 0x34,
-	0x05, 0x9e, 0x65, 0x99, 0x62, 0x6b, 0x22, 0x0d, 0xa1, 0x6d, 0xff, 0x87, 0x06, 0x81, 0x29, 0xd1,
-	0xb0, 0xc7, 0x35, 0x1c, 0xe2, 0x01, 0xbe, 0xa3, 0x86, 0x08, 0x5b, 0x40, 0x88, 0xb1, 0x77, 0xaf,
-	0x1e, 0x82, 0xdc, 0x65, 0x0e, 0x1a, 0xc2, 0xda, 0xf4, 0xf7, 0x63, 0x7b, 0x6e, 0x15, 0x4d, 0x45,
-	0xaa, 0x6f, 0x95, 0x8d, 0x4c, 0xda, 0xc7, 0x86, 0xc7, 0x99, 0x6f, 0xb9, 0xd7, 0x0b, 0x11, 0x82,
-	0x30, 0x75, 0xbb, 0x54, 0x58, 0xc2, 0xf2, 0x1d, 0x80, 0xf0, 0xad, 0xf3, 0xbc, 0xe0, 0x1c, 0xe7,
-	0x0c, 0x6f, 0x94, 0x08, 0x12, 0xf1, 0x85, 0x8f, 0x89, 0xe7, 0x25, 0xae, 0xd1, 0x05, 0xf8, 0x39,
-	0x97, 0xb9, 0x03, 0x8d, 0xec, 0x9d, 0xb8, 0x55, 0xee, 0x2a, 0x52, 0xf5, 0xe5, 0xae, 0xac, 0x80,
-	0x28, 0x7b, 0xb3, 0x6c, 0x95, 0x3b, 0x41, 0x16, 0x10, 0xe5, 0x1f, 0x9b, 0x26, 0xd4, 0xc5, 0x7e,
-	0xde, 0x9c, 0xfb, 0xba, 0x10, 0xa5, 0xbe, 0x59, 0x26, 0x4a, 0xa4, 0x10, 0xdb, 0x75, 0xb3, 0x40,
-	0x61, 0x11, 0x45, 0x4e, 0x43, 0x06, 0x14, 0x62, 0x37, 0xce, 0xa7, 0x10, 0xa2, 0x16, 0x50, 0xe4,
-	0xf4, 0xe5, 0xc7, 0x9f, 0xfe, 0x76, 0xd3, 0x94, 0xae, 0x6f, 0x9a, 0xd2, 0x5f, 0x37, 0x4d, 0xe9,
-	0xe7, 0xdb, 0xe6, 0xca, 0xf5, 0x6d, 0x73, 0xe5, 0x8f, 0xdb, 0xe6, 0xca, 0xb7, 0xba, 0x43, 0xfc,
-	0xfe, 0xb8, 0xa7, 0x5b, 0x74, 0xd8, 0x09, 0xa0, 0xb6, 0x09, 0xed, 0xf4, 0x06, 0xd4, 0x3a, 0xb3,
-	0xfa, 0x26, 0x71, 0x3b, 0x97, 0x9d, 0xf4, 0x7f, 0xe6, 0x64, 0x84, 0x59, 0xef, 0x01, 0xff, 0x8f,
-	0xf8, 0xf6, 0xbf, 0x01, 0x00, 0x00, 0xff, 0xff, 0x28, 0xe3, 0x5d, 0xe6, 0x80, 0x0e, 0x00, 0x00,
+	// 857 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xcc, 0x57, 0xcb, 0x6e, 0xd3, 0x40,
+	0x14, 0xad, 0xf3, 0x68, 0x9b, 0xdb, 0x17, 0x35, 0x69, 0x31, 0xa1, 0x8a, 0xa2, 0xb4, 0xa0, 0xa8,
+	0xb4, 0x8e, 0x1a, 0x58, 0x14, 0xd8, 0xb4, 0xb4, 0x48, 0xb4, 0x28, 0x2c, 0x4c, 0x2b, 0x24, 0x84,
+	0x40, 0x8e, 0x3d, 0x4a, 0xac, 0x26, 0x1e, 0xcb, 0xe3, 0xd0, 0xe6, 0x07, 0x58, 0xb3, 0x61, 0xc3,
+	0x82, 0x2f, 0x60, 0xc7, 0x8a, 0x2f, 0x80, 0x65, 0x37, 0x08, 0x96, 0xa8, 0xfd, 0x11, 0xe4, 0x89,
+	0x1f, 0x93, 0xc4, 0x8e, 0xdd, 0x42, 0xab, 0xae, 0xe2, 0x19, 0x9f, 0xdc, 0x73, 0xee, 0x99, 0x3b,
+	0x77, 0xc6, 0x30, 0x6b, 0xa2, 0xba, 0x46, 0x2c, 0xb3, 0x53, 0xb6, 0x8e, 0x44, 0xc3, 0xc4, 0x16,
+	0xe6, 0xb3, 0x04, 0xeb, 0xa6, 0x86, 0x45, 0xfb, 0x47, 0x74, 0x5f, 0xe7, 0xe6, 0x3c, 0xe0, 0x61,
+	0x03, 0xbf, 0xd5, 0x48, 0x17, 0x9c, 0xbb, 0xe9, 0x4d, 0x2b, 0x26, 0x52, 0x91, 0x6e, 0x69, 0x72,
+	0xb3, 0xfb, 0xaa, 0xf8, 0x99, 0x83, 0xf9, 0x2a, 0xa9, 0x4b, 0x14, 0x80, 0xcc, 0x4d, 0xc3, 0x68,
+	0x6a, 0x8a, 0x6c, 0x69, 0x58, 0xe7, 0x05, 0x18, 0x53, 0x4c, 0x24, 0x5b, 0xd8, 0x14, 0xb8, 0x02,
+	0x57, 0xca, 0x48, 0xee, 0x90, 0x2f, 0xc1, 0x0c, 0x03, 0x7c, 0x2e, 0xb7, 0x90, 0x90, 0xa0, 0x88,
+	0xfe, 0x69, 0x7e, 0x03, 0xc0, 0xa7, 0x14, 0x92, 0x05, 0xae, 0x34, 0x51, 0x29, 0x88, 0x41, 0xda,
+	0xc5, 0x2d, 0x0f, 0x27, 0x31, 0xff, 0x29, 0x7e, 0xe5, 0x20, 0x1f, 0x2c, 0x50, 0x42, 0xc4, 0xc0,
+	0x3a, 0x41, 0xfc, 0x02, 0x64, 0x34, 0xf2, 0xa2, 0xad, 0x28, 0x88, 0x10, 0x2a, 0x75, 0x5c, 0xf2,
+	0x27, 0xf8, 0x79, 0x18, 0x55, 0x35, 0x75, 0xdf, 0x6c, 0x3a, 0x1a, 0x9d, 0x91, 0x9d, 0x84, 0xaa,
+	0xa9, 0xdb, 0x58, 0x69, 0xb7, 0x90, 0x6e, 0xed, 0x12, 0xac, 0x53, 0x7d, 0x93, 0x52, 0xff, 0x34,
+	0xbf, 0x06, 0xe9, 0xc3, 0x06, 0xde, 0x21, 0x42, 0x8a, 0xea, 0xbf, 0x15, 0xac, 0xff, 0xa5, 0x0d,
+	0x91, 0xba, 0xc8, 0xe2, 0x47, 0x0e, 0x66, 0x18, 0xd5, 0xd4, 0x8b, 0x70, 0x3f, 0xef, 0xc0, 0xb4,
+	0x2e, 0xb7, 0xd0, 0x1e, 0x76, 0xf1, 0x8e, 0xd4, 0xbe, 0xd9, 0xff, 0xe0, 0xe6, 0x17, 0x0e, 0x6e,
+	0xf4, 0xe9, 0xba, 0xca, 0x36, 0x12, 0x98, 0xaa, 0x92, 0xfa, 0x26, 0x55, 0x10, 0xe1, 0x21, 0x0f,
+	0x29, 0xdd, 0x2f, 0x44, 0xfa, 0x6c, 0x67, 0x64, 0xb4, 0x6b, 0x4d, 0x4d, 0x79, 0x86, 0x3a, 0x54,
+	0x55, 0x46, 0xf2, 0x27, 0xec, 0x8c, 0x0c, 0x84, 0xcc, 0x1d, 0x95, 0x0a, 0xca, 0x48, 0xce, 0xa8,
+	0xf8, 0x9e, 0x83, 0xb9, 0x1e, 0x56, 0xcf, 0xa1, 0x6b, 0x90, 0x54, 0x35, 0xd5, 0x61, 0xb6, 0x1f,
+	0x83, 0xb2, 0x4f, 0x44, 0x64, 0x9f, 0x8c, 0x9d, 0xfd, 0x77, 0x8e, 0xa6, 0xbf, 0x6f, 0xa8, 0xb2,
+	0x85, 0x22, 0xd2, 0x77, 0xa4, 0x25, 0x7c, 0x69, 0x55, 0x18, 0x6f, 0x21, 0x4b, 0x56, 0x65, 0x4b,
+	0x16, 0x92, 0x85, 0x64, 0x69, 0xa2, 0xb2, 0x16, 0xcc, 0xd9, 0x43, 0x21, 0x56, 0x9d, 0xff, 0x3c,
+	0xd1, 0x2d, 0xb3, 0x23, 0x79, 0x21, 0x72, 0x8f, 0x60, 0xaa, 0xe7, 0x95, 0xcd, 0x78, 0x80, 0x3a,
+	0xae, 0x19, 0x07, 0xa8, 0xc3, 0x67, 0x21, 0xfd, 0x4e, 0x6e, 0xb6, 0xdd, 0x35, 0xe8, 0x0e, 0x1e,
+	0x26, 0xd6, 0xb9, 0xe2, 0xaf, 0xae, 0xa5, 0x3e, 0x8d, 0x67, 0xe9, 0x59, 0x32, 0xda, 0x1f, 0xc8,
+	0xe8, 0x41, 0x8c, 0x8c, 0x5c, 0xaa, 0x8b, 0xc9, 0x6c, 0x17, 0xb2, 0x5e, 0xad, 0xc4, 0x6b, 0x9e,
+	0x02, 0x8c, 0xc9, 0x86, 0xc1, 0x34, 0x4d, 0x77, 0x58, 0xfc, 0x94, 0x80, 0x85, 0xa0, 0x60, 0x9e,
+	0x59, 0x3c, 0xa4, 0x14, 0xac, 0x22, 0x1a, 0x31, 0x2d, 0xd1, 0x67, 0x3b, 0x5c, 0x0b, 0x11, 0x22,
+	0xd7, 0xbd, 0x70, 0xce, 0x90, 0x7f, 0x3d, 0x60, 0xd7, 0x46, 0xa8, 0x5d, 0xa1, 0x9c, 0x61, 0xae,
+	0x9d, 0x63, 0x37, 0xff, 0x9b, 0xd1, 0x3f, 0x39, 0xea, 0x74, 0x77, 0x5d, 0xe3, 0x39, 0x3d, 0x58,
+	0x41, 0x7b, 0x03, 0x96, 0xac, 0x47, 0x54, 0x10, 0xc3, 0x74, 0x31, 0x05, 0xe4, 0x2c, 0xfa, 0x00,
+	0xdb, 0x25, 0x2c, 0x7a, 0x28, 0xe7, 0x95, 0x59, 0xf4, 0x06, 0x4c, 0x57, 0x49, 0x7d, 0xcb, 0x5e,
+	0x4f, 0x44, 0xa3, 0x0e, 0x59, 0xed, 0x2c, 0xa4, 0x35, 0x5d, 0x45, 0x47, 0x6e, 0x14, 0x3a, 0x70,
+	0x6b, 0x20, 0xe9, 0xd7, 0x80, 0xc7, 0x96, 0x62, 0xd8, 0x8a, 0x02, 0xbd, 0x06, 0x31, 0x4c, 0xae,
+	0x17, 0x8e, 0x86, 0xae, 0x57, 0x97, 0xa1, 0x81, 0x61, 0xf2, 0x34, 0x6c, 0x50, 0x0d, 0xdb, 0xa8,
+	0x89, 0xce, 0xa9, 0xc1, 0x89, 0xcd, 0x44, 0x70, 0x63, 0x57, 0xbe, 0x8d, 0x41, 0xb2, 0x4a, 0xea,
+	0x7c, 0x07, 0xae, 0x07, 0xdd, 0x02, 0x57, 0x42, 0xcb, 0x27, 0x00, 0x9d, 0xbb, 0x7f, 0x16, 0xb4,
+	0x57, 0xe2, 0x2a, 0x4c, 0xf6, 0xdc, 0x94, 0x6e, 0x47, 0x46, 0xb1, 0x61, 0xb9, 0xd5, 0x58, 0x30,
+	0x8f, 0xe5, 0x0d, 0x00, 0x73, 0x93, 0x58, 0x8c, 0xe8, 0x85, 0x94, 0xe1, 0x6e, 0x0c, 0x10, 0x1b,
+	0x9f, 0x39, 0xaa, 0x17, 0x63, 0x1c, 0x4d, 0x43, 0xe2, 0x07, 0x1c, 0x95, 0x04, 0x66, 0x07, 0xcf,
+	0x99, 0xe5, 0xf8, 0x2d, 0x3d, 0x57, 0x39, 0x7b, 0xfb, 0xb7, 0x49, 0x07, 0x5b, 0xee, 0x72, 0xfc,
+	0x96, 0x32, 0x84, 0x34, 0xbc, 0xe5, 0xc9, 0x30, 0xc1, 0xee, 0xf9, 0xa5, 0xd0, 0x10, 0x0c, 0x2a,
+	0xb7, 0x12, 0x07, 0xc5, 0x52, 0xb0, 0x5b, 0x7a, 0x29, 0x42, 0x65, 0x14, 0x45, 0xc0, 0xa6, 0xb5,
+	0x29, 0xd8, 0x1d, 0x1b, 0x4e, 0xc1, 0xa0, 0x86, 0x50, 0x04, 0xec, 0xdd, 0xc7, 0x4f, 0x7f, 0x9c,
+	0xe4, 0xb9, 0xe3, 0x93, 0x3c, 0xf7, 0xe7, 0x24, 0xcf, 0x7d, 0x38, 0xcd, 0x8f, 0x1c, 0x9f, 0xe6,
+	0x47, 0x7e, 0x9f, 0xe6, 0x47, 0x5e, 0x89, 0x75, 0xcd, 0x6a, 0xb4, 0x6b, 0xa2, 0x82, 0x5b, 0x65,
+	0x3b, 0xd4, 0xaa, 0x86, 0xcb, 0xb5, 0x26, 0x56, 0x0e, 0x94, 0x86, 0xac, 0xe9, 0xe5, 0xa3, 0xb2,
+	0xff, 0x49, 0xd9, 0x31, 0x10, 0xa9, 0x8d, 0xd2, 0xcf, 0xc1, 0x7b, 0x7f, 0x03, 0x00, 0x00, 0xff,
+	0xff, 0xf0, 0xa9, 0xa0, 0x2d, 0x6b, 0x0e, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -1190,12 +1215,12 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type MsgClient interface {
-	RegisterService(ctx context.Context, in *MsgRegisterService, opts ...grpc.CallOption) (*MsgRegisterServiceResponse, error)
+	RegisterApplication(ctx context.Context, in *MsgRegisterApplication, opts ...grpc.CallOption) (*MsgRegisterApplicationResponse, error)
 	RegisterName(ctx context.Context, in *MsgRegisterName, opts ...grpc.CallOption) (*MsgRegisterNameResponse, error)
 	AccessName(ctx context.Context, in *MsgAccessName, opts ...grpc.CallOption) (*MsgAccessNameResponse, error)
 	UpdateName(ctx context.Context, in *MsgUpdateName, opts ...grpc.CallOption) (*MsgUpdateNameResponse, error)
-	AccessService(ctx context.Context, in *MsgAccessService, opts ...grpc.CallOption) (*MsgAccessServiceResponse, error)
-	UpdateService(ctx context.Context, in *MsgUpdateService, opts ...grpc.CallOption) (*MsgUpdateServiceResponse, error)
+	AccessApplication(ctx context.Context, in *MsgAccessApplication, opts ...grpc.CallOption) (*MsgAccessApplicationResponse, error)
+	UpdateApplication(ctx context.Context, in *MsgUpdateApplication, opts ...grpc.CallOption) (*MsgUpdateApplicationResponse, error)
 	CreateWhoIs(ctx context.Context, in *MsgCreateWhoIs, opts ...grpc.CallOption) (*MsgCreateWhoIsResponse, error)
 	UpdateWhoIs(ctx context.Context, in *MsgUpdateWhoIs, opts ...grpc.CallOption) (*MsgUpdateWhoIsResponse, error)
 	DeleteWhoIs(ctx context.Context, in *MsgDeleteWhoIs, opts ...grpc.CallOption) (*MsgDeleteWhoIsResponse, error)
@@ -1209,9 +1234,9 @@ func NewMsgClient(cc grpc1.ClientConn) MsgClient {
 	return &msgClient{cc}
 }
 
-func (c *msgClient) RegisterService(ctx context.Context, in *MsgRegisterService, opts ...grpc.CallOption) (*MsgRegisterServiceResponse, error) {
-	out := new(MsgRegisterServiceResponse)
-	err := c.cc.Invoke(ctx, "/sonrio.sonr.registry.Msg/RegisterService", in, out, opts...)
+func (c *msgClient) RegisterApplication(ctx context.Context, in *MsgRegisterApplication, opts ...grpc.CallOption) (*MsgRegisterApplicationResponse, error) {
+	out := new(MsgRegisterApplicationResponse)
+	err := c.cc.Invoke(ctx, "/sonrio.sonr.registry.Msg/RegisterApplication", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1245,18 +1270,18 @@ func (c *msgClient) UpdateName(ctx context.Context, in *MsgUpdateName, opts ...g
 	return out, nil
 }
 
-func (c *msgClient) AccessService(ctx context.Context, in *MsgAccessService, opts ...grpc.CallOption) (*MsgAccessServiceResponse, error) {
-	out := new(MsgAccessServiceResponse)
-	err := c.cc.Invoke(ctx, "/sonrio.sonr.registry.Msg/AccessService", in, out, opts...)
+func (c *msgClient) AccessApplication(ctx context.Context, in *MsgAccessApplication, opts ...grpc.CallOption) (*MsgAccessApplicationResponse, error) {
+	out := new(MsgAccessApplicationResponse)
+	err := c.cc.Invoke(ctx, "/sonrio.sonr.registry.Msg/AccessApplication", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *msgClient) UpdateService(ctx context.Context, in *MsgUpdateService, opts ...grpc.CallOption) (*MsgUpdateServiceResponse, error) {
-	out := new(MsgUpdateServiceResponse)
-	err := c.cc.Invoke(ctx, "/sonrio.sonr.registry.Msg/UpdateService", in, out, opts...)
+func (c *msgClient) UpdateApplication(ctx context.Context, in *MsgUpdateApplication, opts ...grpc.CallOption) (*MsgUpdateApplicationResponse, error) {
+	out := new(MsgUpdateApplicationResponse)
+	err := c.cc.Invoke(ctx, "/sonrio.sonr.registry.Msg/UpdateApplication", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1292,12 +1317,12 @@ func (c *msgClient) DeleteWhoIs(ctx context.Context, in *MsgDeleteWhoIs, opts ..
 
 // MsgServer is the server API for Msg service.
 type MsgServer interface {
-	RegisterService(context.Context, *MsgRegisterService) (*MsgRegisterServiceResponse, error)
+	RegisterApplication(context.Context, *MsgRegisterApplication) (*MsgRegisterApplicationResponse, error)
 	RegisterName(context.Context, *MsgRegisterName) (*MsgRegisterNameResponse, error)
 	AccessName(context.Context, *MsgAccessName) (*MsgAccessNameResponse, error)
 	UpdateName(context.Context, *MsgUpdateName) (*MsgUpdateNameResponse, error)
-	AccessService(context.Context, *MsgAccessService) (*MsgAccessServiceResponse, error)
-	UpdateService(context.Context, *MsgUpdateService) (*MsgUpdateServiceResponse, error)
+	AccessApplication(context.Context, *MsgAccessApplication) (*MsgAccessApplicationResponse, error)
+	UpdateApplication(context.Context, *MsgUpdateApplication) (*MsgUpdateApplicationResponse, error)
 	CreateWhoIs(context.Context, *MsgCreateWhoIs) (*MsgCreateWhoIsResponse, error)
 	UpdateWhoIs(context.Context, *MsgUpdateWhoIs) (*MsgUpdateWhoIsResponse, error)
 	DeleteWhoIs(context.Context, *MsgDeleteWhoIs) (*MsgDeleteWhoIsResponse, error)
@@ -1307,8 +1332,8 @@ type MsgServer interface {
 type UnimplementedMsgServer struct {
 }
 
-func (*UnimplementedMsgServer) RegisterService(ctx context.Context, req *MsgRegisterService) (*MsgRegisterServiceResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method RegisterService not implemented")
+func (*UnimplementedMsgServer) RegisterApplication(ctx context.Context, req *MsgRegisterApplication) (*MsgRegisterApplicationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RegisterApplication not implemented")
 }
 func (*UnimplementedMsgServer) RegisterName(ctx context.Context, req *MsgRegisterName) (*MsgRegisterNameResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RegisterName not implemented")
@@ -1319,11 +1344,11 @@ func (*UnimplementedMsgServer) AccessName(ctx context.Context, req *MsgAccessNam
 func (*UnimplementedMsgServer) UpdateName(ctx context.Context, req *MsgUpdateName) (*MsgUpdateNameResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateName not implemented")
 }
-func (*UnimplementedMsgServer) AccessService(ctx context.Context, req *MsgAccessService) (*MsgAccessServiceResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AccessService not implemented")
+func (*UnimplementedMsgServer) AccessApplication(ctx context.Context, req *MsgAccessApplication) (*MsgAccessApplicationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AccessApplication not implemented")
 }
-func (*UnimplementedMsgServer) UpdateService(ctx context.Context, req *MsgUpdateService) (*MsgUpdateServiceResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateService not implemented")
+func (*UnimplementedMsgServer) UpdateApplication(ctx context.Context, req *MsgUpdateApplication) (*MsgUpdateApplicationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateApplication not implemented")
 }
 func (*UnimplementedMsgServer) CreateWhoIs(ctx context.Context, req *MsgCreateWhoIs) (*MsgCreateWhoIsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateWhoIs not implemented")
@@ -1339,20 +1364,20 @@ func RegisterMsgServer(s grpc1.Server, srv MsgServer) {
 	s.RegisterService(&_Msg_serviceDesc, srv)
 }
 
-func _Msg_RegisterService_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MsgRegisterService)
+func _Msg_RegisterApplication_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgRegisterApplication)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(MsgServer).RegisterService(ctx, in)
+		return srv.(MsgServer).RegisterApplication(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/sonrio.sonr.registry.Msg/RegisterService",
+		FullMethod: "/sonrio.sonr.registry.Msg/RegisterApplication",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServer).RegisterService(ctx, req.(*MsgRegisterService))
+		return srv.(MsgServer).RegisterApplication(ctx, req.(*MsgRegisterApplication))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1411,38 +1436,38 @@ func _Msg_UpdateName_Handler(srv interface{}, ctx context.Context, dec func(inte
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Msg_AccessService_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MsgAccessService)
+func _Msg_AccessApplication_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgAccessApplication)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(MsgServer).AccessService(ctx, in)
+		return srv.(MsgServer).AccessApplication(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/sonrio.sonr.registry.Msg/AccessService",
+		FullMethod: "/sonrio.sonr.registry.Msg/AccessApplication",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServer).AccessService(ctx, req.(*MsgAccessService))
+		return srv.(MsgServer).AccessApplication(ctx, req.(*MsgAccessApplication))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Msg_UpdateService_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MsgUpdateService)
+func _Msg_UpdateApplication_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgUpdateApplication)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(MsgServer).UpdateService(ctx, in)
+		return srv.(MsgServer).UpdateApplication(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/sonrio.sonr.registry.Msg/UpdateService",
+		FullMethod: "/sonrio.sonr.registry.Msg/UpdateApplication",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServer).UpdateService(ctx, req.(*MsgUpdateService))
+		return srv.(MsgServer).UpdateApplication(ctx, req.(*MsgUpdateApplication))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1506,8 +1531,8 @@ var _Msg_serviceDesc = grpc.ServiceDesc{
 	HandlerType: (*MsgServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "RegisterService",
-			Handler:    _Msg_RegisterService_Handler,
+			MethodName: "RegisterApplication",
+			Handler:    _Msg_RegisterApplication_Handler,
 		},
 		{
 			MethodName: "RegisterName",
@@ -1522,12 +1547,12 @@ var _Msg_serviceDesc = grpc.ServiceDesc{
 			Handler:    _Msg_UpdateName_Handler,
 		},
 		{
-			MethodName: "AccessService",
-			Handler:    _Msg_AccessService_Handler,
+			MethodName: "AccessApplication",
+			Handler:    _Msg_AccessApplication_Handler,
 		},
 		{
-			MethodName: "UpdateService",
-			Handler:    _Msg_UpdateService_Handler,
+			MethodName: "UpdateApplication",
+			Handler:    _Msg_UpdateApplication_Handler,
 		},
 		{
 			MethodName: "CreateWhoIs",
@@ -1546,7 +1571,7 @@ var _Msg_serviceDesc = grpc.ServiceDesc{
 	Metadata: "registry/tx.proto",
 }
 
-func (m *MsgRegisterService) Marshal() (dAtA []byte, err error) {
+func (m *MsgRegisterApplication) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -1556,27 +1581,32 @@ func (m *MsgRegisterService) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *MsgRegisterService) MarshalTo(dAtA []byte) (int, error) {
+func (m *MsgRegisterApplication) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *MsgRegisterService) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *MsgRegisterApplication) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	if len(m.Jwt) > 0 {
-		i -= len(m.Jwt)
-		copy(dAtA[i:], m.Jwt)
-		i = encodeVarintTx(dAtA, i, uint64(len(m.Jwt)))
+	if m.Credential != nil {
+		{
+			size, err := m.Credential.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintTx(dAtA, i, uint64(size))
+		}
 		i--
 		dAtA[i] = 0x1a
 	}
-	if len(m.ServiceName) > 0 {
-		i -= len(m.ServiceName)
-		copy(dAtA[i:], m.ServiceName)
-		i = encodeVarintTx(dAtA, i, uint64(len(m.ServiceName)))
+	if len(m.ApplicationName) > 0 {
+		i -= len(m.ApplicationName)
+		copy(dAtA[i:], m.ApplicationName)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.ApplicationName)))
 		i--
 		dAtA[i] = 0x12
 	}
@@ -1590,7 +1620,7 @@ func (m *MsgRegisterService) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *MsgRegisterServiceResponse) Marshal() (dAtA []byte, err error) {
+func (m *MsgRegisterApplicationResponse) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -1600,16 +1630,28 @@ func (m *MsgRegisterServiceResponse) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *MsgRegisterServiceResponse) MarshalTo(dAtA []byte) (int, error) {
+func (m *MsgRegisterApplicationResponse) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *MsgRegisterServiceResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *MsgRegisterApplicationResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
+	if m.WhoIs != nil {
+		{
+			size, err := m.WhoIs.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintTx(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x22
+	}
 	if len(m.DidDocumentJson) > 0 {
 		i -= len(m.DidDocumentJson)
 		copy(dAtA[i:], m.DidDocumentJson)
@@ -1937,39 +1979,9 @@ func (m *MsgUpdateNameResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 			dAtA[i] = 0xa
 			i = encodeVarintTx(dAtA, i, uint64(baseI-i))
 			i--
-			dAtA[i] = 0x12
+			dAtA[i] = 0x1a
 		}
 	}
-	if len(m.DidDocument) > 0 {
-		i -= len(m.DidDocument)
-		copy(dAtA[i:], m.DidDocument)
-		i = encodeVarintTx(dAtA, i, uint64(len(m.DidDocument)))
-		i--
-		dAtA[i] = 0xa
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *MsgAccessService) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *MsgAccessService) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *MsgAccessService) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
 	if len(m.Did) > 0 {
 		i -= len(m.Did)
 		copy(dAtA[i:], m.Did)
@@ -1987,7 +1999,7 @@ func (m *MsgAccessService) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *MsgAccessServiceResponse) Marshal() (dAtA []byte, err error) {
+func (m *MsgAccessApplication) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -1997,16 +2009,65 @@ func (m *MsgAccessServiceResponse) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *MsgAccessServiceResponse) MarshalTo(dAtA []byte) (int, error) {
+func (m *MsgAccessApplication) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *MsgAccessServiceResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *MsgAccessApplication) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
+	if len(m.AppName) > 0 {
+		i -= len(m.AppName)
+		copy(dAtA[i:], m.AppName)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.AppName)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.Creator) > 0 {
+		i -= len(m.Creator)
+		copy(dAtA[i:], m.Creator)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Creator)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *MsgAccessApplicationResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgAccessApplicationResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgAccessApplicationResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.WhoIs != nil {
+		{
+			size, err := m.WhoIs.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintTx(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x22
+	}
 	if len(m.Metadata) > 0 {
 		for k := range m.Metadata {
 			v := m.Metadata[k]
@@ -2041,7 +2102,7 @@ func (m *MsgAccessServiceResponse) MarshalToSizedBuffer(dAtA []byte) (int, error
 	return len(dAtA) - i, nil
 }
 
-func (m *MsgUpdateService) Marshal() (dAtA []byte, err error) {
+func (m *MsgUpdateApplication) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -2051,12 +2112,12 @@ func (m *MsgUpdateService) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *MsgUpdateService) MarshalTo(dAtA []byte) (int, error) {
+func (m *MsgUpdateApplication) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *MsgUpdateService) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *MsgUpdateApplication) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -2064,25 +2125,6 @@ func (m *MsgUpdateService) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	if len(m.Metadata) > 0 {
 		for k := range m.Metadata {
 			v := m.Metadata[k]
-			baseI := i
-			i -= len(v)
-			copy(dAtA[i:], v)
-			i = encodeVarintTx(dAtA, i, uint64(len(v)))
-			i--
-			dAtA[i] = 0x12
-			i -= len(k)
-			copy(dAtA[i:], k)
-			i = encodeVarintTx(dAtA, i, uint64(len(k)))
-			i--
-			dAtA[i] = 0xa
-			i = encodeVarintTx(dAtA, i, uint64(baseI-i))
-			i--
-			dAtA[i] = 0x22
-		}
-	}
-	if len(m.Configuration) > 0 {
-		for k := range m.Configuration {
-			v := m.Configuration[k]
 			baseI := i
 			i -= len(v)
 			copy(dAtA[i:], v)
@@ -2116,7 +2158,7 @@ func (m *MsgUpdateService) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *MsgUpdateServiceResponse) Marshal() (dAtA []byte, err error) {
+func (m *MsgUpdateApplicationResponse) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -2126,16 +2168,28 @@ func (m *MsgUpdateServiceResponse) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *MsgUpdateServiceResponse) MarshalTo(dAtA []byte) (int, error) {
+func (m *MsgUpdateApplicationResponse) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *MsgUpdateServiceResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *MsgUpdateApplicationResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
+	if m.WhoIs != nil {
+		{
+			size, err := m.WhoIs.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintTx(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x22
+	}
 	if len(m.Metadata) > 0 {
 		for k := range m.Metadata {
 			v := m.Metadata[k]
@@ -2155,31 +2209,17 @@ func (m *MsgUpdateServiceResponse) MarshalToSizedBuffer(dAtA []byte) (int, error
 			dAtA[i] = 0x1a
 		}
 	}
-	if len(m.Configuration) > 0 {
-		for k := range m.Configuration {
-			v := m.Configuration[k]
-			baseI := i
-			i -= len(v)
-			copy(dAtA[i:], v)
-			i = encodeVarintTx(dAtA, i, uint64(len(v)))
-			i--
-			dAtA[i] = 0x12
-			i -= len(k)
-			copy(dAtA[i:], k)
-			i = encodeVarintTx(dAtA, i, uint64(len(k)))
-			i--
-			dAtA[i] = 0xa
-			i = encodeVarintTx(dAtA, i, uint64(baseI-i))
-			i--
-			dAtA[i] = 0x12
-		}
-	}
-	if len(m.DidDocument) > 0 {
-		i -= len(m.DidDocument)
-		copy(dAtA[i:], m.DidDocument)
-		i = encodeVarintTx(dAtA, i, uint64(len(m.DidDocument)))
+	if len(m.Message) > 0 {
+		i -= len(m.Message)
+		copy(dAtA[i:], m.Message)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Message)))
 		i--
-		dAtA[i] = 0xa
+		dAtA[i] = 0x12
+	}
+	if m.Code != 0 {
+		i = encodeVarintTx(dAtA, i, uint64(m.Code))
+		i--
+		dAtA[i] = 0x8
 	}
 	return len(dAtA) - i, nil
 }
@@ -2403,7 +2443,7 @@ func encodeVarintTx(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return base
 }
-func (m *MsgRegisterService) Size() (n int) {
+func (m *MsgRegisterApplication) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -2413,18 +2453,18 @@ func (m *MsgRegisterService) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovTx(uint64(l))
 	}
-	l = len(m.ServiceName)
+	l = len(m.ApplicationName)
 	if l > 0 {
 		n += 1 + l + sovTx(uint64(l))
 	}
-	l = len(m.Jwt)
-	if l > 0 {
+	if m.Credential != nil {
+		l = m.Credential.Size()
 		n += 1 + l + sovTx(uint64(l))
 	}
 	return n
 }
 
-func (m *MsgRegisterServiceResponse) Size() (n int) {
+func (m *MsgRegisterApplicationResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -2439,6 +2479,10 @@ func (m *MsgRegisterServiceResponse) Size() (n int) {
 	}
 	l = len(m.DidDocumentJson)
 	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	if m.WhoIs != nil {
+		l = m.WhoIs.Size()
 		n += 1 + l + sovTx(uint64(l))
 	}
 	return n
@@ -2566,7 +2610,11 @@ func (m *MsgUpdateNameResponse) Size() (n int) {
 	}
 	var l int
 	_ = l
-	l = len(m.DidDocument)
+	l = len(m.Creator)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	l = len(m.Did)
 	if l > 0 {
 		n += 1 + l + sovTx(uint64(l))
 	}
@@ -2581,7 +2629,7 @@ func (m *MsgUpdateNameResponse) Size() (n int) {
 	return n
 }
 
-func (m *MsgAccessService) Size() (n int) {
+func (m *MsgAccessApplication) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -2591,14 +2639,14 @@ func (m *MsgAccessService) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovTx(uint64(l))
 	}
-	l = len(m.Did)
+	l = len(m.AppName)
 	if l > 0 {
 		n += 1 + l + sovTx(uint64(l))
 	}
 	return n
 }
 
-func (m *MsgAccessServiceResponse) Size() (n int) {
+func (m *MsgAccessApplicationResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -2619,10 +2667,14 @@ func (m *MsgAccessServiceResponse) Size() (n int) {
 			n += mapEntrySize + 1 + sovTx(uint64(mapEntrySize))
 		}
 	}
+	if m.WhoIs != nil {
+		l = m.WhoIs.Size()
+		n += 1 + l + sovTx(uint64(l))
+	}
 	return n
 }
 
-func (m *MsgUpdateService) Size() (n int) {
+func (m *MsgUpdateApplication) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -2636,14 +2688,6 @@ func (m *MsgUpdateService) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovTx(uint64(l))
 	}
-	if len(m.Configuration) > 0 {
-		for k, v := range m.Configuration {
-			_ = k
-			_ = v
-			mapEntrySize := 1 + len(k) + sovTx(uint64(len(k))) + 1 + len(v) + sovTx(uint64(len(v)))
-			n += mapEntrySize + 1 + sovTx(uint64(mapEntrySize))
-		}
-	}
 	if len(m.Metadata) > 0 {
 		for k, v := range m.Metadata {
 			_ = k
@@ -2655,23 +2699,18 @@ func (m *MsgUpdateService) Size() (n int) {
 	return n
 }
 
-func (m *MsgUpdateServiceResponse) Size() (n int) {
+func (m *MsgUpdateApplicationResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
 	var l int
 	_ = l
-	l = len(m.DidDocument)
+	if m.Code != 0 {
+		n += 1 + sovTx(uint64(m.Code))
+	}
+	l = len(m.Message)
 	if l > 0 {
 		n += 1 + l + sovTx(uint64(l))
-	}
-	if len(m.Configuration) > 0 {
-		for k, v := range m.Configuration {
-			_ = k
-			_ = v
-			mapEntrySize := 1 + len(k) + sovTx(uint64(len(k))) + 1 + len(v) + sovTx(uint64(len(v)))
-			n += mapEntrySize + 1 + sovTx(uint64(mapEntrySize))
-		}
 	}
 	if len(m.Metadata) > 0 {
 		for k, v := range m.Metadata {
@@ -2680,6 +2719,10 @@ func (m *MsgUpdateServiceResponse) Size() (n int) {
 			mapEntrySize := 1 + len(k) + sovTx(uint64(len(k))) + 1 + len(v) + sovTx(uint64(len(v)))
 			n += mapEntrySize + 1 + sovTx(uint64(mapEntrySize))
 		}
+	}
+	if m.WhoIs != nil {
+		l = m.WhoIs.Size()
+		n += 1 + l + sovTx(uint64(l))
 	}
 	return n
 }
@@ -2784,7 +2827,7 @@ func sovTx(x uint64) (n int) {
 func sozTx(x uint64) (n int) {
 	return sovTx(uint64((x << 1) ^ uint64((int64(x) >> 63))))
 }
-func (m *MsgRegisterService) Unmarshal(dAtA []byte) error {
+func (m *MsgRegisterApplication) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -2807,10 +2850,10 @@ func (m *MsgRegisterService) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: MsgRegisterService: wiretype end group for non-group")
+			return fmt.Errorf("proto: MsgRegisterApplication: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgRegisterService: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: MsgRegisterApplication: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -2847,7 +2890,7 @@ func (m *MsgRegisterService) Unmarshal(dAtA []byte) error {
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field ServiceName", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field ApplicationName", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -2875,13 +2918,13 @@ func (m *MsgRegisterService) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.ServiceName = string(dAtA[iNdEx:postIndex])
+			m.ApplicationName = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 3:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Jwt", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Credential", wireType)
 			}
-			var stringLen uint64
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowTx
@@ -2891,23 +2934,27 @@ func (m *MsgRegisterService) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
+			if msglen < 0 {
 				return ErrInvalidLengthTx
 			}
-			postIndex := iNdEx + intStringLen
+			postIndex := iNdEx + msglen
 			if postIndex < 0 {
 				return ErrInvalidLengthTx
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Jwt = string(dAtA[iNdEx:postIndex])
+			if m.Credential == nil {
+				m.Credential = &Credential{}
+			}
+			if err := m.Credential.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
@@ -2930,7 +2977,7 @@ func (m *MsgRegisterService) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *MsgRegisterServiceResponse) Unmarshal(dAtA []byte) error {
+func (m *MsgRegisterApplicationResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -2953,10 +3000,10 @@ func (m *MsgRegisterServiceResponse) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: MsgRegisterServiceResponse: wiretype end group for non-group")
+			return fmt.Errorf("proto: MsgRegisterApplicationResponse: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgRegisterServiceResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: MsgRegisterApplicationResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -3015,7 +3062,7 @@ func (m *MsgRegisterServiceResponse) Unmarshal(dAtA []byte) error {
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field DidDocumentJson", wireType)
 			}
-			var stringLen uint64
+			var byteLen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowTx
@@ -3025,23 +3072,61 @@ func (m *MsgRegisterServiceResponse) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
+				byteLen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
+			if byteLen < 0 {
 				return ErrInvalidLengthTx
 			}
-			postIndex := iNdEx + intStringLen
+			postIndex := iNdEx + byteLen
 			if postIndex < 0 {
 				return ErrInvalidLengthTx
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.DidDocumentJson = string(dAtA[iNdEx:postIndex])
+			m.DidDocumentJson = append(m.DidDocumentJson[:0], dAtA[iNdEx:postIndex]...)
+			if m.DidDocumentJson == nil {
+				m.DidDocumentJson = []byte{}
+			}
+			iNdEx = postIndex
+		case 4:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field WhoIs", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.WhoIs == nil {
+				m.WhoIs = &WhoIs{}
+			}
+			if err := m.WhoIs.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
@@ -3988,7 +4073,7 @@ func (m *MsgUpdateNameResponse) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field DidDocument", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Creator", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -4016,9 +4101,41 @@ func (m *MsgUpdateNameResponse) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.DidDocument = string(dAtA[iNdEx:postIndex])
+			m.Creator = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Did", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Did = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 3:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Metadata", wireType)
 			}
@@ -4166,7 +4283,7 @@ func (m *MsgUpdateNameResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *MsgAccessService) Unmarshal(dAtA []byte) error {
+func (m *MsgAccessApplication) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -4189,10 +4306,10 @@ func (m *MsgAccessService) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: MsgAccessService: wiretype end group for non-group")
+			return fmt.Errorf("proto: MsgAccessApplication: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgAccessService: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: MsgAccessApplication: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -4229,7 +4346,7 @@ func (m *MsgAccessService) Unmarshal(dAtA []byte) error {
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Did", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field AppName", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -4257,7 +4374,7 @@ func (m *MsgAccessService) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Did = string(dAtA[iNdEx:postIndex])
+			m.AppName = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
@@ -4280,7 +4397,7 @@ func (m *MsgAccessService) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *MsgAccessServiceResponse) Unmarshal(dAtA []byte) error {
+func (m *MsgAccessApplicationResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -4303,10 +4420,10 @@ func (m *MsgAccessServiceResponse) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: MsgAccessServiceResponse: wiretype end group for non-group")
+			return fmt.Errorf("proto: MsgAccessApplicationResponse: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgAccessServiceResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: MsgAccessApplicationResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -4487,6 +4604,42 @@ func (m *MsgAccessServiceResponse) Unmarshal(dAtA []byte) error {
 			}
 			m.Metadata[mapkey] = mapvalue
 			iNdEx = postIndex
+		case 4:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field WhoIs", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.WhoIs == nil {
+				m.WhoIs = &WhoIs{}
+			}
+			if err := m.WhoIs.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
 			skippy, err := skipTx(dAtA[iNdEx:])
@@ -4508,7 +4661,7 @@ func (m *MsgAccessServiceResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *MsgUpdateService) Unmarshal(dAtA []byte) error {
+func (m *MsgUpdateApplication) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -4531,10 +4684,10 @@ func (m *MsgUpdateService) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: MsgUpdateService: wiretype end group for non-group")
+			return fmt.Errorf("proto: MsgUpdateApplication: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgUpdateService: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: MsgUpdateApplication: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -4603,133 +4756,6 @@ func (m *MsgUpdateService) Unmarshal(dAtA []byte) error {
 			iNdEx = postIndex
 		case 3:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Configuration", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTx
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthTx
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthTx
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if m.Configuration == nil {
-				m.Configuration = make(map[string]string)
-			}
-			var mapkey string
-			var mapvalue string
-			for iNdEx < postIndex {
-				entryPreIndex := iNdEx
-				var wire uint64
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return ErrIntOverflowTx
-					}
-					if iNdEx >= l {
-						return io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					wire |= uint64(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
-				fieldNum := int32(wire >> 3)
-				if fieldNum == 1 {
-					var stringLenmapkey uint64
-					for shift := uint(0); ; shift += 7 {
-						if shift >= 64 {
-							return ErrIntOverflowTx
-						}
-						if iNdEx >= l {
-							return io.ErrUnexpectedEOF
-						}
-						b := dAtA[iNdEx]
-						iNdEx++
-						stringLenmapkey |= uint64(b&0x7F) << shift
-						if b < 0x80 {
-							break
-						}
-					}
-					intStringLenmapkey := int(stringLenmapkey)
-					if intStringLenmapkey < 0 {
-						return ErrInvalidLengthTx
-					}
-					postStringIndexmapkey := iNdEx + intStringLenmapkey
-					if postStringIndexmapkey < 0 {
-						return ErrInvalidLengthTx
-					}
-					if postStringIndexmapkey > l {
-						return io.ErrUnexpectedEOF
-					}
-					mapkey = string(dAtA[iNdEx:postStringIndexmapkey])
-					iNdEx = postStringIndexmapkey
-				} else if fieldNum == 2 {
-					var stringLenmapvalue uint64
-					for shift := uint(0); ; shift += 7 {
-						if shift >= 64 {
-							return ErrIntOverflowTx
-						}
-						if iNdEx >= l {
-							return io.ErrUnexpectedEOF
-						}
-						b := dAtA[iNdEx]
-						iNdEx++
-						stringLenmapvalue |= uint64(b&0x7F) << shift
-						if b < 0x80 {
-							break
-						}
-					}
-					intStringLenmapvalue := int(stringLenmapvalue)
-					if intStringLenmapvalue < 0 {
-						return ErrInvalidLengthTx
-					}
-					postStringIndexmapvalue := iNdEx + intStringLenmapvalue
-					if postStringIndexmapvalue < 0 {
-						return ErrInvalidLengthTx
-					}
-					if postStringIndexmapvalue > l {
-						return io.ErrUnexpectedEOF
-					}
-					mapvalue = string(dAtA[iNdEx:postStringIndexmapvalue])
-					iNdEx = postStringIndexmapvalue
-				} else {
-					iNdEx = entryPreIndex
-					skippy, err := skipTx(dAtA[iNdEx:])
-					if err != nil {
-						return err
-					}
-					if (skippy < 0) || (iNdEx+skippy) < 0 {
-						return ErrInvalidLengthTx
-					}
-					if (iNdEx + skippy) > postIndex {
-						return io.ErrUnexpectedEOF
-					}
-					iNdEx += skippy
-				}
-			}
-			m.Configuration[mapkey] = mapvalue
-			iNdEx = postIndex
-		case 4:
-			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Metadata", wireType)
 			}
 			var msglen int
@@ -4876,7 +4902,7 @@ func (m *MsgUpdateService) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *MsgUpdateServiceResponse) Unmarshal(dAtA []byte) error {
+func (m *MsgUpdateApplicationResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -4899,15 +4925,34 @@ func (m *MsgUpdateServiceResponse) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: MsgUpdateServiceResponse: wiretype end group for non-group")
+			return fmt.Errorf("proto: MsgUpdateApplicationResponse: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgUpdateServiceResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: MsgUpdateApplicationResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Code", wireType)
+			}
+			m.Code = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Code |= int32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 2:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field DidDocument", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Message", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -4935,134 +4980,7 @@ func (m *MsgUpdateServiceResponse) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.DidDocument = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 2:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Configuration", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTx
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthTx
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthTx
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if m.Configuration == nil {
-				m.Configuration = make(map[string]string)
-			}
-			var mapkey string
-			var mapvalue string
-			for iNdEx < postIndex {
-				entryPreIndex := iNdEx
-				var wire uint64
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return ErrIntOverflowTx
-					}
-					if iNdEx >= l {
-						return io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					wire |= uint64(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
-				fieldNum := int32(wire >> 3)
-				if fieldNum == 1 {
-					var stringLenmapkey uint64
-					for shift := uint(0); ; shift += 7 {
-						if shift >= 64 {
-							return ErrIntOverflowTx
-						}
-						if iNdEx >= l {
-							return io.ErrUnexpectedEOF
-						}
-						b := dAtA[iNdEx]
-						iNdEx++
-						stringLenmapkey |= uint64(b&0x7F) << shift
-						if b < 0x80 {
-							break
-						}
-					}
-					intStringLenmapkey := int(stringLenmapkey)
-					if intStringLenmapkey < 0 {
-						return ErrInvalidLengthTx
-					}
-					postStringIndexmapkey := iNdEx + intStringLenmapkey
-					if postStringIndexmapkey < 0 {
-						return ErrInvalidLengthTx
-					}
-					if postStringIndexmapkey > l {
-						return io.ErrUnexpectedEOF
-					}
-					mapkey = string(dAtA[iNdEx:postStringIndexmapkey])
-					iNdEx = postStringIndexmapkey
-				} else if fieldNum == 2 {
-					var stringLenmapvalue uint64
-					for shift := uint(0); ; shift += 7 {
-						if shift >= 64 {
-							return ErrIntOverflowTx
-						}
-						if iNdEx >= l {
-							return io.ErrUnexpectedEOF
-						}
-						b := dAtA[iNdEx]
-						iNdEx++
-						stringLenmapvalue |= uint64(b&0x7F) << shift
-						if b < 0x80 {
-							break
-						}
-					}
-					intStringLenmapvalue := int(stringLenmapvalue)
-					if intStringLenmapvalue < 0 {
-						return ErrInvalidLengthTx
-					}
-					postStringIndexmapvalue := iNdEx + intStringLenmapvalue
-					if postStringIndexmapvalue < 0 {
-						return ErrInvalidLengthTx
-					}
-					if postStringIndexmapvalue > l {
-						return io.ErrUnexpectedEOF
-					}
-					mapvalue = string(dAtA[iNdEx:postStringIndexmapvalue])
-					iNdEx = postStringIndexmapvalue
-				} else {
-					iNdEx = entryPreIndex
-					skippy, err := skipTx(dAtA[iNdEx:])
-					if err != nil {
-						return err
-					}
-					if (skippy < 0) || (iNdEx+skippy) < 0 {
-						return ErrInvalidLengthTx
-					}
-					if (iNdEx + skippy) > postIndex {
-						return io.ErrUnexpectedEOF
-					}
-					iNdEx += skippy
-				}
-			}
-			m.Configuration[mapkey] = mapvalue
+			m.Message = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 3:
 			if wireType != 2 {
@@ -5190,6 +5108,42 @@ func (m *MsgUpdateServiceResponse) Unmarshal(dAtA []byte) error {
 				}
 			}
 			m.Metadata[mapkey] = mapvalue
+			iNdEx = postIndex
+		case 4:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field WhoIs", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.WhoIs == nil {
+				m.WhoIs = &WhoIs{}
+			}
+			if err := m.WhoIs.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex

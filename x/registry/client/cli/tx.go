@@ -30,12 +30,12 @@ func GetTxCmd() *cobra.Command {
 		RunE:                       client.ValidateCmd,
 	}
 
-	cmd.AddCommand(CmdRegisterService())
+	cmd.AddCommand(CmdRegisterApplication())
 	cmd.AddCommand(CmdRegisterName())
 	cmd.AddCommand(CmdAccessName())
 	cmd.AddCommand(CmdUpdateName())
-	cmd.AddCommand(CmdAccessService())
-	cmd.AddCommand(CmdUpdateService())
+	cmd.AddCommand(CmdAccessApplication())
+	cmd.AddCommand(CmdUpdateApplication())
 	cmd.AddCommand(CmdCreateWhoIs())
 	cmd.AddCommand(CmdUpdateWhoIs())
 	cmd.AddCommand(CmdDeleteWhoIs())
