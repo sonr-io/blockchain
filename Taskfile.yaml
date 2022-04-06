@@ -21,8 +21,8 @@ tasks:
   buf:
     cmds:
       - buf build
-      - buf generate
-      - task: docs:buf
+      - buf push
+    dir: ./proto
 
   build:
     cmds:
