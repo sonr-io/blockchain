@@ -8,11 +8,11 @@ import (
 	"github.com/sonr-io/blockchain/x/registry/types"
 )
 
-func (k msgServer) AccessName(goCtx context.Context, msg *types.MsgAccessName) (*types.MsgAccessNameResponse, error) {
+func (k msgServer) AccessApplication(goCtx context.Context, msg *types.MsgAccessApplication) (*types.MsgAccessApplicationResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	// Try getting name information from the store
-	whois, found := k.GetWhoIs(ctx, msg.GetName())
+	whois, found := k.GetWhoIs(ctx, msg.GetAppName())
 	if !found {
 		return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "Name not found in registry")
 	}
@@ -23,13 +23,12 @@ func (k msgServer) AccessName(goCtx context.Context, msg *types.MsgAccessName) (
 	}
 
 	// If the whois type is not user, throw an error
-	if whois.GetType() != types.WhoIs_User {
+	if whois.GetType() != types.WhoIs_Application {
 		return nil, types.ErrInvalidWhoisType
 	}
 
-	return &types.MsgAccessNameResponse{
-		Did:             whois.GetDid(),
-		DidDocumentJson: whois.GetDocument(),
-		WhoIs:           &whois,
+	return &types.MsgAccessApplicationResponse{
+
+		WhoIs: &whois,
 	}, nil
 }

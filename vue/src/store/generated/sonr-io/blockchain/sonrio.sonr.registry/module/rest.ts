@@ -67,6 +67,16 @@ export interface RegistryCredential {
   authenticator?: RegistryAuthenticator;
 }
 
+export interface RegistryMsgAccessApplicationResponse {
+  /** @format int32 */
+  code?: number;
+  message?: string;
+  metadata?: Record<string, string>;
+
+  /** WhoIs is the entry pointing a registered name to a user account address, Did Url string, and a DIDDocument. */
+  whoIs?: RegistryWhoIs;
+}
+
 export interface RegistryMsgAccessNameResponse {
   did?: string;
 
@@ -77,16 +87,20 @@ export interface RegistryMsgAccessNameResponse {
   whoIs?: RegistryWhoIs;
 }
 
-export interface RegistryMsgAccessServiceResponse {
-  /** @format int32 */
-  code?: number;
-  message?: string;
-  metadata?: Record<string, string>;
-}
-
 export type RegistryMsgCreateWhoIsResponse = object;
 
 export type RegistryMsgDeleteWhoIsResponse = object;
+
+export interface RegistryMsgRegisterApplicationResponse {
+  isSuccess?: boolean;
+  didUrl?: string;
+
+  /** @format byte */
+  didDocumentJson?: string;
+
+  /** WhoIs is the entry pointing a registered name to a user account address, Did Url string, and a DIDDocument. */
+  whoIs?: RegistryWhoIs;
+}
 
 export interface RegistryMsgRegisterNameResponse {
   isSuccess?: boolean;
@@ -99,20 +113,20 @@ export interface RegistryMsgRegisterNameResponse {
   whoIs?: RegistryWhoIs;
 }
 
-export interface RegistryMsgRegisterServiceResponse {
-  isSuccess?: boolean;
-  didUrl?: string;
-  didDocumentJson?: string;
+export interface RegistryMsgUpdateApplicationResponse {
+  /** @format int32 */
+  code?: number;
+  message?: string;
+  metadata?: Record<string, string>;
+
+  /** WhoIs is the entry pointing a registered name to a user account address, Did Url string, and a DIDDocument. */
+  whoIs?: RegistryWhoIs;
 }
 
 export interface RegistryMsgUpdateNameResponse {
-  didDocument?: string;
-  metadata?: Record<string, string>;
-}
-
-export interface RegistryMsgUpdateServiceResponse {
-  didDocument?: string;
-  configuration?: Record<string, string>;
+  /** The account that owns the name. */
+  creator?: string;
+  did?: string;
   metadata?: Record<string, string>;
 }
 
@@ -162,6 +176,21 @@ export interface RegistryWhoIs {
   document?: string;
   creator?: string;
   credentials?: RegistryCredential[];
+
+  /**
+   * - User: User is the type of the registered name
+   *  - Application: Application is the type of the registered name
+   */
+  type?: RegistryWhoIsType;
+}
+
+/**
+* - User: User is the type of the registered name
+ - Application: Application is the type of the registered name
+*/
+export enum RegistryWhoIsType {
+  User = "User",
+  Application = "Application",
 }
 
 /**

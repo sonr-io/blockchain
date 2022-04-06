@@ -8,21 +8,21 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestMsgUpdateService_ValidateBasic(t *testing.T) {
+func TestMsgUpdateApplication_ValidateBasic(t *testing.T) {
 	tests := []struct {
 		name string
-		msg  MsgUpdateService
+		msg  MsgUpdateApplication
 		err  error
 	}{
 		{
 			name: "invalid address",
-			msg: MsgUpdateService{
+			msg: MsgUpdateApplication{
 				Creator: "invalid_address",
 			},
 			err: sdkerrors.ErrInvalidAddress,
 		}, {
 			name: "valid address",
-			msg: MsgUpdateService{
+			msg: MsgUpdateApplication{
 				Creator: sample.AccAddress(),
 			},
 		},

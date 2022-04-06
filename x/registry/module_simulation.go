@@ -24,9 +24,9 @@ var (
 )
 
 const (
-	opWeightMsgRegisterService = "op_weight_msg_create_chain"
+	opWeightMsgRegisterApplication = "op_weight_msg_create_chain"
 	// TODO: Determine the simulation weight value
-	defaultWeightMsgRegisterService int = 100
+	defaultWeightMsgRegisterApplication int = 100
 
 	opWeightMsgRegisterName = "op_weight_msg_create_chain"
 	// TODO: Determine the simulation weight value
@@ -40,13 +40,13 @@ const (
 	// TODO: Determine the simulation weight value
 	defaultWeightMsgUpdateName int = 100
 
-	opWeightMsgAccessService = "op_weight_msg_create_chain"
+	opWeightMsgAccessApplication = "op_weight_msg_create_chain"
 	// TODO: Determine the simulation weight value
-	defaultWeightMsgAccessService int = 100
+	defaultWeightMsgAccessApplication int = 100
 
-	opWeightMsgUpdateService = "op_weight_msg_create_chain"
+	opWeightMsgUpdateApplication = "op_weight_msg_create_chain"
 	// TODO: Determine the simulation weight value
-	defaultWeightMsgUpdateService int = 100
+	defaultWeightMsgUpdateApplication int = 100
 
 	opWeightMsgCreateWhoIs = "op_weight_msg_create_chain"
 	// TODO: Determine the simulation weight value
@@ -103,15 +103,15 @@ func (am AppModule) RegisterStoreDecoder(_ sdk.StoreDecoderRegistry) {}
 func (am AppModule) WeightedOperations(simState module.SimulationState) []simtypes.WeightedOperation {
 	operations := make([]simtypes.WeightedOperation, 0)
 
-	var weightMsgRegisterService int
-	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgRegisterService, &weightMsgRegisterService, nil,
+	var weightMsgRegisterApplication int
+	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgRegisterApplication, &weightMsgRegisterApplication, nil,
 		func(_ *rand.Rand) {
-			weightMsgRegisterService = defaultWeightMsgRegisterService
+			weightMsgRegisterApplication = defaultWeightMsgRegisterApplication
 		},
 	)
 	operations = append(operations, simulation.NewWeightedOperation(
-		weightMsgRegisterService,
-		registrysimulation.SimulateMsgRegisterService(am.accountKeeper, am.bankKeeper, am.keeper),
+		weightMsgRegisterApplication,
+		registrysimulation.SimulateMsgRegisterApplication(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
 	var weightMsgRegisterName int
@@ -147,26 +147,26 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 		registrysimulation.SimulateMsgUpdateName(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
-	var weightMsgAccessService int
-	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgAccessService, &weightMsgAccessService, nil,
+	var weightMsgAccessApplication int
+	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgAccessApplication, &weightMsgAccessApplication, nil,
 		func(_ *rand.Rand) {
-			weightMsgAccessService = defaultWeightMsgAccessService
+			weightMsgAccessApplication = defaultWeightMsgAccessApplication
 		},
 	)
 	operations = append(operations, simulation.NewWeightedOperation(
-		weightMsgAccessService,
-		registrysimulation.SimulateMsgAccessService(am.accountKeeper, am.bankKeeper, am.keeper),
+		weightMsgAccessApplication,
+		registrysimulation.SimulateMsgAccessApplication(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
-	var weightMsgUpdateService int
-	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgUpdateService, &weightMsgUpdateService, nil,
+	var weightMsgUpdateApplication int
+	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgUpdateApplication, &weightMsgUpdateApplication, nil,
 		func(_ *rand.Rand) {
-			weightMsgUpdateService = defaultWeightMsgUpdateService
+			weightMsgUpdateApplication = defaultWeightMsgUpdateApplication
 		},
 	)
 	operations = append(operations, simulation.NewWeightedOperation(
-		weightMsgUpdateService,
-		registrysimulation.SimulateMsgUpdateService(am.accountKeeper, am.bankKeeper, am.keeper),
+		weightMsgUpdateApplication,
+		registrysimulation.SimulateMsgUpdateApplication(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
 	var weightMsgCreateWhoIs int

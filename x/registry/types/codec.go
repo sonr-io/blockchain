@@ -8,12 +8,12 @@ import (
 )
 
 func RegisterCodec(cdc *codec.LegacyAmino) {
-	cdc.RegisterConcrete(&MsgRegisterService{}, "registry/RegisterService", nil)
+	cdc.RegisterConcrete(&MsgRegisterApplication{}, "registry/RegisterApplication", nil)
 	cdc.RegisterConcrete(&MsgRegisterName{}, "registry/RegisterName", nil)
 	cdc.RegisterConcrete(&MsgAccessName{}, "registry/AccessName", nil)
 	cdc.RegisterConcrete(&MsgUpdateName{}, "registry/UpdateName", nil)
-	cdc.RegisterConcrete(&MsgAccessService{}, "registry/AccessService", nil)
-	cdc.RegisterConcrete(&MsgUpdateService{}, "registry/UpdateService", nil)
+	cdc.RegisterConcrete(&MsgAccessApplication{}, "registry/AccessApplication", nil)
+	cdc.RegisterConcrete(&MsgUpdateApplication{}, "registry/UpdateApplication", nil)
 	cdc.RegisterConcrete(&MsgCreateWhoIs{}, "registry/CreateWhoIs", nil)
 	cdc.RegisterConcrete(&MsgUpdateWhoIs{}, "registry/UpdateWhoIs", nil)
 	cdc.RegisterConcrete(&MsgDeleteWhoIs{}, "registry/DeleteWhoIs", nil)
@@ -22,7 +22,7 @@ func RegisterCodec(cdc *codec.LegacyAmino) {
 
 func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 	registry.RegisterImplementations((*sdk.Msg)(nil),
-		&MsgRegisterService{},
+		&MsgRegisterApplication{},
 	)
 	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgRegisterName{},
@@ -34,10 +34,10 @@ func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 		&MsgUpdateName{},
 	)
 	registry.RegisterImplementations((*sdk.Msg)(nil),
-		&MsgAccessService{},
+		&MsgAccessApplication{},
 	)
 	registry.RegisterImplementations((*sdk.Msg)(nil),
-		&MsgUpdateService{},
+		&MsgUpdateApplication{},
 	)
 	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgCreateWhoIs{},

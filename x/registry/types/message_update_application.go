@@ -5,26 +5,26 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
-const TypeMsgAccessService = "access_service"
+const TypeMsgUpdateApplication = "update_application"
 
-var _ sdk.Msg = &MsgAccessService{}
+var _ sdk.Msg = &MsgUpdateApplication{}
 
-func NewMsgAccessService(creator string, did string) *MsgAccessService {
-	return &MsgAccessService{
+func NewMsgUpdateApplication(creator string, did string) *MsgUpdateApplication {
+	return &MsgUpdateApplication{
 		Creator: creator,
 		Did:     did,
 	}
 }
 
-func (msg *MsgAccessService) Route() string {
+func (msg *MsgUpdateApplication) Route() string {
 	return RouterKey
 }
 
-func (msg *MsgAccessService) Type() string {
-	return TypeMsgAccessService
+func (msg *MsgUpdateApplication) Type() string {
+	return TypeMsgUpdateApplication
 }
 
-func (msg *MsgAccessService) GetSigners() []sdk.AccAddress {
+func (msg *MsgUpdateApplication) GetSigners() []sdk.AccAddress {
 	creator, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		panic(err)
@@ -32,12 +32,12 @@ func (msg *MsgAccessService) GetSigners() []sdk.AccAddress {
 	return []sdk.AccAddress{creator}
 }
 
-func (msg *MsgAccessService) GetSignBytes() []byte {
+func (msg *MsgUpdateApplication) GetSignBytes() []byte {
 	bz := ModuleCdc.MustMarshalJSON(msg)
 	return sdk.MustSortJSON(bz)
 }
 
-func (msg *MsgAccessService) ValidateBasic() error {
+func (msg *MsgUpdateApplication) ValidateBasic() error {
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)

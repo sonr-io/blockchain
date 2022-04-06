@@ -6,7 +6,7 @@ option go_package = "github.com/sonr-io/blockchain/x/registry/types";
 
 // WhoIs is the entry pointing a registered name to a user account address, Did Url string, and a DIDDocument.
 message WhoIs {
-  // Name is the registered name of the User
+  // Name is the registered name of the User or Application
   string name = 1;
 
   // DID is the DID of the account
@@ -20,5 +20,17 @@ message WhoIs {
 
   // Credentials are the biometric info of the registered name and account encoded with public key
   repeated Credential credentials = 5;
+
+  // Type is the type of the registered name
+  Type type = 6;
+
+  // Type is the type of the registered name
+  enum Type {
+    // User is the type of the registered name
+    User = 0;
+
+    // Application is the type of the registered name
+    Application = 1;
+  }
 }
 

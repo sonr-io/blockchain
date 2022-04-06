@@ -12,10 +12,10 @@ import (
 
 var _ = strconv.Itoa(0)
 
-func CmdAccessService() *cobra.Command {
+func CmdUpdateApplication() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "access-service [did]",
-		Short: "Broadcast message access-service",
+		Use:   "update-service [did]",
+		Short: "Broadcast message update-service",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			argDid := args[0]
@@ -25,7 +25,7 @@ func CmdAccessService() *cobra.Command {
 				return err
 			}
 
-			msg := types.NewMsgAccessService(
+			msg := types.NewMsgUpdateApplication(
 				clientCtx.GetFromAddress().String(),
 				argDid,
 			)
