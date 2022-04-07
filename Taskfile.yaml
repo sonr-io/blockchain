@@ -10,11 +10,13 @@ tasks:
     summary: Build the project for production without release mode
     cmds:
       - starport chain build
+    silent: true
 
   serve:
     summary: Serve the blockchain using starport
     cmds:
       - starport chain serve --reset-once
+    silent: true
 
   start:
     summary: Start a locally built blockchain daemon
