@@ -68,8 +68,9 @@
   - [Overview](#overview)
   - [Configuration](#configuration)
   - [Resources](#resources)
+    - [Architecture Decision Record's (ADR)](#architecture-decision-records-adr)
     - [Module Documentation](#module-documentation)
-    - [Additional Specs](#additional--specs)
+    - [Additional Specs](#additional-specs)
 - [Install](#install)
   - [Requirements](#requirements)
     - [Development](#development)
@@ -117,6 +118,10 @@ This project is a pseudo-monorepo, meaning it has a single root directory and al
 ### Resources
 
 Docs and guides to help you understand the Sonr ecosystem.
+
+#### Architecture Decision Record's (ADR)
+
+- [ADR-001: Sonr DID Method Specification](./docs/adrs/ADR-001.md)
 
 #### Module Documentation
 
