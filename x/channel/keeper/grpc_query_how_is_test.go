@@ -31,14 +31,14 @@ func TestHowIsQuerySingle(t *testing.T) {
 		{
 			desc: "First",
 			request: &types.QueryGetHowIsRequest{
-				Index: msgs[0].Index,
+				Index: msgs[0].Did,
 			},
 			response: &types.QueryGetHowIsResponse{HowIs: msgs[0]},
 		},
 		{
 			desc: "Second",
 			request: &types.QueryGetHowIsRequest{
-				Index: msgs[1].Index,
+				Index: msgs[1].Did,
 			},
 			response: &types.QueryGetHowIsResponse{HowIs: msgs[1]},
 		},

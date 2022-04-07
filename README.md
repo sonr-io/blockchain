@@ -57,13 +57,28 @@
 </div>
 
 ## Table of Contents
-
+- [Table of Contents](#table-of-contents)
 - [About](#about)
 - [Getting Started](#getting-started)
-- [Installation](#installation)
+  - [Dependencies](#dependencies)
+  - [Configuration](#configuration)
+  - [Resources](#resources)
+    - [Module Documentation](#module-documentation)
+    - [Additional Specs](#additional-specs)
+- [Install](#install)
+  - [Requirements](#requirements)
+    - [Development](#development)
+  - [Release](#release)
 - [Usage](#usage)
+  - [Start the Blockchain](#start-the-blockchain)
+  - [Run the Flutter Frontend](#run-the-flutter-frontend)
+  - [Run the Vue.js Frontend](#run-the-vuejs-frontend)
+  - [Starport CLI Reference](#starport-cli-reference)
 - [Version History](#version-history)
+  - [v0.0.1](#v001)
 - [Contributors](#contributors)
+  - [Authors](#authors)
+  - [Submitting a PR](#submitting-a-pr)
 - [Acknowledgments](#acknowledgments)
 - [License](#license)
 
@@ -96,21 +111,26 @@ This project is a pseudo-monorepo, meaning it has a single root directory and al
 /cmd             ->        Packaged libraries
   └─ sonrd       ->        +   Blockchain Binary
 /docs            ->        Documentation.
-/flutter         ->        Developed package interfaces for Sonr.
 /proto           ->        Cosmos SDK Protocol Definitions
 /testutil        ->        Blockchain test utilities.
 /vue             ->        Vue.js frontend for Cosmos SDK
 /x               ->        Implementation of Cosmos-Sonr Schemas
-  └─ blob        ->        +   Storage for buffers
   └─ bucket      ->        +   Collections of blobs and objects
   └─ channel     ->        +   Realtime Data Transmissions
   └─ object      ->        +   Verifiable Custom Objects
   └─ registry    ->        +   Name and Service Registration
-  └─ vault       ->        +   User secure storage
 ```
 
-### Resources
 
+### Resources
+Docs and guides to help you understand the Sonr ecosystem.
+#### Module Documentation
+- [Buckets](./x/bucket/README.md)
+- [Channels](./x/channel/README.md)
+- [Objects](./x/object/README.md)
+- [Registry](./x/registry/README.md)
+
+#### Additional Specs
 - [Sonr Docs](https://docs.sonr.io)
 - [Visual DID Spec](https://docs.google.com/presentation/d/1AwSkO6s0UQ1YHCIOT5Ue5-gcIuvie5q4f3cAiAj6lr8/edit?usp=sharing)
 

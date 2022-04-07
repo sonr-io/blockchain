@@ -1,30 +1,28 @@
 /* eslint-disable */
+import { ObjectDoc } from "../object/object";
 import { Writer, Reader } from "protobufjs/minimal";
 
 export const protobufPackage = "sonrio.sonr.object";
 
 export interface WhatIs {
-  index: string;
+  /** DID is the DID of the object */
   did: string;
-  document: Uint8Array;
+  object_doc: ObjectDoc | undefined;
   creator: string;
 }
 
-const baseWhatIs: object = { index: "", did: "", creator: "" };
+const baseWhatIs: object = { did: "", creator: "" };
 
 export const WhatIs = {
   encode(message: WhatIs, writer: Writer = Writer.create()): Writer {
-    if (message.index !== "") {
-      writer.uint32(10).string(message.index);
-    }
     if (message.did !== "") {
-      writer.uint32(18).string(message.did);
+      writer.uint32(10).string(message.did);
     }
-    if (message.document.length !== 0) {
-      writer.uint32(26).bytes(message.document);
+    if (message.object_doc !== undefined) {
+      ObjectDoc.encode(message.object_doc, writer.uint32(18).fork()).ldelim();
     }
     if (message.creator !== "") {
-      writer.uint32(34).string(message.creator);
+      writer.uint32(26).string(message.creator);
     }
     return writer;
   },
@@ -37,15 +35,12 @@ export const WhatIs = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.index = reader.string();
-          break;
-        case 2:
           message.did = reader.string();
           break;
-        case 3:
-          message.document = reader.bytes();
+        case 2:
+          message.object_doc = ObjectDoc.decode(reader, reader.uint32());
           break;
-        case 4:
+        case 3:
           message.creator = reader.string();
           break;
         default:
@@ -58,18 +53,15 @@ export const WhatIs = {
 
   fromJSON(object: any): WhatIs {
     const message = { ...baseWhatIs } as WhatIs;
-    if (object.index !== undefined && object.index !== null) {
-      message.index = String(object.index);
-    } else {
-      message.index = "";
-    }
     if (object.did !== undefined && object.did !== null) {
       message.did = String(object.did);
     } else {
       message.did = "";
     }
-    if (object.document !== undefined && object.document !== null) {
-      message.document = bytesFromBase64(object.document);
+    if (object.object_doc !== undefined && object.object_doc !== null) {
+      message.object_doc = ObjectDoc.fromJSON(object.object_doc);
+    } else {
+      message.object_doc = undefined;
     }
     if (object.creator !== undefined && object.creator !== null) {
       message.creator = String(object.creator);
@@ -81,32 +73,26 @@ export const WhatIs = {
 
   toJSON(message: WhatIs): unknown {
     const obj: any = {};
-    message.index !== undefined && (obj.index = message.index);
     message.did !== undefined && (obj.did = message.did);
-    message.document !== undefined &&
-      (obj.document = base64FromBytes(
-        message.document !== undefined ? message.document : new Uint8Array()
-      ));
+    message.object_doc !== undefined &&
+      (obj.object_doc = message.object_doc
+        ? ObjectDoc.toJSON(message.object_doc)
+        : undefined);
     message.creator !== undefined && (obj.creator = message.creator);
     return obj;
   },
 
   fromPartial(object: DeepPartial<WhatIs>): WhatIs {
     const message = { ...baseWhatIs } as WhatIs;
-    if (object.index !== undefined && object.index !== null) {
-      message.index = object.index;
-    } else {
-      message.index = "";
-    }
     if (object.did !== undefined && object.did !== null) {
       message.did = object.did;
     } else {
       message.did = "";
     }
-    if (object.document !== undefined && object.document !== null) {
-      message.document = object.document;
+    if (object.object_doc !== undefined && object.object_doc !== null) {
+      message.object_doc = ObjectDoc.fromPartial(object.object_doc);
     } else {
-      message.document = new Uint8Array();
+      message.object_doc = undefined;
     }
     if (object.creator !== undefined && object.creator !== null) {
       message.creator = object.creator;
@@ -116,39 +102,6 @@ export const WhatIs = {
     return message;
   },
 };
-
-declare var self: any | undefined;
-declare var window: any | undefined;
-var globalThis: any = (() => {
-  if (typeof globalThis !== "undefined") return globalThis;
-  if (typeof self !== "undefined") return self;
-  if (typeof window !== "undefined") return window;
-  if (typeof global !== "undefined") return global;
-  throw "Unable to locate global object";
-})();
-
-const atob: (b64: string) => string =
-  globalThis.atob ||
-  ((b64) => globalThis.Buffer.from(b64, "base64").toString("binary"));
-function bytesFromBase64(b64: string): Uint8Array {
-  const bin = atob(b64);
-  const arr = new Uint8Array(bin.length);
-  for (let i = 0; i < bin.length; ++i) {
-    arr[i] = bin.charCodeAt(i);
-  }
-  return arr;
-}
-
-const btoa: (bin: string) => string =
-  globalThis.btoa ||
-  ((bin) => globalThis.Buffer.from(bin, "binary").toString("base64"));
-function base64FromBytes(arr: Uint8Array): string {
-  const bin: string[] = [];
-  for (let i = 0; i < arr.byteLength; ++i) {
-    bin.push(String.fromCharCode(arr[i]));
-  }
-  return btoa(bin.join(""));
-}
 
 type Builtin = Date | Function | Uint8Array | string | number | undefined;
 export type DeepPartial<T> = T extends Builtin

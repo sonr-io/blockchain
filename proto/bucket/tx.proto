@@ -1,6 +1,10 @@
 syntax = "proto3";
 package sonrio.sonr.bucket;
+import "bucket/bucket.proto";
 import "bucket/which_is.proto";
+import "registry/who_is.proto";
+import "object/object.proto";
+
 // this line is used by starport scaffolding # proto/tx/import
 
 option go_package = "github.com/sonr-io/blockchain/x/bucket/types";
@@ -22,36 +26,90 @@ message MsgCreateBucket {
   string label = 2;
   string description = 3;
   string kind = 4;
+
+  // Authenticated user session data
+  sonrio.sonr.registry.Session session = 5;
+
+  // Provided initial objects for the bucket
+  repeated sonrio.sonr.object.ObjectDoc initial_objects = 6;
 }
 
 message MsgCreateBucketResponse {
+    // Code of the response
+    int32 code = 1;
+
+    // Message of the response
+    string message = 2;
+
+    // Whichis response of the ObjectDoc
+    WhichIs which_is = 3;
 }
 
+
 message MsgReadBucket {
+  // Creator of request
   string creator = 1;
-  string did = 2;
+
+  // The bucket label to read
+  string label = 2;
+
+  // Session data of authenticated user
+  sonrio.sonr.registry.Session session = 3;
 }
 
 message MsgReadBucketResponse {
+    // Code of the response
+    int32 code = 1;
+
+    // Message of the response
+    string message = 2;
+
+    // Whichis response of the ObjectDoc
+    WhichIs which_is = 3;
 }
 
 message MsgUpdateBucket {
   string creator = 1;
-  string did = 2;
-  string label = 3;
-  string description = 4;
+
+  // The Bucket label
+  string label = 2;
+
+  // New bucket description
+  string description = 3;
+
+  // Session data of authenticated user
+  sonrio.sonr.registry.Session session = 4;
+
+  // Added Objects
+  repeated sonrio.sonr.object.ObjectDoc added_objects = 5;
+
+  // Removed Objects
+  repeated sonrio.sonr.object.ObjectDoc removed_objects = 6;
 }
 
 message MsgUpdateBucketResponse {
+    // Code of the response
+    int32 code = 1;
+
+    // Message of the response
+    string message = 2;
+
+    // Whichis response of the ObjectDoc
+    WhichIs which_is = 3;
 }
 
 message MsgDeleteBucket {
   string creator = 1;
   string did = 2;
-  string publicKey = 3;
+  sonrio.sonr.registry.Session session = 3;
 }
 
 message MsgDeleteBucketResponse {
+    // Code of the response
+    int32 code = 1;
+
+    // Message of the response
+    string message = 2;
 }
 
 message MsgCreateWhichIs {
@@ -59,7 +117,7 @@ message MsgCreateWhichIs {
   string index = 2;
 
   string did = 3;
-  string documentJson = 4;
+  BucketDoc bucket = 4;
 }
 message MsgCreateWhichIsResponse {}
 
@@ -68,7 +126,7 @@ message MsgUpdateWhichIs {
   string index = 2;
 
   string did = 3;
-  string documentJson = 4;
+  BucketDoc bucket = 4;
 }
 message MsgUpdateWhichIsResponse {}
 

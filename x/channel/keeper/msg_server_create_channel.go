@@ -4,14 +4,49 @@ import (
 	"context"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/sonr-io/blockchain/x/channel/types"
+	"github.com/sonr-io/core/did"
 )
 
 func (k msgServer) CreateChannel(goCtx context.Context, msg *types.MsgCreateChannel) (*types.MsgCreateChannelResponse, error) {
+	// Get Properties
 	ctx := sdk.UnwrapSDKContext(goCtx)
+	appName, err := msg.GetSession().GetWhois().ApplicationName()
+	if err != nil {
+		return nil, err
+	}
 
-	// TODO: Handling the message
-	_ = ctx
+	// Generate a new channel Did
+	did, err := msg.GetSession().GenerateDID(did.WithPathSegments(appName, "channel"), did.WithFragment(msg.GetLabel()))
+	if err != nil {
+		return nil, err
+	}
 
-	return &types.MsgCreateChannelResponse{}, nil
+	// Check if Channel exists
+	_, found := k.GetHowIs(ctx, did.ID)
+	if found {
+		return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "Channel already registered to this Application")
+	}
+
+	// Create new Document for Channel
+	doc := &types.ChannelDoc{
+		Label:            msg.GetLabel(),
+		Did:              did.ID,
+		Description:      msg.GetDescription(),
+		RegisteredObject: msg.GetObjectToRegister(),
+	}
+
+	// Create a new channel record
+	newHowis := types.HowIs{
+		Did:     did.ID,
+		Creator: msg.GetSession().Creator(),
+		Channel: doc,
+	}
+
+	// Store the channel record
+	k.SetHowIs(ctx, newHowis)
+	return &types.MsgCreateChannelResponse{
+		HowIs: &newHowis,
+	}, nil
 }

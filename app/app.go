@@ -89,9 +89,6 @@ import (
 	"github.com/tendermint/spm/openapiconsole"
 
 	"github.com/sonr-io/blockchain/docs"
-	blobmodule "github.com/sonr-io/blockchain/x/blob"
-	blobmodulekeeper "github.com/sonr-io/blockchain/x/blob/keeper"
-	blobmoduletypes "github.com/sonr-io/blockchain/x/blob/types"
 	bucketmodule "github.com/sonr-io/blockchain/x/bucket"
 	bucketmodulekeeper "github.com/sonr-io/blockchain/x/bucket/keeper"
 	bucketmoduletypes "github.com/sonr-io/blockchain/x/bucket/types"
@@ -157,7 +154,6 @@ var (
 		channelmodule.AppModuleBasic{},
 		objectmodule.AppModuleBasic{},
 		bucketmodule.AppModuleBasic{},
-		blobmodule.AppModuleBasic{},
 		registrymodule.AppModuleBasic{},
 		// this line is used by starport scaffolding # stargate/app/moduleBasic
 	)
@@ -174,8 +170,6 @@ var (
 		channelmoduletypes.ModuleName:  {authtypes.Minter, authtypes.Burner, authtypes.Staking},
 		objectmoduletypes.ModuleName:   {authtypes.Minter, authtypes.Burner, authtypes.Staking},
 		bucketmoduletypes.ModuleName:   {authtypes.Minter, authtypes.Burner, authtypes.Staking},
-		blobmoduletypes.ModuleName:     {authtypes.Minter, authtypes.Burner, authtypes.Staking},
-
 		registrymoduletypes.ModuleName: {authtypes.Minter, authtypes.Burner, authtypes.Staking},
 		// this line is used by starport scaffolding # stargate/app/maccPerms
 	}
@@ -240,8 +234,6 @@ type App struct {
 
 	BucketKeeper bucketmodulekeeper.Keeper
 
-	BlobKeeper blobmodulekeeper.Keeper
-
 	RegistryKeeper registrymodulekeeper.Keeper
 
 	// this line is used by starport scaffolding # stargate/app/keeperDeclaration
@@ -283,7 +275,6 @@ func New(
 		channelmoduletypes.StoreKey,
 		objectmoduletypes.StoreKey,
 		bucketmoduletypes.StoreKey,
-		blobmoduletypes.StoreKey,
 		registrymoduletypes.StoreKey,
 		// this line is used by starport scaffolding # stargate/app/storeKey
 	)
@@ -422,19 +413,6 @@ func New(
 	)
 	bucketModule := bucketmodule.NewAppModule(appCodec, app.BucketKeeper, app.AccountKeeper, app.BankKeeper)
 
-	app.BlobKeeper = *blobmodulekeeper.NewKeeper(
-		appCodec,
-		keys[blobmoduletypes.StoreKey],
-		keys[blobmoduletypes.MemStoreKey],
-		app.GetSubspace(blobmoduletypes.ModuleName),
-
-		app.AccountKeeper,
-		app.BankKeeper,
-		app.CapabilityKeeper,
-		app.MintKeeper,
-	)
-	blobModule := blobmodule.NewAppModule(appCodec, app.BlobKeeper, app.AccountKeeper, app.BankKeeper)
-
 	app.RegistryKeeper = *registrymodulekeeper.NewKeeper(
 		appCodec,
 		keys[registrymoduletypes.StoreKey],
@@ -489,7 +467,6 @@ func New(
 		channelModule,
 		objectModule,
 		bucketModule,
-		blobModule,
 		registryModule,
 		// this line is used by starport scaffolding # stargate/app/appModule
 	)
@@ -528,7 +505,6 @@ func New(
 		channelmoduletypes.ModuleName,
 		objectmoduletypes.ModuleName,
 		bucketmoduletypes.ModuleName,
-		blobmoduletypes.ModuleName,
 		registrymoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/initGenesis
 	)
@@ -555,7 +531,6 @@ func New(
 		channelModule,
 		objectModule,
 		bucketModule,
-		blobModule,
 		registryModule,
 		// this line is used by starport scaffolding # stargate/app/appModule
 	)
@@ -747,7 +722,6 @@ func initParamsKeeper(appCodec codec.BinaryCodec, legacyAmino *codec.LegacyAmino
 	paramsKeeper.Subspace(channelmoduletypes.ModuleName)
 	paramsKeeper.Subspace(objectmoduletypes.ModuleName)
 	paramsKeeper.Subspace(bucketmoduletypes.ModuleName)
-	paramsKeeper.Subspace(blobmoduletypes.ModuleName)
 	paramsKeeper.Subspace(registrymoduletypes.ModuleName)
 	// this line is used by starport scaffolding # stargate/app/paramSubspace
 

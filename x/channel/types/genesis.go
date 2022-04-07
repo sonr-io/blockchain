@@ -23,7 +23,7 @@ func (gs GenesisState) Validate() error {
 	howIsIndexMap := make(map[string]struct{})
 
 	for _, elem := range gs.HowIsList {
-		index := string(HowIsKey(elem.Index))
+		index := string(HowIsKey(elem.Did))
 		if _, ok := howIsIndexMap[index]; ok {
 			return fmt.Errorf("duplicated index for howIs")
 		}

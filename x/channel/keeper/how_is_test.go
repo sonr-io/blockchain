@@ -18,7 +18,7 @@ var _ = strconv.IntSize
 func createNHowIs(keeper *keeper.Keeper, ctx sdk.Context, n int) []types.HowIs {
 	items := make([]types.HowIs, n)
 	for i := range items {
-		items[i].Index = strconv.Itoa(i)
+		items[i].Did = strconv.Itoa(i)
 
 		keeper.SetHowIs(ctx, items[i])
 	}
@@ -30,7 +30,7 @@ func TestHowIsGet(t *testing.T) {
 	items := createNHowIs(keeper, ctx, 10)
 	for _, item := range items {
 		rst, found := keeper.GetHowIs(ctx,
-			item.Index,
+			item.Did,
 		)
 		require.True(t, found)
 		require.Equal(t,
@@ -44,10 +44,10 @@ func TestHowIsRemove(t *testing.T) {
 	items := createNHowIs(keeper, ctx, 10)
 	for _, item := range items {
 		keeper.RemoveHowIs(ctx,
-			item.Index,
+			item.Did,
 		)
 		_, found := keeper.GetHowIs(ctx,
-			item.Index,
+			item.Did,
 		)
 		require.False(t, found)
 	}

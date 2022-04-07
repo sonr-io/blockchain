@@ -1,5 +1,9 @@
 /* eslint-disable */
 import { Reader, Writer } from "protobufjs/minimal";
+import { Session } from "../registry/who_is";
+import { ObjectDoc } from "../object/object";
+import { WhichIs } from "../bucket/which_is";
+import { BucketDoc } from "../bucket/bucket";
 
 export const protobufPackage = "sonrio.sonr.bucket";
 
@@ -8,39 +12,80 @@ export interface MsgCreateBucket {
   label: string;
   description: string;
   kind: string;
+  /** Authenticated user session data */
+  session: Session | undefined;
+  /** Provided initial objects for the bucket */
+  initial_objects: ObjectDoc[];
 }
 
-export interface MsgCreateBucketResponse {}
+export interface MsgCreateBucketResponse {
+  /** Code of the response */
+  code: number;
+  /** Message of the response */
+  message: string;
+  /** Whichis response of the ObjectDoc */
+  which_is: WhichIs | undefined;
+}
 
 export interface MsgReadBucket {
+  /** Creator of request */
   creator: string;
-  did: string;
+  /** The bucket label to read */
+  label: string;
+  /** Session data of authenticated user */
+  session: Session | undefined;
 }
 
-export interface MsgReadBucketResponse {}
+export interface MsgReadBucketResponse {
+  /** Code of the response */
+  code: number;
+  /** Message of the response */
+  message: string;
+  /** Whichis response of the ObjectDoc */
+  which_is: WhichIs | undefined;
+}
 
 export interface MsgUpdateBucket {
   creator: string;
-  did: string;
+  /** The Bucket label */
   label: string;
+  /** New bucket description */
   description: string;
+  /** Session data of authenticated user */
+  session: Session | undefined;
+  /** Added Objects */
+  added_objects: ObjectDoc[];
+  /** Removed Objects */
+  removed_objects: ObjectDoc[];
 }
 
-export interface MsgUpdateBucketResponse {}
+export interface MsgUpdateBucketResponse {
+  /** Code of the response */
+  code: number;
+  /** Message of the response */
+  message: string;
+  /** Whichis response of the ObjectDoc */
+  which_is: WhichIs | undefined;
+}
 
 export interface MsgDeleteBucket {
   creator: string;
   did: string;
-  publicKey: string;
+  session: Session | undefined;
 }
 
-export interface MsgDeleteBucketResponse {}
+export interface MsgDeleteBucketResponse {
+  /** Code of the response */
+  code: number;
+  /** Message of the response */
+  message: string;
+}
 
 export interface MsgCreateWhichIs {
   creator: string;
   index: string;
   did: string;
-  documentJson: string;
+  bucket: BucketDoc | undefined;
 }
 
 export interface MsgCreateWhichIsResponse {}
@@ -49,7 +94,7 @@ export interface MsgUpdateWhichIs {
   creator: string;
   index: string;
   did: string;
-  documentJson: string;
+  bucket: BucketDoc | undefined;
 }
 
 export interface MsgUpdateWhichIsResponse {}
@@ -82,6 +127,12 @@ export const MsgCreateBucket = {
     if (message.kind !== "") {
       writer.uint32(34).string(message.kind);
     }
+    if (message.session !== undefined) {
+      Session.encode(message.session, writer.uint32(42).fork()).ldelim();
+    }
+    for (const v of message.initial_objects) {
+      ObjectDoc.encode(v!, writer.uint32(50).fork()).ldelim();
+    }
     return writer;
   },
 
@@ -89,6 +140,7 @@ export const MsgCreateBucket = {
     const reader = input instanceof Uint8Array ? new Reader(input) : input;
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = { ...baseMsgCreateBucket } as MsgCreateBucket;
+    message.initial_objects = [];
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -104,6 +156,14 @@ export const MsgCreateBucket = {
         case 4:
           message.kind = reader.string();
           break;
+        case 5:
+          message.session = Session.decode(reader, reader.uint32());
+          break;
+        case 6:
+          message.initial_objects.push(
+            ObjectDoc.decode(reader, reader.uint32())
+          );
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -114,6 +174,7 @@ export const MsgCreateBucket = {
 
   fromJSON(object: any): MsgCreateBucket {
     const message = { ...baseMsgCreateBucket } as MsgCreateBucket;
+    message.initial_objects = [];
     if (object.creator !== undefined && object.creator !== null) {
       message.creator = String(object.creator);
     } else {
@@ -134,6 +195,19 @@ export const MsgCreateBucket = {
     } else {
       message.kind = "";
     }
+    if (object.session !== undefined && object.session !== null) {
+      message.session = Session.fromJSON(object.session);
+    } else {
+      message.session = undefined;
+    }
+    if (
+      object.initial_objects !== undefined &&
+      object.initial_objects !== null
+    ) {
+      for (const e of object.initial_objects) {
+        message.initial_objects.push(ObjectDoc.fromJSON(e));
+      }
+    }
     return message;
   },
 
@@ -144,11 +218,23 @@ export const MsgCreateBucket = {
     message.description !== undefined &&
       (obj.description = message.description);
     message.kind !== undefined && (obj.kind = message.kind);
+    message.session !== undefined &&
+      (obj.session = message.session
+        ? Session.toJSON(message.session)
+        : undefined);
+    if (message.initial_objects) {
+      obj.initial_objects = message.initial_objects.map((e) =>
+        e ? ObjectDoc.toJSON(e) : undefined
+      );
+    } else {
+      obj.initial_objects = [];
+    }
     return obj;
   },
 
   fromPartial(object: DeepPartial<MsgCreateBucket>): MsgCreateBucket {
     const message = { ...baseMsgCreateBucket } as MsgCreateBucket;
+    message.initial_objects = [];
     if (object.creator !== undefined && object.creator !== null) {
       message.creator = object.creator;
     } else {
@@ -169,14 +255,39 @@ export const MsgCreateBucket = {
     } else {
       message.kind = "";
     }
+    if (object.session !== undefined && object.session !== null) {
+      message.session = Session.fromPartial(object.session);
+    } else {
+      message.session = undefined;
+    }
+    if (
+      object.initial_objects !== undefined &&
+      object.initial_objects !== null
+    ) {
+      for (const e of object.initial_objects) {
+        message.initial_objects.push(ObjectDoc.fromPartial(e));
+      }
+    }
     return message;
   },
 };
 
-const baseMsgCreateBucketResponse: object = {};
+const baseMsgCreateBucketResponse: object = { code: 0, message: "" };
 
 export const MsgCreateBucketResponse = {
-  encode(_: MsgCreateBucketResponse, writer: Writer = Writer.create()): Writer {
+  encode(
+    message: MsgCreateBucketResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.code !== 0) {
+      writer.uint32(8).int32(message.code);
+    }
+    if (message.message !== "") {
+      writer.uint32(18).string(message.message);
+    }
+    if (message.which_is !== undefined) {
+      WhichIs.encode(message.which_is, writer.uint32(26).fork()).ldelim();
+    }
     return writer;
   },
 
@@ -189,6 +300,15 @@ export const MsgCreateBucketResponse = {
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
+        case 1:
+          message.code = reader.int32();
+          break;
+        case 2:
+          message.message = reader.string();
+          break;
+        case 3:
+          message.which_is = WhichIs.decode(reader, reader.uint32());
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -197,37 +317,76 @@ export const MsgCreateBucketResponse = {
     return message;
   },
 
-  fromJSON(_: any): MsgCreateBucketResponse {
+  fromJSON(object: any): MsgCreateBucketResponse {
     const message = {
       ...baseMsgCreateBucketResponse,
     } as MsgCreateBucketResponse;
+    if (object.code !== undefined && object.code !== null) {
+      message.code = Number(object.code);
+    } else {
+      message.code = 0;
+    }
+    if (object.message !== undefined && object.message !== null) {
+      message.message = String(object.message);
+    } else {
+      message.message = "";
+    }
+    if (object.which_is !== undefined && object.which_is !== null) {
+      message.which_is = WhichIs.fromJSON(object.which_is);
+    } else {
+      message.which_is = undefined;
+    }
     return message;
   },
 
-  toJSON(_: MsgCreateBucketResponse): unknown {
+  toJSON(message: MsgCreateBucketResponse): unknown {
     const obj: any = {};
+    message.code !== undefined && (obj.code = message.code);
+    message.message !== undefined && (obj.message = message.message);
+    message.which_is !== undefined &&
+      (obj.which_is = message.which_is
+        ? WhichIs.toJSON(message.which_is)
+        : undefined);
     return obj;
   },
 
   fromPartial(
-    _: DeepPartial<MsgCreateBucketResponse>
+    object: DeepPartial<MsgCreateBucketResponse>
   ): MsgCreateBucketResponse {
     const message = {
       ...baseMsgCreateBucketResponse,
     } as MsgCreateBucketResponse;
+    if (object.code !== undefined && object.code !== null) {
+      message.code = object.code;
+    } else {
+      message.code = 0;
+    }
+    if (object.message !== undefined && object.message !== null) {
+      message.message = object.message;
+    } else {
+      message.message = "";
+    }
+    if (object.which_is !== undefined && object.which_is !== null) {
+      message.which_is = WhichIs.fromPartial(object.which_is);
+    } else {
+      message.which_is = undefined;
+    }
     return message;
   },
 };
 
-const baseMsgReadBucket: object = { creator: "", did: "" };
+const baseMsgReadBucket: object = { creator: "", label: "" };
 
 export const MsgReadBucket = {
   encode(message: MsgReadBucket, writer: Writer = Writer.create()): Writer {
     if (message.creator !== "") {
       writer.uint32(10).string(message.creator);
     }
-    if (message.did !== "") {
-      writer.uint32(18).string(message.did);
+    if (message.label !== "") {
+      writer.uint32(18).string(message.label);
+    }
+    if (message.session !== undefined) {
+      Session.encode(message.session, writer.uint32(26).fork()).ldelim();
     }
     return writer;
   },
@@ -243,7 +402,10 @@ export const MsgReadBucket = {
           message.creator = reader.string();
           break;
         case 2:
-          message.did = reader.string();
+          message.label = reader.string();
+          break;
+        case 3:
+          message.session = Session.decode(reader, reader.uint32());
           break;
         default:
           reader.skipType(tag & 7);
@@ -260,10 +422,15 @@ export const MsgReadBucket = {
     } else {
       message.creator = "";
     }
-    if (object.did !== undefined && object.did !== null) {
-      message.did = String(object.did);
+    if (object.label !== undefined && object.label !== null) {
+      message.label = String(object.label);
     } else {
-      message.did = "";
+      message.label = "";
+    }
+    if (object.session !== undefined && object.session !== null) {
+      message.session = Session.fromJSON(object.session);
+    } else {
+      message.session = undefined;
     }
     return message;
   },
@@ -271,7 +438,11 @@ export const MsgReadBucket = {
   toJSON(message: MsgReadBucket): unknown {
     const obj: any = {};
     message.creator !== undefined && (obj.creator = message.creator);
-    message.did !== undefined && (obj.did = message.did);
+    message.label !== undefined && (obj.label = message.label);
+    message.session !== undefined &&
+      (obj.session = message.session
+        ? Session.toJSON(message.session)
+        : undefined);
     return obj;
   },
 
@@ -282,19 +453,36 @@ export const MsgReadBucket = {
     } else {
       message.creator = "";
     }
-    if (object.did !== undefined && object.did !== null) {
-      message.did = object.did;
+    if (object.label !== undefined && object.label !== null) {
+      message.label = object.label;
     } else {
-      message.did = "";
+      message.label = "";
+    }
+    if (object.session !== undefined && object.session !== null) {
+      message.session = Session.fromPartial(object.session);
+    } else {
+      message.session = undefined;
     }
     return message;
   },
 };
 
-const baseMsgReadBucketResponse: object = {};
+const baseMsgReadBucketResponse: object = { code: 0, message: "" };
 
 export const MsgReadBucketResponse = {
-  encode(_: MsgReadBucketResponse, writer: Writer = Writer.create()): Writer {
+  encode(
+    message: MsgReadBucketResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.code !== 0) {
+      writer.uint32(8).int32(message.code);
+    }
+    if (message.message !== "") {
+      writer.uint32(18).string(message.message);
+    }
+    if (message.which_is !== undefined) {
+      WhichIs.encode(message.which_is, writer.uint32(26).fork()).ldelim();
+    }
     return writer;
   },
 
@@ -305,6 +493,15 @@ export const MsgReadBucketResponse = {
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
+        case 1:
+          message.code = reader.int32();
+          break;
+        case 2:
+          message.message = reader.string();
+          break;
+        case 3:
+          message.which_is = WhichIs.decode(reader, reader.uint32());
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -313,42 +510,81 @@ export const MsgReadBucketResponse = {
     return message;
   },
 
-  fromJSON(_: any): MsgReadBucketResponse {
+  fromJSON(object: any): MsgReadBucketResponse {
     const message = { ...baseMsgReadBucketResponse } as MsgReadBucketResponse;
+    if (object.code !== undefined && object.code !== null) {
+      message.code = Number(object.code);
+    } else {
+      message.code = 0;
+    }
+    if (object.message !== undefined && object.message !== null) {
+      message.message = String(object.message);
+    } else {
+      message.message = "";
+    }
+    if (object.which_is !== undefined && object.which_is !== null) {
+      message.which_is = WhichIs.fromJSON(object.which_is);
+    } else {
+      message.which_is = undefined;
+    }
     return message;
   },
 
-  toJSON(_: MsgReadBucketResponse): unknown {
+  toJSON(message: MsgReadBucketResponse): unknown {
     const obj: any = {};
+    message.code !== undefined && (obj.code = message.code);
+    message.message !== undefined && (obj.message = message.message);
+    message.which_is !== undefined &&
+      (obj.which_is = message.which_is
+        ? WhichIs.toJSON(message.which_is)
+        : undefined);
     return obj;
   },
 
-  fromPartial(_: DeepPartial<MsgReadBucketResponse>): MsgReadBucketResponse {
+  fromPartial(
+    object: DeepPartial<MsgReadBucketResponse>
+  ): MsgReadBucketResponse {
     const message = { ...baseMsgReadBucketResponse } as MsgReadBucketResponse;
+    if (object.code !== undefined && object.code !== null) {
+      message.code = object.code;
+    } else {
+      message.code = 0;
+    }
+    if (object.message !== undefined && object.message !== null) {
+      message.message = object.message;
+    } else {
+      message.message = "";
+    }
+    if (object.which_is !== undefined && object.which_is !== null) {
+      message.which_is = WhichIs.fromPartial(object.which_is);
+    } else {
+      message.which_is = undefined;
+    }
     return message;
   },
 };
 
-const baseMsgUpdateBucket: object = {
-  creator: "",
-  did: "",
-  label: "",
-  description: "",
-};
+const baseMsgUpdateBucket: object = { creator: "", label: "", description: "" };
 
 export const MsgUpdateBucket = {
   encode(message: MsgUpdateBucket, writer: Writer = Writer.create()): Writer {
     if (message.creator !== "") {
       writer.uint32(10).string(message.creator);
     }
-    if (message.did !== "") {
-      writer.uint32(18).string(message.did);
-    }
     if (message.label !== "") {
-      writer.uint32(26).string(message.label);
+      writer.uint32(18).string(message.label);
     }
     if (message.description !== "") {
-      writer.uint32(34).string(message.description);
+      writer.uint32(26).string(message.description);
+    }
+    if (message.session !== undefined) {
+      Session.encode(message.session, writer.uint32(34).fork()).ldelim();
+    }
+    for (const v of message.added_objects) {
+      ObjectDoc.encode(v!, writer.uint32(42).fork()).ldelim();
+    }
+    for (const v of message.removed_objects) {
+      ObjectDoc.encode(v!, writer.uint32(50).fork()).ldelim();
     }
     return writer;
   },
@@ -357,6 +593,8 @@ export const MsgUpdateBucket = {
     const reader = input instanceof Uint8Array ? new Reader(input) : input;
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = { ...baseMsgUpdateBucket } as MsgUpdateBucket;
+    message.added_objects = [];
+    message.removed_objects = [];
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -364,13 +602,21 @@ export const MsgUpdateBucket = {
           message.creator = reader.string();
           break;
         case 2:
-          message.did = reader.string();
-          break;
-        case 3:
           message.label = reader.string();
           break;
-        case 4:
+        case 3:
           message.description = reader.string();
+          break;
+        case 4:
+          message.session = Session.decode(reader, reader.uint32());
+          break;
+        case 5:
+          message.added_objects.push(ObjectDoc.decode(reader, reader.uint32()));
+          break;
+        case 6:
+          message.removed_objects.push(
+            ObjectDoc.decode(reader, reader.uint32())
+          );
           break;
         default:
           reader.skipType(tag & 7);
@@ -382,15 +628,12 @@ export const MsgUpdateBucket = {
 
   fromJSON(object: any): MsgUpdateBucket {
     const message = { ...baseMsgUpdateBucket } as MsgUpdateBucket;
+    message.added_objects = [];
+    message.removed_objects = [];
     if (object.creator !== undefined && object.creator !== null) {
       message.creator = String(object.creator);
     } else {
       message.creator = "";
-    }
-    if (object.did !== undefined && object.did !== null) {
-      message.did = String(object.did);
-    } else {
-      message.did = "";
     }
     if (object.label !== undefined && object.label !== null) {
       message.label = String(object.label);
@@ -402,30 +645,62 @@ export const MsgUpdateBucket = {
     } else {
       message.description = "";
     }
+    if (object.session !== undefined && object.session !== null) {
+      message.session = Session.fromJSON(object.session);
+    } else {
+      message.session = undefined;
+    }
+    if (object.added_objects !== undefined && object.added_objects !== null) {
+      for (const e of object.added_objects) {
+        message.added_objects.push(ObjectDoc.fromJSON(e));
+      }
+    }
+    if (
+      object.removed_objects !== undefined &&
+      object.removed_objects !== null
+    ) {
+      for (const e of object.removed_objects) {
+        message.removed_objects.push(ObjectDoc.fromJSON(e));
+      }
+    }
     return message;
   },
 
   toJSON(message: MsgUpdateBucket): unknown {
     const obj: any = {};
     message.creator !== undefined && (obj.creator = message.creator);
-    message.did !== undefined && (obj.did = message.did);
     message.label !== undefined && (obj.label = message.label);
     message.description !== undefined &&
       (obj.description = message.description);
+    message.session !== undefined &&
+      (obj.session = message.session
+        ? Session.toJSON(message.session)
+        : undefined);
+    if (message.added_objects) {
+      obj.added_objects = message.added_objects.map((e) =>
+        e ? ObjectDoc.toJSON(e) : undefined
+      );
+    } else {
+      obj.added_objects = [];
+    }
+    if (message.removed_objects) {
+      obj.removed_objects = message.removed_objects.map((e) =>
+        e ? ObjectDoc.toJSON(e) : undefined
+      );
+    } else {
+      obj.removed_objects = [];
+    }
     return obj;
   },
 
   fromPartial(object: DeepPartial<MsgUpdateBucket>): MsgUpdateBucket {
     const message = { ...baseMsgUpdateBucket } as MsgUpdateBucket;
+    message.added_objects = [];
+    message.removed_objects = [];
     if (object.creator !== undefined && object.creator !== null) {
       message.creator = object.creator;
     } else {
       message.creator = "";
-    }
-    if (object.did !== undefined && object.did !== null) {
-      message.did = object.did;
-    } else {
-      message.did = "";
     }
     if (object.label !== undefined && object.label !== null) {
       message.label = object.label;
@@ -437,14 +712,44 @@ export const MsgUpdateBucket = {
     } else {
       message.description = "";
     }
+    if (object.session !== undefined && object.session !== null) {
+      message.session = Session.fromPartial(object.session);
+    } else {
+      message.session = undefined;
+    }
+    if (object.added_objects !== undefined && object.added_objects !== null) {
+      for (const e of object.added_objects) {
+        message.added_objects.push(ObjectDoc.fromPartial(e));
+      }
+    }
+    if (
+      object.removed_objects !== undefined &&
+      object.removed_objects !== null
+    ) {
+      for (const e of object.removed_objects) {
+        message.removed_objects.push(ObjectDoc.fromPartial(e));
+      }
+    }
     return message;
   },
 };
 
-const baseMsgUpdateBucketResponse: object = {};
+const baseMsgUpdateBucketResponse: object = { code: 0, message: "" };
 
 export const MsgUpdateBucketResponse = {
-  encode(_: MsgUpdateBucketResponse, writer: Writer = Writer.create()): Writer {
+  encode(
+    message: MsgUpdateBucketResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.code !== 0) {
+      writer.uint32(8).int32(message.code);
+    }
+    if (message.message !== "") {
+      writer.uint32(18).string(message.message);
+    }
+    if (message.which_is !== undefined) {
+      WhichIs.encode(message.which_is, writer.uint32(26).fork()).ldelim();
+    }
     return writer;
   },
 
@@ -457,6 +762,15 @@ export const MsgUpdateBucketResponse = {
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
+        case 1:
+          message.code = reader.int32();
+          break;
+        case 2:
+          message.message = reader.string();
+          break;
+        case 3:
+          message.which_is = WhichIs.decode(reader, reader.uint32());
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -465,29 +779,65 @@ export const MsgUpdateBucketResponse = {
     return message;
   },
 
-  fromJSON(_: any): MsgUpdateBucketResponse {
+  fromJSON(object: any): MsgUpdateBucketResponse {
     const message = {
       ...baseMsgUpdateBucketResponse,
     } as MsgUpdateBucketResponse;
+    if (object.code !== undefined && object.code !== null) {
+      message.code = Number(object.code);
+    } else {
+      message.code = 0;
+    }
+    if (object.message !== undefined && object.message !== null) {
+      message.message = String(object.message);
+    } else {
+      message.message = "";
+    }
+    if (object.which_is !== undefined && object.which_is !== null) {
+      message.which_is = WhichIs.fromJSON(object.which_is);
+    } else {
+      message.which_is = undefined;
+    }
     return message;
   },
 
-  toJSON(_: MsgUpdateBucketResponse): unknown {
+  toJSON(message: MsgUpdateBucketResponse): unknown {
     const obj: any = {};
+    message.code !== undefined && (obj.code = message.code);
+    message.message !== undefined && (obj.message = message.message);
+    message.which_is !== undefined &&
+      (obj.which_is = message.which_is
+        ? WhichIs.toJSON(message.which_is)
+        : undefined);
     return obj;
   },
 
   fromPartial(
-    _: DeepPartial<MsgUpdateBucketResponse>
+    object: DeepPartial<MsgUpdateBucketResponse>
   ): MsgUpdateBucketResponse {
     const message = {
       ...baseMsgUpdateBucketResponse,
     } as MsgUpdateBucketResponse;
+    if (object.code !== undefined && object.code !== null) {
+      message.code = object.code;
+    } else {
+      message.code = 0;
+    }
+    if (object.message !== undefined && object.message !== null) {
+      message.message = object.message;
+    } else {
+      message.message = "";
+    }
+    if (object.which_is !== undefined && object.which_is !== null) {
+      message.which_is = WhichIs.fromPartial(object.which_is);
+    } else {
+      message.which_is = undefined;
+    }
     return message;
   },
 };
 
-const baseMsgDeleteBucket: object = { creator: "", did: "", publicKey: "" };
+const baseMsgDeleteBucket: object = { creator: "", did: "" };
 
 export const MsgDeleteBucket = {
   encode(message: MsgDeleteBucket, writer: Writer = Writer.create()): Writer {
@@ -497,8 +847,8 @@ export const MsgDeleteBucket = {
     if (message.did !== "") {
       writer.uint32(18).string(message.did);
     }
-    if (message.publicKey !== "") {
-      writer.uint32(26).string(message.publicKey);
+    if (message.session !== undefined) {
+      Session.encode(message.session, writer.uint32(26).fork()).ldelim();
     }
     return writer;
   },
@@ -517,7 +867,7 @@ export const MsgDeleteBucket = {
           message.did = reader.string();
           break;
         case 3:
-          message.publicKey = reader.string();
+          message.session = Session.decode(reader, reader.uint32());
           break;
         default:
           reader.skipType(tag & 7);
@@ -539,10 +889,10 @@ export const MsgDeleteBucket = {
     } else {
       message.did = "";
     }
-    if (object.publicKey !== undefined && object.publicKey !== null) {
-      message.publicKey = String(object.publicKey);
+    if (object.session !== undefined && object.session !== null) {
+      message.session = Session.fromJSON(object.session);
     } else {
-      message.publicKey = "";
+      message.session = undefined;
     }
     return message;
   },
@@ -551,7 +901,10 @@ export const MsgDeleteBucket = {
     const obj: any = {};
     message.creator !== undefined && (obj.creator = message.creator);
     message.did !== undefined && (obj.did = message.did);
-    message.publicKey !== undefined && (obj.publicKey = message.publicKey);
+    message.session !== undefined &&
+      (obj.session = message.session
+        ? Session.toJSON(message.session)
+        : undefined);
     return obj;
   },
 
@@ -567,19 +920,28 @@ export const MsgDeleteBucket = {
     } else {
       message.did = "";
     }
-    if (object.publicKey !== undefined && object.publicKey !== null) {
-      message.publicKey = object.publicKey;
+    if (object.session !== undefined && object.session !== null) {
+      message.session = Session.fromPartial(object.session);
     } else {
-      message.publicKey = "";
+      message.session = undefined;
     }
     return message;
   },
 };
 
-const baseMsgDeleteBucketResponse: object = {};
+const baseMsgDeleteBucketResponse: object = { code: 0, message: "" };
 
 export const MsgDeleteBucketResponse = {
-  encode(_: MsgDeleteBucketResponse, writer: Writer = Writer.create()): Writer {
+  encode(
+    message: MsgDeleteBucketResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.code !== 0) {
+      writer.uint32(8).int32(message.code);
+    }
+    if (message.message !== "") {
+      writer.uint32(18).string(message.message);
+    }
     return writer;
   },
 
@@ -592,6 +954,12 @@ export const MsgDeleteBucketResponse = {
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
+        case 1:
+          message.code = reader.int32();
+          break;
+        case 2:
+          message.message = reader.string();
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -600,34 +968,51 @@ export const MsgDeleteBucketResponse = {
     return message;
   },
 
-  fromJSON(_: any): MsgDeleteBucketResponse {
+  fromJSON(object: any): MsgDeleteBucketResponse {
     const message = {
       ...baseMsgDeleteBucketResponse,
     } as MsgDeleteBucketResponse;
+    if (object.code !== undefined && object.code !== null) {
+      message.code = Number(object.code);
+    } else {
+      message.code = 0;
+    }
+    if (object.message !== undefined && object.message !== null) {
+      message.message = String(object.message);
+    } else {
+      message.message = "";
+    }
     return message;
   },
 
-  toJSON(_: MsgDeleteBucketResponse): unknown {
+  toJSON(message: MsgDeleteBucketResponse): unknown {
     const obj: any = {};
+    message.code !== undefined && (obj.code = message.code);
+    message.message !== undefined && (obj.message = message.message);
     return obj;
   },
 
   fromPartial(
-    _: DeepPartial<MsgDeleteBucketResponse>
+    object: DeepPartial<MsgDeleteBucketResponse>
   ): MsgDeleteBucketResponse {
     const message = {
       ...baseMsgDeleteBucketResponse,
     } as MsgDeleteBucketResponse;
+    if (object.code !== undefined && object.code !== null) {
+      message.code = object.code;
+    } else {
+      message.code = 0;
+    }
+    if (object.message !== undefined && object.message !== null) {
+      message.message = object.message;
+    } else {
+      message.message = "";
+    }
     return message;
   },
 };
 
-const baseMsgCreateWhichIs: object = {
-  creator: "",
-  index: "",
-  did: "",
-  documentJson: "",
-};
+const baseMsgCreateWhichIs: object = { creator: "", index: "", did: "" };
 
 export const MsgCreateWhichIs = {
   encode(message: MsgCreateWhichIs, writer: Writer = Writer.create()): Writer {
@@ -640,8 +1025,8 @@ export const MsgCreateWhichIs = {
     if (message.did !== "") {
       writer.uint32(26).string(message.did);
     }
-    if (message.documentJson !== "") {
-      writer.uint32(34).string(message.documentJson);
+    if (message.bucket !== undefined) {
+      BucketDoc.encode(message.bucket, writer.uint32(34).fork()).ldelim();
     }
     return writer;
   },
@@ -663,7 +1048,7 @@ export const MsgCreateWhichIs = {
           message.did = reader.string();
           break;
         case 4:
-          message.documentJson = reader.string();
+          message.bucket = BucketDoc.decode(reader, reader.uint32());
           break;
         default:
           reader.skipType(tag & 7);
@@ -690,10 +1075,10 @@ export const MsgCreateWhichIs = {
     } else {
       message.did = "";
     }
-    if (object.documentJson !== undefined && object.documentJson !== null) {
-      message.documentJson = String(object.documentJson);
+    if (object.bucket !== undefined && object.bucket !== null) {
+      message.bucket = BucketDoc.fromJSON(object.bucket);
     } else {
-      message.documentJson = "";
+      message.bucket = undefined;
     }
     return message;
   },
@@ -703,8 +1088,10 @@ export const MsgCreateWhichIs = {
     message.creator !== undefined && (obj.creator = message.creator);
     message.index !== undefined && (obj.index = message.index);
     message.did !== undefined && (obj.did = message.did);
-    message.documentJson !== undefined &&
-      (obj.documentJson = message.documentJson);
+    message.bucket !== undefined &&
+      (obj.bucket = message.bucket
+        ? BucketDoc.toJSON(message.bucket)
+        : undefined);
     return obj;
   },
 
@@ -725,10 +1112,10 @@ export const MsgCreateWhichIs = {
     } else {
       message.did = "";
     }
-    if (object.documentJson !== undefined && object.documentJson !== null) {
-      message.documentJson = object.documentJson;
+    if (object.bucket !== undefined && object.bucket !== null) {
+      message.bucket = BucketDoc.fromPartial(object.bucket);
     } else {
-      message.documentJson = "";
+      message.bucket = undefined;
     }
     return message;
   },
@@ -786,12 +1173,7 @@ export const MsgCreateWhichIsResponse = {
   },
 };
 
-const baseMsgUpdateWhichIs: object = {
-  creator: "",
-  index: "",
-  did: "",
-  documentJson: "",
-};
+const baseMsgUpdateWhichIs: object = { creator: "", index: "", did: "" };
 
 export const MsgUpdateWhichIs = {
   encode(message: MsgUpdateWhichIs, writer: Writer = Writer.create()): Writer {
@@ -804,8 +1186,8 @@ export const MsgUpdateWhichIs = {
     if (message.did !== "") {
       writer.uint32(26).string(message.did);
     }
-    if (message.documentJson !== "") {
-      writer.uint32(34).string(message.documentJson);
+    if (message.bucket !== undefined) {
+      BucketDoc.encode(message.bucket, writer.uint32(34).fork()).ldelim();
     }
     return writer;
   },
@@ -827,7 +1209,7 @@ export const MsgUpdateWhichIs = {
           message.did = reader.string();
           break;
         case 4:
-          message.documentJson = reader.string();
+          message.bucket = BucketDoc.decode(reader, reader.uint32());
           break;
         default:
           reader.skipType(tag & 7);
@@ -854,10 +1236,10 @@ export const MsgUpdateWhichIs = {
     } else {
       message.did = "";
     }
-    if (object.documentJson !== undefined && object.documentJson !== null) {
-      message.documentJson = String(object.documentJson);
+    if (object.bucket !== undefined && object.bucket !== null) {
+      message.bucket = BucketDoc.fromJSON(object.bucket);
     } else {
-      message.documentJson = "";
+      message.bucket = undefined;
     }
     return message;
   },
@@ -867,8 +1249,10 @@ export const MsgUpdateWhichIs = {
     message.creator !== undefined && (obj.creator = message.creator);
     message.index !== undefined && (obj.index = message.index);
     message.did !== undefined && (obj.did = message.did);
-    message.documentJson !== undefined &&
-      (obj.documentJson = message.documentJson);
+    message.bucket !== undefined &&
+      (obj.bucket = message.bucket
+        ? BucketDoc.toJSON(message.bucket)
+        : undefined);
     return obj;
   },
 
@@ -889,10 +1273,10 @@ export const MsgUpdateWhichIs = {
     } else {
       message.did = "";
     }
-    if (object.documentJson !== undefined && object.documentJson !== null) {
-      message.documentJson = object.documentJson;
+    if (object.bucket !== undefined && object.bucket !== null) {
+      message.bucket = BucketDoc.fromPartial(object.bucket);
     } else {
-      message.documentJson = "";
+      message.bucket = undefined;
     }
     return message;
   },

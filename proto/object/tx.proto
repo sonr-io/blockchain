@@ -2,6 +2,7 @@ syntax = "proto3";
 package sonrio.sonr.object;
 import "object/object.proto";
 import "object/what_is.proto";
+import "registry/who_is.proto";
 // this line is used by starport scaffolding # proto/tx/import
 
 option go_package = "github.com/sonr-io/blockchain/x/object/types";
@@ -22,59 +23,104 @@ message MsgCreateObject {
   string creator = 1;
   string label = 2;
   string description = 3;
-  repeated ObjectField fields = 4;
+  repeated ObjectField initial_fields = 4;
+  sonrio.sonr.registry.Session session = 5;
 }
 
 message MsgCreateObjectResponse {
+// Code of the response
+  int32 code = 1;
+
+  // Message of the response
+  string message = 2;
+
+  // WhatIs of the Channel
+  WhatIs what_is = 3;
 }
 
 message MsgReadObject {
   string creator = 1;
   string did = 2;
+  sonrio.sonr.registry.Session session = 3;
 }
 
 message MsgReadObjectResponse {
+// Code of the response
+  int32 code = 1;
+
+  // Message of the response
+  string message = 2;
+
+  // WhatIs of the Channel
+  WhatIs what_is = 3;
 }
 
 message MsgUpdateObject {
   string creator = 1;
-  string did = 2;
+
+  // Label of the Object
+  string label = 2;
+
+  // Authenticated session data
+  sonrio.sonr.registry.Session session = 3;
+
+  // Added fields to the object
+  repeated ObjectField added_fields = 4;
+
+  // Removed fields from the object
+  repeated ObjectField removed_fields = 5;
 }
 
 message MsgUpdateObjectResponse {
+// Code of the response
+  int32 code = 1;
+
+  // Message of the response
+  string message = 2;
+
+  // WhatIs of the Channel
+  WhatIs what_is = 3;
 }
 
 message MsgDeleteObject {
   string creator = 1;
   string did = 2;
-  string publicKey = 3;
+  sonrio.sonr.registry.Session session = 3;
 }
 
 message MsgDeleteObjectResponse {
+// Code of the response
+  int32 code = 1;
+
+  // Message of the response
+  string message = 2;
 }
 
 message MsgCreateWhatIs {
   string creator = 1;
-  string index = 2;
-
-  string did = 3;
-  bytes document = 4;
+  string did = 2;
+  ObjectDoc object_doc = 3;
 }
-message MsgCreateWhatIsResponse {}
+message MsgCreateWhatIsResponse {
+  string did = 1;
+}
 
 message MsgUpdateWhatIs {
   string creator = 1;
-  string index = 2;
-
-  string did = 3;
-  bytes document = 4;
+  string did = 2;
+  ObjectDoc object_doc = 3;
 }
-message MsgUpdateWhatIsResponse {}
+message MsgUpdateWhatIsResponse {
+  string did = 1;
+}
 
 message MsgDeleteWhatIs {
   string creator = 1;
-  string index = 2;
+  string did = 2;
 }
-message MsgDeleteWhatIsResponse {}
+
+message MsgDeleteWhatIsResponse {
+  string did = 1;
+}
 
 // this line is used by starport scaffolding # proto/tx/message

@@ -19,8 +19,6 @@ func CmdAccessName() *cobra.Command {
 		Args:  cobra.ExactArgs(3),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			argName := args[0]
-			argPublicKey := args[1]
-			argPeerId := args[2]
 
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
@@ -30,8 +28,7 @@ func CmdAccessName() *cobra.Command {
 			msg := types.NewMsgAccessName(
 				clientCtx.GetFromAddress().String(),
 				argName,
-				argPublicKey,
-				argPeerId,
+				nil,
 			)
 			if err := msg.ValidateBasic(); err != nil {
 				return err

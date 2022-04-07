@@ -18,7 +18,7 @@ var _ = strconv.IntSize
 func createNWhichIs(keeper *keeper.Keeper, ctx sdk.Context, n int) []types.WhichIs {
 	items := make([]types.WhichIs, n)
 	for i := range items {
-		items[i].Index = strconv.Itoa(i)
+		items[i].Did = strconv.Itoa(i)
 
 		keeper.SetWhichIs(ctx, items[i])
 	}
@@ -30,7 +30,7 @@ func TestWhichIsGet(t *testing.T) {
 	items := createNWhichIs(keeper, ctx, 10)
 	for _, item := range items {
 		rst, found := keeper.GetWhichIs(ctx,
-			item.Index,
+			item.Did,
 		)
 		require.True(t, found)
 		require.Equal(t,
@@ -44,10 +44,10 @@ func TestWhichIsRemove(t *testing.T) {
 	items := createNWhichIs(keeper, ctx, 10)
 	for _, item := range items {
 		keeper.RemoveWhichIs(ctx,
-			item.Index,
+			item.Did,
 		)
 		_, found := keeper.GetWhichIs(ctx,
-			item.Index,
+			item.Did,
 		)
 		require.False(t, found)
 	}

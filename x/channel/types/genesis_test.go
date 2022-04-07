@@ -24,10 +24,10 @@ func TestGenesisState_Validate(t *testing.T) {
 
 				HowIsList: []types.HowIs{
 					{
-						Index: "0",
+						Did: "0",
 					},
 					{
-						Index: "1",
+						Did: "1",
 					},
 				},
 				// this line is used by starport scaffolding # types/genesis/validField
@@ -39,10 +39,10 @@ func TestGenesisState_Validate(t *testing.T) {
 			genState: &types.GenesisState{
 				HowIsList: []types.HowIs{
 					{
-						Index: "0",
+						Did: "0",
 					},
 					{
-						Index: "0",
+						Did: "0",
 					},
 				},
 			},

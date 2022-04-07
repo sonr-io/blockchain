@@ -3,17 +3,18 @@ package types
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	rt "github.com/sonr-io/blockchain/x/registry/types"
 )
 
 const TypeMsgDeleteChannel = "delete_channel"
 
 var _ sdk.Msg = &MsgDeleteChannel{}
 
-func NewMsgDeleteChannel(creator string, did string, publicKey string) *MsgDeleteChannel {
+func NewMsgDeleteChannel(creator string, did string, s *rt.Session) *MsgDeleteChannel {
 	return &MsgDeleteChannel{
-		Creator:   creator,
-		Did:       did,
-		PublicKey: publicKey,
+		Creator: creator,
+		Did:     did,
+		Session: s,
 	}
 }
 

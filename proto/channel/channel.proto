@@ -1,10 +1,9 @@
 syntax = "proto3";
 package sonrio.sonr.channel;
 import "object/object.proto";
-import "registry/peer.proto";
 option go_package = "github.com/sonr-io/blockchain/x/channel/types";
 
-message Channel {
+message ChannelDoc {
     // Label is human-readable name of the channel.
     string label = 1;
 
@@ -22,7 +21,7 @@ message Channel {
 // ChannelMessage is a message sent to a channel.
 message ChannelMessage {
     // Owner is the peer that originated the message.
-    sonrio.sonr.registry.Peer peer = 1;
+    string peer_did = 1;
 
     // Did is the identifier of the channel.
     string did = 2;

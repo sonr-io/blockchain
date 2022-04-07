@@ -22,7 +22,6 @@ tasks:
     cmds:
       - buf build
       - buf push
-    dir: ./proto
 
   build:
     cmds:

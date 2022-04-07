@@ -1,11 +1,12 @@
 syntax = "proto3";
 package sonrio.sonr.object;
+import "object/object.proto";
 option go_package = "github.com/sonr-io/blockchain/x/object/types";
 
 message WhatIs {
-  string index = 1;
-  string did = 2;
-  bytes document = 3;
-  string creator = 4;
+  // DID is the DID of the object
+  string did = 1;
+  ObjectDoc object_doc = 2;
+  string creator = 3;
 }
 

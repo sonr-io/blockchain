@@ -16,15 +16,13 @@ var _ sdk.Msg = &MsgCreateWhatIs{}
 func NewMsgCreateWhatIs(
 	creator string,
 	index string,
-	did string,
-	value []byte,
+	obj *ObjectDoc,
 
 ) *MsgCreateWhatIs {
 	return &MsgCreateWhatIs{
-		Creator:  creator,
-		Index:    index,
-		Did:      did,
-		Document: value,
+		Creator:   creator,
+		Did:     index,
+		ObjectDoc: obj,
 	}
 }
 
@@ -62,15 +60,13 @@ var _ sdk.Msg = &MsgUpdateWhatIs{}
 func NewMsgUpdateWhatIs(
 	creator string,
 	index string,
-	did string,
-	value []byte,
+	obj *ObjectDoc,
 
 ) *MsgUpdateWhatIs {
 	return &MsgUpdateWhatIs{
-		Creator:  creator,
-		Index:    index,
-		Did:      did,
-		Document: value,
+		Creator:   creator,
+		Did:     index,
+		ObjectDoc: obj,
 	}
 }
 
@@ -112,7 +108,7 @@ func NewMsgDeleteWhatIs(
 ) *MsgDeleteWhatIs {
 	return &MsgDeleteWhatIs{
 		Creator: creator,
-		Index:   index,
+		Did:   index,
 	}
 }
 func (msg *MsgDeleteWhatIs) Route() string {

@@ -1,12 +1,12 @@
 syntax = "proto3";
 package sonrio.sonr.bucket;
+import "bucket/bucket.proto";
 option go_package = "github.com/sonr-io/blockchain/x/bucket/types";
 
 message WhichIs {
-  string index = 1;
-  string did = 2;
+  string did = 1;
   // Document is the DID Document of the registered name and account encoded as JSON
-  bytes document = 3;
-  string creator = 4;
+  string creator = 3;
+  BucketDoc bucket = 4;
 }
 

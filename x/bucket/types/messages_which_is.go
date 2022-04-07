@@ -17,14 +17,14 @@ func NewMsgCreateWhichIs(
 	creator string,
 	index string,
 	did string,
-	value string,
+	bucketDoc *BucketDoc,
 
 ) *MsgCreateWhichIs {
 	return &MsgCreateWhichIs{
-		Creator:      creator,
-		Index:        index,
-		Did:          did,
-		DocumentJson: value,
+		Creator: creator,
+		Index:   index,
+		Did:     did,
+		Bucket:  bucketDoc,
 	}
 }
 
@@ -63,14 +63,14 @@ func NewMsgUpdateWhichIs(
 	creator string,
 	index string,
 	did string,
-	value string,
+	bucketDoc *BucketDoc,
 
 ) *MsgUpdateWhichIs {
 	return &MsgUpdateWhichIs{
-		Creator:      creator,
-		Index:        index,
-		Did:          did,
-		DocumentJson: value,
+		Creator: creator,
+		Index:   index,
+		Did:     did,
+		Bucket:  bucketDoc,
 	}
 }
 

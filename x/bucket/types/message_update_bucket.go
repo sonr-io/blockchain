@@ -12,7 +12,6 @@ var _ sdk.Msg = &MsgUpdateBucket{}
 func NewMsgUpdateBucket(creator string, did string, label string, description string) *MsgUpdateBucket {
 	return &MsgUpdateBucket{
 		Creator:     creator,
-		Did:         did,
 		Label:       label,
 		Description: description,
 	}

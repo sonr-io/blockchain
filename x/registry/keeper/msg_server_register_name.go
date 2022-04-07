@@ -51,14 +51,21 @@ func (k msgServer) RegisterName(goCtx context.Context, msg *types.MsgRegisterNam
 		Type:     types.WhoIs_User,
 	}
 
-	newWhois.AddCredential(msg.GetCredential())
+	// Create new session object
+	session := &types.Session{
+		BaseDid:    doc.ID.ID,
+		Whois:      &newWhois,
+		Credential: msg.GetCredential(),
+	}
 
 	// Write whois information to the store
+	newWhois.AddCredential(msg.GetCredential())
 	k.SetWhoIs(ctx, newWhois)
 
+	// Return the DID and WhoIs information
 	return &types.MsgRegisterNameResponse{
-		IsSuccess:       true,
-		DidUrl:          doc.ID.ID,
-		DidDocumentJson: didJson,
+		
+		WhoIs:   &newWhois,
+		Session: session,
 	}, nil
 }

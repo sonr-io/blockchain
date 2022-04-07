@@ -9,13 +9,6 @@
  * ---------------------------------------------------------------
  */
 
-export interface GooglerpcStatus {
-  /** @format int32 */
-  code?: number;
-  message?: string;
-  details?: ProtobufAny[];
-}
-
 export interface ProtobufAny {
   "@type"?: string;
 }
@@ -75,16 +68,17 @@ export interface RegistryMsgAccessApplicationResponse {
 
   /** WhoIs is the entry pointing a registered name to a user account address, Did Url string, and a DIDDocument. */
   whoIs?: RegistryWhoIs;
+  session?: RegistrySession;
 }
 
 export interface RegistryMsgAccessNameResponse {
-  did?: string;
-
-  /** @format byte */
-  didDocumentJson?: string;
+  /** @format int32 */
+  code?: number;
+  message?: string;
 
   /** WhoIs is the entry pointing a registered name to a user account address, Did Url string, and a DIDDocument. */
   whoIs?: RegistryWhoIs;
+  session?: RegistrySession;
 }
 
 export type RegistryMsgCreateWhoIsResponse = object;
@@ -92,25 +86,23 @@ export type RegistryMsgCreateWhoIsResponse = object;
 export type RegistryMsgDeleteWhoIsResponse = object;
 
 export interface RegistryMsgRegisterApplicationResponse {
-  isSuccess?: boolean;
-  didUrl?: string;
-
-  /** @format byte */
-  didDocumentJson?: string;
+  /** @format int32 */
+  code?: number;
+  message?: string;
 
   /** WhoIs is the entry pointing a registered name to a user account address, Did Url string, and a DIDDocument. */
   whoIs?: RegistryWhoIs;
+  session?: RegistrySession;
 }
 
 export interface RegistryMsgRegisterNameResponse {
-  isSuccess?: boolean;
-  didUrl?: string;
-
-  /** @format byte */
-  didDocumentJson?: string;
+  /** @format int32 */
+  code?: number;
+  message?: string;
 
   /** WhoIs is the entry pointing a registered name to a user account address, Did Url string, and a DIDDocument. */
   whoIs?: RegistryWhoIs;
+  session?: RegistrySession;
 }
 
 export interface RegistryMsgUpdateApplicationResponse {
@@ -124,10 +116,12 @@ export interface RegistryMsgUpdateApplicationResponse {
 }
 
 export interface RegistryMsgUpdateNameResponse {
-  /** The account that owns the name. */
-  creator?: string;
-  did?: string;
-  metadata?: Record<string, string>;
+  /** @format int32 */
+  code?: number;
+  message?: string;
+
+  /** WhoIs is the entry pointing a registered name to a user account address, Did Url string, and a DIDDocument. */
+  whoIs?: RegistryWhoIs;
 }
 
 export type RegistryMsgUpdateWhoIsResponse = object;
@@ -165,6 +159,14 @@ export interface RegistryQueryParamsResponse {
   params?: RegistryParams;
 }
 
+export interface RegistrySession {
+  base_did?: string;
+
+  /** WhoIs is the entry pointing a registered name to a user account address, Did Url string, and a DIDDocument. */
+  whois?: RegistryWhoIs;
+  credential?: RegistryCredential;
+}
+
 /**
  * WhoIs is the entry pointing a registered name to a user account address, Did Url string, and a DIDDocument.
  */
@@ -182,6 +184,7 @@ export interface RegistryWhoIs {
    *  - Application: Application is the type of the registered name
    */
   type?: RegistryWhoIsType;
+  metadata?: Record<string, string>;
 }
 
 /**
@@ -191,6 +194,13 @@ export interface RegistryWhoIs {
 export enum RegistryWhoIsType {
   User = "User",
   Application = "Application",
+}
+
+export interface RpcStatus {
+  /** @format int32 */
+  code?: number;
+  message?: string;
+  details?: ProtobufAny[];
 }
 
 /**
@@ -448,7 +458,7 @@ export class HttpClient<SecurityDataType = unknown> {
 }
 
 /**
- * @title registry/authenticator.proto
+ * @title registry/credential.proto
  * @version version not set
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
@@ -470,7 +480,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     },
     params: RequestParams = {},
   ) =>
-    this.request<RegistryQueryAllWhoIsResponse, GooglerpcStatus>({
+    this.request<RegistryQueryAllWhoIsResponse, RpcStatus>({
       path: `/sonr-io/sonr/registry/who_is`,
       method: "GET",
       query: query,
@@ -487,7 +497,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    * @request GET:/sonr-io/sonr/registry/who_is/{index}
    */
   queryWhoIs = (index: string, params: RequestParams = {}) =>
-    this.request<RegistryQueryGetWhoIsResponse, GooglerpcStatus>({
+    this.request<RegistryQueryGetWhoIsResponse, RpcStatus>({
       path: `/sonr-io/sonr/registry/who_is/${index}`,
       method: "GET",
       format: "json",
@@ -503,7 +513,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    * @request GET:/sonrio/sonr/registry/params
    */
   queryParams = (params: RequestParams = {}) =>
-    this.request<RegistryQueryParamsResponse, GooglerpcStatus>({
+    this.request<RegistryQueryParamsResponse, RpcStatus>({
       path: `/sonrio/sonr/registry/params`,
       method: "GET",
       format: "json",

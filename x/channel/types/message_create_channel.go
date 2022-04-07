@@ -3,20 +3,19 @@ package types
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	ot "github.com/sonr-io/blockchain/x/object/types"
 )
 
 const TypeMsgCreateChannel = "create_channel"
 
 var _ sdk.Msg = &MsgCreateChannel{}
 
-func NewMsgCreateChannel(creator string, name string, description string, object string, ttl int64, maxSize int64) *MsgCreateChannel {
+func NewMsgCreateChannel(creator string, name string, description string, object *ot.ObjectDoc, ttl int64, maxSize int64) *MsgCreateChannel {
 	return &MsgCreateChannel{
-		Creator:     creator,
-		Name:        name,
-		Description: description,
-		ObjectDid:   object,
-		Ttl:         ttl,
-		MaxSize:     maxSize,
+		Creator:          creator,
+		Label:            name,
+		Description:      description,
+		ObjectToRegister: object,
 	}
 }
 

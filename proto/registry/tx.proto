@@ -25,25 +25,34 @@ message MsgRegisterApplication {
   // Creator is the account address of the creator of the Application.
   string creator = 1;
 
-  // Application Name is the endpoint of the Application.
-  string ApplicationName = 2;
-
   // Client side JSON Web Token for AssertionMethod
-  Credential credential = 3;
+  Credential credential = 2;
+
+  // Application Name is the endpoint of the Application.
+  string ApplicationName = 3;
+
+  // Application Description is the description of the Application.
+  string ApplicationDescription = 4; //optional
+
+  // Application URL is the URL of the Application.
+  string ApplicationURL = 5; //optional
+
+  // Application Category is the category of the Application.
+  string ApplicationCategory = 6; //optional
 }
 
 message MsgRegisterApplicationResponse {
-  // The name that was registered
-  bool isSuccess = 1;
+  // Code of the response
+    int32 code = 1;
 
-  // The Did string in url format i.e. did:sonr:<did>
-  string didUrl = 2;
+    // Message of the response
+    string message = 2;
 
-  // The Document for the registered DID in Json format
-  bytes didDocumentJson = 3;
+    // WhoIs for the registered name
+    WhoIs whoIs = 3;
 
-  // WhoIs for the registered name
-  WhoIs whoIs = 4;
+    // Session returns the session for the name
+    Session session = 4;
 }
 
 // MsgRegisterName is a request to register a name with the ".snr" name of a peer
@@ -56,20 +65,23 @@ message MsgRegisterName {
 
   // Client side JSON Web Token for AssertionMethod
   Credential credential = 3;
+
+   // The Updated Metadata
+  map<string, string> metadata = 4; // optional
 }
 
 message MsgRegisterNameResponse {
-  // The name that was registered
-  bool isSuccess = 1;
+    // Code of the response
+    int32 code = 1;
 
-  // The Did string in url format i.e. did:sonr:<did>
-  string didUrl = 2;
+    // Message of the response
+    string message = 2;
 
-  // The Document for the registered DID in Json format
-  bytes didDocumentJson = 3;
+    // WhoIs for the registered name
+    WhoIs whoIs = 3;
 
-  // WhoIs for the registered name
-  WhoIs whoIs = 4;
+    // Session returns the session for the name
+    Session session = 4;
 }
 
 // MsgAccessName defines the MsgAccessName transaction.
@@ -80,22 +92,22 @@ message MsgAccessName {
   // The name to access
   string name = 2;
 
-  // The Public Key of the peer to access
-  string publicKey = 3; //optional
-
-  // The Libp2p peer ID of the peer to access
-  string peerId = 4; //optional
+  // Client side JSON Web Token for AssertionMethod
+  Credential credential = 3;
 }
 
 message MsgAccessNameResponse {
-  // The DID Url of the name
-  string did = 1;
+    // Code of the response
+    int32 code = 1;
 
-  // The Document for the registered DID in Json format
-  bytes didDocumentJson = 2;
+    // Message of the response
+    string message = 2;
 
-  // WhoIs for the name
-  WhoIs whoIs = 3;
+    // WhoIs for the registered name
+    WhoIs whoIs = 3;
+
+    // Session returns the session for the name
+    Session session = 4;
 }
 
 message MsgUpdateName {
@@ -105,19 +117,22 @@ message MsgUpdateName {
   // The did of the peer to update the name of
   string did = 2;
 
+    // Client side JSON Web Token for AssertionMethod
+  Credential credential = 3;
+
   // The Updated Metadata
-  map<string, string> metadata = 3; // optional
+  map<string, string> metadata = 4; // optional
 }
 
 message MsgUpdateNameResponse {
-  // The account that owns the name.
-  string creator = 1;
+    // Code of the response
+    int32 code = 1;
 
-  // The did of the peer to update the name of
-  string did = 2;
+    // Message of the response
+    string message = 2;
 
-  // The Updated Metadata
-  map<string, string> metadata = 3; // optional
+    // WhoIs for the registered name
+    WhoIs whoIs = 3;
 }
 
 message MsgAccessApplication {
@@ -126,6 +141,9 @@ message MsgAccessApplication {
 
   // The name of the Application to access
   string appName = 2;
+
+  // Client side JSON Web Token for AssertionMethod
+  Credential credential = 3;
 }
 
 message MsgAccessApplicationResponse {
@@ -140,6 +158,9 @@ message MsgAccessApplicationResponse {
 
     // WhoIs for the registered name
     WhoIs whoIs = 4;
+
+    // Session returns the session for the name
+    Session session = 5;
 }
 
 message MsgUpdateApplication {
@@ -169,25 +190,24 @@ message MsgUpdateApplicationResponse {
 
 message MsgCreateWhoIs {
   string creator = 1;
-  string index = 2;
-
-  string did = 3;
-  string value = 4;
+  string did = 2;
+  bytes document = 3;
+  repeated Credential credentials = 4;
+  string name = 5;
 }
 message MsgCreateWhoIsResponse {}
 
 message MsgUpdateWhoIs {
   string creator = 1;
-  string index = 2;
-
-  string did = 3;
-  string value = 4;
+  string did = 2;
+  bytes document = 3;
+  repeated Credential credentials = 4;
 }
 message MsgUpdateWhoIsResponse {}
 
 message MsgDeleteWhoIs {
   string creator = 1;
-  string index = 2;
+  string did = 2;
 }
 message MsgDeleteWhoIsResponse {}
 

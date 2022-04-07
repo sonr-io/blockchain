@@ -1,6 +1,5 @@
 /* eslint-disable */
 import { ObjectDoc } from "../object/object";
-import { Peer } from "../registry/peer";
 import { Writer, Reader } from "protobufjs/minimal";
 
 export const protobufPackage = "sonrio.sonr.bucket";
@@ -100,7 +99,7 @@ export function bucketEventTypeToJSON(object: BucketEventType): string {
 }
 
 /** Bucket is a collection of objects. */
-export interface Bucket {
+export interface BucketDoc {
   /** Label is human-readable name of the bucket. */
   label: string;
   /** Description is a human-readable description of the bucket. */
@@ -116,7 +115,7 @@ export interface Bucket {
 /** BucketEvent is the base event type for all Bucket events. */
 export interface BucketEvent {
   /** Owner is the peer that originated the event. */
-  peer: Peer | undefined;
+  peer_did: string;
   /** Type is the type of event being performed on a Bucket. */
   type: BucketEventType;
   /** Object is the entry being modified in the Bucket. */
@@ -130,10 +129,10 @@ export interface BucketEvent_MetadataEntry {
   value: string;
 }
 
-const baseBucket: object = { label: "", description: "", type: 0, did: "" };
+const baseBucketDoc: object = { label: "", description: "", type: 0, did: "" };
 
-export const Bucket = {
-  encode(message: Bucket, writer: Writer = Writer.create()): Writer {
+export const BucketDoc = {
+  encode(message: BucketDoc, writer: Writer = Writer.create()): Writer {
     if (message.label !== "") {
       writer.uint32(10).string(message.label);
     }
@@ -152,10 +151,10 @@ export const Bucket = {
     return writer;
   },
 
-  decode(input: Reader | Uint8Array, length?: number): Bucket {
+  decode(input: Reader | Uint8Array, length?: number): BucketDoc {
     const reader = input instanceof Uint8Array ? new Reader(input) : input;
     let end = length === undefined ? reader.len : reader.pos + length;
-    const message = { ...baseBucket } as Bucket;
+    const message = { ...baseBucketDoc } as BucketDoc;
     message.objects = [];
     while (reader.pos < end) {
       const tag = reader.uint32();
@@ -183,8 +182,8 @@ export const Bucket = {
     return message;
   },
 
-  fromJSON(object: any): Bucket {
-    const message = { ...baseBucket } as Bucket;
+  fromJSON(object: any): BucketDoc {
+    const message = { ...baseBucketDoc } as BucketDoc;
     message.objects = [];
     if (object.label !== undefined && object.label !== null) {
       message.label = String(object.label);
@@ -214,7 +213,7 @@ export const Bucket = {
     return message;
   },
 
-  toJSON(message: Bucket): unknown {
+  toJSON(message: BucketDoc): unknown {
     const obj: any = {};
     message.label !== undefined && (obj.label = message.label);
     message.description !== undefined &&
@@ -231,8 +230,8 @@ export const Bucket = {
     return obj;
   },
 
-  fromPartial(object: DeepPartial<Bucket>): Bucket {
-    const message = { ...baseBucket } as Bucket;
+  fromPartial(object: DeepPartial<BucketDoc>): BucketDoc {
+    const message = { ...baseBucketDoc } as BucketDoc;
     message.objects = [];
     if (object.label !== undefined && object.label !== null) {
       message.label = object.label;
@@ -263,12 +262,12 @@ export const Bucket = {
   },
 };
 
-const baseBucketEvent: object = { type: 0 };
+const baseBucketEvent: object = { peer_did: "", type: 0 };
 
 export const BucketEvent = {
   encode(message: BucketEvent, writer: Writer = Writer.create()): Writer {
-    if (message.peer !== undefined) {
-      Peer.encode(message.peer, writer.uint32(10).fork()).ldelim();
+    if (message.peer_did !== "") {
+      writer.uint32(10).string(message.peer_did);
     }
     if (message.type !== 0) {
       writer.uint32(16).int32(message.type);
@@ -294,7 +293,7 @@ export const BucketEvent = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.peer = Peer.decode(reader, reader.uint32());
+          message.peer_did = reader.string();
           break;
         case 2:
           message.type = reader.int32() as any;
@@ -322,10 +321,10 @@ export const BucketEvent = {
   fromJSON(object: any): BucketEvent {
     const message = { ...baseBucketEvent } as BucketEvent;
     message.metadata = {};
-    if (object.peer !== undefined && object.peer !== null) {
-      message.peer = Peer.fromJSON(object.peer);
+    if (object.peer_did !== undefined && object.peer_did !== null) {
+      message.peer_did = String(object.peer_did);
     } else {
-      message.peer = undefined;
+      message.peer_did = "";
     }
     if (object.type !== undefined && object.type !== null) {
       message.type = bucketEventTypeFromJSON(object.type);
@@ -347,8 +346,7 @@ export const BucketEvent = {
 
   toJSON(message: BucketEvent): unknown {
     const obj: any = {};
-    message.peer !== undefined &&
-      (obj.peer = message.peer ? Peer.toJSON(message.peer) : undefined);
+    message.peer_did !== undefined && (obj.peer_did = message.peer_did);
     message.type !== undefined &&
       (obj.type = bucketEventTypeToJSON(message.type));
     message.object !== undefined &&
@@ -367,10 +365,10 @@ export const BucketEvent = {
   fromPartial(object: DeepPartial<BucketEvent>): BucketEvent {
     const message = { ...baseBucketEvent } as BucketEvent;
     message.metadata = {};
-    if (object.peer !== undefined && object.peer !== null) {
-      message.peer = Peer.fromPartial(object.peer);
+    if (object.peer_did !== undefined && object.peer_did !== null) {
+      message.peer_did = object.peer_did;
     } else {
-      message.peer = undefined;
+      message.peer_did = "";
     }
     if (object.type !== undefined && object.type !== null) {
       message.type = object.type;

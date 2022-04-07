@@ -13,7 +13,6 @@ func NewMsgDeleteBucket(creator string, did string, publicKey string) *MsgDelete
 	return &MsgDeleteBucket{
 		Creator:   creator,
 		Did:       did,
-		PublicKey: publicKey,
 	}
 }
 

@@ -29,7 +29,7 @@ func networkWithHowIsObjects(t *testing.T, n int) (*network.Network, []types.How
 
 	for i := 0; i < n; i++ {
 		howIs := types.HowIs{
-			Index: strconv.Itoa(i),
+			Did: strconv.Itoa(i),
 		}
 		nullify.Fill(&howIs)
 		state.HowIsList = append(state.HowIsList, howIs)
@@ -57,7 +57,7 @@ func TestShowHowIs(t *testing.T) {
 	}{
 		{
 			desc:    "found",
-			idIndex: objs[0].Index,
+			idIndex: objs[0].Did,
 
 			args: common,
 			obj:  objs[0],

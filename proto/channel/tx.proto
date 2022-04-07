@@ -1,14 +1,16 @@
 syntax = "proto3";
-import "object/object.proto";
 package sonrio.sonr.channel;
 import "channel/how_is.proto";
+import "channel/channel.proto";
+import "object/object.proto";
+import "registry/who_is.proto";
 // this line is used by starport scaffolding # proto/tx/import
 
 option go_package = "github.com/sonr-io/blockchain/x/channel/types";
 
 // Msg defines the Msg service.
 service Msg {
-      rpc CreateChannel(MsgCreateChannel) returns (MsgCreateChannelResponse);
+  rpc CreateChannel(MsgCreateChannel) returns (MsgCreateChannelResponse);
   rpc ReadChannel(MsgReadChannel) returns (MsgReadChannelResponse);
   rpc DeleteChannel(MsgDeleteChannel) returns (MsgDeleteChannelResponse);
   rpc UpdateChannel(MsgUpdateChannel) returns (MsgUpdateChannelResponse);
@@ -20,31 +22,52 @@ service Msg {
 
 message MsgCreateChannel {
   string creator = 1;
-  string name = 2;
+  string label = 2;
   string description = 3;
-  string object_did = 4;
-  int64 ttl = 5;
-  int64 max_size = 6;
+  sonrio.sonr.object.ObjectDoc object_to_register = 4;
+  sonrio.sonr.registry.Session session = 5;
 }
 
 message MsgCreateChannelResponse {
+// Code of the response
+  int32 code = 1;
+
+  // Message of the response
+  string message = 2;
+
+  // HowIs of the Channel
+  HowIs how_is = 3;
 }
 
 message MsgReadChannel {
   string creator = 1;
   string did = 2;
+  sonrio.sonr.registry.Session session = 3;
 }
 
 message MsgReadChannelResponse {
+  // Code of the response
+  int32 code = 1;
+
+  // Message of the response
+  string message = 2;
+
+  // HowIs of the Channel
+  HowIs how_is = 3;
 }
 
 message MsgDeleteChannel {
   string creator = 1;
   string did = 2;
-  string publicKey = 3;
+  sonrio.sonr.registry.Session session = 3;
 }
 
 message MsgDeleteChannelResponse {
+// Code of the response
+  int32 code = 1;
+
+  // Message of the response
+  string message = 2;
 }
 
 
@@ -54,30 +77,33 @@ message MsgUpdateChannel {
 }
 
 message MsgUpdateChannelResponse {
+    // Code of the response
+    int32 code = 1;
+
+    // Message of the response
+    string message = 2;
 }
 
 message MsgCreateHowIs {
   string creator = 1;
-  string index = 2;
-
-  string did = 3;
-  string documentJson = 4;
+  string did = 2;
+  ChannelDoc channel = 4;
 }
 message MsgCreateHowIsResponse {}
 
 message MsgUpdateHowIs {
   string creator = 1;
-  string index = 2;
-
-  string did = 3;
-  string documentJson = 4;
+  string did = 2;
+  ChannelDoc channel = 4;
 }
 message MsgUpdateHowIsResponse {}
 
 message MsgDeleteHowIs {
   string creator = 1;
-  string index = 2;
+  string did = 2;
 }
-message MsgDeleteHowIsResponse {}
+
+message MsgDeleteHowIsResponse {
+}
 
 // this line is used by starport scaffolding # proto/tx/message

@@ -12,7 +12,7 @@ var _ sdk.Msg = &MsgReadBucket{}
 func NewMsgReadBucket(creator string, did string) *MsgReadBucket {
 	return &MsgReadBucket{
 		Creator: creator,
-		Did:     did,
+		Label:   did,
 	}
 }
 

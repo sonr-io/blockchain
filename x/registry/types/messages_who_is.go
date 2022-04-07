@@ -15,16 +15,16 @@ var _ sdk.Msg = &MsgCreateWhoIs{}
 
 func NewMsgCreateWhoIs(
 	creator string,
-	index string,
 	did string,
-	value string,
+	doc []byte,
+	c []*Credential,
 
 ) *MsgCreateWhoIs {
 	return &MsgCreateWhoIs{
-		Creator: creator,
-		Index:   index,
-		Did:     did,
-		Value:   value,
+		Creator:     creator,
+		Did:         did,
+		Document:    doc,
+		Credentials: c,
 	}
 }
 
@@ -61,16 +61,15 @@ var _ sdk.Msg = &MsgUpdateWhoIs{}
 
 func NewMsgUpdateWhoIs(
 	creator string,
-	index string,
 	did string,
-	value string,
-
+	doc []byte,
+	c []*Credential,
 ) *MsgUpdateWhoIs {
 	return &MsgUpdateWhoIs{
-		Creator: creator,
-		Index:   index,
-		Did:     did,
-		Value:   value,
+		Creator:     creator,
+		Did:         did,
+		Document:    doc,
+		Credentials: c,
 	}
 }
 
@@ -107,12 +106,12 @@ var _ sdk.Msg = &MsgDeleteWhoIs{}
 
 func NewMsgDeleteWhoIs(
 	creator string,
-	index string,
+	did string,
 
 ) *MsgDeleteWhoIs {
 	return &MsgDeleteWhoIs{
 		Creator: creator,
-		Index:   index,
+		Did:     did,
 	}
 }
 func (msg *MsgDeleteWhoIs) Route() string {

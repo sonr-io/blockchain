@@ -13,7 +13,6 @@ func NewMsgDeleteObject(creator string, did string, publicKey string) *MsgDelete
 	return &MsgDeleteObject{
 		Creator:   creator,
 		Did:       did,
-		PublicKey: publicKey,
 	}
 }
 

@@ -8,6 +8,8 @@ import (
 	fmt "fmt"
 	grpc1 "github.com/gogo/protobuf/grpc"
 	proto "github.com/gogo/protobuf/proto"
+	types1 "github.com/sonr-io/blockchain/x/object/types"
+	types "github.com/sonr-io/blockchain/x/registry/types"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -32,6 +34,10 @@ type MsgCreateBucket struct {
 	Label       string `protobuf:"bytes,2,opt,name=label,proto3" json:"label,omitempty"`
 	Description string `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
 	Kind        string `protobuf:"bytes,4,opt,name=kind,proto3" json:"kind,omitempty"`
+	// Authenticated user session data
+	Session *types.Session `protobuf:"bytes,5,opt,name=session,proto3" json:"session,omitempty"`
+	// Provided initial objects for the bucket
+	InitialObjects []*types1.ObjectDoc `protobuf:"bytes,6,rep,name=initial_objects,json=initialObjects,proto3" json:"initial_objects,omitempty"`
 }
 
 func (m *MsgCreateBucket) Reset()         { *m = MsgCreateBucket{} }
@@ -95,7 +101,27 @@ func (m *MsgCreateBucket) GetKind() string {
 	return ""
 }
 
+func (m *MsgCreateBucket) GetSession() *types.Session {
+	if m != nil {
+		return m.Session
+	}
+	return nil
+}
+
+func (m *MsgCreateBucket) GetInitialObjects() []*types1.ObjectDoc {
+	if m != nil {
+		return m.InitialObjects
+	}
+	return nil
+}
+
 type MsgCreateBucketResponse struct {
+	// Code of the response
+	Code int32 `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`
+	// Message of the response
+	Message string `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	// Whichis response of the ObjectDoc
+	WhichIs *WhichIs `protobuf:"bytes,3,opt,name=which_is,json=whichIs,proto3" json:"which_is,omitempty"`
 }
 
 func (m *MsgCreateBucketResponse) Reset()         { *m = MsgCreateBucketResponse{} }
@@ -131,9 +157,34 @@ func (m *MsgCreateBucketResponse) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_MsgCreateBucketResponse proto.InternalMessageInfo
 
+func (m *MsgCreateBucketResponse) GetCode() int32 {
+	if m != nil {
+		return m.Code
+	}
+	return 0
+}
+
+func (m *MsgCreateBucketResponse) GetMessage() string {
+	if m != nil {
+		return m.Message
+	}
+	return ""
+}
+
+func (m *MsgCreateBucketResponse) GetWhichIs() *WhichIs {
+	if m != nil {
+		return m.WhichIs
+	}
+	return nil
+}
+
 type MsgReadBucket struct {
+	// Creator of request
 	Creator string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
-	Did     string `protobuf:"bytes,2,opt,name=did,proto3" json:"did,omitempty"`
+	// The bucket label to read
+	Label string `protobuf:"bytes,2,opt,name=label,proto3" json:"label,omitempty"`
+	// Session data of authenticated user
+	Session *types.Session `protobuf:"bytes,3,opt,name=session,proto3" json:"session,omitempty"`
 }
 
 func (m *MsgReadBucket) Reset()         { *m = MsgReadBucket{} }
@@ -176,14 +227,27 @@ func (m *MsgReadBucket) GetCreator() string {
 	return ""
 }
 
-func (m *MsgReadBucket) GetDid() string {
+func (m *MsgReadBucket) GetLabel() string {
 	if m != nil {
-		return m.Did
+		return m.Label
 	}
 	return ""
 }
 
+func (m *MsgReadBucket) GetSession() *types.Session {
+	if m != nil {
+		return m.Session
+	}
+	return nil
+}
+
 type MsgReadBucketResponse struct {
+	// Code of the response
+	Code int32 `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`
+	// Message of the response
+	Message string `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	// Whichis response of the ObjectDoc
+	WhichIs *WhichIs `protobuf:"bytes,3,opt,name=which_is,json=whichIs,proto3" json:"which_is,omitempty"`
 }
 
 func (m *MsgReadBucketResponse) Reset()         { *m = MsgReadBucketResponse{} }
@@ -219,11 +283,39 @@ func (m *MsgReadBucketResponse) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_MsgReadBucketResponse proto.InternalMessageInfo
 
+func (m *MsgReadBucketResponse) GetCode() int32 {
+	if m != nil {
+		return m.Code
+	}
+	return 0
+}
+
+func (m *MsgReadBucketResponse) GetMessage() string {
+	if m != nil {
+		return m.Message
+	}
+	return ""
+}
+
+func (m *MsgReadBucketResponse) GetWhichIs() *WhichIs {
+	if m != nil {
+		return m.WhichIs
+	}
+	return nil
+}
+
 type MsgUpdateBucket struct {
-	Creator     string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
-	Did         string `protobuf:"bytes,2,opt,name=did,proto3" json:"did,omitempty"`
-	Label       string `protobuf:"bytes,3,opt,name=label,proto3" json:"label,omitempty"`
-	Description string `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
+	Creator string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
+	// The Bucket label
+	Label string `protobuf:"bytes,2,opt,name=label,proto3" json:"label,omitempty"`
+	// New bucket description
+	Description string `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	// Session data of authenticated user
+	Session *types.Session `protobuf:"bytes,4,opt,name=session,proto3" json:"session,omitempty"`
+	// Added Objects
+	AddedObjects []*types1.ObjectDoc `protobuf:"bytes,5,rep,name=added_objects,json=addedObjects,proto3" json:"added_objects,omitempty"`
+	// Removed Objects
+	RemovedObjects []*types1.ObjectDoc `protobuf:"bytes,6,rep,name=removed_objects,json=removedObjects,proto3" json:"removed_objects,omitempty"`
 }
 
 func (m *MsgUpdateBucket) Reset()         { *m = MsgUpdateBucket{} }
@@ -266,13 +358,6 @@ func (m *MsgUpdateBucket) GetCreator() string {
 	return ""
 }
 
-func (m *MsgUpdateBucket) GetDid() string {
-	if m != nil {
-		return m.Did
-	}
-	return ""
-}
-
 func (m *MsgUpdateBucket) GetLabel() string {
 	if m != nil {
 		return m.Label
@@ -287,7 +372,34 @@ func (m *MsgUpdateBucket) GetDescription() string {
 	return ""
 }
 
+func (m *MsgUpdateBucket) GetSession() *types.Session {
+	if m != nil {
+		return m.Session
+	}
+	return nil
+}
+
+func (m *MsgUpdateBucket) GetAddedObjects() []*types1.ObjectDoc {
+	if m != nil {
+		return m.AddedObjects
+	}
+	return nil
+}
+
+func (m *MsgUpdateBucket) GetRemovedObjects() []*types1.ObjectDoc {
+	if m != nil {
+		return m.RemovedObjects
+	}
+	return nil
+}
+
 type MsgUpdateBucketResponse struct {
+	// Code of the response
+	Code int32 `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`
+	// Message of the response
+	Message string `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	// Whichis response of the ObjectDoc
+	WhichIs *WhichIs `protobuf:"bytes,3,opt,name=which_is,json=whichIs,proto3" json:"which_is,omitempty"`
 }
 
 func (m *MsgUpdateBucketResponse) Reset()         { *m = MsgUpdateBucketResponse{} }
@@ -323,10 +435,31 @@ func (m *MsgUpdateBucketResponse) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_MsgUpdateBucketResponse proto.InternalMessageInfo
 
+func (m *MsgUpdateBucketResponse) GetCode() int32 {
+	if m != nil {
+		return m.Code
+	}
+	return 0
+}
+
+func (m *MsgUpdateBucketResponse) GetMessage() string {
+	if m != nil {
+		return m.Message
+	}
+	return ""
+}
+
+func (m *MsgUpdateBucketResponse) GetWhichIs() *WhichIs {
+	if m != nil {
+		return m.WhichIs
+	}
+	return nil
+}
+
 type MsgDeleteBucket struct {
-	Creator   string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
-	Did       string `protobuf:"bytes,2,opt,name=did,proto3" json:"did,omitempty"`
-	PublicKey string `protobuf:"bytes,3,opt,name=publicKey,proto3" json:"publicKey,omitempty"`
+	Creator string         `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
+	Did     string         `protobuf:"bytes,2,opt,name=did,proto3" json:"did,omitempty"`
+	Session *types.Session `protobuf:"bytes,3,opt,name=session,proto3" json:"session,omitempty"`
 }
 
 func (m *MsgDeleteBucket) Reset()         { *m = MsgDeleteBucket{} }
@@ -376,14 +509,18 @@ func (m *MsgDeleteBucket) GetDid() string {
 	return ""
 }
 
-func (m *MsgDeleteBucket) GetPublicKey() string {
+func (m *MsgDeleteBucket) GetSession() *types.Session {
 	if m != nil {
-		return m.PublicKey
+		return m.Session
 	}
-	return ""
+	return nil
 }
 
 type MsgDeleteBucketResponse struct {
+	// Code of the response
+	Code int32 `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`
+	// Message of the response
+	Message string `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
 }
 
 func (m *MsgDeleteBucketResponse) Reset()         { *m = MsgDeleteBucketResponse{} }
@@ -419,11 +556,25 @@ func (m *MsgDeleteBucketResponse) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_MsgDeleteBucketResponse proto.InternalMessageInfo
 
+func (m *MsgDeleteBucketResponse) GetCode() int32 {
+	if m != nil {
+		return m.Code
+	}
+	return 0
+}
+
+func (m *MsgDeleteBucketResponse) GetMessage() string {
+	if m != nil {
+		return m.Message
+	}
+	return ""
+}
+
 type MsgCreateWhichIs struct {
-	Creator      string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
-	Index        string `protobuf:"bytes,2,opt,name=index,proto3" json:"index,omitempty"`
-	Did          string `protobuf:"bytes,3,opt,name=did,proto3" json:"did,omitempty"`
-	DocumentJson string `protobuf:"bytes,4,opt,name=documentJson,proto3" json:"documentJson,omitempty"`
+	Creator string     `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
+	Index   string     `protobuf:"bytes,2,opt,name=index,proto3" json:"index,omitempty"`
+	Did     string     `protobuf:"bytes,3,opt,name=did,proto3" json:"did,omitempty"`
+	Bucket  *BucketDoc `protobuf:"bytes,4,opt,name=bucket,proto3" json:"bucket,omitempty"`
 }
 
 func (m *MsgCreateWhichIs) Reset()         { *m = MsgCreateWhichIs{} }
@@ -480,11 +631,11 @@ func (m *MsgCreateWhichIs) GetDid() string {
 	return ""
 }
 
-func (m *MsgCreateWhichIs) GetDocumentJson() string {
+func (m *MsgCreateWhichIs) GetBucket() *BucketDoc {
 	if m != nil {
-		return m.DocumentJson
+		return m.Bucket
 	}
-	return ""
+	return nil
 }
 
 type MsgCreateWhichIsResponse struct {
@@ -524,10 +675,10 @@ func (m *MsgCreateWhichIsResponse) XXX_DiscardUnknown() {
 var xxx_messageInfo_MsgCreateWhichIsResponse proto.InternalMessageInfo
 
 type MsgUpdateWhichIs struct {
-	Creator      string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
-	Index        string `protobuf:"bytes,2,opt,name=index,proto3" json:"index,omitempty"`
-	Did          string `protobuf:"bytes,3,opt,name=did,proto3" json:"did,omitempty"`
-	DocumentJson string `protobuf:"bytes,4,opt,name=documentJson,proto3" json:"documentJson,omitempty"`
+	Creator string     `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
+	Index   string     `protobuf:"bytes,2,opt,name=index,proto3" json:"index,omitempty"`
+	Did     string     `protobuf:"bytes,3,opt,name=did,proto3" json:"did,omitempty"`
+	Bucket  *BucketDoc `protobuf:"bytes,4,opt,name=bucket,proto3" json:"bucket,omitempty"`
 }
 
 func (m *MsgUpdateWhichIs) Reset()         { *m = MsgUpdateWhichIs{} }
@@ -584,11 +735,11 @@ func (m *MsgUpdateWhichIs) GetDid() string {
 	return ""
 }
 
-func (m *MsgUpdateWhichIs) GetDocumentJson() string {
+func (m *MsgUpdateWhichIs) GetBucket() *BucketDoc {
 	if m != nil {
-		return m.DocumentJson
+		return m.Bucket
 	}
-	return ""
+	return nil
 }
 
 type MsgUpdateWhichIsResponse struct {
@@ -735,40 +886,50 @@ func init() {
 func init() { proto.RegisterFile("bucket/tx.proto", fileDescriptor_3479ee73a3c611d5) }
 
 var fileDescriptor_3479ee73a3c611d5 = []byte{
-	// 515 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xc4, 0x55, 0xcd, 0x6e, 0xd3, 0x40,
-	0x18, 0x8c, 0x71, 0x0a, 0xea, 0x47, 0xaa, 0x56, 0x2b, 0xaa, 0x1a, 0x0b, 0x59, 0xc5, 0xe4, 0x00,
-	0xa2, 0xd8, 0x12, 0x1c, 0xb9, 0x05, 0x84, 0x04, 0x28, 0x97, 0x48, 0x08, 0xa9, 0x1c, 0x68, 0xbc,
-	0xbb, 0x4a, 0x56, 0x71, 0xbd, 0x96, 0xd7, 0x56, 0xd3, 0xb7, 0xe0, 0x69, 0x78, 0x06, 0x8e, 0x3d,
-	0x72, 0x44, 0xc9, 0x8b, 0x20, 0xaf, 0x7f, 0xe2, 0x4d, 0x62, 0x3b, 0xca, 0xa5, 0x27, 0x7b, 0x77,
-	0xc7, 0x33, 0xf3, 0x7d, 0xfe, 0x46, 0x0b, 0xc7, 0x5e, 0x82, 0x67, 0x34, 0x76, 0xe3, 0xb9, 0x13,
-	0x46, 0x3c, 0xe6, 0x08, 0x09, 0x1e, 0x44, 0x8c, 0x3b, 0xe9, 0xc3, 0xc9, 0x0e, 0xcd, 0xd3, 0x1c,
-	0x74, 0x33, 0x65, 0x78, 0xfa, 0x93, 0x89, 0x0c, 0x6a, 0xdf, 0xc0, 0xf1, 0x50, 0x4c, 0x3e, 0x44,
-	0x74, 0x1c, 0xd3, 0x81, 0x44, 0x20, 0x03, 0x1e, 0xe1, 0x74, 0xcd, 0x23, 0x43, 0x3b, 0xd7, 0x5e,
-	0x1e, 0x8e, 0x8a, 0x25, 0x7a, 0x02, 0x07, 0xfe, 0xd8, 0xa3, 0xbe, 0xf1, 0x40, 0xee, 0x67, 0x0b,
-	0x74, 0x0e, 0x8f, 0x09, 0x15, 0x38, 0x62, 0x61, 0xcc, 0x78, 0x60, 0xe8, 0xf2, 0xac, 0xba, 0x85,
-	0x10, 0x74, 0x67, 0x2c, 0x20, 0x46, 0x57, 0x1e, 0xc9, 0x77, 0xfb, 0x29, 0x9c, 0xad, 0x09, 0x8f,
-	0xa8, 0x08, 0x79, 0x20, 0xa8, 0xfd, 0x1e, 0x8e, 0x86, 0x62, 0x32, 0xa2, 0x63, 0xd2, 0xea, 0xe8,
-	0x04, 0x74, 0xc2, 0x48, 0xee, 0x27, 0x7d, 0xb5, 0xcf, 0xe0, 0x54, 0xf9, 0xb8, 0x64, 0x4d, 0x64,
-	0xa5, 0xdf, 0x42, 0xb2, 0x4b, 0xa5, 0x1b, 0xbc, 0xab, 0xda, 0xf5, 0x86, 0xda, 0xbb, 0x1b, 0xb5,
-	0xe7, 0x75, 0x56, 0x65, 0x4b, 0x47, 0x3f, 0xa4, 0xa3, 0x8f, 0xd4, 0xa7, 0x7b, 0x39, 0x7a, 0x06,
-	0x87, 0x61, 0xe2, 0xf9, 0x0c, 0x7f, 0xa5, 0xb7, 0xb9, 0xab, 0xd5, 0x46, 0xae, 0x5b, 0x25, 0x2f,
-	0x75, 0xe7, 0x70, 0x52, 0xb6, 0xfe, 0x7b, 0x3a, 0x0e, 0x9f, 0x45, 0xf3, 0x4f, 0x67, 0x01, 0xa1,
-	0xf3, 0xe2, 0xa7, 0xcb, 0x45, 0x61, 0x47, 0x5f, 0xd9, 0xb1, 0xa1, 0x47, 0x38, 0x4e, 0xae, 0x69,
-	0x10, 0x7f, 0x11, 0x65, 0x2f, 0x94, 0x3d, 0xdb, 0x04, 0x63, 0x5d, 0x79, 0xcd, 0x55, 0xd6, 0xa8,
-	0xfb, 0x70, 0xa5, 0x28, 0x97, 0xae, 0x06, 0xd2, 0x55, 0xd6, 0xc6, 0x3d, 0x5d, 0xe5, 0xfc, 0x0a,
-	0x47, 0xc1, 0xff, 0xf6, 0xf7, 0x01, 0xe8, 0x43, 0x31, 0x41, 0x57, 0xd0, 0x53, 0x42, 0xf8, 0xc2,
-	0xd9, 0xcc, 0xb0, 0xb3, 0x16, 0x18, 0xf3, 0xf5, 0x0e, 0xa0, 0x42, 0x09, 0x5d, 0x02, 0x54, 0x22,
-	0xf5, 0xbc, 0xe6, 0xd3, 0x15, 0xc4, 0x7c, 0xd5, 0x0a, 0x29, 0xb9, 0xaf, 0xa0, 0xa7, 0x04, 0xab,
-	0xce, 0x7d, 0x15, 0x54, 0xeb, 0x7e, 0x5b, 0x56, 0x52, 0x05, 0x25, 0x28, 0x75, 0x0a, 0x55, 0x50,
-	0xad, 0xc2, 0xb6, 0x54, 0x20, 0x0c, 0x47, 0x6a, 0x24, 0xfa, 0x8d, 0xdd, 0xcd, 0x51, 0xe6, 0xc5,
-	0x2e, 0xa8, 0xaa, 0x88, 0x3a, 0xe1, 0xfd, 0xc6, 0x26, 0xb4, 0x89, 0x6c, 0x9d, 0xd9, 0x54, 0x44,
-	0x1d, 0xd8, 0x7e, 0x63, 0x1f, 0xda, 0x44, 0xb6, 0x0e, 0xee, 0xe0, 0xd3, 0x9f, 0x85, 0xa5, 0xdd,
-	0x2d, 0x2c, 0xed, 0xdf, 0xc2, 0xd2, 0x7e, 0x2d, 0xad, 0xce, 0xdd, 0xd2, 0xea, 0xfc, 0x5d, 0x5a,
-	0x9d, 0xcb, 0x8b, 0x09, 0x8b, 0xa7, 0x89, 0xe7, 0x60, 0x7e, 0xed, 0xa6, 0x54, 0x6f, 0x18, 0x77,
-	0x3d, 0x9f, 0xe3, 0x19, 0x9e, 0x8e, 0x59, 0xe0, 0xce, 0xdd, 0xe2, 0xba, 0xba, 0x0d, 0xa9, 0xf0,
-	0x1e, 0xca, 0x7b, 0xe8, 0xdd, 0xff, 0x00, 0x00, 0x00, 0xff, 0xff, 0x02, 0xf9, 0x9d, 0x58, 0xc5,
-	0x06, 0x00, 0x00,
+	// 682 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xcc, 0x56, 0xcb, 0x6e, 0xd3, 0x4c,
+	0x14, 0xae, 0xeb, 0xa6, 0xfd, 0xff, 0xd3, 0x94, 0x56, 0x2e, 0x15, 0x96, 0x11, 0x56, 0x30, 0x5d,
+	0x14, 0x51, 0x6c, 0xa9, 0x08, 0xd8, 0x87, 0xaa, 0x88, 0x45, 0x85, 0x64, 0x84, 0x90, 0xba, 0x69,
+	0x7d, 0x19, 0x39, 0x43, 0x12, 0x4f, 0xe4, 0x71, 0x9b, 0x74, 0x81, 0x78, 0x00, 0x36, 0x3c, 0x06,
+	0x4f, 0xc0, 0x33, 0xb0, 0xec, 0x92, 0x25, 0x4a, 0x5e, 0x82, 0x25, 0xf2, 0x5c, 0x12, 0x3b, 0x75,
+	0x2e, 0x8d, 0x44, 0xc5, 0x6a, 0x66, 0xce, 0x7c, 0x73, 0xce, 0xf9, 0xce, 0xf9, 0x66, 0x6c, 0xd8,
+	0xf4, 0xcf, 0x83, 0x26, 0x4a, 0x9d, 0xb4, 0x67, 0x77, 0x12, 0x92, 0x12, 0x4d, 0xa3, 0x24, 0x4e,
+	0x30, 0xb1, 0xb3, 0xc1, 0xe6, 0x9b, 0xc6, 0xb6, 0x00, 0xf1, 0x81, 0x03, 0x8d, 0x1d, 0x61, 0xec,
+	0x36, 0x70, 0xd0, 0x38, 0xc5, 0x54, 0x9a, 0x13, 0x14, 0x61, 0x9a, 0x26, 0x97, 0x4e, 0xb7, 0x41,
+	0x46, 0xe6, 0x6d, 0xe2, 0x7f, 0x44, 0x41, 0xea, 0xf0, 0x81, 0x1b, 0xad, 0xdf, 0x0a, 0x6c, 0x1e,
+	0xd3, 0xe8, 0x55, 0x82, 0xbc, 0x14, 0xd5, 0x99, 0x3b, 0x4d, 0x87, 0xb5, 0x20, 0x5b, 0x93, 0x44,
+	0x57, 0x6a, 0xca, 0xde, 0xff, 0xae, 0x5c, 0x6a, 0x77, 0xa1, 0xd2, 0xf2, 0x7c, 0xd4, 0xd2, 0x97,
+	0x99, 0x9d, 0x2f, 0xb4, 0x1a, 0xac, 0x87, 0x88, 0x06, 0x09, 0xee, 0xa4, 0x98, 0xc4, 0xba, 0xca,
+	0xf6, 0xf2, 0x26, 0x4d, 0x83, 0x95, 0x26, 0x8e, 0x43, 0x7d, 0x85, 0x6d, 0xb1, 0xb9, 0xf6, 0x12,
+	0xd6, 0x28, 0xa2, 0x34, 0x3b, 0x51, 0xa9, 0x29, 0x7b, 0xeb, 0x07, 0x0f, 0xec, 0x3c, 0x6f, 0xc9,
+	0xc1, 0x7e, 0xc7, 0x41, 0xae, 0x44, 0x6b, 0x47, 0xb0, 0x89, 0x63, 0x9c, 0x62, 0xaf, 0x75, 0xca,
+	0xa9, 0x50, 0x7d, 0xb5, 0xa6, 0x5e, 0x73, 0x20, 0x68, 0xbe, 0x65, 0xc3, 0x21, 0x09, 0xdc, 0x3b,
+	0xe2, 0x14, 0xb7, 0x50, 0xeb, 0x33, 0xdc, 0x1b, 0x63, 0xee, 0x22, 0xda, 0x21, 0x31, 0x45, 0x59,
+	0xbe, 0x01, 0x09, 0x11, 0xa3, 0x5f, 0x71, 0xd9, 0x3c, 0xab, 0x4a, 0x1b, 0x51, 0xea, 0x45, 0x48,
+	0xb0, 0x97, 0x4b, 0xed, 0x05, 0xfc, 0x27, 0x3b, 0xc0, 0xc8, 0xaf, 0x1f, 0xdc, 0xb7, 0xaf, 0xb7,
+	0xd0, 0xfe, 0x90, 0x61, 0xde, 0x50, 0x77, 0xad, 0xcb, 0x27, 0x56, 0x0f, 0x36, 0x8e, 0x69, 0xe4,
+	0x22, 0x2f, 0x5c, 0xb0, 0xf0, 0xb9, 0x12, 0xaa, 0x37, 0x29, 0xa1, 0xf5, 0x09, 0x76, 0x0a, 0x91,
+	0x6f, 0x99, 0xf8, 0xb7, 0x65, 0x26, 0xba, 0xf7, 0x9d, 0xf0, 0x6f, 0x8a, 0x2e, 0x57, 0x9d, 0x95,
+	0x1b, 0x09, 0xac, 0x0e, 0x1b, 0x5e, 0x18, 0xa2, 0x70, 0x28, 0xaf, 0xca, 0x3c, 0xf2, 0xaa, 0xb2,
+	0x33, 0x42, 0x5c, 0x99, 0x48, 0x13, 0xd4, 0x26, 0x17, 0x39, 0x2f, 0xf3, 0x89, 0x54, 0x9c, 0x2a,
+	0x8a, 0x34, 0x5f, 0xa9, 0x5b, 0xee, 0xd5, 0x05, 0x6b, 0xd5, 0x21, 0x6a, 0xa1, 0x39, 0x5a, 0xb5,
+	0x05, 0x6a, 0x88, 0x43, 0x11, 0x3a, 0x9b, 0x2e, 0x2e, 0xd1, 0xd7, 0x8c, 0x78, 0x3e, 0xee, 0x62,
+	0xc4, 0xad, 0x2f, 0x0a, 0x6c, 0x0d, 0xef, 0xb9, 0xa0, 0x37, 0x5d, 0x6d, 0x38, 0x0e, 0x51, 0x4f,
+	0xaa, 0x8d, 0x2d, 0x24, 0x31, 0x75, 0x44, 0xec, 0x39, 0xac, 0xf2, 0x92, 0x95, 0x8a, 0x4b, 0x54,
+	0x93, 0x27, 0x9e, 0xf5, 0x55, 0x80, 0x2d, 0x03, 0xf4, 0xf1, 0x64, 0x24, 0x2f, 0x99, 0x29, 0x6f,
+	0xf6, 0x3f, 0x92, 0x69, 0x21, 0x99, 0x61, 0xa6, 0x75, 0x96, 0x28, 0x6f, 0xce, 0x82, 0x89, 0x0a,
+	0xff, 0x05, 0x1f, 0xd2, 0xff, 0xc1, 0xf7, 0x0a, 0xa8, 0xc7, 0x34, 0xd2, 0xce, 0xa0, 0x5a, 0xf8,
+	0x32, 0x3d, 0x2a, 0x4b, 0x7d, 0xec, 0x11, 0x37, 0x9e, 0xcc, 0x01, 0x1a, 0x6a, 0xe9, 0x04, 0x20,
+	0xf7, 0x00, 0x3f, 0x9c, 0x70, 0x74, 0x04, 0x31, 0x1e, 0xcf, 0x84, 0x0c, 0x7d, 0x9f, 0x41, 0xb5,
+	0xf0, 0xc4, 0x4d, 0xca, 0x3e, 0x0f, 0x9a, 0x98, 0x7d, 0xe9, 0x13, 0x70, 0x06, 0xd5, 0xc2, 0xcd,
+	0x9c, 0x14, 0x21, 0x0f, 0x9a, 0x18, 0xa1, 0xf4, 0xae, 0x05, 0xb0, 0x51, 0xbc, 0x39, 0xbb, 0x53,
+	0xab, 0x2b, 0x50, 0xc6, 0xfe, 0x3c, 0xa8, 0x7c, 0x90, 0xa2, 0xe8, 0x77, 0xa7, 0x16, 0x61, 0x56,
+	0x90, 0x52, 0xcd, 0x66, 0x41, 0x8a, 0x82, 0xdd, 0x9d, 0x5a, 0x87, 0x59, 0x41, 0x4a, 0x85, 0x5b,
+	0x3f, 0xfa, 0xd1, 0x37, 0x95, 0xab, 0xbe, 0xa9, 0xfc, 0xea, 0x9b, 0xca, 0xd7, 0x81, 0xb9, 0x74,
+	0x35, 0x30, 0x97, 0x7e, 0x0e, 0xcc, 0xa5, 0x93, 0xfd, 0x08, 0xa7, 0x8d, 0x73, 0xdf, 0x0e, 0x48,
+	0xdb, 0xc9, 0x5c, 0x3d, 0xc5, 0xc4, 0xf1, 0x5b, 0x24, 0x68, 0x06, 0x0d, 0x0f, 0xc7, 0x4e, 0xcf,
+	0x91, 0x7f, 0x81, 0x97, 0x1d, 0x44, 0xfd, 0x55, 0xf6, 0x77, 0xf6, 0xec, 0x4f, 0x00, 0x00, 0x00,
+	0xff, 0xff, 0xd9, 0x6a, 0x23, 0x1b, 0x1c, 0x0a, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -1087,6 +1248,32 @@ func (m *MsgCreateBucket) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
+	if len(m.InitialObjects) > 0 {
+		for iNdEx := len(m.InitialObjects) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.InitialObjects[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintTx(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0x32
+		}
+	}
+	if m.Session != nil {
+		{
+			size, err := m.Session.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintTx(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x2a
+	}
 	if len(m.Kind) > 0 {
 		i -= len(m.Kind)
 		copy(dAtA[i:], m.Kind)
@@ -1138,6 +1325,30 @@ func (m *MsgCreateBucketResponse) MarshalToSizedBuffer(dAtA []byte) (int, error)
 	_ = i
 	var l int
 	_ = l
+	if m.WhichIs != nil {
+		{
+			size, err := m.WhichIs.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintTx(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x1a
+	}
+	if len(m.Message) > 0 {
+		i -= len(m.Message)
+		copy(dAtA[i:], m.Message)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Message)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if m.Code != 0 {
+		i = encodeVarintTx(dAtA, i, uint64(m.Code))
+		i--
+		dAtA[i] = 0x8
+	}
 	return len(dAtA) - i, nil
 }
 
@@ -1161,10 +1372,22 @@ func (m *MsgReadBucket) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
-	if len(m.Did) > 0 {
-		i -= len(m.Did)
-		copy(dAtA[i:], m.Did)
-		i = encodeVarintTx(dAtA, i, uint64(len(m.Did)))
+	if m.Session != nil {
+		{
+			size, err := m.Session.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintTx(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x1a
+	}
+	if len(m.Label) > 0 {
+		i -= len(m.Label)
+		copy(dAtA[i:], m.Label)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Label)))
 		i--
 		dAtA[i] = 0x12
 	}
@@ -1198,6 +1421,30 @@ func (m *MsgReadBucketResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
+	if m.WhichIs != nil {
+		{
+			size, err := m.WhichIs.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintTx(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x1a
+	}
+	if len(m.Message) > 0 {
+		i -= len(m.Message)
+		copy(dAtA[i:], m.Message)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Message)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if m.Code != 0 {
+		i = encodeVarintTx(dAtA, i, uint64(m.Code))
+		i--
+		dAtA[i] = 0x8
+	}
 	return len(dAtA) - i, nil
 }
 
@@ -1221,24 +1468,57 @@ func (m *MsgUpdateBucket) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
+	if len(m.RemovedObjects) > 0 {
+		for iNdEx := len(m.RemovedObjects) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.RemovedObjects[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintTx(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0x32
+		}
+	}
+	if len(m.AddedObjects) > 0 {
+		for iNdEx := len(m.AddedObjects) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.AddedObjects[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintTx(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0x2a
+		}
+	}
+	if m.Session != nil {
+		{
+			size, err := m.Session.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintTx(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x22
+	}
 	if len(m.Description) > 0 {
 		i -= len(m.Description)
 		copy(dAtA[i:], m.Description)
 		i = encodeVarintTx(dAtA, i, uint64(len(m.Description)))
 		i--
-		dAtA[i] = 0x22
+		dAtA[i] = 0x1a
 	}
 	if len(m.Label) > 0 {
 		i -= len(m.Label)
 		copy(dAtA[i:], m.Label)
 		i = encodeVarintTx(dAtA, i, uint64(len(m.Label)))
-		i--
-		dAtA[i] = 0x1a
-	}
-	if len(m.Did) > 0 {
-		i -= len(m.Did)
-		copy(dAtA[i:], m.Did)
-		i = encodeVarintTx(dAtA, i, uint64(len(m.Did)))
 		i--
 		dAtA[i] = 0x12
 	}
@@ -1272,6 +1552,30 @@ func (m *MsgUpdateBucketResponse) MarshalToSizedBuffer(dAtA []byte) (int, error)
 	_ = i
 	var l int
 	_ = l
+	if m.WhichIs != nil {
+		{
+			size, err := m.WhichIs.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintTx(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x1a
+	}
+	if len(m.Message) > 0 {
+		i -= len(m.Message)
+		copy(dAtA[i:], m.Message)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Message)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if m.Code != 0 {
+		i = encodeVarintTx(dAtA, i, uint64(m.Code))
+		i--
+		dAtA[i] = 0x8
+	}
 	return len(dAtA) - i, nil
 }
 
@@ -1295,10 +1599,15 @@ func (m *MsgDeleteBucket) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
-	if len(m.PublicKey) > 0 {
-		i -= len(m.PublicKey)
-		copy(dAtA[i:], m.PublicKey)
-		i = encodeVarintTx(dAtA, i, uint64(len(m.PublicKey)))
+	if m.Session != nil {
+		{
+			size, err := m.Session.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintTx(dAtA, i, uint64(size))
+		}
 		i--
 		dAtA[i] = 0x1a
 	}
@@ -1339,6 +1648,18 @@ func (m *MsgDeleteBucketResponse) MarshalToSizedBuffer(dAtA []byte) (int, error)
 	_ = i
 	var l int
 	_ = l
+	if len(m.Message) > 0 {
+		i -= len(m.Message)
+		copy(dAtA[i:], m.Message)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Message)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if m.Code != 0 {
+		i = encodeVarintTx(dAtA, i, uint64(m.Code))
+		i--
+		dAtA[i] = 0x8
+	}
 	return len(dAtA) - i, nil
 }
 
@@ -1362,10 +1683,15 @@ func (m *MsgCreateWhichIs) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
-	if len(m.DocumentJson) > 0 {
-		i -= len(m.DocumentJson)
-		copy(dAtA[i:], m.DocumentJson)
-		i = encodeVarintTx(dAtA, i, uint64(len(m.DocumentJson)))
+	if m.Bucket != nil {
+		{
+			size, err := m.Bucket.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintTx(dAtA, i, uint64(size))
+		}
 		i--
 		dAtA[i] = 0x22
 	}
@@ -1436,10 +1762,15 @@ func (m *MsgUpdateWhichIs) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
-	if len(m.DocumentJson) > 0 {
-		i -= len(m.DocumentJson)
-		copy(dAtA[i:], m.DocumentJson)
-		i = encodeVarintTx(dAtA, i, uint64(len(m.DocumentJson)))
+	if m.Bucket != nil {
+		{
+			size, err := m.Bucket.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintTx(dAtA, i, uint64(size))
+		}
 		i--
 		dAtA[i] = 0x22
 	}
@@ -1583,6 +1914,16 @@ func (m *MsgCreateBucket) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovTx(uint64(l))
 	}
+	if m.Session != nil {
+		l = m.Session.Size()
+		n += 1 + l + sovTx(uint64(l))
+	}
+	if len(m.InitialObjects) > 0 {
+		for _, e := range m.InitialObjects {
+			l = e.Size()
+			n += 1 + l + sovTx(uint64(l))
+		}
+	}
 	return n
 }
 
@@ -1592,6 +1933,17 @@ func (m *MsgCreateBucketResponse) Size() (n int) {
 	}
 	var l int
 	_ = l
+	if m.Code != 0 {
+		n += 1 + sovTx(uint64(m.Code))
+	}
+	l = len(m.Message)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	if m.WhichIs != nil {
+		l = m.WhichIs.Size()
+		n += 1 + l + sovTx(uint64(l))
+	}
 	return n
 }
 
@@ -1605,8 +1957,12 @@ func (m *MsgReadBucket) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovTx(uint64(l))
 	}
-	l = len(m.Did)
+	l = len(m.Label)
 	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	if m.Session != nil {
+		l = m.Session.Size()
 		n += 1 + l + sovTx(uint64(l))
 	}
 	return n
@@ -1618,6 +1974,17 @@ func (m *MsgReadBucketResponse) Size() (n int) {
 	}
 	var l int
 	_ = l
+	if m.Code != 0 {
+		n += 1 + sovTx(uint64(m.Code))
+	}
+	l = len(m.Message)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	if m.WhichIs != nil {
+		l = m.WhichIs.Size()
+		n += 1 + l + sovTx(uint64(l))
+	}
 	return n
 }
 
@@ -1631,10 +1998,6 @@ func (m *MsgUpdateBucket) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovTx(uint64(l))
 	}
-	l = len(m.Did)
-	if l > 0 {
-		n += 1 + l + sovTx(uint64(l))
-	}
 	l = len(m.Label)
 	if l > 0 {
 		n += 1 + l + sovTx(uint64(l))
@@ -1642,6 +2005,22 @@ func (m *MsgUpdateBucket) Size() (n int) {
 	l = len(m.Description)
 	if l > 0 {
 		n += 1 + l + sovTx(uint64(l))
+	}
+	if m.Session != nil {
+		l = m.Session.Size()
+		n += 1 + l + sovTx(uint64(l))
+	}
+	if len(m.AddedObjects) > 0 {
+		for _, e := range m.AddedObjects {
+			l = e.Size()
+			n += 1 + l + sovTx(uint64(l))
+		}
+	}
+	if len(m.RemovedObjects) > 0 {
+		for _, e := range m.RemovedObjects {
+			l = e.Size()
+			n += 1 + l + sovTx(uint64(l))
+		}
 	}
 	return n
 }
@@ -1652,6 +2031,17 @@ func (m *MsgUpdateBucketResponse) Size() (n int) {
 	}
 	var l int
 	_ = l
+	if m.Code != 0 {
+		n += 1 + sovTx(uint64(m.Code))
+	}
+	l = len(m.Message)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	if m.WhichIs != nil {
+		l = m.WhichIs.Size()
+		n += 1 + l + sovTx(uint64(l))
+	}
 	return n
 }
 
@@ -1669,8 +2059,8 @@ func (m *MsgDeleteBucket) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovTx(uint64(l))
 	}
-	l = len(m.PublicKey)
-	if l > 0 {
+	if m.Session != nil {
+		l = m.Session.Size()
 		n += 1 + l + sovTx(uint64(l))
 	}
 	return n
@@ -1682,6 +2072,13 @@ func (m *MsgDeleteBucketResponse) Size() (n int) {
 	}
 	var l int
 	_ = l
+	if m.Code != 0 {
+		n += 1 + sovTx(uint64(m.Code))
+	}
+	l = len(m.Message)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
 	return n
 }
 
@@ -1703,8 +2100,8 @@ func (m *MsgCreateWhichIs) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovTx(uint64(l))
 	}
-	l = len(m.DocumentJson)
-	if l > 0 {
+	if m.Bucket != nil {
+		l = m.Bucket.Size()
 		n += 1 + l + sovTx(uint64(l))
 	}
 	return n
@@ -1737,8 +2134,8 @@ func (m *MsgUpdateWhichIs) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovTx(uint64(l))
 	}
-	l = len(m.DocumentJson)
-	if l > 0 {
+	if m.Bucket != nil {
+		l = m.Bucket.Size()
 		n += 1 + l + sovTx(uint64(l))
 	}
 	return n
@@ -1942,6 +2339,76 @@ func (m *MsgCreateBucket) Unmarshal(dAtA []byte) error {
 			}
 			m.Kind = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
+		case 5:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Session", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Session == nil {
+				m.Session = &types.Session{}
+			}
+			if err := m.Session.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 6:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field InitialObjects", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.InitialObjects = append(m.InitialObjects, &types1.ObjectDoc{})
+			if err := m.InitialObjects[len(m.InitialObjects)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
 			skippy, err := skipTx(dAtA[iNdEx:])
@@ -1992,6 +2459,93 @@ func (m *MsgCreateBucketResponse) Unmarshal(dAtA []byte) error {
 			return fmt.Errorf("proto: MsgCreateBucketResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Code", wireType)
+			}
+			m.Code = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Code |= int32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Message", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Message = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field WhichIs", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.WhichIs == nil {
+				m.WhichIs = &WhichIs{}
+			}
+			if err := m.WhichIs.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
 			skippy, err := skipTx(dAtA[iNdEx:])
@@ -2076,7 +2630,7 @@ func (m *MsgReadBucket) Unmarshal(dAtA []byte) error {
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Did", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Label", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -2104,7 +2658,43 @@ func (m *MsgReadBucket) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Did = string(dAtA[iNdEx:postIndex])
+			m.Label = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Session", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Session == nil {
+				m.Session = &types.Session{}
+			}
+			if err := m.Session.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
@@ -2156,6 +2746,93 @@ func (m *MsgReadBucketResponse) Unmarshal(dAtA []byte) error {
 			return fmt.Errorf("proto: MsgReadBucketResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Code", wireType)
+			}
+			m.Code = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Code |= int32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Message", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Message = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field WhichIs", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.WhichIs == nil {
+				m.WhichIs = &WhichIs{}
+			}
+			if err := m.WhichIs.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
 			skippy, err := skipTx(dAtA[iNdEx:])
@@ -2240,38 +2917,6 @@ func (m *MsgUpdateBucket) Unmarshal(dAtA []byte) error {
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Did", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTx
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthTx
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthTx
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Did = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 3:
-			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Label", wireType)
 			}
 			var stringLen uint64
@@ -2302,7 +2947,7 @@ func (m *MsgUpdateBucket) Unmarshal(dAtA []byte) error {
 			}
 			m.Label = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 4:
+		case 3:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Description", wireType)
 			}
@@ -2333,6 +2978,110 @@ func (m *MsgUpdateBucket) Unmarshal(dAtA []byte) error {
 				return io.ErrUnexpectedEOF
 			}
 			m.Description = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 4:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Session", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Session == nil {
+				m.Session = &types.Session{}
+			}
+			if err := m.Session.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 5:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field AddedObjects", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.AddedObjects = append(m.AddedObjects, &types1.ObjectDoc{})
+			if err := m.AddedObjects[len(m.AddedObjects)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 6:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field RemovedObjects", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.RemovedObjects = append(m.RemovedObjects, &types1.ObjectDoc{})
+			if err := m.RemovedObjects[len(m.RemovedObjects)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
@@ -2384,6 +3133,93 @@ func (m *MsgUpdateBucketResponse) Unmarshal(dAtA []byte) error {
 			return fmt.Errorf("proto: MsgUpdateBucketResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Code", wireType)
+			}
+			m.Code = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Code |= int32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Message", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Message = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field WhichIs", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.WhichIs == nil {
+				m.WhichIs = &WhichIs{}
+			}
+			if err := m.WhichIs.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
 			skippy, err := skipTx(dAtA[iNdEx:])
@@ -2500,9 +3336,9 @@ func (m *MsgDeleteBucket) Unmarshal(dAtA []byte) error {
 			iNdEx = postIndex
 		case 3:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field PublicKey", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Session", wireType)
 			}
-			var stringLen uint64
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowTx
@@ -2512,23 +3348,27 @@ func (m *MsgDeleteBucket) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
+			if msglen < 0 {
 				return ErrInvalidLengthTx
 			}
-			postIndex := iNdEx + intStringLen
+			postIndex := iNdEx + msglen
 			if postIndex < 0 {
 				return ErrInvalidLengthTx
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.PublicKey = string(dAtA[iNdEx:postIndex])
+			if m.Session == nil {
+				m.Session = &types.Session{}
+			}
+			if err := m.Session.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
@@ -2580,6 +3420,57 @@ func (m *MsgDeleteBucketResponse) Unmarshal(dAtA []byte) error {
 			return fmt.Errorf("proto: MsgDeleteBucketResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Code", wireType)
+			}
+			m.Code = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Code |= int32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Message", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Message = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
 			skippy, err := skipTx(dAtA[iNdEx:])
@@ -2728,9 +3619,9 @@ func (m *MsgCreateWhichIs) Unmarshal(dAtA []byte) error {
 			iNdEx = postIndex
 		case 4:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field DocumentJson", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Bucket", wireType)
 			}
-			var stringLen uint64
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowTx
@@ -2740,23 +3631,27 @@ func (m *MsgCreateWhichIs) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
+			if msglen < 0 {
 				return ErrInvalidLengthTx
 			}
-			postIndex := iNdEx + intStringLen
+			postIndex := iNdEx + msglen
 			if postIndex < 0 {
 				return ErrInvalidLengthTx
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.DocumentJson = string(dAtA[iNdEx:postIndex])
+			if m.Bucket == nil {
+				m.Bucket = &BucketDoc{}
+			}
+			if err := m.Bucket.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
@@ -2956,9 +3851,9 @@ func (m *MsgUpdateWhichIs) Unmarshal(dAtA []byte) error {
 			iNdEx = postIndex
 		case 4:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field DocumentJson", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Bucket", wireType)
 			}
-			var stringLen uint64
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowTx
@@ -2968,23 +3863,27 @@ func (m *MsgUpdateWhichIs) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
+			if msglen < 0 {
 				return ErrInvalidLengthTx
 			}
-			postIndex := iNdEx + intStringLen
+			postIndex := iNdEx + msglen
 			if postIndex < 0 {
 				return ErrInvalidLengthTx
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.DocumentJson = string(dAtA[iNdEx:postIndex])
+			if m.Bucket == nil {
+				m.Bucket = &BucketDoc{}
+			}
+			if err := m.Bucket.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex

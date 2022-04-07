@@ -1,31 +1,28 @@
 /* eslint-disable */
+import { BucketDoc } from "../bucket/bucket";
 import { Writer, Reader } from "protobufjs/minimal";
 
 export const protobufPackage = "sonrio.sonr.bucket";
 
 export interface WhichIs {
-  index: string;
   did: string;
   /** Document is the DID Document of the registered name and account encoded as JSON */
-  document: Uint8Array;
   creator: string;
+  bucket: BucketDoc | undefined;
 }
 
-const baseWhichIs: object = { index: "", did: "", creator: "" };
+const baseWhichIs: object = { did: "", creator: "" };
 
 export const WhichIs = {
   encode(message: WhichIs, writer: Writer = Writer.create()): Writer {
-    if (message.index !== "") {
-      writer.uint32(10).string(message.index);
-    }
     if (message.did !== "") {
-      writer.uint32(18).string(message.did);
-    }
-    if (message.document.length !== 0) {
-      writer.uint32(26).bytes(message.document);
+      writer.uint32(10).string(message.did);
     }
     if (message.creator !== "") {
-      writer.uint32(34).string(message.creator);
+      writer.uint32(26).string(message.creator);
+    }
+    if (message.bucket !== undefined) {
+      BucketDoc.encode(message.bucket, writer.uint32(34).fork()).ldelim();
     }
     return writer;
   },
@@ -38,16 +35,13 @@ export const WhichIs = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.index = reader.string();
-          break;
-        case 2:
           message.did = reader.string();
           break;
         case 3:
-          message.document = reader.bytes();
+          message.creator = reader.string();
           break;
         case 4:
-          message.creator = reader.string();
+          message.bucket = BucketDoc.decode(reader, reader.uint32());
           break;
         default:
           reader.skipType(tag & 7);
@@ -59,97 +53,55 @@ export const WhichIs = {
 
   fromJSON(object: any): WhichIs {
     const message = { ...baseWhichIs } as WhichIs;
-    if (object.index !== undefined && object.index !== null) {
-      message.index = String(object.index);
-    } else {
-      message.index = "";
-    }
     if (object.did !== undefined && object.did !== null) {
       message.did = String(object.did);
     } else {
       message.did = "";
-    }
-    if (object.document !== undefined && object.document !== null) {
-      message.document = bytesFromBase64(object.document);
     }
     if (object.creator !== undefined && object.creator !== null) {
       message.creator = String(object.creator);
     } else {
       message.creator = "";
     }
+    if (object.bucket !== undefined && object.bucket !== null) {
+      message.bucket = BucketDoc.fromJSON(object.bucket);
+    } else {
+      message.bucket = undefined;
+    }
     return message;
   },
 
   toJSON(message: WhichIs): unknown {
     const obj: any = {};
-    message.index !== undefined && (obj.index = message.index);
     message.did !== undefined && (obj.did = message.did);
-    message.document !== undefined &&
-      (obj.document = base64FromBytes(
-        message.document !== undefined ? message.document : new Uint8Array()
-      ));
     message.creator !== undefined && (obj.creator = message.creator);
+    message.bucket !== undefined &&
+      (obj.bucket = message.bucket
+        ? BucketDoc.toJSON(message.bucket)
+        : undefined);
     return obj;
   },
 
   fromPartial(object: DeepPartial<WhichIs>): WhichIs {
     const message = { ...baseWhichIs } as WhichIs;
-    if (object.index !== undefined && object.index !== null) {
-      message.index = object.index;
-    } else {
-      message.index = "";
-    }
     if (object.did !== undefined && object.did !== null) {
       message.did = object.did;
     } else {
       message.did = "";
-    }
-    if (object.document !== undefined && object.document !== null) {
-      message.document = object.document;
-    } else {
-      message.document = new Uint8Array();
     }
     if (object.creator !== undefined && object.creator !== null) {
       message.creator = object.creator;
     } else {
       message.creator = "";
     }
+    if (object.bucket !== undefined && object.bucket !== null) {
+      message.bucket = BucketDoc.fromPartial(object.bucket);
+    } else {
+      message.bucket = undefined;
+    }
     return message;
   },
 };
-
-declare var self: any | undefined;
-declare var window: any | undefined;
-var globalThis: any = (() => {
-  if (typeof globalThis !== "undefined") return globalThis;
-  if (typeof self !== "undefined") return self;
-  if (typeof window !== "undefined") return window;
-  if (typeof global !== "undefined") return global;
-  throw "Unable to locate global object";
-})();
-
-const atob: (b64: string) => string =
-  globalThis.atob ||
-  ((b64) => globalThis.Buffer.from(b64, "base64").toString("binary"));
-function bytesFromBase64(b64: string): Uint8Array {
-  const bin = atob(b64);
-  const arr = new Uint8Array(bin.length);
-  for (let i = 0; i < bin.length; ++i) {
-    arr[i] = bin.charCodeAt(i);
-  }
-  return arr;
-}
-
-const btoa: (bin: string) => string =
-  globalThis.btoa ||
-  ((bin) => globalThis.Buffer.from(bin, "binary").toString("base64"));
-function base64FromBytes(arr: Uint8Array): string {
-  const bin: string[] = [];
-  for (let i = 0; i < arr.byteLength; ++i) {
-    bin.push(String.fromCharCode(arr[i]));
-  }
-  return btoa(bin.join(""));
-}
 
 type Builtin = Date | Function | Uint8Array | string | number | undefined;
 export type DeepPartial<T> = T extends Builtin
