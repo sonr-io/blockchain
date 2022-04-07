@@ -522,10 +522,7 @@ export interface FullRequestParams extends Omit<RequestInit, "body"> {
   cancelToken?: CancelToken;
 }
 
-export type RequestParams = Omit<
-  FullRequestParams,
-  "body" | "method" | "query" | "path"
->;
+export type RequestParams = Omit<FullRequestParams, "body" | "method" | "query" | "path">;
 
 export interface ApiConfig<SecurityDataType = unknown> {
   baseUrl?: string;
@@ -533,8 +530,7 @@ export interface ApiConfig<SecurityDataType = unknown> {
   securityWorker?: (securityData: SecurityDataType) => RequestParams | void;
 }
 
-export interface HttpResponse<D extends unknown, E extends unknown = unknown>
-  extends Response {
+export interface HttpResponse<D extends unknown, E extends unknown = unknown> extends Response {
   data: D;
   error: E;
 }
@@ -550,8 +546,7 @@ export enum ContentType {
 export class HttpClient<SecurityDataType = unknown> {
   public baseUrl: string = "";
   private securityData: SecurityDataType = null as any;
-  private securityWorker: null | ApiConfig<SecurityDataType>["securityWorker"] =
-    null;
+  private securityWorker: null | ApiConfig<SecurityDataType>["securityWorker"] = null;
   private abortControllers = new Map<CancelToken, AbortController>();
 
   private baseApiParams: RequestParams = {
@@ -575,26 +570,18 @@ export class HttpClient<SecurityDataType = unknown> {
     return (
       encodeURIComponent(key) +
       "=" +
-      encodeURIComponent(
-        Array.isArray(value)
-          ? value.join(",")
-          : typeof value === "number"
-          ? value
-          : `${value}`
-      )
+      encodeURIComponent(Array.isArray(value) ? value.join(",") : typeof value === "number" ? value : `${value}`)
     );
   }
 
   protected toQueryString(rawQuery?: QueryParamsType): string {
     const query = rawQuery || {};
-    const keys = Object.keys(query).filter(
-      (key) => "undefined" !== typeof query[key]
-    );
+    const keys = Object.keys(query).filter((key) => "undefined" !== typeof query[key]);
     return keys
       .map((key) =>
         typeof query[key] === "object" && !Array.isArray(query[key])
           ? this.toQueryString(query[key] as QueryParamsType)
-          : this.addQueryParam(query, key)
+          : this.addQueryParam(query, key),
       )
       .join("&");
   }
@@ -606,9 +593,7 @@ export class HttpClient<SecurityDataType = unknown> {
 
   private contentFormatters: Record<ContentType, (input: any) => any> = {
     [ContentType.Json]: (input: any) =>
-      input !== null && (typeof input === "object" || typeof input === "string")
-        ? JSON.stringify(input)
-        : input,
+      input !== null && (typeof input === "object" || typeof input === "string") ? JSON.stringify(input) : input,
     [ContentType.FormData]: (input: any) =>
       Object.keys(input || {}).reduce((data, key) => {
         data.append(key, input[key]);
@@ -617,10 +602,7 @@ export class HttpClient<SecurityDataType = unknown> {
     [ContentType.UrlEncoded]: (input: any) => this.toQueryString(input),
   };
 
-  private mergeRequestParams(
-    params1: RequestParams,
-    params2?: RequestParams
-  ): RequestParams {
+  private mergeRequestParams(params1: RequestParams, params2?: RequestParams): RequestParams {
     return {
       ...this.baseApiParams,
       ...params1,
@@ -633,9 +615,7 @@ export class HttpClient<SecurityDataType = unknown> {
     };
   }
 
-  private createAbortSignal = (
-    cancelToken: CancelToken
-  ): AbortSignal | undefined => {
+  private createAbortSignal = (cancelToken: CancelToken): AbortSignal | undefined => {
     if (this.abortControllers.has(cancelToken)) {
       const abortController = this.abortControllers.get(cancelToken);
       if (abortController) {
@@ -669,37 +649,23 @@ export class HttpClient<SecurityDataType = unknown> {
     cancelToken,
     ...params
   }: FullRequestParams): Promise<HttpResponse<T, E>> => {
-    const secureParams =
-      (secure &&
-        this.securityWorker &&
-        this.securityWorker(this.securityData)) ||
-      {};
+    const secureParams = (secure && this.securityWorker && this.securityWorker(this.securityData)) || {};
     const requestParams = this.mergeRequestParams(params, secureParams);
     const queryString = query && this.toQueryString(query);
     const payloadFormatter = this.contentFormatters[type || ContentType.Json];
 
-    return fetch(
-      `${baseUrl || this.baseUrl || ""}${path}${
-        queryString ? `?${queryString}` : ""
-      }`,
-      {
-        ...requestParams,
-        headers: {
-          ...(type && type !== ContentType.FormData
-            ? { "Content-Type": type }
-            : {}),
-          ...(requestParams.headers || {}),
-        },
-        signal: cancelToken ? this.createAbortSignal(cancelToken) : void 0,
-        body:
-          typeof body === "undefined" || body === null
-            ? null
-            : payloadFormatter(body),
-      }
-    ).then(async (response) => {
+    return fetch(`${baseUrl || this.baseUrl || ""}${path}${queryString ? `?${queryString}` : ""}`, {
+      ...requestParams,
+      headers: {
+        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
+        ...(requestParams.headers || {}),
+      },
+      signal: cancelToken ? this.createAbortSignal(cancelToken) : void 0,
+      body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
+    }).then(async (response) => {
       const r = response as HttpResponse<T, E>;
-      r.data = null as unknown as T;
-      r.error = null as unknown as E;
+      r.data = (null as unknown) as T;
+      r.error = (null as unknown) as E;
 
       const data = await response[format]()
         .then((data) => {
@@ -729,9 +695,7 @@ export class HttpClient<SecurityDataType = unknown> {
  * @title bucket/bucket.proto
  * @version version not set
  */
-export class Api<
-  SecurityDataType extends unknown
-> extends HttpClient<SecurityDataType> {
+export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
   /**
    * No description
    *
@@ -748,7 +712,7 @@ export class Api<
       "pagination.count_total"?: boolean;
       "pagination.reverse"?: boolean;
     },
-    params: RequestParams = {}
+    params: RequestParams = {},
   ) =>
     this.request<BucketQueryAllWhichIsResponse, RpcStatus>({
       path: `/sonr-io/sonr/bucket/which_is`,

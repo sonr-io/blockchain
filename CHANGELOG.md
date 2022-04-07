@@ -25,11 +25,14 @@
   - `CreateChannel()`
   - `CreateBucket()`
 
+- Added TaskFile commands for `Serve`, `Start`, `Build`, and `Clean`
+
 ### Removed
 
 - Removed `x/blob` module for less complex Document structure
 - Removed Peer type definition from `x/registry`
 - Removed ServiceConfig type definition from `x/registry`
+- Removed Buf.Build configuration from all proto
 
 ### Changed
 
@@ -41,3 +44,4 @@
 - Added **Session** to all `x/{module}` modules transaction messages
 - Upgraded Object to utilize Transformation methods to allow for more complex data structures
 - Modified **CUD** Messages to utilized Record for each module specific storage
+
