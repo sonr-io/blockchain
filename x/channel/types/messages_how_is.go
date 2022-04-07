@@ -22,7 +22,7 @@ func NewMsgCreateHowIs(
 ) *MsgCreateHowIs {
 	return &MsgCreateHowIs{
 		Creator: creator,
-		Did:   index,
+		Did:     index,
 		Channel: c,
 	}
 }
@@ -67,7 +67,7 @@ func NewMsgUpdateHowIs(
 ) *MsgUpdateHowIs {
 	return &MsgUpdateHowIs{
 		Creator: creator,
-		Did:   index,
+		Did:     index,
 		Channel: c,
 	}
 }
@@ -110,7 +110,7 @@ func NewMsgDeleteHowIs(
 ) *MsgDeleteHowIs {
 	return &MsgDeleteHowIs{
 		Creator: creator,
-		Did:   index,
+		Did:     index,
 	}
 }
 func (msg *MsgDeleteHowIs) Route() string {

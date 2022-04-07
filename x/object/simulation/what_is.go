@@ -28,7 +28,7 @@ func SimulateMsgCreateWhatIs(
 		i := r.Int()
 		msg := &types.MsgCreateWhatIs{
 			Creator: simAccount.Address.String(),
-			Did:   strconv.Itoa(i),
+			Did:     strconv.Itoa(i),
 		}
 
 		_, found := k.GetWhatIs(ctx, msg.Did)

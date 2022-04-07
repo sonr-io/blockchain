@@ -28,7 +28,7 @@ func SimulateMsgCreateWhoIs(
 		i := r.Int()
 		msg := &types.MsgCreateWhoIs{
 			Creator: simAccount.Address.String(),
-			Did:   strconv.Itoa(i),
+			Did:     strconv.Itoa(i),
 		}
 
 		_, found := k.GetWhoIs(ctx, msg.Did)

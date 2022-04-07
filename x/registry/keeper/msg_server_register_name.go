@@ -64,7 +64,7 @@ func (k msgServer) RegisterName(goCtx context.Context, msg *types.MsgRegisterNam
 
 	// Return the DID and WhoIs information
 	return &types.MsgRegisterNameResponse{
-		
+
 		WhoIs:   &newWhois,
 		Session: session,
 	}, nil

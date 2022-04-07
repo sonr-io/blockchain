@@ -22,7 +22,7 @@ func (k msgServer) CreateWhatIs(goCtx context.Context, msg *types.MsgCreateWhatI
 
 	var whatIs = types.WhatIs{
 		Creator:   msg.Creator,
-		Did:     msg.Did,
+		Did:       msg.Did,
 		ObjectDoc: msg.GetObjectDoc(),
 	}
 
@@ -52,7 +52,7 @@ func (k msgServer) UpdateWhatIs(goCtx context.Context, msg *types.MsgUpdateWhatI
 
 	var whatIs = types.WhatIs{
 		Creator:   msg.Creator,
-		Did:     msg.Did,
+		Did:       msg.Did,
 		ObjectDoc: msg.GetObjectDoc(),
 	}
 

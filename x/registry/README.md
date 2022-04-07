@@ -26,7 +26,6 @@ The record type utilized in the **Registry module** is the `WhoIs` type. This ty
     - (`string`) ApplicationURL         : Website/Homepage of the App
     - (`string`) ApplicationCategory    : Category of the Application Type
 
-
 ## Status Codes
 
 WIP

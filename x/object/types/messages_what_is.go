@@ -21,7 +21,7 @@ func NewMsgCreateWhatIs(
 ) *MsgCreateWhatIs {
 	return &MsgCreateWhatIs{
 		Creator:   creator,
-		Did:     index,
+		Did:       index,
 		ObjectDoc: obj,
 	}
 }
@@ -65,7 +65,7 @@ func NewMsgUpdateWhatIs(
 ) *MsgUpdateWhatIs {
 	return &MsgUpdateWhatIs{
 		Creator:   creator,
-		Did:     index,
+		Did:       index,
 		ObjectDoc: obj,
 	}
 }
@@ -108,7 +108,7 @@ func NewMsgDeleteWhatIs(
 ) *MsgDeleteWhatIs {
 	return &MsgDeleteWhatIs{
 		Creator: creator,
-		Did:   index,
+		Did:     index,
 	}
 }
 func (msg *MsgDeleteWhatIs) Route() string {

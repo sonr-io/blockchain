@@ -62,13 +62,14 @@
 </div>
 
 ## Table of Contents
+
 - [Table of Contents](#table-of-contents)
 - [Getting Started](#getting-started)
   - [Overview](#overview)
   - [Configuration](#configuration)
   - [Resources](#resources)
     - [Module Documentation](#module-documentation)
-    - [Additional  Specs](#additional--specs)
+    - [Additional Specs](#additional--specs)
 - [Install](#install)
   - [Requirements](#requirements)
     - [Development](#development)
@@ -89,7 +90,6 @@
 Sonr is building the most immersive DWeb experience for both Users and Developers alike. We believe the best way to onboard the next billion users is to create a cohesive end-to-end platform that’s composable and interoperable with all existing protocols.
 
 For this we built our Networking layer in [Libp2p](“https://libp2p.io”) and our Layer 1 Blockchain with [Starport](“https://starport.com”). Our network comprises of two separate nodes: [Highway](“https://github.com/sonr-io/highway”) and [Motor](“https://github.com/sonr-io/motor”), which each have a specific use case on the network. In order to maximize the onboarding experience, we developed our own [Wallet](“https://github.com/sonr-io/wallet) which has value out of the gate!
-
 
 ### Overview
 
@@ -114,16 +114,19 @@ This project is a pseudo-monorepo, meaning it has a single root directory and al
   └─ registry    ->        +   Name and Service Registration
 ```
 
-
 ### Resources
+
 Docs and guides to help you understand the Sonr ecosystem.
+
 #### Module Documentation
+
 - [Buckets](./x/bucket/README.md)
 - [Channels](./x/channel/README.md)
 - [Objects](./x/object/README.md)
 - [Registry](./x/registry/README.md)
 
-#### Additional  Specs
+#### Additional Specs
+
 - [Official Docs](https://docs.sonr.io)
 - [DID Spec](https://docs.google.com/presentation/d/1AwSkO6s0UQ1YHCIOT5Ue5-gcIuvie5q4f3cAiAj6lr8/edit?usp=sharing)
 

@@ -22,7 +22,7 @@ func (k msgServer) CreateHowIs(goCtx context.Context, msg *types.MsgCreateHowIs)
 
 	var howIs = types.HowIs{
 		Creator: msg.Creator,
-		Did:   msg.Did,
+		Did:     msg.Did,
 		Channel: msg.Channel,
 	}
 
@@ -52,7 +52,7 @@ func (k msgServer) UpdateHowIs(goCtx context.Context, msg *types.MsgUpdateHowIs)
 
 	var howIs = types.HowIs{
 		Creator: msg.Creator,
-		Did:   msg.Did,
+		Did:     msg.Did,
 		Channel: msg.Channel,
 	}
 

@@ -22,7 +22,7 @@ func (k msgServer) CreateWhichIs(goCtx context.Context, msg *types.MsgCreateWhic
 
 	var whichIs = types.WhichIs{
 		Creator: msg.Creator,
-		Did:   msg.Did,
+		Did:     msg.Did,
 		Bucket:  msg.Bucket,
 	}
 
@@ -52,7 +52,7 @@ func (k msgServer) UpdateWhichIs(goCtx context.Context, msg *types.MsgUpdateWhic
 
 	var whichIs = types.WhichIs{
 		Creator: msg.Creator,
-		Did:   msg.Did,
+		Did:     msg.Did,
 		Bucket:  msg.Bucket,
 	}
 
