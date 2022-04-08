@@ -5,6 +5,7 @@ import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "channel/params.proto";
+import "registry/who_is.proto";
 import "channel/how_is.proto";
 // this line is used by starport scaffolding # 1
 
@@ -40,6 +41,7 @@ message QueryParamsResponse {
 
 message QueryGetHowIsRequest {
 	  string index = 1;
+	    sonrio.sonr.registry.Session session = 2;
 }
 
 message QueryGetHowIsResponse {
@@ -48,6 +50,7 @@ message QueryGetHowIsResponse {
 
 message QueryAllHowIsRequest {
 	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+	sonrio.sonr.registry.Session session = 2;
 }
 
 message QueryAllHowIsResponse {

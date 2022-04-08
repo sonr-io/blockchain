@@ -14,17 +14,18 @@ func (k msgServer) CreateWhoIs(goCtx context.Context, msg *types.MsgCreateWhoIs)
 	// Check if the value already exists
 	_, isFound := k.GetWhoIs(
 		ctx,
-		msg.Index,
+		msg.Did,
 	)
 	if isFound {
 		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "index already set")
 	}
 
 	var whoIs = types.WhoIs{
-		Creator:  msg.Creator,
-		Name:     msg.Index,
-		Did:      msg.Did,
-		Document: []byte(msg.Value),
+		Creator:     msg.Creator,
+		Name:        msg.Name,
+		Did:         msg.Did,
+		Document:    msg.Document,
+		Credentials: msg.Credentials,
 	}
 
 	k.SetWhoIs(
@@ -40,7 +41,7 @@ func (k msgServer) UpdateWhoIs(goCtx context.Context, msg *types.MsgUpdateWhoIs)
 	// Check if the value exists
 	valFound, isFound := k.GetWhoIs(
 		ctx,
-		msg.Index,
+		msg.Did,
 	)
 	if !isFound {
 		return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, "index not set")
@@ -52,10 +53,11 @@ func (k msgServer) UpdateWhoIs(goCtx context.Context, msg *types.MsgUpdateWhoIs)
 	}
 
 	var whoIs = types.WhoIs{
-		Creator:  msg.Creator,
-		Name:     msg.Index,
-		Did:      msg.Did,
-		Document: []byte(msg.Value),
+		Creator:     msg.Creator,
+		Name:        valFound.Name,
+		Did:         msg.Did,
+		Document:    msg.Document,
+		Credentials: msg.Credentials,
 	}
 
 	k.SetWhoIs(ctx, whoIs)
@@ -69,7 +71,7 @@ func (k msgServer) DeleteWhoIs(goCtx context.Context, msg *types.MsgDeleteWhoIs)
 	// Check if the value exists
 	valFound, isFound := k.GetWhoIs(
 		ctx,
-		msg.Index,
+		msg.Did,
 	)
 	if !isFound {
 		return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, "index not set")
@@ -82,7 +84,7 @@ func (k msgServer) DeleteWhoIs(goCtx context.Context, msg *types.MsgDeleteWhoIs)
 
 	k.RemoveWhoIs(
 		ctx,
-		msg.Index,
+		msg.Did,
 	)
 
 	return &types.MsgDeleteWhoIsResponse{}, nil

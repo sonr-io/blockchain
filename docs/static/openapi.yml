@@ -27679,223 +27679,6 @@ paths:
           format: uint64
       tags:
         - Query
-  /sonr-io/sonr/blob/there_is:
-    get:
-      summary: Queries a list of ThereIs items.
-      operationId: SonrioSonrBlobThereIsAll
-      responses:
-        '200':
-          description: A successful response.
-          schema:
-            type: object
-            properties:
-              thereIs:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    index:
-                      type: string
-                    did:
-                      type: string
-                    document:
-                      type: string
-                      format: byte
-                      title: >-
-                        Document is the DID Document of the registered name and
-                        account encoded as JSON
-                    creator:
-                      type: string
-              pagination:
-                type: object
-                properties:
-                  next_key:
-                    type: string
-                    format: byte
-                    title: |-
-                      next_key is the key to be passed to PageRequest.key to
-                      query the next page most efficiently
-                  total:
-                    type: string
-                    format: uint64
-                    title: >-
-                      total is total number of results available if
-                      PageRequest.count_total
-
-                      was set, its value is undefined otherwise
-                description: >-
-                  PageResponse is to be embedded in gRPC response messages where
-                  the
-
-                  corresponding request message has used PageRequest.
-
-                   message SomeResponse {
-                           repeated Bar results = 1;
-                           PageResponse page = 2;
-                   }
-        default:
-          description: An unexpected error response.
-          schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                format: int32
-              message:
-                type: string
-              details:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    '@type':
-                      type: string
-                  additionalProperties: {}
-      parameters:
-        - name: pagination.key
-          description: |-
-            key is a value returned in PageResponse.next_key to begin
-            querying the next page most efficiently. Only one of offset or key
-            should be set.
-          in: query
-          required: false
-          type: string
-          format: byte
-        - name: pagination.offset
-          description: >-
-            offset is a numeric offset that can be used when key is unavailable.
-
-            It is less efficient than using key. Only one of offset or key
-            should
-
-            be set.
-          in: query
-          required: false
-          type: string
-          format: uint64
-        - name: pagination.limit
-          description: >-
-            limit is the total number of results to be returned in the result
-            page.
-
-            If left empty it will default to a value to be set by each app.
-          in: query
-          required: false
-          type: string
-          format: uint64
-        - name: pagination.count_total
-          description: >-
-            count_total is set to true  to indicate that the result set should
-            include
-
-            a count of the total number of items available for pagination in
-            UIs.
-
-            count_total is only respected when offset is used. It is ignored
-            when key
-
-            is set.
-          in: query
-          required: false
-          type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-
-
-            Since: cosmos-sdk 0.43
-          in: query
-          required: false
-          type: boolean
-      tags:
-        - Query
-  '/sonr-io/sonr/blob/there_is/{index}':
-    get:
-      summary: Queries a ThereIs by index.
-      operationId: SonrioSonrBlobThereIs
-      responses:
-        '200':
-          description: A successful response.
-          schema:
-            type: object
-            properties:
-              thereIs:
-                type: object
-                properties:
-                  index:
-                    type: string
-                  did:
-                    type: string
-                  document:
-                    type: string
-                    format: byte
-                    title: >-
-                      Document is the DID Document of the registered name and
-                      account encoded as JSON
-                  creator:
-                    type: string
-        default:
-          description: An unexpected error response.
-          schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                format: int32
-              message:
-                type: string
-              details:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    '@type':
-                      type: string
-                  additionalProperties: {}
-      parameters:
-        - name: index
-          in: path
-          required: true
-          type: string
-      tags:
-        - Query
-  /sonrio/sonr/blob/params:
-    get:
-      summary: Parameters queries the parameters of the module.
-      operationId: SonrioSonrBlobParams
-      responses:
-        '200':
-          description: A successful response.
-          schema:
-            type: object
-            properties:
-              params:
-                description: params holds all the parameters of this module.
-                type: object
-            description: >-
-              QueryParamsResponse is response type for the Query/Params RPC
-              method.
-        default:
-          description: An unexpected error response.
-          schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                format: int32
-              message:
-                type: string
-              details:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    '@type':
-                      type: string
-                  additionalProperties: {}
-      tags:
-        - Query
   /sonr-io/sonr/bucket/which_is:
     get:
       summary: Queries a list of WhichIs items.
@@ -27911,18 +27694,43 @@ paths:
                 items:
                   type: object
                   properties:
-                    index:
-                      type: string
                     did:
                       type: string
-                    document:
+                    creator:
                       type: string
-                      format: byte
                       title: >-
                         Document is the DID Document of the registered name and
                         account encoded as JSON
-                    creator:
-                      type: string
+                    bucket:
+                      type: object
+                      properties:
+                        label:
+                          type: string
+                          description: Label is human-readable name of the bucket.
+                        description:
+                          type: string
+                          description: >-
+                            Description is a human-readable description of the
+                            bucket.
+                        type:
+                          description: >-
+                            Type is the kind of bucket for either App specific
+                            or User specific data.
+                          type: string
+                          enum:
+                            - BUCKET_TYPE_UNSPECIFIED
+                            - BUCKET_TYPE_APP
+                            - BUCKET_TYPE_USER
+                          default: BUCKET_TYPE_UNSPECIFIED
+                        did:
+                          type: string
+                          description: Did is the identifier of the bucket.
+                        object_dids:
+                          type: array
+                          items:
+                            type: string
+                          description: Objects are stored in a tree structure.
+                      description: Bucket is a collection of objects.
               pagination:
                 type: object
                 properties:
@@ -28022,6 +27830,120 @@ paths:
 
 
             Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
+        - name: session.base_did
+          description: Base DID is the current Account or Application whois DID url
+          in: query
+          required: false
+          type: string
+        - name: session.whois.name
+          description: Name is the registered name of the User or Application
+          in: query
+          required: false
+          type: string
+        - name: session.whois.did
+          description: DID is the DID of the account
+          in: query
+          required: false
+          type: string
+        - name: session.whois.document
+          description: >-
+            Document is the DID Document of the registered name and account
+            encoded as JSON
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: session.whois.creator
+          description: Creator is the DID of the creator of the DID Document
+          in: query
+          required: false
+          type: string
+        - name: session.whois.type
+          description: |-
+            Type is the type of the registered name
+
+             - User: User is the type of the registered name
+             - Application: Application is the type of the registered name
+          in: query
+          required: false
+          type: string
+          enum:
+            - User
+            - Application
+          default: User
+        - name: session.credential.i_d
+          description: >-
+            A probabilistically-unique byte sequence identifying a public key
+            credential source and its authentication assertions.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: session.credential.public_key
+          description: >-
+            The public key portion of a Relying Party-specific credential key
+            pair, generated by an authenticator and returned to
+
+            a Relying Party at registration time (see also public key
+            credential). The private key portion of the credential key
+
+            pair is known as the credential private key. Note that in the case
+            of self attestation, the credential key pair is also
+
+            used as the attestation key pair, see self attestation for details.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: session.credential.attestation_type
+          description: >-
+            The attestation format used (if any) by the authenticator when
+            creating the credential.
+          in: query
+          required: false
+          type: string
+        - name: session.credential.authenticator.aaguid
+          description: >-
+            The AAGUID of the authenticator. An AAGUID is defined as an array
+            containing the globally unique
+
+            identifier of the authenticator model being sought.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: session.credential.authenticator.sign_count
+          description: >-
+            SignCount -Upon a new login operation, the Relying Party compares
+            the stored signature counter value
+
+            with the new sign_count value returned in the assertion’s
+            authenticator data. If this new
+
+            signCount value is less than or equal to the stored value, a cloned
+            authenticator may
+
+            exist, or the authenticator may be malfunctioning.
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: session.credential.authenticator.clone_warning
+          description: >-
+            CloneWarning - This is a signal that the authenticator may be
+            cloned, i.e. at least two copies of the
+
+            credential private key may exist and are being used in parallel.
+            Relying Parties should incorporate
+
+            this information into their risk scoring. Whether the Relying Party
+            updates the stored signature
+
+            counter value in this case, or not, or fails the authentication
+            ceremony or not, is Relying Party-specific.
           in: query
           required: false
           type: boolean
@@ -28040,18 +27962,43 @@ paths:
               whichIs:
                 type: object
                 properties:
-                  index:
-                    type: string
                   did:
                     type: string
-                  document:
+                  creator:
                     type: string
-                    format: byte
                     title: >-
                       Document is the DID Document of the registered name and
                       account encoded as JSON
-                  creator:
-                    type: string
+                  bucket:
+                    type: object
+                    properties:
+                      label:
+                        type: string
+                        description: Label is human-readable name of the bucket.
+                      description:
+                        type: string
+                        description: >-
+                          Description is a human-readable description of the
+                          bucket.
+                      type:
+                        description: >-
+                          Type is the kind of bucket for either App specific or
+                          User specific data.
+                        type: string
+                        enum:
+                          - BUCKET_TYPE_UNSPECIFIED
+                          - BUCKET_TYPE_APP
+                          - BUCKET_TYPE_USER
+                        default: BUCKET_TYPE_UNSPECIFIED
+                      did:
+                        type: string
+                        description: Did is the identifier of the bucket.
+                      object_dids:
+                        type: array
+                        items:
+                          type: string
+                        description: Objects are stored in a tree structure.
+                    description: Bucket is a collection of objects.
         default:
           description: An unexpected error response.
           schema:
@@ -28075,6 +28022,120 @@ paths:
           in: path
           required: true
           type: string
+        - name: session.base_did
+          description: Base DID is the current Account or Application whois DID url
+          in: query
+          required: false
+          type: string
+        - name: session.whois.name
+          description: Name is the registered name of the User or Application
+          in: query
+          required: false
+          type: string
+        - name: session.whois.did
+          description: DID is the DID of the account
+          in: query
+          required: false
+          type: string
+        - name: session.whois.document
+          description: >-
+            Document is the DID Document of the registered name and account
+            encoded as JSON
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: session.whois.creator
+          description: Creator is the DID of the creator of the DID Document
+          in: query
+          required: false
+          type: string
+        - name: session.whois.type
+          description: |-
+            Type is the type of the registered name
+
+             - User: User is the type of the registered name
+             - Application: Application is the type of the registered name
+          in: query
+          required: false
+          type: string
+          enum:
+            - User
+            - Application
+          default: User
+        - name: session.credential.i_d
+          description: >-
+            A probabilistically-unique byte sequence identifying a public key
+            credential source and its authentication assertions.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: session.credential.public_key
+          description: >-
+            The public key portion of a Relying Party-specific credential key
+            pair, generated by an authenticator and returned to
+
+            a Relying Party at registration time (see also public key
+            credential). The private key portion of the credential key
+
+            pair is known as the credential private key. Note that in the case
+            of self attestation, the credential key pair is also
+
+            used as the attestation key pair, see self attestation for details.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: session.credential.attestation_type
+          description: >-
+            The attestation format used (if any) by the authenticator when
+            creating the credential.
+          in: query
+          required: false
+          type: string
+        - name: session.credential.authenticator.aaguid
+          description: >-
+            The AAGUID of the authenticator. An AAGUID is defined as an array
+            containing the globally unique
+
+            identifier of the authenticator model being sought.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: session.credential.authenticator.sign_count
+          description: >-
+            SignCount -Upon a new login operation, the Relying Party compares
+            the stored signature counter value
+
+            with the new sign_count value returned in the assertion’s
+            authenticator data. If this new
+
+            signCount value is less than or equal to the stored value, a cloned
+            authenticator may
+
+            exist, or the authenticator may be malfunctioning.
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: session.credential.authenticator.clone_warning
+          description: >-
+            CloneWarning - This is a signal that the authenticator may be
+            cloned, i.e. at least two copies of the
+
+            credential private key may exist and are being used in parallel.
+            Relying Parties should incorporate
+
+            this information into their risk scoring. Whether the Relying Party
+            updates the stored signature
+
+            counter value in this case, or not, or fails the authentication
+            ceremony or not, is Relying Party-specific.
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   /sonrio/sonr/bucket/params:
@@ -28121,52 +28182,7 @@ paths:
         '200':
           description: A successful response.
           schema:
-            type: object
-            properties:
-              howIs:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    index:
-                      type: string
-                    did:
-                      type: string
-                    document:
-                      type: string
-                      format: byte
-                      title: >-
-                        Document is the DID Document of the registered name and
-                        account encoded as JSON
-                    creator:
-                      type: string
-              pagination:
-                type: object
-                properties:
-                  next_key:
-                    type: string
-                    format: byte
-                    title: |-
-                      next_key is the key to be passed to PageRequest.key to
-                      query the next page most efficiently
-                  total:
-                    type: string
-                    format: uint64
-                    title: >-
-                      total is total number of results available if
-                      PageRequest.count_total
-
-                      was set, its value is undefined otherwise
-                description: >-
-                  PageResponse is to be embedded in gRPC response messages where
-                  the
-
-                  corresponding request message has used PageRequest.
-
-                   message SomeResponse {
-                           repeated Bar results = 1;
-                           PageResponse page = 2;
-                   }
+            $ref: '#/definitions/sonrio.sonr.channel.QueryAllHowIsResponse'
         default:
           description: An unexpected error response.
           schema:
@@ -28242,6 +28258,120 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: session.base_did
+          description: Base DID is the current Account or Application whois DID url
+          in: query
+          required: false
+          type: string
+        - name: session.whois.name
+          description: Name is the registered name of the User or Application
+          in: query
+          required: false
+          type: string
+        - name: session.whois.did
+          description: DID is the DID of the account
+          in: query
+          required: false
+          type: string
+        - name: session.whois.document
+          description: >-
+            Document is the DID Document of the registered name and account
+            encoded as JSON
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: session.whois.creator
+          description: Creator is the DID of the creator of the DID Document
+          in: query
+          required: false
+          type: string
+        - name: session.whois.type
+          description: |-
+            Type is the type of the registered name
+
+             - User: User is the type of the registered name
+             - Application: Application is the type of the registered name
+          in: query
+          required: false
+          type: string
+          enum:
+            - User
+            - Application
+          default: User
+        - name: session.credential.i_d
+          description: >-
+            A probabilistically-unique byte sequence identifying a public key
+            credential source and its authentication assertions.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: session.credential.public_key
+          description: >-
+            The public key portion of a Relying Party-specific credential key
+            pair, generated by an authenticator and returned to
+
+            a Relying Party at registration time (see also public key
+            credential). The private key portion of the credential key
+
+            pair is known as the credential private key. Note that in the case
+            of self attestation, the credential key pair is also
+
+            used as the attestation key pair, see self attestation for details.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: session.credential.attestation_type
+          description: >-
+            The attestation format used (if any) by the authenticator when
+            creating the credential.
+          in: query
+          required: false
+          type: string
+        - name: session.credential.authenticator.aaguid
+          description: >-
+            The AAGUID of the authenticator. An AAGUID is defined as an array
+            containing the globally unique
+
+            identifier of the authenticator model being sought.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: session.credential.authenticator.sign_count
+          description: >-
+            SignCount -Upon a new login operation, the Relying Party compares
+            the stored signature counter value
+
+            with the new sign_count value returned in the assertion’s
+            authenticator data. If this new
+
+            signCount value is less than or equal to the stored value, a cloned
+            authenticator may
+
+            exist, or the authenticator may be malfunctioning.
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: session.credential.authenticator.clone_warning
+          description: >-
+            CloneWarning - This is a signal that the authenticator may be
+            cloned, i.e. at least two copies of the
+
+            credential private key may exist and are being used in parallel.
+            Relying Parties should incorporate
+
+            this information into their risk scoring. Whether the Relying Party
+            updates the stored signature
+
+            counter value in this case, or not, or fails the authentication
+            ceremony or not, is Relying Party-specific.
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/sonr-io/sonr/channel/how_is/{index}':
@@ -28252,23 +28382,7 @@ paths:
         '200':
           description: A successful response.
           schema:
-            type: object
-            properties:
-              howIs:
-                type: object
-                properties:
-                  index:
-                    type: string
-                  did:
-                    type: string
-                  document:
-                    type: string
-                    format: byte
-                    title: >-
-                      Document is the DID Document of the registered name and
-                      account encoded as JSON
-                  creator:
-                    type: string
+            $ref: '#/definitions/sonrio.sonr.channel.QueryGetHowIsResponse'
         default:
           description: An unexpected error response.
           schema:
@@ -28292,6 +28406,120 @@ paths:
           in: path
           required: true
           type: string
+        - name: session.base_did
+          description: Base DID is the current Account or Application whois DID url
+          in: query
+          required: false
+          type: string
+        - name: session.whois.name
+          description: Name is the registered name of the User or Application
+          in: query
+          required: false
+          type: string
+        - name: session.whois.did
+          description: DID is the DID of the account
+          in: query
+          required: false
+          type: string
+        - name: session.whois.document
+          description: >-
+            Document is the DID Document of the registered name and account
+            encoded as JSON
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: session.whois.creator
+          description: Creator is the DID of the creator of the DID Document
+          in: query
+          required: false
+          type: string
+        - name: session.whois.type
+          description: |-
+            Type is the type of the registered name
+
+             - User: User is the type of the registered name
+             - Application: Application is the type of the registered name
+          in: query
+          required: false
+          type: string
+          enum:
+            - User
+            - Application
+          default: User
+        - name: session.credential.i_d
+          description: >-
+            A probabilistically-unique byte sequence identifying a public key
+            credential source and its authentication assertions.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: session.credential.public_key
+          description: >-
+            The public key portion of a Relying Party-specific credential key
+            pair, generated by an authenticator and returned to
+
+            a Relying Party at registration time (see also public key
+            credential). The private key portion of the credential key
+
+            pair is known as the credential private key. Note that in the case
+            of self attestation, the credential key pair is also
+
+            used as the attestation key pair, see self attestation for details.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: session.credential.attestation_type
+          description: >-
+            The attestation format used (if any) by the authenticator when
+            creating the credential.
+          in: query
+          required: false
+          type: string
+        - name: session.credential.authenticator.aaguid
+          description: >-
+            The AAGUID of the authenticator. An AAGUID is defined as an array
+            containing the globally unique
+
+            identifier of the authenticator model being sought.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: session.credential.authenticator.sign_count
+          description: >-
+            SignCount -Upon a new login operation, the Relying Party compares
+            the stored signature counter value
+
+            with the new sign_count value returned in the assertion’s
+            authenticator data. If this new
+
+            signCount value is less than or equal to the stored value, a cloned
+            authenticator may
+
+            exist, or the authenticator may be malfunctioning.
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: session.credential.authenticator.clone_warning
+          description: >-
+            CloneWarning - This is a signal that the authenticator may be
+            cloned, i.e. at least two copies of the
+
+            credential private key may exist and are being used in parallel.
+            Relying Parties should incorporate
+
+            this information into their risk scoring. Whether the Relying Party
+            updates the stored signature
+
+            counter value in this case, or not, or fails the authentication
+            ceremony or not, is Relying Party-specific.
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   /sonrio/sonr/channel/params:
@@ -28338,49 +28566,7 @@ paths:
         '200':
           description: A successful response.
           schema:
-            type: object
-            properties:
-              whatIs:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    index:
-                      type: string
-                    did:
-                      type: string
-                    document:
-                      type: string
-                      format: byte
-                    creator:
-                      type: string
-              pagination:
-                type: object
-                properties:
-                  next_key:
-                    type: string
-                    format: byte
-                    title: |-
-                      next_key is the key to be passed to PageRequest.key to
-                      query the next page most efficiently
-                  total:
-                    type: string
-                    format: uint64
-                    title: >-
-                      total is total number of results available if
-                      PageRequest.count_total
-
-                      was set, its value is undefined otherwise
-                description: >-
-                  PageResponse is to be embedded in gRPC response messages where
-                  the
-
-                  corresponding request message has used PageRequest.
-
-                   message SomeResponse {
-                           repeated Bar results = 1;
-                           PageResponse page = 2;
-                   }
+            $ref: '#/definitions/sonrio.sonr.object.QueryAllWhatIsResponse'
         default:
           description: An unexpected error response.
           schema:
@@ -28456,6 +28642,120 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: session.base_did
+          description: Base DID is the current Account or Application whois DID url
+          in: query
+          required: false
+          type: string
+        - name: session.whois.name
+          description: Name is the registered name of the User or Application
+          in: query
+          required: false
+          type: string
+        - name: session.whois.did
+          description: DID is the DID of the account
+          in: query
+          required: false
+          type: string
+        - name: session.whois.document
+          description: >-
+            Document is the DID Document of the registered name and account
+            encoded as JSON
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: session.whois.creator
+          description: Creator is the DID of the creator of the DID Document
+          in: query
+          required: false
+          type: string
+        - name: session.whois.type
+          description: |-
+            Type is the type of the registered name
+
+             - User: User is the type of the registered name
+             - Application: Application is the type of the registered name
+          in: query
+          required: false
+          type: string
+          enum:
+            - User
+            - Application
+          default: User
+        - name: session.credential.i_d
+          description: >-
+            A probabilistically-unique byte sequence identifying a public key
+            credential source and its authentication assertions.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: session.credential.public_key
+          description: >-
+            The public key portion of a Relying Party-specific credential key
+            pair, generated by an authenticator and returned to
+
+            a Relying Party at registration time (see also public key
+            credential). The private key portion of the credential key
+
+            pair is known as the credential private key. Note that in the case
+            of self attestation, the credential key pair is also
+
+            used as the attestation key pair, see self attestation for details.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: session.credential.attestation_type
+          description: >-
+            The attestation format used (if any) by the authenticator when
+            creating the credential.
+          in: query
+          required: false
+          type: string
+        - name: session.credential.authenticator.aaguid
+          description: >-
+            The AAGUID of the authenticator. An AAGUID is defined as an array
+            containing the globally unique
+
+            identifier of the authenticator model being sought.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: session.credential.authenticator.sign_count
+          description: >-
+            SignCount -Upon a new login operation, the Relying Party compares
+            the stored signature counter value
+
+            with the new sign_count value returned in the assertion’s
+            authenticator data. If this new
+
+            signCount value is less than or equal to the stored value, a cloned
+            authenticator may
+
+            exist, or the authenticator may be malfunctioning.
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: session.credential.authenticator.clone_warning
+          description: >-
+            CloneWarning - This is a signal that the authenticator may be
+            cloned, i.e. at least two copies of the
+
+            credential private key may exist and are being used in parallel.
+            Relying Parties should incorporate
+
+            this information into their risk scoring. Whether the Relying Party
+            updates the stored signature
+
+            counter value in this case, or not, or fails the authentication
+            ceremony or not, is Relying Party-specific.
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/sonr-io/sonr/object/what_is/{index}':
@@ -28466,20 +28766,7 @@ paths:
         '200':
           description: A successful response.
           schema:
-            type: object
-            properties:
-              whatIs:
-                type: object
-                properties:
-                  index:
-                    type: string
-                  did:
-                    type: string
-                  document:
-                    type: string
-                    format: byte
-                  creator:
-                    type: string
+            $ref: '#/definitions/sonrio.sonr.object.QueryGetWhatIsResponse'
         default:
           description: An unexpected error response.
           schema:
@@ -28503,6 +28790,120 @@ paths:
           in: path
           required: true
           type: string
+        - name: session.base_did
+          description: Base DID is the current Account or Application whois DID url
+          in: query
+          required: false
+          type: string
+        - name: session.whois.name
+          description: Name is the registered name of the User or Application
+          in: query
+          required: false
+          type: string
+        - name: session.whois.did
+          description: DID is the DID of the account
+          in: query
+          required: false
+          type: string
+        - name: session.whois.document
+          description: >-
+            Document is the DID Document of the registered name and account
+            encoded as JSON
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: session.whois.creator
+          description: Creator is the DID of the creator of the DID Document
+          in: query
+          required: false
+          type: string
+        - name: session.whois.type
+          description: |-
+            Type is the type of the registered name
+
+             - User: User is the type of the registered name
+             - Application: Application is the type of the registered name
+          in: query
+          required: false
+          type: string
+          enum:
+            - User
+            - Application
+          default: User
+        - name: session.credential.i_d
+          description: >-
+            A probabilistically-unique byte sequence identifying a public key
+            credential source and its authentication assertions.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: session.credential.public_key
+          description: >-
+            The public key portion of a Relying Party-specific credential key
+            pair, generated by an authenticator and returned to
+
+            a Relying Party at registration time (see also public key
+            credential). The private key portion of the credential key
+
+            pair is known as the credential private key. Note that in the case
+            of self attestation, the credential key pair is also
+
+            used as the attestation key pair, see self attestation for details.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: session.credential.attestation_type
+          description: >-
+            The attestation format used (if any) by the authenticator when
+            creating the credential.
+          in: query
+          required: false
+          type: string
+        - name: session.credential.authenticator.aaguid
+          description: >-
+            The AAGUID of the authenticator. An AAGUID is defined as an array
+            containing the globally unique
+
+            identifier of the authenticator model being sought.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: session.credential.authenticator.sign_count
+          description: >-
+            SignCount -Upon a new login operation, the Relying Party compares
+            the stored signature counter value
+
+            with the new sign_count value returned in the assertion’s
+            authenticator data. If this new
+
+            signCount value is less than or equal to the stored value, a cloned
+            authenticator may
+
+            exist, or the authenticator may be malfunctioning.
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: session.credential.authenticator.clone_warning
+          description: >-
+            CloneWarning - This is a signal that the authenticator may be
+            cloned, i.e. at least two copies of the
+
+            credential private key may exist and are being used in parallel.
+            Relying Parties should incorporate
+
+            this information into their risk scoring. Whether the Relying Party
+            updates the stored signature
+
+            counter value in this case, or not, or fails the authentication
+            ceremony or not, is Relying Party-specific.
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   /sonrio/sonr/object/params:
@@ -28669,6 +29070,11 @@ paths:
                       description: |-
                         - User: User is the type of the registered name
                          - Application: Application is the type of the registered name
+                    metadata:
+                      type: object
+                      additionalProperties:
+                        type: string
+                      title: Additional Metadata for associated WhoIs
                   description: >-
                     WhoIs is the entry pointing a registered name to a user
                     account address, Did Url string, and a DIDDocument.
@@ -28902,6 +29308,11 @@ paths:
                     description: |-
                       - User: User is the type of the registered name
                        - Application: Application is the type of the registered name
+                  metadata:
+                    type: object
+                    additionalProperties:
+                      type: string
+                    title: Additional Metadata for associated WhoIs
                 description: >-
                   WhoIs is the entry pointing a registered name to a user
                   account address, Did Url string, and a DIDDocument.
@@ -48266,120 +48677,160 @@ definitions:
     description: |-
       Version defines the versioning scheme used to negotiate the IBC verison in
       the connection handshake.
-  sonrio.sonr.blob.MsgCreateThereIsResponse:
-    type: object
-  sonrio.sonr.blob.MsgDeleteBlobResponse:
-    type: object
-  sonrio.sonr.blob.MsgDeleteThereIsResponse:
-    type: object
-  sonrio.sonr.blob.MsgDownloadBlobResponse:
-    type: object
-  sonrio.sonr.blob.MsgSyncBlobResponse:
-    type: object
-  sonrio.sonr.blob.MsgUpdateThereIsResponse:
-    type: object
-  sonrio.sonr.blob.MsgUploadBlobResponse:
-    type: object
-  sonrio.sonr.blob.Params:
-    type: object
-    description: Params defines the parameters for the module.
-  sonrio.sonr.blob.QueryAllThereIsResponse:
+  sonrio.sonr.bucket.BucketDoc:
     type: object
     properties:
-      thereIs:
+      label:
+        type: string
+        description: Label is human-readable name of the bucket.
+      description:
+        type: string
+        description: Description is a human-readable description of the bucket.
+      type:
+        description: >-
+          Type is the kind of bucket for either App specific or User specific
+          data.
+        type: string
+        enum:
+          - BUCKET_TYPE_UNSPECIFIED
+          - BUCKET_TYPE_APP
+          - BUCKET_TYPE_USER
+        default: BUCKET_TYPE_UNSPECIFIED
+      did:
+        type: string
+        description: Did is the identifier of the bucket.
+      object_dids:
         type: array
         items:
-          type: object
-          properties:
-            index:
-              type: string
-            did:
-              type: string
-            document:
-              type: string
-              format: byte
-              title: >-
-                Document is the DID Document of the registered name and account
-                encoded as JSON
-            creator:
-              type: string
-      pagination:
-        type: object
-        properties:
-          next_key:
-            type: string
-            format: byte
-            title: |-
-              next_key is the key to be passed to PageRequest.key to
-              query the next page most efficiently
-          total:
-            type: string
-            format: uint64
-            title: >-
-              total is total number of results available if
-              PageRequest.count_total
+          type: string
+        description: Objects are stored in a tree structure.
+    description: Bucket is a collection of objects.
+  sonrio.sonr.bucket.BucketType:
+    type: string
+    enum:
+      - BUCKET_TYPE_UNSPECIFIED
+      - BUCKET_TYPE_APP
+      - BUCKET_TYPE_USER
+    default: BUCKET_TYPE_UNSPECIFIED
+    description: |-
+      BucketType is the type of a bucket.
 
-              was set, its value is undefined otherwise
-        description: |-
-          PageResponse is to be embedded in gRPC response messages where the
-          corresponding request message has used PageRequest.
-
-           message SomeResponse {
-                   repeated Bar results = 1;
-                   PageResponse page = 2;
-           }
-  sonrio.sonr.blob.QueryGetThereIsResponse:
+       - BUCKET_TYPE_UNSPECIFIED: BucketTypeUnspecified is the default value.
+       - BUCKET_TYPE_APP: BucketTypeApp is an App specific bucket. For Assets regarding the service.
+       - BUCKET_TYPE_USER: BucketTypeUser is a User specific bucket. For any remote user data that is required
+      to be stored in the Network.
+  sonrio.sonr.bucket.MsgCreateBucketResponse:
     type: object
     properties:
-      thereIs:
+      code:
+        type: integer
+        format: int32
+        title: Code of the response
+      message:
+        type: string
+        title: Message of the response
+      which_is:
         type: object
         properties:
-          index:
-            type: string
           did:
             type: string
-          document:
+          creator:
             type: string
-            format: byte
             title: >-
               Document is the DID Document of the registered name and account
               encoded as JSON
-          creator:
-            type: string
-  sonrio.sonr.blob.QueryParamsResponse:
-    type: object
-    properties:
-      params:
-        description: params holds all the parameters of this module.
-        type: object
-    description: QueryParamsResponse is response type for the Query/Params RPC method.
-  sonrio.sonr.blob.ThereIs:
-    type: object
-    properties:
-      index:
-        type: string
-      did:
-        type: string
-      document:
-        type: string
-        format: byte
-        title: >-
-          Document is the DID Document of the registered name and account
-          encoded as JSON
-      creator:
-        type: string
-  sonrio.sonr.bucket.MsgCreateBucketResponse:
-    type: object
+          bucket:
+            type: object
+            properties:
+              label:
+                type: string
+                description: Label is human-readable name of the bucket.
+              description:
+                type: string
+                description: Description is a human-readable description of the bucket.
+              type:
+                description: >-
+                  Type is the kind of bucket for either App specific or User
+                  specific data.
+                type: string
+                enum:
+                  - BUCKET_TYPE_UNSPECIFIED
+                  - BUCKET_TYPE_APP
+                  - BUCKET_TYPE_USER
+                default: BUCKET_TYPE_UNSPECIFIED
+              did:
+                type: string
+                description: Did is the identifier of the bucket.
+              object_dids:
+                type: array
+                items:
+                  type: string
+                description: Objects are stored in a tree structure.
+            description: Bucket is a collection of objects.
+        title: Whichis response of the ObjectDoc
   sonrio.sonr.bucket.MsgCreateWhichIsResponse:
     type: object
   sonrio.sonr.bucket.MsgDeleteBucketResponse:
     type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+        title: Code of the response
+      message:
+        type: string
+        title: Message of the response
   sonrio.sonr.bucket.MsgDeleteWhichIsResponse:
-    type: object
-  sonrio.sonr.bucket.MsgReadBucketResponse:
     type: object
   sonrio.sonr.bucket.MsgUpdateBucketResponse:
     type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+        title: Code of the response
+      message:
+        type: string
+        title: Message of the response
+      which_is:
+        type: object
+        properties:
+          did:
+            type: string
+          creator:
+            type: string
+            title: >-
+              Document is the DID Document of the registered name and account
+              encoded as JSON
+          bucket:
+            type: object
+            properties:
+              label:
+                type: string
+                description: Label is human-readable name of the bucket.
+              description:
+                type: string
+                description: Description is a human-readable description of the bucket.
+              type:
+                description: >-
+                  Type is the kind of bucket for either App specific or User
+                  specific data.
+                type: string
+                enum:
+                  - BUCKET_TYPE_UNSPECIFIED
+                  - BUCKET_TYPE_APP
+                  - BUCKET_TYPE_USER
+                default: BUCKET_TYPE_UNSPECIFIED
+              did:
+                type: string
+                description: Did is the identifier of the bucket.
+              object_dids:
+                type: array
+                items:
+                  type: string
+                description: Objects are stored in a tree structure.
+            description: Bucket is a collection of objects.
+        title: Whichis response of the ObjectDoc
   sonrio.sonr.bucket.MsgUpdateWhichIsResponse:
     type: object
   sonrio.sonr.bucket.Params:
@@ -48393,18 +48844,41 @@ definitions:
         items:
           type: object
           properties:
-            index:
-              type: string
             did:
               type: string
-            document:
+            creator:
               type: string
-              format: byte
               title: >-
                 Document is the DID Document of the registered name and account
                 encoded as JSON
-            creator:
-              type: string
+            bucket:
+              type: object
+              properties:
+                label:
+                  type: string
+                  description: Label is human-readable name of the bucket.
+                description:
+                  type: string
+                  description: Description is a human-readable description of the bucket.
+                type:
+                  description: >-
+                    Type is the kind of bucket for either App specific or User
+                    specific data.
+                  type: string
+                  enum:
+                    - BUCKET_TYPE_UNSPECIFIED
+                    - BUCKET_TYPE_APP
+                    - BUCKET_TYPE_USER
+                  default: BUCKET_TYPE_UNSPECIFIED
+                did:
+                  type: string
+                  description: Did is the identifier of the bucket.
+                object_dids:
+                  type: array
+                  items:
+                    type: string
+                  description: Objects are stored in a tree structure.
+              description: Bucket is a collection of objects.
       pagination:
         type: object
         properties:
@@ -48436,18 +48910,41 @@ definitions:
       whichIs:
         type: object
         properties:
-          index:
-            type: string
           did:
             type: string
-          document:
+          creator:
             type: string
-            format: byte
             title: >-
               Document is the DID Document of the registered name and account
               encoded as JSON
-          creator:
-            type: string
+          bucket:
+            type: object
+            properties:
+              label:
+                type: string
+                description: Label is human-readable name of the bucket.
+              description:
+                type: string
+                description: Description is a human-readable description of the bucket.
+              type:
+                description: >-
+                  Type is the kind of bucket for either App specific or User
+                  specific data.
+                type: string
+                enum:
+                  - BUCKET_TYPE_UNSPECIFIED
+                  - BUCKET_TYPE_APP
+                  - BUCKET_TYPE_USER
+                default: BUCKET_TYPE_UNSPECIFIED
+              did:
+                type: string
+                description: Did is the identifier of the bucket.
+              object_dids:
+                type: array
+                items:
+                  type: string
+                description: Objects are stored in a tree structure.
+            description: Bucket is a collection of objects.
   sonrio.sonr.bucket.QueryParamsResponse:
     type: object
     properties:
@@ -48458,10 +48955,349 @@ definitions:
   sonrio.sonr.bucket.WhichIs:
     type: object
     properties:
-      index:
-        type: string
       did:
         type: string
+      creator:
+        type: string
+        title: >-
+          Document is the DID Document of the registered name and account
+          encoded as JSON
+      bucket:
+        type: object
+        properties:
+          label:
+            type: string
+            description: Label is human-readable name of the bucket.
+          description:
+            type: string
+            description: Description is a human-readable description of the bucket.
+          type:
+            description: >-
+              Type is the kind of bucket for either App specific or User
+              specific data.
+            type: string
+            enum:
+              - BUCKET_TYPE_UNSPECIFIED
+              - BUCKET_TYPE_APP
+              - BUCKET_TYPE_USER
+            default: BUCKET_TYPE_UNSPECIFIED
+          did:
+            type: string
+            description: Did is the identifier of the bucket.
+          object_dids:
+            type: array
+            items:
+              type: string
+            description: Objects are stored in a tree structure.
+        description: Bucket is a collection of objects.
+  sonrio.sonr.registry.Authenticator:
+    type: object
+    properties:
+      aaguid:
+        type: string
+        format: byte
+        description: >-
+          The AAGUID of the authenticator. An AAGUID is defined as an array
+          containing the globally unique
+
+          identifier of the authenticator model being sought.
+      sign_count:
+        type: integer
+        format: int64
+        description: >-
+          SignCount -Upon a new login operation, the Relying Party compares the
+          stored signature counter value
+
+          with the new sign_count value returned in the assertion’s
+          authenticator data. If this new
+
+          signCount value is less than or equal to the stored value, a cloned
+          authenticator may
+
+          exist, or the authenticator may be malfunctioning.
+      clone_warning:
+        type: boolean
+        description: >-
+          CloneWarning - This is a signal that the authenticator may be cloned,
+          i.e. at least two copies of the
+
+          credential private key may exist and are being used in parallel.
+          Relying Parties should incorporate
+
+          this information into their risk scoring. Whether the Relying Party
+          updates the stored signature
+
+          counter value in this case, or not, or fails the authentication
+          ceremony or not, is Relying Party-specific.
+  sonrio.sonr.registry.Credential:
+    type: object
+    properties:
+      i_d:
+        type: string
+        format: byte
+        description: >-
+          A probabilistically-unique byte sequence identifying a public key
+          credential source and its authentication assertions.
+      public_key:
+        type: string
+        format: byte
+        description: >-
+          The public key portion of a Relying Party-specific credential key
+          pair, generated by an authenticator and returned to
+
+          a Relying Party at registration time (see also public key credential).
+          The private key portion of the credential key
+
+          pair is known as the credential private key. Note that in the case of
+          self attestation, the credential key pair is also
+
+          used as the attestation key pair, see self attestation for details.
+      attestation_type:
+        type: string
+        description: >-
+          The attestation format used (if any) by the authenticator when
+          creating the credential.
+      authenticator:
+        title: The Authenticator information for a given certificate
+        type: object
+        properties:
+          aaguid:
+            type: string
+            format: byte
+            description: >-
+              The AAGUID of the authenticator. An AAGUID is defined as an array
+              containing the globally unique
+
+              identifier of the authenticator model being sought.
+          sign_count:
+            type: integer
+            format: int64
+            description: >-
+              SignCount -Upon a new login operation, the Relying Party compares
+              the stored signature counter value
+
+              with the new sign_count value returned in the assertion’s
+              authenticator data. If this new
+
+              signCount value is less than or equal to the stored value, a
+              cloned authenticator may
+
+              exist, or the authenticator may be malfunctioning.
+          clone_warning:
+            type: boolean
+            description: >-
+              CloneWarning - This is a signal that the authenticator may be
+              cloned, i.e. at least two copies of the
+
+              credential private key may exist and are being used in parallel.
+              Relying Parties should incorporate
+
+              this information into their risk scoring. Whether the Relying
+              Party updates the stored signature
+
+              counter value in this case, or not, or fails the authentication
+              ceremony or not, is Relying Party-specific.
+  sonrio.sonr.registry.Session:
+    type: object
+    properties:
+      base_did:
+        type: string
+        title: Base DID is the current Account or Application whois DID url
+      whois:
+        title: WhoIs is the current Document for the DID
+        type: object
+        properties:
+          name:
+            type: string
+            title: Name is the registered name of the User or Application
+          did:
+            type: string
+            title: DID is the DID of the account
+          document:
+            type: string
+            format: byte
+            title: >-
+              Document is the DID Document of the registered name and account
+              encoded as JSON
+          creator:
+            type: string
+            title: Creator is the DID of the creator of the DID Document
+          credentials:
+            type: array
+            items:
+              type: object
+              properties:
+                i_d:
+                  type: string
+                  format: byte
+                  description: >-
+                    A probabilistically-unique byte sequence identifying a
+                    public key credential source and its authentication
+                    assertions.
+                public_key:
+                  type: string
+                  format: byte
+                  description: >-
+                    The public key portion of a Relying Party-specific
+                    credential key pair, generated by an authenticator and
+                    returned to
+
+                    a Relying Party at registration time (see also public key
+                    credential). The private key portion of the credential key
+
+                    pair is known as the credential private key. Note that in
+                    the case of self attestation, the credential key pair is
+                    also
+
+                    used as the attestation key pair, see self attestation for
+                    details.
+                attestation_type:
+                  type: string
+                  description: >-
+                    The attestation format used (if any) by the authenticator
+                    when creating the credential.
+                authenticator:
+                  title: The Authenticator information for a given certificate
+                  type: object
+                  properties:
+                    aaguid:
+                      type: string
+                      format: byte
+                      description: >-
+                        The AAGUID of the authenticator. An AAGUID is defined as
+                        an array containing the globally unique
+
+                        identifier of the authenticator model being sought.
+                    sign_count:
+                      type: integer
+                      format: int64
+                      description: >-
+                        SignCount -Upon a new login operation, the Relying Party
+                        compares the stored signature counter value
+
+                        with the new sign_count value returned in the
+                        assertion’s authenticator data. If this new
+
+                        signCount value is less than or equal to the stored
+                        value, a cloned authenticator may
+
+                        exist, or the authenticator may be malfunctioning.
+                    clone_warning:
+                      type: boolean
+                      description: >-
+                        CloneWarning - This is a signal that the authenticator
+                        may be cloned, i.e. at least two copies of the
+
+                        credential private key may exist and are being used in
+                        parallel. Relying Parties should incorporate
+
+                        this information into their risk scoring. Whether the
+                        Relying Party updates the stored signature
+
+                        counter value in this case, or not, or fails the
+                        authentication ceremony or not, is Relying
+                        Party-specific.
+            title: >-
+              Credentials are the biometric info of the registered name and
+              account encoded with public key
+          type:
+            title: Type is the type of the registered name
+            type: string
+            enum:
+              - User
+              - Application
+            default: User
+            description: |-
+              - User: User is the type of the registered name
+               - Application: Application is the type of the registered name
+          metadata:
+            type: object
+            additionalProperties:
+              type: string
+            title: Additional Metadata for associated WhoIs
+        description: >-
+          WhoIs is the entry pointing a registered name to a user account
+          address, Did Url string, and a DIDDocument.
+      credential:
+        type: object
+        properties:
+          i_d:
+            type: string
+            format: byte
+            description: >-
+              A probabilistically-unique byte sequence identifying a public key
+              credential source and its authentication assertions.
+          public_key:
+            type: string
+            format: byte
+            description: >-
+              The public key portion of a Relying Party-specific credential key
+              pair, generated by an authenticator and returned to
+
+              a Relying Party at registration time (see also public key
+              credential). The private key portion of the credential key
+
+              pair is known as the credential private key. Note that in the case
+              of self attestation, the credential key pair is also
+
+              used as the attestation key pair, see self attestation for
+              details.
+          attestation_type:
+            type: string
+            description: >-
+              The attestation format used (if any) by the authenticator when
+              creating the credential.
+          authenticator:
+            title: The Authenticator information for a given certificate
+            type: object
+            properties:
+              aaguid:
+                type: string
+                format: byte
+                description: >-
+                  The AAGUID of the authenticator. An AAGUID is defined as an
+                  array containing the globally unique
+
+                  identifier of the authenticator model being sought.
+              sign_count:
+                type: integer
+                format: int64
+                description: >-
+                  SignCount -Upon a new login operation, the Relying Party
+                  compares the stored signature counter value
+
+                  with the new sign_count value returned in the assertion’s
+                  authenticator data. If this new
+
+                  signCount value is less than or equal to the stored value, a
+                  cloned authenticator may
+
+                  exist, or the authenticator may be malfunctioning.
+              clone_warning:
+                type: boolean
+                description: >-
+                  CloneWarning - This is a signal that the authenticator may be
+                  cloned, i.e. at least two copies of the
+
+                  credential private key may exist and are being used in
+                  parallel. Relying Parties should incorporate
+
+                  this information into their risk scoring. Whether the Relying
+                  Party updates the stored signature
+
+                  counter value in this case, or not, or fails the
+                  authentication ceremony or not, is Relying Party-specific.
+        title: Credential is the current Credential for the DID
+    title: Session is the metadata for current user or application
+  sonrio.sonr.registry.WhoIs:
+    type: object
+    properties:
+      name:
+        type: string
+        title: Name is the registered name of the User or Application
+      did:
+        type: string
+        title: DID is the DID of the account
       document:
         type: string
         format: byte
@@ -48470,35 +49306,205 @@ definitions:
           encoded as JSON
       creator:
         type: string
+        title: Creator is the DID of the creator of the DID Document
+      credentials:
+        type: array
+        items:
+          type: object
+          properties:
+            i_d:
+              type: string
+              format: byte
+              description: >-
+                A probabilistically-unique byte sequence identifying a public
+                key credential source and its authentication assertions.
+            public_key:
+              type: string
+              format: byte
+              description: >-
+                The public key portion of a Relying Party-specific credential
+                key pair, generated by an authenticator and returned to
+
+                a Relying Party at registration time (see also public key
+                credential). The private key portion of the credential key
+
+                pair is known as the credential private key. Note that in the
+                case of self attestation, the credential key pair is also
+
+                used as the attestation key pair, see self attestation for
+                details.
+            attestation_type:
+              type: string
+              description: >-
+                The attestation format used (if any) by the authenticator when
+                creating the credential.
+            authenticator:
+              title: The Authenticator information for a given certificate
+              type: object
+              properties:
+                aaguid:
+                  type: string
+                  format: byte
+                  description: >-
+                    The AAGUID of the authenticator. An AAGUID is defined as an
+                    array containing the globally unique
+
+                    identifier of the authenticator model being sought.
+                sign_count:
+                  type: integer
+                  format: int64
+                  description: >-
+                    SignCount -Upon a new login operation, the Relying Party
+                    compares the stored signature counter value
+
+                    with the new sign_count value returned in the assertion’s
+                    authenticator data. If this new
+
+                    signCount value is less than or equal to the stored value, a
+                    cloned authenticator may
+
+                    exist, or the authenticator may be malfunctioning.
+                clone_warning:
+                  type: boolean
+                  description: >-
+                    CloneWarning - This is a signal that the authenticator may
+                    be cloned, i.e. at least two copies of the
+
+                    credential private key may exist and are being used in
+                    parallel. Relying Parties should incorporate
+
+                    this information into their risk scoring. Whether the
+                    Relying Party updates the stored signature
+
+                    counter value in this case, or not, or fails the
+                    authentication ceremony or not, is Relying Party-specific.
+        title: >-
+          Credentials are the biometric info of the registered name and account
+          encoded with public key
+      type:
+        title: Type is the type of the registered name
+        type: string
+        enum:
+          - User
+          - Application
+        default: User
+        description: |-
+          - User: User is the type of the registered name
+           - Application: Application is the type of the registered name
+      metadata:
+        type: object
+        additionalProperties:
+          type: string
+        title: Additional Metadata for associated WhoIs
+    description: >-
+      WhoIs is the entry pointing a registered name to a user account address,
+      Did Url string, and a DIDDocument.
+  sonrio.sonr.registry.WhoIs.Type:
+    type: string
+    enum:
+      - User
+      - Application
+    default: User
+    description: |-
+      - User: User is the type of the registered name
+       - Application: Application is the type of the registered name
+    title: Type is the type of the registered name
+  sonrio.sonr.channel.ChannelDoc:
+    type: object
+    properties:
+      label:
+        type: string
+        description: Label is human-readable name of the channel.
+      description:
+        type: string
+        description: Description is a human-readable description of the channel.
+      did:
+        type: string
+        description: Did is the identifier of the channel.
+      registered_object:
+        $ref: '#/definitions/sonrio.sonr.object.ObjectDoc'
+        description: >-
+          RegisterdObject is the object that is registered as the payload for
+          the channel.
   sonrio.sonr.channel.HowIs:
     type: object
     properties:
-      index:
-        type: string
       did:
         type: string
-      document:
+      creator:
         type: string
-        format: byte
         title: >-
           Document is the DID Document of the registered name and account
           encoded as JSON
-      creator:
-        type: string
+      channel:
+        $ref: '#/definitions/sonrio.sonr.channel.ChannelDoc'
   sonrio.sonr.channel.MsgCreateChannelResponse:
     type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+        title: Code of the response
+      message:
+        type: string
+        title: Message of the response
+      how_is:
+        $ref: '#/definitions/sonrio.sonr.channel.HowIs'
+        title: HowIs of the Channel
   sonrio.sonr.channel.MsgCreateHowIsResponse:
     type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+        title: Code of the response
+      message:
+        type: string
+        title: Message of the response
+      how_is:
+        $ref: '#/definitions/sonrio.sonr.channel.HowIs'
   sonrio.sonr.channel.MsgDeleteChannelResponse:
     type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+        title: Code of the response
+      message:
+        type: string
+        title: Message of the response
   sonrio.sonr.channel.MsgDeleteHowIsResponse:
     type: object
-  sonrio.sonr.channel.MsgReadChannelResponse:
-    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+        title: Code of the response
+      message:
+        type: string
+        title: Message of the response
   sonrio.sonr.channel.MsgUpdateChannelResponse:
     type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+        title: Code of the response
+      message:
+        type: string
+        title: Message of the response
   sonrio.sonr.channel.MsgUpdateHowIsResponse:
     type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+        title: Code of the response
+      message:
+        type: string
+        title: Message of the response
+      how_is:
+        $ref: '#/definitions/sonrio.sonr.channel.HowIs'
   sonrio.sonr.channel.Params:
     type: object
     description: Params defines the parameters for the module.
@@ -48508,20 +49514,7 @@ definitions:
       howIs:
         type: array
         items:
-          type: object
-          properties:
-            index:
-              type: string
-            did:
-              type: string
-            document:
-              type: string
-              format: byte
-              title: >-
-                Document is the DID Document of the registered name and account
-                encoded as JSON
-            creator:
-              type: string
+          $ref: '#/definitions/sonrio.sonr.channel.HowIs'
       pagination:
         type: object
         properties:
@@ -48551,20 +49544,7 @@ definitions:
     type: object
     properties:
       howIs:
-        type: object
-        properties:
-          index:
-            type: string
-          did:
-            type: string
-          document:
-            type: string
-            format: byte
-            title: >-
-              Document is the DID Document of the registered name and account
-              encoded as JSON
-          creator:
-            type: string
+        $ref: '#/definitions/sonrio.sonr.channel.HowIs'
   sonrio.sonr.channel.QueryParamsResponse:
     type: object
     properties:
@@ -48572,20 +49552,27 @@ definitions:
         description: params holds all the parameters of this module.
         type: object
     description: QueryParamsResponse is response type for the Query/Params RPC method.
-  sonrio.sonr.object.MsgCreateObjectResponse:
+  sonrio.sonr.object.ObjectDoc:
     type: object
-  sonrio.sonr.object.MsgCreateWhatIsResponse:
-    type: object
-  sonrio.sonr.object.MsgDeleteObjectResponse:
-    type: object
-  sonrio.sonr.object.MsgDeleteWhatIsResponse:
-    type: object
-  sonrio.sonr.object.MsgReadObjectResponse:
-    type: object
-  sonrio.sonr.object.MsgUpdateObjectResponse:
-    type: object
-  sonrio.sonr.object.MsgUpdateWhatIsResponse:
-    type: object
+    properties:
+      label:
+        type: string
+        description: Label is human-readable name of the bucket.
+      description:
+        type: string
+        description: Description is a human-readable description of the bucket.
+      did:
+        type: string
+        description: Did is the identifier of the object.
+      bucket_did:
+        type: string
+        description: Bucket is the did of the bucket that contains this object.
+      fields:
+        type: object
+        additionalProperties:
+          $ref: '#/definitions/sonrio.sonr.object.ObjectField'
+        description: Fields are the fields associated with the object.
+    description: ObjectDoc is a document for an Object stored in the graph.
   sonrio.sonr.object.ObjectField:
     type: object
     properties:
@@ -49024,6 +50011,57 @@ definitions:
        - OBJECT_FIELD_TYPE_BLOB: ObjectFieldTypeBlob is a blob of data
        - OBJECT_FIELD_TYPE_BLOCKCHAIN_ADDRESS: ObjectFieldTypeETU is a pointer to an Ethereum account address.
     title: ObjectFieldType is the type of the field
+  sonrio.sonr.object.MsgCreateObjectResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+        title: Code of the response
+      message:
+        type: string
+        title: Message of the response
+      what_is:
+        $ref: '#/definitions/sonrio.sonr.object.WhatIs'
+        title: WhatIs of the Channel
+  sonrio.sonr.object.MsgCreateWhatIsResponse:
+    type: object
+    properties:
+      did:
+        type: string
+  sonrio.sonr.object.MsgDeleteObjectResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+        title: Code of the response
+      message:
+        type: string
+        title: Message of the response
+  sonrio.sonr.object.MsgDeleteWhatIsResponse:
+    type: object
+    properties:
+      did:
+        type: string
+  sonrio.sonr.object.MsgUpdateObjectResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+        title: Code of the response
+      message:
+        type: string
+        title: Message of the response
+      what_is:
+        $ref: '#/definitions/sonrio.sonr.object.WhatIs'
+        title: WhatIs of the Channel
+  sonrio.sonr.object.MsgUpdateWhatIsResponse:
+    type: object
+    properties:
+      did:
+        type: string
   sonrio.sonr.object.Params:
     type: object
     description: Params defines the parameters for the module.
@@ -49033,17 +50071,7 @@ definitions:
       whatIs:
         type: array
         items:
-          type: object
-          properties:
-            index:
-              type: string
-            did:
-              type: string
-            document:
-              type: string
-              format: byte
-            creator:
-              type: string
+          $ref: '#/definitions/sonrio.sonr.object.WhatIs'
       pagination:
         type: object
         properties:
@@ -49073,17 +50101,7 @@ definitions:
     type: object
     properties:
       whatIs:
-        type: object
-        properties:
-          index:
-            type: string
-          did:
-            type: string
-          document:
-            type: string
-            format: byte
-          creator:
-            type: string
+        $ref: '#/definitions/sonrio.sonr.object.WhatIs'
   sonrio.sonr.object.QueryParamsResponse:
     type: object
     properties:
@@ -49094,122 +50112,13 @@ definitions:
   sonrio.sonr.object.WhatIs:
     type: object
     properties:
-      index:
-        type: string
       did:
         type: string
-      document:
-        type: string
-        format: byte
+        title: DID is the DID of the object
+      object_doc:
+        $ref: '#/definitions/sonrio.sonr.object.ObjectDoc'
       creator:
         type: string
-  sonrio.sonr.registry.Authenticator:
-    type: object
-    properties:
-      aaguid:
-        type: string
-        format: byte
-        description: >-
-          The AAGUID of the authenticator. An AAGUID is defined as an array
-          containing the globally unique
-
-          identifier of the authenticator model being sought.
-      sign_count:
-        type: integer
-        format: int64
-        description: >-
-          SignCount -Upon a new login operation, the Relying Party compares the
-          stored signature counter value
-
-          with the new sign_count value returned in the assertion’s
-          authenticator data. If this new
-
-          signCount value is less than or equal to the stored value, a cloned
-          authenticator may
-
-          exist, or the authenticator may be malfunctioning.
-      clone_warning:
-        type: boolean
-        description: >-
-          CloneWarning - This is a signal that the authenticator may be cloned,
-          i.e. at least two copies of the
-
-          credential private key may exist and are being used in parallel.
-          Relying Parties should incorporate
-
-          this information into their risk scoring. Whether the Relying Party
-          updates the stored signature
-
-          counter value in this case, or not, or fails the authentication
-          ceremony or not, is Relying Party-specific.
-  sonrio.sonr.registry.Credential:
-    type: object
-    properties:
-      i_d:
-        type: string
-        format: byte
-        description: >-
-          A probabilistically-unique byte sequence identifying a public key
-          credential source and its authentication assertions.
-      public_key:
-        type: string
-        format: byte
-        description: >-
-          The public key portion of a Relying Party-specific credential key
-          pair, generated by an authenticator and returned to
-
-          a Relying Party at registration time (see also public key credential).
-          The private key portion of the credential key
-
-          pair is known as the credential private key. Note that in the case of
-          self attestation, the credential key pair is also
-
-          used as the attestation key pair, see self attestation for details.
-      attestation_type:
-        type: string
-        description: >-
-          The attestation format used (if any) by the authenticator when
-          creating the credential.
-      authenticator:
-        title: The Authenticator information for a given certificate
-        type: object
-        properties:
-          aaguid:
-            type: string
-            format: byte
-            description: >-
-              The AAGUID of the authenticator. An AAGUID is defined as an array
-              containing the globally unique
-
-              identifier of the authenticator model being sought.
-          sign_count:
-            type: integer
-            format: int64
-            description: >-
-              SignCount -Upon a new login operation, the Relying Party compares
-              the stored signature counter value
-
-              with the new sign_count value returned in the assertion’s
-              authenticator data. If this new
-
-              signCount value is less than or equal to the stored value, a
-              cloned authenticator may
-
-              exist, or the authenticator may be malfunctioning.
-          clone_warning:
-            type: boolean
-            description: >-
-              CloneWarning - This is a signal that the authenticator may be
-              cloned, i.e. at least two copies of the
-
-              credential private key may exist and are being used in parallel.
-              Relying Parties should incorporate
-
-              this information into their risk scoring. Whether the Relying
-              Party updates the stored signature
-
-              counter value in this case, or not, or fails the authentication
-              ceremony or not, is Relying Party-specific.
   sonrio.sonr.registry.MsgAccessApplicationResponse:
     type: object
     properties:
@@ -49331,20 +50240,219 @@ definitions:
             description: |-
               - User: User is the type of the registered name
                - Application: Application is the type of the registered name
+          metadata:
+            type: object
+            additionalProperties:
+              type: string
+            title: Additional Metadata for associated WhoIs
         description: >-
           WhoIs is the entry pointing a registered name to a user account
           address, Did Url string, and a DIDDocument.
         title: WhoIs for the registered name
+      session:
+        title: Session returns the session for the name
+        type: object
+        properties:
+          base_did:
+            type: string
+            title: Base DID is the current Account or Application whois DID url
+          whois:
+            type: object
+            properties:
+              name:
+                type: string
+                title: Name is the registered name of the User or Application
+              did:
+                type: string
+                title: DID is the DID of the account
+              document:
+                type: string
+                format: byte
+                title: >-
+                  Document is the DID Document of the registered name and
+                  account encoded as JSON
+              creator:
+                type: string
+                title: Creator is the DID of the creator of the DID Document
+              credentials:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    i_d:
+                      type: string
+                      format: byte
+                      description: >-
+                        A probabilistically-unique byte sequence identifying a
+                        public key credential source and its authentication
+                        assertions.
+                    public_key:
+                      type: string
+                      format: byte
+                      description: >-
+                        The public key portion of a Relying Party-specific
+                        credential key pair, generated by an authenticator and
+                        returned to
+
+                        a Relying Party at registration time (see also public
+                        key credential). The private key portion of the
+                        credential key
+
+                        pair is known as the credential private key. Note that
+                        in the case of self attestation, the credential key pair
+                        is also
+
+                        used as the attestation key pair, see self attestation
+                        for details.
+                    attestation_type:
+                      type: string
+                      description: >-
+                        The attestation format used (if any) by the
+                        authenticator when creating the credential.
+                    authenticator:
+                      title: The Authenticator information for a given certificate
+                      type: object
+                      properties:
+                        aaguid:
+                          type: string
+                          format: byte
+                          description: >-
+                            The AAGUID of the authenticator. An AAGUID is
+                            defined as an array containing the globally unique
+
+                            identifier of the authenticator model being sought.
+                        sign_count:
+                          type: integer
+                          format: int64
+                          description: >-
+                            SignCount -Upon a new login operation, the Relying
+                            Party compares the stored signature counter value
+
+                            with the new sign_count value returned in the
+                            assertion’s authenticator data. If this new
+
+                            signCount value is less than or equal to the stored
+                            value, a cloned authenticator may
+
+                            exist, or the authenticator may be malfunctioning.
+                        clone_warning:
+                          type: boolean
+                          description: >-
+                            CloneWarning - This is a signal that the
+                            authenticator may be cloned, i.e. at least two
+                            copies of the
+
+                            credential private key may exist and are being used
+                            in parallel. Relying Parties should incorporate
+
+                            this information into their risk scoring. Whether
+                            the Relying Party updates the stored signature
+
+                            counter value in this case, or not, or fails the
+                            authentication ceremony or not, is Relying
+                            Party-specific.
+                title: >-
+                  Credentials are the biometric info of the registered name and
+                  account encoded with public key
+              type:
+                title: Type is the type of the registered name
+                type: string
+                enum:
+                  - User
+                  - Application
+                default: User
+                description: |-
+                  - User: User is the type of the registered name
+                   - Application: Application is the type of the registered name
+              metadata:
+                type: object
+                additionalProperties:
+                  type: string
+                title: Additional Metadata for associated WhoIs
+            description: >-
+              WhoIs is the entry pointing a registered name to a user account
+              address, Did Url string, and a DIDDocument.
+            title: WhoIs is the current Document for the DID
+          credential:
+            type: object
+            properties:
+              i_d:
+                type: string
+                format: byte
+                description: >-
+                  A probabilistically-unique byte sequence identifying a public
+                  key credential source and its authentication assertions.
+              public_key:
+                type: string
+                format: byte
+                description: >-
+                  The public key portion of a Relying Party-specific credential
+                  key pair, generated by an authenticator and returned to
+
+                  a Relying Party at registration time (see also public key
+                  credential). The private key portion of the credential key
+
+                  pair is known as the credential private key. Note that in the
+                  case of self attestation, the credential key pair is also
+
+                  used as the attestation key pair, see self attestation for
+                  details.
+              attestation_type:
+                type: string
+                description: >-
+                  The attestation format used (if any) by the authenticator when
+                  creating the credential.
+              authenticator:
+                title: The Authenticator information for a given certificate
+                type: object
+                properties:
+                  aaguid:
+                    type: string
+                    format: byte
+                    description: >-
+                      The AAGUID of the authenticator. An AAGUID is defined as
+                      an array containing the globally unique
+
+                      identifier of the authenticator model being sought.
+                  sign_count:
+                    type: integer
+                    format: int64
+                    description: >-
+                      SignCount -Upon a new login operation, the Relying Party
+                      compares the stored signature counter value
+
+                      with the new sign_count value returned in the assertion’s
+                      authenticator data. If this new
+
+                      signCount value is less than or equal to the stored value,
+                      a cloned authenticator may
+
+                      exist, or the authenticator may be malfunctioning.
+                  clone_warning:
+                    type: boolean
+                    description: >-
+                      CloneWarning - This is a signal that the authenticator may
+                      be cloned, i.e. at least two copies of the
+
+                      credential private key may exist and are being used in
+                      parallel. Relying Parties should incorporate
+
+                      this information into their risk scoring. Whether the
+                      Relying Party updates the stored signature
+
+                      counter value in this case, or not, or fails the
+                      authentication ceremony or not, is Relying Party-specific.
+            title: Credential is the current Credential for the DID
   sonrio.sonr.registry.MsgAccessNameResponse:
     type: object
     properties:
-      did:
+      code:
+        type: integer
+        format: int32
+        title: Code of the response
+      message:
         type: string
-        title: The DID Url of the name
-      didDocumentJson:
-        type: string
-        format: byte
-        title: The Document for the registered DID in Json format
+        title: Message of the response
       whoIs:
         type: object
         properties:
@@ -49451,27 +50559,353 @@ definitions:
             description: |-
               - User: User is the type of the registered name
                - Application: Application is the type of the registered name
+          metadata:
+            type: object
+            additionalProperties:
+              type: string
+            title: Additional Metadata for associated WhoIs
         description: >-
           WhoIs is the entry pointing a registered name to a user account
           address, Did Url string, and a DIDDocument.
-        title: WhoIs for the name
+        title: WhoIs for the registered name
+      session:
+        title: Session returns the session for the name
+        type: object
+        properties:
+          base_did:
+            type: string
+            title: Base DID is the current Account or Application whois DID url
+          whois:
+            type: object
+            properties:
+              name:
+                type: string
+                title: Name is the registered name of the User or Application
+              did:
+                type: string
+                title: DID is the DID of the account
+              document:
+                type: string
+                format: byte
+                title: >-
+                  Document is the DID Document of the registered name and
+                  account encoded as JSON
+              creator:
+                type: string
+                title: Creator is the DID of the creator of the DID Document
+              credentials:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    i_d:
+                      type: string
+                      format: byte
+                      description: >-
+                        A probabilistically-unique byte sequence identifying a
+                        public key credential source and its authentication
+                        assertions.
+                    public_key:
+                      type: string
+                      format: byte
+                      description: >-
+                        The public key portion of a Relying Party-specific
+                        credential key pair, generated by an authenticator and
+                        returned to
+
+                        a Relying Party at registration time (see also public
+                        key credential). The private key portion of the
+                        credential key
+
+                        pair is known as the credential private key. Note that
+                        in the case of self attestation, the credential key pair
+                        is also
+
+                        used as the attestation key pair, see self attestation
+                        for details.
+                    attestation_type:
+                      type: string
+                      description: >-
+                        The attestation format used (if any) by the
+                        authenticator when creating the credential.
+                    authenticator:
+                      title: The Authenticator information for a given certificate
+                      type: object
+                      properties:
+                        aaguid:
+                          type: string
+                          format: byte
+                          description: >-
+                            The AAGUID of the authenticator. An AAGUID is
+                            defined as an array containing the globally unique
+
+                            identifier of the authenticator model being sought.
+                        sign_count:
+                          type: integer
+                          format: int64
+                          description: >-
+                            SignCount -Upon a new login operation, the Relying
+                            Party compares the stored signature counter value
+
+                            with the new sign_count value returned in the
+                            assertion’s authenticator data. If this new
+
+                            signCount value is less than or equal to the stored
+                            value, a cloned authenticator may
+
+                            exist, or the authenticator may be malfunctioning.
+                        clone_warning:
+                          type: boolean
+                          description: >-
+                            CloneWarning - This is a signal that the
+                            authenticator may be cloned, i.e. at least two
+                            copies of the
+
+                            credential private key may exist and are being used
+                            in parallel. Relying Parties should incorporate
+
+                            this information into their risk scoring. Whether
+                            the Relying Party updates the stored signature
+
+                            counter value in this case, or not, or fails the
+                            authentication ceremony or not, is Relying
+                            Party-specific.
+                title: >-
+                  Credentials are the biometric info of the registered name and
+                  account encoded with public key
+              type:
+                title: Type is the type of the registered name
+                type: string
+                enum:
+                  - User
+                  - Application
+                default: User
+                description: |-
+                  - User: User is the type of the registered name
+                   - Application: Application is the type of the registered name
+              metadata:
+                type: object
+                additionalProperties:
+                  type: string
+                title: Additional Metadata for associated WhoIs
+            description: >-
+              WhoIs is the entry pointing a registered name to a user account
+              address, Did Url string, and a DIDDocument.
+            title: WhoIs is the current Document for the DID
+          credential:
+            type: object
+            properties:
+              i_d:
+                type: string
+                format: byte
+                description: >-
+                  A probabilistically-unique byte sequence identifying a public
+                  key credential source and its authentication assertions.
+              public_key:
+                type: string
+                format: byte
+                description: >-
+                  The public key portion of a Relying Party-specific credential
+                  key pair, generated by an authenticator and returned to
+
+                  a Relying Party at registration time (see also public key
+                  credential). The private key portion of the credential key
+
+                  pair is known as the credential private key. Note that in the
+                  case of self attestation, the credential key pair is also
+
+                  used as the attestation key pair, see self attestation for
+                  details.
+              attestation_type:
+                type: string
+                description: >-
+                  The attestation format used (if any) by the authenticator when
+                  creating the credential.
+              authenticator:
+                title: The Authenticator information for a given certificate
+                type: object
+                properties:
+                  aaguid:
+                    type: string
+                    format: byte
+                    description: >-
+                      The AAGUID of the authenticator. An AAGUID is defined as
+                      an array containing the globally unique
+
+                      identifier of the authenticator model being sought.
+                  sign_count:
+                    type: integer
+                    format: int64
+                    description: >-
+                      SignCount -Upon a new login operation, the Relying Party
+                      compares the stored signature counter value
+
+                      with the new sign_count value returned in the assertion’s
+                      authenticator data. If this new
+
+                      signCount value is less than or equal to the stored value,
+                      a cloned authenticator may
+
+                      exist, or the authenticator may be malfunctioning.
+                  clone_warning:
+                    type: boolean
+                    description: >-
+                      CloneWarning - This is a signal that the authenticator may
+                      be cloned, i.e. at least two copies of the
+
+                      credential private key may exist and are being used in
+                      parallel. Relying Parties should incorporate
+
+                      this information into their risk scoring. Whether the
+                      Relying Party updates the stored signature
+
+                      counter value in this case, or not, or fails the
+                      authentication ceremony or not, is Relying Party-specific.
+            title: Credential is the current Credential for the DID
   sonrio.sonr.registry.MsgCreateWhoIsResponse:
     type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+        title: Code of the response
+      message:
+        type: string
+        title: Message of the response
+      who_is:
+        type: object
+        properties:
+          name:
+            type: string
+            title: Name is the registered name of the User or Application
+          did:
+            type: string
+            title: DID is the DID of the account
+          document:
+            type: string
+            format: byte
+            title: >-
+              Document is the DID Document of the registered name and account
+              encoded as JSON
+          creator:
+            type: string
+            title: Creator is the DID of the creator of the DID Document
+          credentials:
+            type: array
+            items:
+              type: object
+              properties:
+                i_d:
+                  type: string
+                  format: byte
+                  description: >-
+                    A probabilistically-unique byte sequence identifying a
+                    public key credential source and its authentication
+                    assertions.
+                public_key:
+                  type: string
+                  format: byte
+                  description: >-
+                    The public key portion of a Relying Party-specific
+                    credential key pair, generated by an authenticator and
+                    returned to
+
+                    a Relying Party at registration time (see also public key
+                    credential). The private key portion of the credential key
+
+                    pair is known as the credential private key. Note that in
+                    the case of self attestation, the credential key pair is
+                    also
+
+                    used as the attestation key pair, see self attestation for
+                    details.
+                attestation_type:
+                  type: string
+                  description: >-
+                    The attestation format used (if any) by the authenticator
+                    when creating the credential.
+                authenticator:
+                  title: The Authenticator information for a given certificate
+                  type: object
+                  properties:
+                    aaguid:
+                      type: string
+                      format: byte
+                      description: >-
+                        The AAGUID of the authenticator. An AAGUID is defined as
+                        an array containing the globally unique
+
+                        identifier of the authenticator model being sought.
+                    sign_count:
+                      type: integer
+                      format: int64
+                      description: >-
+                        SignCount -Upon a new login operation, the Relying Party
+                        compares the stored signature counter value
+
+                        with the new sign_count value returned in the
+                        assertion’s authenticator data. If this new
+
+                        signCount value is less than or equal to the stored
+                        value, a cloned authenticator may
+
+                        exist, or the authenticator may be malfunctioning.
+                    clone_warning:
+                      type: boolean
+                      description: >-
+                        CloneWarning - This is a signal that the authenticator
+                        may be cloned, i.e. at least two copies of the
+
+                        credential private key may exist and are being used in
+                        parallel. Relying Parties should incorporate
+
+                        this information into their risk scoring. Whether the
+                        Relying Party updates the stored signature
+
+                        counter value in this case, or not, or fails the
+                        authentication ceremony or not, is Relying
+                        Party-specific.
+            title: >-
+              Credentials are the biometric info of the registered name and
+              account encoded with public key
+          type:
+            title: Type is the type of the registered name
+            type: string
+            enum:
+              - User
+              - Application
+            default: User
+            description: |-
+              - User: User is the type of the registered name
+               - Application: Application is the type of the registered name
+          metadata:
+            type: object
+            additionalProperties:
+              type: string
+            title: Additional Metadata for associated WhoIs
+        description: >-
+          WhoIs is the entry pointing a registered name to a user account
+          address, Did Url string, and a DIDDocument.
   sonrio.sonr.registry.MsgDeleteWhoIsResponse:
     type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+        title: Code of the response
+      message:
+        type: string
+        title: Message of the response
   sonrio.sonr.registry.MsgRegisterApplicationResponse:
     type: object
     properties:
-      isSuccess:
-        type: boolean
-        title: The name that was registered
-      didUrl:
+      code:
+        type: integer
+        format: int32
+        title: Code of the response
+      message:
         type: string
-        title: 'The Did string in url format i.e. did:sonr:<did>'
-      didDocumentJson:
-        type: string
-        format: byte
-        title: The Document for the registered DID in Json format
+        title: Message of the response
       whoIs:
         type: object
         properties:
@@ -49578,23 +51012,219 @@ definitions:
             description: |-
               - User: User is the type of the registered name
                - Application: Application is the type of the registered name
+          metadata:
+            type: object
+            additionalProperties:
+              type: string
+            title: Additional Metadata for associated WhoIs
         description: >-
           WhoIs is the entry pointing a registered name to a user account
           address, Did Url string, and a DIDDocument.
         title: WhoIs for the registered name
+      session:
+        title: Session returns the session for the name
+        type: object
+        properties:
+          base_did:
+            type: string
+            title: Base DID is the current Account or Application whois DID url
+          whois:
+            type: object
+            properties:
+              name:
+                type: string
+                title: Name is the registered name of the User or Application
+              did:
+                type: string
+                title: DID is the DID of the account
+              document:
+                type: string
+                format: byte
+                title: >-
+                  Document is the DID Document of the registered name and
+                  account encoded as JSON
+              creator:
+                type: string
+                title: Creator is the DID of the creator of the DID Document
+              credentials:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    i_d:
+                      type: string
+                      format: byte
+                      description: >-
+                        A probabilistically-unique byte sequence identifying a
+                        public key credential source and its authentication
+                        assertions.
+                    public_key:
+                      type: string
+                      format: byte
+                      description: >-
+                        The public key portion of a Relying Party-specific
+                        credential key pair, generated by an authenticator and
+                        returned to
+
+                        a Relying Party at registration time (see also public
+                        key credential). The private key portion of the
+                        credential key
+
+                        pair is known as the credential private key. Note that
+                        in the case of self attestation, the credential key pair
+                        is also
+
+                        used as the attestation key pair, see self attestation
+                        for details.
+                    attestation_type:
+                      type: string
+                      description: >-
+                        The attestation format used (if any) by the
+                        authenticator when creating the credential.
+                    authenticator:
+                      title: The Authenticator information for a given certificate
+                      type: object
+                      properties:
+                        aaguid:
+                          type: string
+                          format: byte
+                          description: >-
+                            The AAGUID of the authenticator. An AAGUID is
+                            defined as an array containing the globally unique
+
+                            identifier of the authenticator model being sought.
+                        sign_count:
+                          type: integer
+                          format: int64
+                          description: >-
+                            SignCount -Upon a new login operation, the Relying
+                            Party compares the stored signature counter value
+
+                            with the new sign_count value returned in the
+                            assertion’s authenticator data. If this new
+
+                            signCount value is less than or equal to the stored
+                            value, a cloned authenticator may
+
+                            exist, or the authenticator may be malfunctioning.
+                        clone_warning:
+                          type: boolean
+                          description: >-
+                            CloneWarning - This is a signal that the
+                            authenticator may be cloned, i.e. at least two
+                            copies of the
+
+                            credential private key may exist and are being used
+                            in parallel. Relying Parties should incorporate
+
+                            this information into their risk scoring. Whether
+                            the Relying Party updates the stored signature
+
+                            counter value in this case, or not, or fails the
+                            authentication ceremony or not, is Relying
+                            Party-specific.
+                title: >-
+                  Credentials are the biometric info of the registered name and
+                  account encoded with public key
+              type:
+                title: Type is the type of the registered name
+                type: string
+                enum:
+                  - User
+                  - Application
+                default: User
+                description: |-
+                  - User: User is the type of the registered name
+                   - Application: Application is the type of the registered name
+              metadata:
+                type: object
+                additionalProperties:
+                  type: string
+                title: Additional Metadata for associated WhoIs
+            description: >-
+              WhoIs is the entry pointing a registered name to a user account
+              address, Did Url string, and a DIDDocument.
+            title: WhoIs is the current Document for the DID
+          credential:
+            type: object
+            properties:
+              i_d:
+                type: string
+                format: byte
+                description: >-
+                  A probabilistically-unique byte sequence identifying a public
+                  key credential source and its authentication assertions.
+              public_key:
+                type: string
+                format: byte
+                description: >-
+                  The public key portion of a Relying Party-specific credential
+                  key pair, generated by an authenticator and returned to
+
+                  a Relying Party at registration time (see also public key
+                  credential). The private key portion of the credential key
+
+                  pair is known as the credential private key. Note that in the
+                  case of self attestation, the credential key pair is also
+
+                  used as the attestation key pair, see self attestation for
+                  details.
+              attestation_type:
+                type: string
+                description: >-
+                  The attestation format used (if any) by the authenticator when
+                  creating the credential.
+              authenticator:
+                title: The Authenticator information for a given certificate
+                type: object
+                properties:
+                  aaguid:
+                    type: string
+                    format: byte
+                    description: >-
+                      The AAGUID of the authenticator. An AAGUID is defined as
+                      an array containing the globally unique
+
+                      identifier of the authenticator model being sought.
+                  sign_count:
+                    type: integer
+                    format: int64
+                    description: >-
+                      SignCount -Upon a new login operation, the Relying Party
+                      compares the stored signature counter value
+
+                      with the new sign_count value returned in the assertion’s
+                      authenticator data. If this new
+
+                      signCount value is less than or equal to the stored value,
+                      a cloned authenticator may
+
+                      exist, or the authenticator may be malfunctioning.
+                  clone_warning:
+                    type: boolean
+                    description: >-
+                      CloneWarning - This is a signal that the authenticator may
+                      be cloned, i.e. at least two copies of the
+
+                      credential private key may exist and are being used in
+                      parallel. Relying Parties should incorporate
+
+                      this information into their risk scoring. Whether the
+                      Relying Party updates the stored signature
+
+                      counter value in this case, or not, or fails the
+                      authentication ceremony or not, is Relying Party-specific.
+            title: Credential is the current Credential for the DID
   sonrio.sonr.registry.MsgRegisterNameResponse:
     type: object
     properties:
-      isSuccess:
-        type: boolean
-        title: The name that was registered
-      didUrl:
+      code:
+        type: integer
+        format: int32
+        title: Code of the response
+      message:
         type: string
-        title: 'The Did string in url format i.e. did:sonr:<did>'
-      didDocumentJson:
-        type: string
-        format: byte
-        title: The Document for the registered DID in Json format
+        title: Message of the response
       whoIs:
         type: object
         properties:
@@ -49701,10 +51331,209 @@ definitions:
             description: |-
               - User: User is the type of the registered name
                - Application: Application is the type of the registered name
+          metadata:
+            type: object
+            additionalProperties:
+              type: string
+            title: Additional Metadata for associated WhoIs
         description: >-
           WhoIs is the entry pointing a registered name to a user account
           address, Did Url string, and a DIDDocument.
         title: WhoIs for the registered name
+      session:
+        title: Session returns the session for the name
+        type: object
+        properties:
+          base_did:
+            type: string
+            title: Base DID is the current Account or Application whois DID url
+          whois:
+            type: object
+            properties:
+              name:
+                type: string
+                title: Name is the registered name of the User or Application
+              did:
+                type: string
+                title: DID is the DID of the account
+              document:
+                type: string
+                format: byte
+                title: >-
+                  Document is the DID Document of the registered name and
+                  account encoded as JSON
+              creator:
+                type: string
+                title: Creator is the DID of the creator of the DID Document
+              credentials:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    i_d:
+                      type: string
+                      format: byte
+                      description: >-
+                        A probabilistically-unique byte sequence identifying a
+                        public key credential source and its authentication
+                        assertions.
+                    public_key:
+                      type: string
+                      format: byte
+                      description: >-
+                        The public key portion of a Relying Party-specific
+                        credential key pair, generated by an authenticator and
+                        returned to
+
+                        a Relying Party at registration time (see also public
+                        key credential). The private key portion of the
+                        credential key
+
+                        pair is known as the credential private key. Note that
+                        in the case of self attestation, the credential key pair
+                        is also
+
+                        used as the attestation key pair, see self attestation
+                        for details.
+                    attestation_type:
+                      type: string
+                      description: >-
+                        The attestation format used (if any) by the
+                        authenticator when creating the credential.
+                    authenticator:
+                      title: The Authenticator information for a given certificate
+                      type: object
+                      properties:
+                        aaguid:
+                          type: string
+                          format: byte
+                          description: >-
+                            The AAGUID of the authenticator. An AAGUID is
+                            defined as an array containing the globally unique
+
+                            identifier of the authenticator model being sought.
+                        sign_count:
+                          type: integer
+                          format: int64
+                          description: >-
+                            SignCount -Upon a new login operation, the Relying
+                            Party compares the stored signature counter value
+
+                            with the new sign_count value returned in the
+                            assertion’s authenticator data. If this new
+
+                            signCount value is less than or equal to the stored
+                            value, a cloned authenticator may
+
+                            exist, or the authenticator may be malfunctioning.
+                        clone_warning:
+                          type: boolean
+                          description: >-
+                            CloneWarning - This is a signal that the
+                            authenticator may be cloned, i.e. at least two
+                            copies of the
+
+                            credential private key may exist and are being used
+                            in parallel. Relying Parties should incorporate
+
+                            this information into their risk scoring. Whether
+                            the Relying Party updates the stored signature
+
+                            counter value in this case, or not, or fails the
+                            authentication ceremony or not, is Relying
+                            Party-specific.
+                title: >-
+                  Credentials are the biometric info of the registered name and
+                  account encoded with public key
+              type:
+                title: Type is the type of the registered name
+                type: string
+                enum:
+                  - User
+                  - Application
+                default: User
+                description: |-
+                  - User: User is the type of the registered name
+                   - Application: Application is the type of the registered name
+              metadata:
+                type: object
+                additionalProperties:
+                  type: string
+                title: Additional Metadata for associated WhoIs
+            description: >-
+              WhoIs is the entry pointing a registered name to a user account
+              address, Did Url string, and a DIDDocument.
+            title: WhoIs is the current Document for the DID
+          credential:
+            type: object
+            properties:
+              i_d:
+                type: string
+                format: byte
+                description: >-
+                  A probabilistically-unique byte sequence identifying a public
+                  key credential source and its authentication assertions.
+              public_key:
+                type: string
+                format: byte
+                description: >-
+                  The public key portion of a Relying Party-specific credential
+                  key pair, generated by an authenticator and returned to
+
+                  a Relying Party at registration time (see also public key
+                  credential). The private key portion of the credential key
+
+                  pair is known as the credential private key. Note that in the
+                  case of self attestation, the credential key pair is also
+
+                  used as the attestation key pair, see self attestation for
+                  details.
+              attestation_type:
+                type: string
+                description: >-
+                  The attestation format used (if any) by the authenticator when
+                  creating the credential.
+              authenticator:
+                title: The Authenticator information for a given certificate
+                type: object
+                properties:
+                  aaguid:
+                    type: string
+                    format: byte
+                    description: >-
+                      The AAGUID of the authenticator. An AAGUID is defined as
+                      an array containing the globally unique
+
+                      identifier of the authenticator model being sought.
+                  sign_count:
+                    type: integer
+                    format: int64
+                    description: >-
+                      SignCount -Upon a new login operation, the Relying Party
+                      compares the stored signature counter value
+
+                      with the new sign_count value returned in the assertion’s
+                      authenticator data. If this new
+
+                      signCount value is less than or equal to the stored value,
+                      a cloned authenticator may
+
+                      exist, or the authenticator may be malfunctioning.
+                  clone_warning:
+                    type: boolean
+                    description: >-
+                      CloneWarning - This is a signal that the authenticator may
+                      be cloned, i.e. at least two copies of the
+
+                      credential private key may exist and are being used in
+                      parallel. Relying Parties should incorporate
+
+                      this information into their risk scoring. Whether the
+                      Relying Party updates the stored signature
+
+                      counter value in this case, or not, or fails the
+                      authentication ceremony or not, is Relying Party-specific.
+            title: Credential is the current Credential for the DID
   sonrio.sonr.registry.MsgUpdateApplicationResponse:
     type: object
     properties:
@@ -49826,6 +51655,11 @@ definitions:
             description: |-
               - User: User is the type of the registered name
                - Application: Application is the type of the registered name
+          metadata:
+            type: object
+            additionalProperties:
+              type: string
+            title: Additional Metadata for associated WhoIs
         description: >-
           WhoIs is the entry pointing a registered name to a user account
           address, Did Url string, and a DIDDocument.
@@ -49833,19 +51667,252 @@ definitions:
   sonrio.sonr.registry.MsgUpdateNameResponse:
     type: object
     properties:
-      creator:
+      code:
+        type: integer
+        format: int32
+        title: Code of the response
+      message:
         type: string
-        description: The account that owns the name.
-      did:
-        type: string
-        title: The did of the peer to update the name of
-      metadata:
+        title: Message of the response
+      whoIs:
         type: object
-        additionalProperties:
-          type: string
-        title: The Updated Metadata
+        properties:
+          name:
+            type: string
+            title: Name is the registered name of the User or Application
+          did:
+            type: string
+            title: DID is the DID of the account
+          document:
+            type: string
+            format: byte
+            title: >-
+              Document is the DID Document of the registered name and account
+              encoded as JSON
+          creator:
+            type: string
+            title: Creator is the DID of the creator of the DID Document
+          credentials:
+            type: array
+            items:
+              type: object
+              properties:
+                i_d:
+                  type: string
+                  format: byte
+                  description: >-
+                    A probabilistically-unique byte sequence identifying a
+                    public key credential source and its authentication
+                    assertions.
+                public_key:
+                  type: string
+                  format: byte
+                  description: >-
+                    The public key portion of a Relying Party-specific
+                    credential key pair, generated by an authenticator and
+                    returned to
+
+                    a Relying Party at registration time (see also public key
+                    credential). The private key portion of the credential key
+
+                    pair is known as the credential private key. Note that in
+                    the case of self attestation, the credential key pair is
+                    also
+
+                    used as the attestation key pair, see self attestation for
+                    details.
+                attestation_type:
+                  type: string
+                  description: >-
+                    The attestation format used (if any) by the authenticator
+                    when creating the credential.
+                authenticator:
+                  title: The Authenticator information for a given certificate
+                  type: object
+                  properties:
+                    aaguid:
+                      type: string
+                      format: byte
+                      description: >-
+                        The AAGUID of the authenticator. An AAGUID is defined as
+                        an array containing the globally unique
+
+                        identifier of the authenticator model being sought.
+                    sign_count:
+                      type: integer
+                      format: int64
+                      description: >-
+                        SignCount -Upon a new login operation, the Relying Party
+                        compares the stored signature counter value
+
+                        with the new sign_count value returned in the
+                        assertion’s authenticator data. If this new
+
+                        signCount value is less than or equal to the stored
+                        value, a cloned authenticator may
+
+                        exist, or the authenticator may be malfunctioning.
+                    clone_warning:
+                      type: boolean
+                      description: >-
+                        CloneWarning - This is a signal that the authenticator
+                        may be cloned, i.e. at least two copies of the
+
+                        credential private key may exist and are being used in
+                        parallel. Relying Parties should incorporate
+
+                        this information into their risk scoring. Whether the
+                        Relying Party updates the stored signature
+
+                        counter value in this case, or not, or fails the
+                        authentication ceremony or not, is Relying
+                        Party-specific.
+            title: >-
+              Credentials are the biometric info of the registered name and
+              account encoded with public key
+          type:
+            title: Type is the type of the registered name
+            type: string
+            enum:
+              - User
+              - Application
+            default: User
+            description: |-
+              - User: User is the type of the registered name
+               - Application: Application is the type of the registered name
+          metadata:
+            type: object
+            additionalProperties:
+              type: string
+            title: Additional Metadata for associated WhoIs
+        description: >-
+          WhoIs is the entry pointing a registered name to a user account
+          address, Did Url string, and a DIDDocument.
+        title: WhoIs for the registered name
   sonrio.sonr.registry.MsgUpdateWhoIsResponse:
     type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+        title: Code of the response
+      message:
+        type: string
+        title: Message of the response
+      who_is:
+        type: object
+        properties:
+          name:
+            type: string
+            title: Name is the registered name of the User or Application
+          did:
+            type: string
+            title: DID is the DID of the account
+          document:
+            type: string
+            format: byte
+            title: >-
+              Document is the DID Document of the registered name and account
+              encoded as JSON
+          creator:
+            type: string
+            title: Creator is the DID of the creator of the DID Document
+          credentials:
+            type: array
+            items:
+              type: object
+              properties:
+                i_d:
+                  type: string
+                  format: byte
+                  description: >-
+                    A probabilistically-unique byte sequence identifying a
+                    public key credential source and its authentication
+                    assertions.
+                public_key:
+                  type: string
+                  format: byte
+                  description: >-
+                    The public key portion of a Relying Party-specific
+                    credential key pair, generated by an authenticator and
+                    returned to
+
+                    a Relying Party at registration time (see also public key
+                    credential). The private key portion of the credential key
+
+                    pair is known as the credential private key. Note that in
+                    the case of self attestation, the credential key pair is
+                    also
+
+                    used as the attestation key pair, see self attestation for
+                    details.
+                attestation_type:
+                  type: string
+                  description: >-
+                    The attestation format used (if any) by the authenticator
+                    when creating the credential.
+                authenticator:
+                  title: The Authenticator information for a given certificate
+                  type: object
+                  properties:
+                    aaguid:
+                      type: string
+                      format: byte
+                      description: >-
+                        The AAGUID of the authenticator. An AAGUID is defined as
+                        an array containing the globally unique
+
+                        identifier of the authenticator model being sought.
+                    sign_count:
+                      type: integer
+                      format: int64
+                      description: >-
+                        SignCount -Upon a new login operation, the Relying Party
+                        compares the stored signature counter value
+
+                        with the new sign_count value returned in the
+                        assertion’s authenticator data. If this new
+
+                        signCount value is less than or equal to the stored
+                        value, a cloned authenticator may
+
+                        exist, or the authenticator may be malfunctioning.
+                    clone_warning:
+                      type: boolean
+                      description: >-
+                        CloneWarning - This is a signal that the authenticator
+                        may be cloned, i.e. at least two copies of the
+
+                        credential private key may exist and are being used in
+                        parallel. Relying Parties should incorporate
+
+                        this information into their risk scoring. Whether the
+                        Relying Party updates the stored signature
+
+                        counter value in this case, or not, or fails the
+                        authentication ceremony or not, is Relying
+                        Party-specific.
+            title: >-
+              Credentials are the biometric info of the registered name and
+              account encoded with public key
+          type:
+            title: Type is the type of the registered name
+            type: string
+            enum:
+              - User
+              - Application
+            default: User
+            description: |-
+              - User: User is the type of the registered name
+               - Application: Application is the type of the registered name
+          metadata:
+            type: object
+            additionalProperties:
+              type: string
+            title: Additional Metadata for associated WhoIs
+        description: >-
+          WhoIs is the entry pointing a registered name to a user account
+          address, Did Url string, and a DIDDocument.
   sonrio.sonr.registry.Params:
     type: object
     description: Params defines the parameters for the module.
@@ -49960,6 +52027,11 @@ definitions:
               description: |-
                 - User: User is the type of the registered name
                  - Application: Application is the type of the registered name
+            metadata:
+              type: object
+              additionalProperties:
+                type: string
+              title: Additional Metadata for associated WhoIs
           description: >-
             WhoIs is the entry pointing a registered name to a user account
             address, Did Url string, and a DIDDocument.
@@ -50097,6 +52169,11 @@ definitions:
             description: |-
               - User: User is the type of the registered name
                - Application: Application is the type of the registered name
+          metadata:
+            type: object
+            additionalProperties:
+              type: string
+            title: Additional Metadata for associated WhoIs
         description: >-
           WhoIs is the entry pointing a registered name to a user account
           address, Did Url string, and a DIDDocument.
@@ -50107,118 +52184,3 @@ definitions:
         description: params holds all the parameters of this module.
         type: object
     description: QueryParamsResponse is response type for the Query/Params RPC method.
-  sonrio.sonr.registry.WhoIs:
-    type: object
-    properties:
-      name:
-        type: string
-        title: Name is the registered name of the User or Application
-      did:
-        type: string
-        title: DID is the DID of the account
-      document:
-        type: string
-        format: byte
-        title: >-
-          Document is the DID Document of the registered name and account
-          encoded as JSON
-      creator:
-        type: string
-        title: Creator is the DID of the creator of the DID Document
-      credentials:
-        type: array
-        items:
-          type: object
-          properties:
-            i_d:
-              type: string
-              format: byte
-              description: >-
-                A probabilistically-unique byte sequence identifying a public
-                key credential source and its authentication assertions.
-            public_key:
-              type: string
-              format: byte
-              description: >-
-                The public key portion of a Relying Party-specific credential
-                key pair, generated by an authenticator and returned to
-
-                a Relying Party at registration time (see also public key
-                credential). The private key portion of the credential key
-
-                pair is known as the credential private key. Note that in the
-                case of self attestation, the credential key pair is also
-
-                used as the attestation key pair, see self attestation for
-                details.
-            attestation_type:
-              type: string
-              description: >-
-                The attestation format used (if any) by the authenticator when
-                creating the credential.
-            authenticator:
-              title: The Authenticator information for a given certificate
-              type: object
-              properties:
-                aaguid:
-                  type: string
-                  format: byte
-                  description: >-
-                    The AAGUID of the authenticator. An AAGUID is defined as an
-                    array containing the globally unique
-
-                    identifier of the authenticator model being sought.
-                sign_count:
-                  type: integer
-                  format: int64
-                  description: >-
-                    SignCount -Upon a new login operation, the Relying Party
-                    compares the stored signature counter value
-
-                    with the new sign_count value returned in the assertion’s
-                    authenticator data. If this new
-
-                    signCount value is less than or equal to the stored value, a
-                    cloned authenticator may
-
-                    exist, or the authenticator may be malfunctioning.
-                clone_warning:
-                  type: boolean
-                  description: >-
-                    CloneWarning - This is a signal that the authenticator may
-                    be cloned, i.e. at least two copies of the
-
-                    credential private key may exist and are being used in
-                    parallel. Relying Parties should incorporate
-
-                    this information into their risk scoring. Whether the
-                    Relying Party updates the stored signature
-
-                    counter value in this case, or not, or fails the
-                    authentication ceremony or not, is Relying Party-specific.
-        title: >-
-          Credentials are the biometric info of the registered name and account
-          encoded with public key
-      type:
-        title: Type is the type of the registered name
-        type: string
-        enum:
-          - User
-          - Application
-        default: User
-        description: |-
-          - User: User is the type of the registered name
-           - Application: Application is the type of the registered name
-    description: >-
-      WhoIs is the entry pointing a registered name to a user account address,
-      Did Url string, and a DIDDocument.
-  sonrio.sonr.registry.WhoIs.Type:
-    type: string
-    enum:
-      - User
-      - Application
-    default: User
-    description: |-
-      - User: User is the type of the registered name
-       - Application: Application is the type of the registered name
-    title: Type is the type of the registered name

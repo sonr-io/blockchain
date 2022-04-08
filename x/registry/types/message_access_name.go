@@ -9,12 +9,11 @@ const TypeMsgAccessName = "access_name"
 
 var _ sdk.Msg = &MsgAccessName{}
 
-func NewMsgAccessName(creator string, name string, publicKey string, peerId string) *MsgAccessName {
+func NewMsgAccessName(creator string, name string, c *Credential) *MsgAccessName {
 	return &MsgAccessName{
-		Creator:   creator,
-		Name:      name,
-		PublicKey: publicKey,
-		PeerId:    peerId,
+		Creator:    creator,
+		Name:       name,
+		Credential: c,
 	}
 }
 

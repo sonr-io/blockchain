@@ -6,6 +6,7 @@ import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "bucket/params.proto";
 import "bucket/which_is.proto";
+import "registry/who_is.proto";
 // this line is used by starport scaffolding # 1
 
 option go_package = "github.com/sonr-io/blockchain/x/bucket/types";
@@ -40,7 +41,7 @@ message QueryParamsResponse {
 
 message QueryGetWhichIsRequest {
 	  string index = 1;
-
+	sonrio.sonr.registry.Session session = 2;
 }
 
 message QueryGetWhichIsResponse {
@@ -49,6 +50,7 @@ message QueryGetWhichIsResponse {
 
 message QueryAllWhichIsRequest {
 	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+	sonrio.sonr.registry.Session session = 2;
 }
 
 message QueryAllWhichIsResponse {

@@ -16,10 +16,10 @@ func TestGenesis(t *testing.T) {
 
 		WhatIsList: []types.WhatIs{
 			{
-				Index: "0",
+				Did: "0",
 			},
 			{
-				Index: "1",
+				Did: "1",
 			},
 		},
 		// this line is used by starport scaffolding # genesis/test/state

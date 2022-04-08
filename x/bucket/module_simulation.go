@@ -69,11 +69,11 @@ func (AppModule) GenerateGenesisState(simState *module.SimulationState) {
 		WhichIsList: []types.WhichIs{
 			{
 				Creator: sample.AccAddress(),
-				Index:   "0",
+				Did:     "0",
 			},
 			{
 				Creator: sample.AccAddress(),
-				Index:   "1",
+				Did:     "1",
 			},
 		},
 		// this line is used by starport scaffolding # simapp/module/genesisState
@@ -108,17 +108,6 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 	operations = append(operations, simulation.NewWeightedOperation(
 		weightMsgCreateBucket,
 		bucketsimulation.SimulateMsgCreateBucket(am.accountKeeper, am.bankKeeper, am.keeper),
-	))
-
-	var weightMsgReadBucket int
-	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgReadBucket, &weightMsgReadBucket, nil,
-		func(_ *rand.Rand) {
-			weightMsgReadBucket = defaultWeightMsgReadBucket
-		},
-	)
-	operations = append(operations, simulation.NewWeightedOperation(
-		weightMsgReadBucket,
-		bucketsimulation.SimulateMsgReadBucket(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
 	var weightMsgUpdateBucket int

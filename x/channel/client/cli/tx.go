@@ -31,7 +31,6 @@ func GetTxCmd() *cobra.Command {
 	}
 
 	cmd.AddCommand(CmdCreateChannel())
-	cmd.AddCommand(CmdReadChannel())
 	cmd.AddCommand(CmdDeleteChannel())
 	cmd.AddCommand(CmdUpdateChannel())
 	cmd.AddCommand(CmdCreateHowIs())

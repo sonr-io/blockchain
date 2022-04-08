@@ -9,28 +9,64 @@
  * ---------------------------------------------------------------
  */
 
-export interface ChannelHowIs {
-  index?: string;
+export interface ChannelChannelDoc {
+  /** Label is human-readable name of the channel. */
+  label?: string;
+
+  /** Description is a human-readable description of the channel. */
+  description?: string;
+
+  /** Did is the identifier of the channel. */
   did?: string;
 
-  /** @format byte */
-  document?: string;
-  creator?: string;
+  /** RegisterdObject is the object that is registered as the payload for the channel. */
+  registered_object?: ObjectObjectDoc;
 }
 
-export type ChannelMsgCreateChannelResponse = object;
+export interface ChannelHowIs {
+  did?: string;
+  creator?: string;
+  channel?: ChannelChannelDoc;
+}
 
-export type ChannelMsgCreateHowIsResponse = object;
+export interface ChannelMsgCreateChannelResponse {
+  /** @format int32 */
+  code?: number;
+  message?: string;
+  how_is?: ChannelHowIs;
+}
 
-export type ChannelMsgDeleteChannelResponse = object;
+export interface ChannelMsgCreateHowIsResponse {
+  /** @format int32 */
+  code?: number;
+  message?: string;
+  how_is?: ChannelHowIs;
+}
 
-export type ChannelMsgDeleteHowIsResponse = object;
+export interface ChannelMsgDeleteChannelResponse {
+  /** @format int32 */
+  code?: number;
+  message?: string;
+}
 
-export type ChannelMsgReadChannelResponse = object;
+export interface ChannelMsgDeleteHowIsResponse {
+  /** @format int32 */
+  code?: number;
+  message?: string;
+}
 
-export type ChannelMsgUpdateChannelResponse = object;
+export interface ChannelMsgUpdateChannelResponse {
+  /** @format int32 */
+  code?: number;
+  message?: string;
+}
 
-export type ChannelMsgUpdateHowIsResponse = object;
+export interface ChannelMsgUpdateHowIsResponse {
+  /** @format int32 */
+  code?: number;
+  message?: string;
+  how_is?: ChannelHowIs;
+}
 
 /**
  * Params defines the parameters for the module.
@@ -64,15 +100,325 @@ export interface ChannelQueryParamsResponse {
   params?: ChannelParams;
 }
 
-export interface GooglerpcStatus {
-  /** @format int32 */
-  code?: number;
-  message?: string;
-  details?: ProtobufAny[];
+/**
+ * ObjectDoc is a document for an Object stored in the graph.
+ */
+export interface ObjectObjectDoc {
+  /** Label is human-readable name of the bucket. */
+  label?: string;
+
+  /** Description is a human-readable description of the bucket. */
+  description?: string;
+
+  /** Did is the identifier of the object. */
+  did?: string;
+
+  /** Bucket is the did of the bucket that contains this object. */
+  bucket_did?: string;
+
+  /** Fields are the fields associated with the object. */
+  fields?: Record<string, ObjectObjectField>;
+}
+
+/**
+ * ObjectField is a field of an Object.
+ */
+export interface ObjectObjectField {
+  label?: string;
+
+  /**
+   * - OBJECT_FIELD_TYPE_UNSPECIFIED: ObjectFieldTypeUnspecified is the default value
+   *  - OBJECT_FIELD_TYPE_STRING: ObjectFieldTypeString is a string or text field
+   *  - OBJECT_FIELD_TYPE_NUMBER: ObjectFieldTypeInt is an integer
+   *  - OBJECT_FIELD_TYPE_BOOL: ObjectFieldTypeBool is a boolean
+   *  - OBJECT_FIELD_TYPE_ARRAY: ObjectFieldTypeArray is a list of values
+   *  - OBJECT_FIELD_TYPE_TIMESTAMP: ObjectFieldTypeDateTime is a datetime
+   *  - OBJECT_FIELD_TYPE_GEOPOINT: ObjectFieldTypeGeopoint is a geopoint
+   *  - OBJECT_FIELD_TYPE_BLOB: ObjectFieldTypeBlob is a blob of data
+   *  - OBJECT_FIELD_TYPE_BLOCKCHAIN_ADDRESS: ObjectFieldTypeETU is a pointer to an Ethereum account address.
+   */
+  type?: ObjectObjectFieldType;
+
+  /** Did is the identifier of the field. */
+  did?: string;
+
+  /** ObjectFieldText is a text field of an Object. */
+  string_value?: ObjectObjectFieldText;
+
+  /** ObjectFieldNumber is a number field of an Object. */
+  number_value?: ObjectObjectFieldNumber;
+
+  /** ObjectFieldBool is a boolean field of an Object. */
+  bool_value?: ObjectObjectFieldBool;
+
+  /** ObjectFieldArray is an array of ObjectFields to be stored in the graph object. */
+  array_value?: ObjectObjectFieldArray;
+
+  /** Time is defined by milliseconds since epoch. */
+  time_stamp_value?: ObjectObjectFieldTime;
+
+  /** ObjectFieldGeopoint is a field of an Object for geopoints. */
+  geopoint_value?: ObjectObjectFieldGeopoint;
+
+  /** ObjectFieldBlob is a field of an Object for blobs. */
+  blob_value?: ObjectObjectFieldBlob;
+
+  /** ObjectFieldBlockchainAddress is a field of an Object for blockchain addresses. */
+  blockchain_addr_value?: ObjectObjectFieldBlockchainAddress;
+  metadata?: Record<string, string>;
+}
+
+/**
+ * ObjectFieldArray is an array of ObjectFields to be stored in the graph object.
+ */
+export interface ObjectObjectFieldArray {
+  label?: string;
+
+  /**
+   * - OBJECT_FIELD_TYPE_UNSPECIFIED: ObjectFieldTypeUnspecified is the default value
+   *  - OBJECT_FIELD_TYPE_STRING: ObjectFieldTypeString is a string or text field
+   *  - OBJECT_FIELD_TYPE_NUMBER: ObjectFieldTypeInt is an integer
+   *  - OBJECT_FIELD_TYPE_BOOL: ObjectFieldTypeBool is a boolean
+   *  - OBJECT_FIELD_TYPE_ARRAY: ObjectFieldTypeArray is a list of values
+   *  - OBJECT_FIELD_TYPE_TIMESTAMP: ObjectFieldTypeDateTime is a datetime
+   *  - OBJECT_FIELD_TYPE_GEOPOINT: ObjectFieldTypeGeopoint is a geopoint
+   *  - OBJECT_FIELD_TYPE_BLOB: ObjectFieldTypeBlob is a blob of data
+   *  - OBJECT_FIELD_TYPE_BLOCKCHAIN_ADDRESS: ObjectFieldTypeETU is a pointer to an Ethereum account address.
+   */
+  type?: ObjectObjectFieldType;
+
+  /** Did is the identifier of the field. */
+  did?: string;
+  items?: ObjectObjectField[];
+}
+
+/**
+ * ObjectFieldBlob is a field of an Object for blobs.
+ */
+export interface ObjectObjectFieldBlob {
+  label?: string;
+
+  /** Did is the identifier of the field. */
+  did?: string;
+
+  /** @format byte */
+  value?: string;
+  metadata?: Record<string, string>;
+}
+
+/**
+ * ObjectFieldBlockchainAddress is a field of an Object for blockchain addresses.
+ */
+export interface ObjectObjectFieldBlockchainAddress {
+  label?: string;
+
+  /** Did is the identifier of the field. */
+  did?: string;
+  value?: string;
+  metadata?: Record<string, string>;
+}
+
+/**
+ * ObjectFieldBool is a boolean field of an Object.
+ */
+export interface ObjectObjectFieldBool {
+  label?: string;
+
+  /** Did is the identifier of the field. */
+  did?: string;
+  value?: boolean;
+  metadata?: Record<string, string>;
+}
+
+/**
+ * ObjectFieldGeopoint is a field of an Object for geopoints.
+ */
+export interface ObjectObjectFieldGeopoint {
+  label?: string;
+
+  /**
+   * - OBJECT_FIELD_TYPE_UNSPECIFIED: ObjectFieldTypeUnspecified is the default value
+   *  - OBJECT_FIELD_TYPE_STRING: ObjectFieldTypeString is a string or text field
+   *  - OBJECT_FIELD_TYPE_NUMBER: ObjectFieldTypeInt is an integer
+   *  - OBJECT_FIELD_TYPE_BOOL: ObjectFieldTypeBool is a boolean
+   *  - OBJECT_FIELD_TYPE_ARRAY: ObjectFieldTypeArray is a list of values
+   *  - OBJECT_FIELD_TYPE_TIMESTAMP: ObjectFieldTypeDateTime is a datetime
+   *  - OBJECT_FIELD_TYPE_GEOPOINT: ObjectFieldTypeGeopoint is a geopoint
+   *  - OBJECT_FIELD_TYPE_BLOB: ObjectFieldTypeBlob is a blob of data
+   *  - OBJECT_FIELD_TYPE_BLOCKCHAIN_ADDRESS: ObjectFieldTypeETU is a pointer to an Ethereum account address.
+   */
+  type?: ObjectObjectFieldType;
+
+  /** Did is the identifier of the field. */
+  did?: string;
+
+  /**
+   * Latitude is the geo-latitude of the point.
+   * @format double
+   */
+  latitude?: number;
+
+  /** @format double */
+  longitude?: number;
+  metadata?: Record<string, string>;
+}
+
+/**
+ * ObjectFieldNumber is a number field of an Object.
+ */
+export interface ObjectObjectFieldNumber {
+  label?: string;
+
+  /** Did is the identifier of the field. */
+  did?: string;
+
+  /** @format double */
+  value?: number;
+  metadata?: Record<string, string>;
+}
+
+/**
+ * ObjectFieldText is a text field of an Object.
+ */
+export interface ObjectObjectFieldText {
+  label?: string;
+
+  /** Did is the identifier of the field. */
+  did?: string;
+  value?: string;
+  metadata?: Record<string, string>;
+}
+
+/**
+ * ObjectFieldTime is a time field of an Object.
+ */
+export interface ObjectObjectFieldTime {
+  label?: string;
+
+  /** Did is the identifier of the field. */
+  did?: string;
+
+  /** @format int64 */
+  value?: string;
+  metadata?: Record<string, string>;
+}
+
+/**
+* - OBJECT_FIELD_TYPE_UNSPECIFIED: ObjectFieldTypeUnspecified is the default value
+ - OBJECT_FIELD_TYPE_STRING: ObjectFieldTypeString is a string or text field
+ - OBJECT_FIELD_TYPE_NUMBER: ObjectFieldTypeInt is an integer
+ - OBJECT_FIELD_TYPE_BOOL: ObjectFieldTypeBool is a boolean
+ - OBJECT_FIELD_TYPE_ARRAY: ObjectFieldTypeArray is a list of values
+ - OBJECT_FIELD_TYPE_TIMESTAMP: ObjectFieldTypeDateTime is a datetime
+ - OBJECT_FIELD_TYPE_GEOPOINT: ObjectFieldTypeGeopoint is a geopoint
+ - OBJECT_FIELD_TYPE_BLOB: ObjectFieldTypeBlob is a blob of data
+ - OBJECT_FIELD_TYPE_BLOCKCHAIN_ADDRESS: ObjectFieldTypeETU is a pointer to an Ethereum account address.
+*/
+export enum ObjectObjectFieldType {
+  OBJECT_FIELD_TYPE_UNSPECIFIED = "OBJECT_FIELD_TYPE_UNSPECIFIED",
+  OBJECT_FIELD_TYPE_STRING = "OBJECT_FIELD_TYPE_STRING",
+  OBJECT_FIELD_TYPE_NUMBER = "OBJECT_FIELD_TYPE_NUMBER",
+  OBJECT_FIELD_TYPE_BOOL = "OBJECT_FIELD_TYPE_BOOL",
+  OBJECT_FIELD_TYPE_ARRAY = "OBJECT_FIELD_TYPE_ARRAY",
+  OBJECT_FIELD_TYPE_TIMESTAMP = "OBJECT_FIELD_TYPE_TIMESTAMP",
+  OBJECT_FIELD_TYPE_GEOPOINT = "OBJECT_FIELD_TYPE_GEOPOINT",
+  OBJECT_FIELD_TYPE_BLOB = "OBJECT_FIELD_TYPE_BLOB",
+  OBJECT_FIELD_TYPE_BLOCKCHAIN_ADDRESS = "OBJECT_FIELD_TYPE_BLOCKCHAIN_ADDRESS",
 }
 
 export interface ProtobufAny {
   "@type"?: string;
+}
+
+export interface RegistryAuthenticator {
+  /**
+   * The AAGUID of the authenticator. An AAGUID is defined as an array containing the globally unique
+   * identifier of the authenticator model being sought.
+   * @format byte
+   */
+  aaguid?: string;
+
+  /**
+   * SignCount -Upon a new login operation, the Relying Party compares the stored signature counter value
+   * with the new sign_count value returned in the assertion’s authenticator data. If this new
+   * signCount value is less than or equal to the stored value, a cloned authenticator may
+   * exist, or the authenticator may be malfunctioning.
+   * @format int64
+   */
+  sign_count?: number;
+
+  /**
+   * CloneWarning - This is a signal that the authenticator may be cloned, i.e. at least two copies of the
+   * credential private key may exist and are being used in parallel. Relying Parties should incorporate
+   * this information into their risk scoring. Whether the Relying Party updates the stored signature
+   * counter value in this case, or not, or fails the authentication ceremony or not, is Relying Party-specific.
+   */
+  clone_warning?: boolean;
+}
+
+export interface RegistryCredential {
+  /**
+   * A probabilistically-unique byte sequence identifying a public key credential source and its authentication assertions.
+   * @format byte
+   */
+  i_d?: string;
+
+  /**
+   * The public key portion of a Relying Party-specific credential key pair, generated by an authenticator and returned to
+   * a Relying Party at registration time (see also public key credential). The private key portion of the credential key
+   * pair is known as the credential private key. Note that in the case of self attestation, the credential key pair is also
+   * used as the attestation key pair, see self attestation for details.
+   * @format byte
+   */
+  public_key?: string;
+
+  /** The attestation format used (if any) by the authenticator when creating the credential. */
+  attestation_type?: string;
+  authenticator?: RegistryAuthenticator;
+}
+
+export interface RegistrySession {
+  base_did?: string;
+
+  /** WhoIs is the entry pointing a registered name to a user account address, Did Url string, and a DIDDocument. */
+  whois?: RegistryWhoIs;
+  credential?: RegistryCredential;
+}
+
+/**
+ * WhoIs is the entry pointing a registered name to a user account address, Did Url string, and a DIDDocument.
+ */
+export interface RegistryWhoIs {
+  name?: string;
+  did?: string;
+
+  /** @format byte */
+  document?: string;
+  creator?: string;
+  credentials?: RegistryCredential[];
+
+  /**
+   * - User: User is the type of the registered name
+   *  - Application: Application is the type of the registered name
+   */
+  type?: RegistryWhoIsType;
+  metadata?: Record<string, string>;
+}
+
+/**
+* - User: User is the type of the registered name
+ - Application: Application is the type of the registered name
+*/
+export enum RegistryWhoIsType {
+  User = "User",
+  Application = "Application",
+}
+
+export interface RpcStatus {
+  /** @format int32 */
+  code?: number;
+  message?: string;
+  details?: ProtobufAny[];
 }
 
 /**
@@ -349,10 +695,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       "pagination.limit"?: string;
       "pagination.count_total"?: boolean;
       "pagination.reverse"?: boolean;
+      "session.base_did"?: string;
+      "session.whois.name"?: string;
+      "session.whois.did"?: string;
+      "session.whois.document"?: string;
+      "session.whois.creator"?: string;
+      "session.whois.type"?: "User" | "Application";
+      "session.credential.i_d"?: string;
+      "session.credential.public_key"?: string;
+      "session.credential.attestation_type"?: string;
+      "session.credential.authenticator.aaguid"?: string;
+      "session.credential.authenticator.sign_count"?: number;
+      "session.credential.authenticator.clone_warning"?: boolean;
     },
     params: RequestParams = {},
   ) =>
-    this.request<ChannelQueryAllHowIsResponse, GooglerpcStatus>({
+    this.request<ChannelQueryAllHowIsResponse, RpcStatus>({
       path: `/sonr-io/sonr/channel/how_is`,
       method: "GET",
       query: query,
@@ -368,10 +726,28 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    * @summary Queries a HowIs by index.
    * @request GET:/sonr-io/sonr/channel/how_is/{index}
    */
-  queryHowIs = (index: string, params: RequestParams = {}) =>
-    this.request<ChannelQueryGetHowIsResponse, GooglerpcStatus>({
+  queryHowIs = (
+    index: string,
+    query?: {
+      "session.base_did"?: string;
+      "session.whois.name"?: string;
+      "session.whois.did"?: string;
+      "session.whois.document"?: string;
+      "session.whois.creator"?: string;
+      "session.whois.type"?: "User" | "Application";
+      "session.credential.i_d"?: string;
+      "session.credential.public_key"?: string;
+      "session.credential.attestation_type"?: string;
+      "session.credential.authenticator.aaguid"?: string;
+      "session.credential.authenticator.sign_count"?: number;
+      "session.credential.authenticator.clone_warning"?: boolean;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<ChannelQueryGetHowIsResponse, RpcStatus>({
       path: `/sonr-io/sonr/channel/how_is/${index}`,
       method: "GET",
+      query: query,
       format: "json",
       ...params,
     });
@@ -385,7 +761,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    * @request GET:/sonrio/sonr/channel/params
    */
   queryParams = (params: RequestParams = {}) =>
-    this.request<ChannelQueryParamsResponse, GooglerpcStatus>({
+    this.request<ChannelQueryParamsResponse, RpcStatus>({
       path: `/sonrio/sonr/channel/params`,
       method: "GET",
       format: "json",

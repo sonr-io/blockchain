@@ -28,10 +28,10 @@ func SimulateMsgCreateWhoIs(
 		i := r.Int()
 		msg := &types.MsgCreateWhoIs{
 			Creator: simAccount.Address.String(),
-			Index:   strconv.Itoa(i),
+			Did:     strconv.Itoa(i),
 		}
 
-		_, found := k.GetWhoIs(ctx, msg.Index)
+		_, found := k.GetWhoIs(ctx, msg.Did)
 		if found {
 			return simtypes.NoOpMsg(types.ModuleName, msg.Type(), "WhoIs already exist"), nil, nil
 		}
@@ -80,7 +80,7 @@ func SimulateMsgUpdateWhoIs(
 		}
 		msg.Creator = simAccount.Address.String()
 
-		msg.Index = whoIs.Name
+		msg.Did = whoIs.Did
 
 		txCtx := simulation.OperationInput{
 			R:               r,
@@ -126,7 +126,7 @@ func SimulateMsgDeleteWhoIs(
 		}
 		msg.Creator = simAccount.Address.String()
 
-		msg.Index = whoIs.Name
+		msg.Did = whoIs.Did
 
 		txCtx := simulation.OperationInput{
 			R:               r,

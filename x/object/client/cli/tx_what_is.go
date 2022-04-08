@@ -15,11 +15,10 @@ func CmdCreateWhatIs() *cobra.Command {
 		Args:  cobra.ExactArgs(3),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			// Get indexes
-			indexIndex := args[0]
+			argDid := args[0]
 
 			// Get value arguments
-			argDid := args[1]
-			argValue := args[2]
+			// objJson := args[1]
 
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
@@ -28,9 +27,8 @@ func CmdCreateWhatIs() *cobra.Command {
 
 			msg := types.NewMsgCreateWhatIs(
 				clientCtx.GetFromAddress().String(),
-				indexIndex,
 				argDid,
-				[]byte(argValue),
+				nil,
 			)
 			if err := msg.ValidateBasic(); err != nil {
 				return err
@@ -51,11 +49,7 @@ func CmdUpdateWhatIs() *cobra.Command {
 		Args:  cobra.ExactArgs(3),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			// Get indexes
-			indexIndex := args[0]
-
-			// Get value arguments
-			argDid := args[1]
-			argValue := args[2]
+			argDid := args[0]
 
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
@@ -64,9 +58,8 @@ func CmdUpdateWhatIs() *cobra.Command {
 
 			msg := types.NewMsgUpdateWhatIs(
 				clientCtx.GetFromAddress().String(),
-				indexIndex,
 				argDid,
-				[]byte(argValue),
+				nil,
 			)
 			if err := msg.ValidateBasic(); err != nil {
 				return err

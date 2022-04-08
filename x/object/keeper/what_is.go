@@ -11,7 +11,7 @@ func (k Keeper) SetWhatIs(ctx sdk.Context, whatIs types.WhatIs) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.WhatIsKeyPrefix))
 	b := k.cdc.MustMarshal(&whatIs)
 	store.Set(types.WhatIsKey(
-		whatIs.Index,
+		whatIs.Did,
 	), b)
 }
 

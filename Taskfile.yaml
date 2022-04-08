@@ -1,46 +1,46 @@
 version: "3"
 
 includes:
-  docs:
-    taskfile: ./docs/Taskfile.yaml
-    dir: ./docs/static/openapi
-
-  flutter:
-    taskfile: ./flutter/Taskfile.yaml
-    dir: ./flutter
-
-  types:
-    taskfile: ./proto/Taskfile.yaml
-    dir: ./proto
-
   vue:
     taskfile: ./vue/Taskfile.yaml
     dir: ./vue
 
 tasks:
-  buf:
-    cmds:
-      - buf build
-      - buf push
-    dir: ./proto
-
   build:
+    summary: Build the project for production without release mode
     cmds:
-      - task: vue:build
-      - goreleaser build --skip-validate --rm-dist
+      - starport chain build
+    silent: true
+
+  gen:
+    summary: Generates protobuf, openapi, and vue stores
+    cmds:
+      - starport generate openapi
+      - starport generate vuex
+      - starport generate proto-go
+      - go mod tidy
+    silent: true
 
   serve:
+    summary: Serve the blockchain using starport
     cmds:
-      - starport chain serve
+      - starport chain serve --reset-once
+    silent: true
 
-  release:
+  start:
+    summary: Start a locally built blockchain daemon
+    deps: [build]
     cmds:
-      - rm -rf dist
-      - rm -rf release
-      - goreleaser release
-      - task: clean
+      - rm -rf ~/.sonr
+      - sonrd init my-node --chain-id sonr
+      - sonrd keys add --keyring-backend test alice --home ~/.sonr
+      - sonrd add-genesis-account $(sonrd keys show alice -a) 1000000000000000stake,1000000000000snr
+      - sonrd gentx alice 1000000000000000stake --chain-id sonr
+      - sonrd collect-gentxs
+      - sonrd start
 
   clean:
+    summary: Clean the project
     cmds:
       - rm -rf dist
       - rm -rf release

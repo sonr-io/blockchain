@@ -20,9 +20,6 @@ func NewHandler(k keeper.Keeper) sdk.Handler {
 		case *types.MsgCreateBucket:
 			res, err := msgServer.CreateBucket(sdk.WrapSDKContext(ctx), msg)
 			return sdk.WrapServiceResult(ctx, res, err)
-		case *types.MsgReadBucket:
-			res, err := msgServer.ReadBucket(sdk.WrapSDKContext(ctx), msg)
-			return sdk.WrapServiceResult(ctx, res, err)
 		case *types.MsgUpdateBucket:
 			res, err := msgServer.UpdateBucket(sdk.WrapSDKContext(ctx), msg)
 			return sdk.WrapServiceResult(ctx, res, err)

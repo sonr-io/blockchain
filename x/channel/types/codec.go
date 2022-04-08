@@ -9,7 +9,6 @@ import (
 
 func RegisterCodec(cdc *codec.LegacyAmino) {
 	cdc.RegisterConcrete(&MsgCreateChannel{}, "channel/CreateChannel", nil)
-	cdc.RegisterConcrete(&MsgReadChannel{}, "channel/ReadChannel", nil)
 	cdc.RegisterConcrete(&MsgDeleteChannel{}, "channel/DeleteChannel", nil)
 	cdc.RegisterConcrete(&MsgUpdateChannel{}, "channel/UpdateChannel", nil)
 	cdc.RegisterConcrete(&MsgCreateHowIs{}, "channel/CreateHowIs", nil)
@@ -21,9 +20,6 @@ func RegisterCodec(cdc *codec.LegacyAmino) {
 func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgCreateChannel{},
-	)
-	registry.RegisterImplementations((*sdk.Msg)(nil),
-		&MsgReadChannel{},
 	)
 	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgDeleteChannel{},

@@ -20,9 +20,6 @@ func NewHandler(k keeper.Keeper) sdk.Handler {
 		case *types.MsgCreateObject:
 			res, err := msgServer.CreateObject(sdk.WrapSDKContext(ctx), msg)
 			return sdk.WrapServiceResult(ctx, res, err)
-		case *types.MsgReadObject:
-			res, err := msgServer.ReadObject(sdk.WrapSDKContext(ctx), msg)
-			return sdk.WrapServiceResult(ctx, res, err)
 		case *types.MsgUpdateObject:
 			res, err := msgServer.UpdateObject(sdk.WrapSDKContext(ctx), msg)
 			return sdk.WrapServiceResult(ctx, res, err)

@@ -11,9 +11,8 @@ var _ sdk.Msg = &MsgDeleteObject{}
 
 func NewMsgDeleteObject(creator string, did string, publicKey string) *MsgDeleteObject {
 	return &MsgDeleteObject{
-		Creator:   creator,
-		Did:       did,
-		PublicKey: publicKey,
+		Creator: creator,
+		Did:     did,
 	}
 }
 

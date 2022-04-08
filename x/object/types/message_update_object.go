@@ -9,10 +9,10 @@ const TypeMsgUpdateObject = "update_object"
 
 var _ sdk.Msg = &MsgUpdateObject{}
 
+// TODO: Add validation for fields
 func NewMsgUpdateObject(creator string, did string) *MsgUpdateObject {
 	return &MsgUpdateObject{
 		Creator: creator,
-		Did:     did,
 	}
 }
 

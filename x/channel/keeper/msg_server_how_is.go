@@ -14,17 +14,16 @@ func (k msgServer) CreateHowIs(goCtx context.Context, msg *types.MsgCreateHowIs)
 	// Check if the value already exists
 	_, isFound := k.GetHowIs(
 		ctx,
-		msg.Index,
+		msg.Did,
 	)
 	if isFound {
 		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "index already set")
 	}
 
 	var howIs = types.HowIs{
-		Creator:  msg.Creator,
-		Index:    msg.Index,
-		Did:      msg.Did,
-		Document: []byte(msg.DocumentJson),
+		Creator: msg.Creator,
+		Did:     msg.Did,
+		Channel: msg.Channel,
 	}
 
 	k.SetHowIs(
@@ -40,7 +39,7 @@ func (k msgServer) UpdateHowIs(goCtx context.Context, msg *types.MsgUpdateHowIs)
 	// Check if the value exists
 	valFound, isFound := k.GetHowIs(
 		ctx,
-		msg.Index,
+		msg.Did,
 	)
 	if !isFound {
 		return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, "index not set")
@@ -52,10 +51,9 @@ func (k msgServer) UpdateHowIs(goCtx context.Context, msg *types.MsgUpdateHowIs)
 	}
 
 	var howIs = types.HowIs{
-		Creator:  msg.Creator,
-		Index:    msg.Index,
-		Did:      msg.Did,
-		Document: []byte(msg.DocumentJson),
+		Creator: msg.Creator,
+		Did:     msg.Did,
+		Channel: msg.Channel,
 	}
 
 	k.SetHowIs(ctx, howIs)
@@ -69,7 +67,7 @@ func (k msgServer) DeleteHowIs(goCtx context.Context, msg *types.MsgDeleteHowIs)
 	// Check if the value exists
 	valFound, isFound := k.GetHowIs(
 		ctx,
-		msg.Index,
+		msg.Did,
 	)
 	if !isFound {
 		return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, "index not set")
@@ -82,7 +80,7 @@ func (k msgServer) DeleteHowIs(goCtx context.Context, msg *types.MsgDeleteHowIs)
 
 	k.RemoveHowIs(
 		ctx,
-		msg.Index,
+		msg.Did,
 	)
 
 	return &types.MsgDeleteHowIsResponse{}, nil

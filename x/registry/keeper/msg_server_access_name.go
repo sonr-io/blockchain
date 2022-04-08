@@ -27,9 +27,16 @@ func (k msgServer) AccessName(goCtx context.Context, msg *types.MsgAccessName) (
 		return nil, types.ErrInvalidWhoisType
 	}
 
+	// Create new session object
+	session := &types.Session{
+		BaseDid:    whois.Did,
+		Whois:      &whois,
+		Credential: msg.GetCredential(),
+	}
+
 	return &types.MsgAccessNameResponse{
-		Did:             whois.GetDid(),
-		DidDocumentJson: whois.GetDocument(),
-		WhoIs:           &whois,
+		Message: "Succesfully returned name information",
+		Session: session,
+		WhoIs:   &whois,
 	}, nil
 }

@@ -32,5 +32,19 @@ message WhoIs {
     // Application is the type of the registered name
     Application = 1;
   }
+
+  // Additional Metadata for associated WhoIs
+  map<string, string> metadata = 7;
 }
 
+// Session is the metadata for current user or application
+message Session {
+	// Base DID is the current Account or Application whois DID url
+	string base_did = 1;
+
+	// WhoIs is the current Document for the DID
+	WhoIs whois = 2;
+
+	// Credential is the current Credential for the DID
+	Credential credential = 3;
+}

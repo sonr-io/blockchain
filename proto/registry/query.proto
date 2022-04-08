@@ -40,7 +40,6 @@ message QueryParamsResponse {
 
 message QueryGetWhoIsRequest {
 	  string index = 1;
-
 }
 
 message QueryGetWhoIsResponse {

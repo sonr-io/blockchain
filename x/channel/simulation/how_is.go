@@ -28,10 +28,10 @@ func SimulateMsgCreateHowIs(
 		i := r.Int()
 		msg := &types.MsgCreateHowIs{
 			Creator: simAccount.Address.String(),
-			Index:   strconv.Itoa(i),
+			Did:     strconv.Itoa(i),
 		}
 
-		_, found := k.GetHowIs(ctx, msg.Index)
+		_, found := k.GetHowIs(ctx, msg.Did)
 		if found {
 			return simtypes.NoOpMsg(types.ModuleName, msg.Type(), "HowIs already exist"), nil, nil
 		}
@@ -80,7 +80,7 @@ func SimulateMsgUpdateHowIs(
 		}
 		msg.Creator = simAccount.Address.String()
 
-		msg.Index = howIs.Index
+		msg.Did = howIs.Did
 
 		txCtx := simulation.OperationInput{
 			R:               r,
@@ -126,7 +126,7 @@ func SimulateMsgDeleteHowIs(
 		}
 		msg.Creator = simAccount.Address.String()
 
-		msg.Index = howIs.Index
+		msg.Did = howIs.Did
 
 		txCtx := simulation.OperationInput{
 			R:               r,

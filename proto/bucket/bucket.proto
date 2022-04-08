@@ -1,11 +1,10 @@
 syntax = "proto3";
 package sonrio.sonr.bucket;
 import "object/object.proto";
-import "registry/peer.proto";
 option go_package = "github.com/sonr-io/blockchain/x/bucket/types";
 
 // Bucket is a collection of objects.
-message Bucket {
+message BucketDoc {
     // Label is human-readable name of the bucket.
     string label = 1;
 
@@ -19,7 +18,7 @@ message Bucket {
     string did = 4;
 
     // Objects are stored in a tree structure.
-    repeated sonrio.sonr.object.ObjectDoc objects = 5;
+    repeated string object_dids = 5;
 }
 
 // BucketType is the type of a bucket.
@@ -39,7 +38,7 @@ enum BucketType {
 // BucketEvent is the base event type for all Bucket events.
 message BucketEvent {
     // Owner is the peer that originated the event.
-    sonrio.sonr.registry.Peer peer = 1;
+    string peer_did = 1;
 
     // Type is the type of event being performed on a Bucket.
     BucketEventType type = 2;

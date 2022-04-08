@@ -20,7 +20,7 @@ func CmdCreateChannel() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			argName := args[0]
 			argDescription := args[1]
-			argObject := args[2]
+
 			argTTL, err := strconv.ParseInt(args[3], 10, 64)
 			if err != nil {
 				return err
@@ -40,7 +40,7 @@ func CmdCreateChannel() *cobra.Command {
 				clientCtx.GetFromAddress().String(),
 				argName,
 				argDescription,
-				argObject,
+				nil,
 				argTTL,
 				argMaxSize,
 			)

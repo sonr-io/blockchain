@@ -69,11 +69,11 @@ func (AppModule) GenerateGenesisState(simState *module.SimulationState) {
 		HowIsList: []types.HowIs{
 			{
 				Creator: sample.AccAddress(),
-				Index:   "0",
+				Did:     "0",
 			},
 			{
 				Creator: sample.AccAddress(),
-				Index:   "1",
+				Did:     "1",
 			},
 		},
 		// this line is used by starport scaffolding # simapp/module/genesisState
@@ -108,17 +108,6 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 	operations = append(operations, simulation.NewWeightedOperation(
 		weightMsgCreateChannel,
 		channelsimulation.SimulateMsgCreateChannel(am.accountKeeper, am.bankKeeper, am.keeper),
-	))
-
-	var weightMsgReadChannel int
-	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgReadChannel, &weightMsgReadChannel, nil,
-		func(_ *rand.Rand) {
-			weightMsgReadChannel = defaultWeightMsgReadChannel
-		},
-	)
-	operations = append(operations, simulation.NewWeightedOperation(
-		weightMsgReadChannel,
-		channelsimulation.SimulateMsgReadChannel(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
 	var weightMsgDeleteChannel int

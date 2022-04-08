@@ -17,14 +17,13 @@ func NewMsgCreateHowIs(
 	creator string,
 	index string,
 	did string,
-	value string,
+	c *ChannelDoc,
 
 ) *MsgCreateHowIs {
 	return &MsgCreateHowIs{
-		Creator:      creator,
-		Index:        index,
-		Did:          did,
-		DocumentJson: value,
+		Creator: creator,
+		Did:     index,
+		Channel: c,
 	}
 }
 
@@ -63,14 +62,13 @@ func NewMsgUpdateHowIs(
 	creator string,
 	index string,
 	did string,
-	value string,
+	c *ChannelDoc,
 
 ) *MsgUpdateHowIs {
 	return &MsgUpdateHowIs{
-		Creator:      creator,
-		Index:        index,
-		Did:          did,
-		DocumentJson: value,
+		Creator: creator,
+		Did:     index,
+		Channel: c,
 	}
 }
 
@@ -112,7 +110,7 @@ func NewMsgDeleteHowIs(
 ) *MsgDeleteHowIs {
 	return &MsgDeleteHowIs{
 		Creator: creator,
-		Index:   index,
+		Did:     index,
 	}
 }
 func (msg *MsgDeleteHowIs) Route() string {

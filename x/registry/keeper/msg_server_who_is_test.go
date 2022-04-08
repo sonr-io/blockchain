@@ -23,12 +23,12 @@ func TestWhoIsMsgServerCreate(t *testing.T) {
 	creator := "A"
 	for i := 0; i < 5; i++ {
 		expected := &types.MsgCreateWhoIs{Creator: creator,
-			Index: strconv.Itoa(i),
+			Did: strconv.Itoa(i),
 		}
 		_, err := srv.CreateWhoIs(wctx, expected)
 		require.NoError(t, err)
 		rst, found := k.GetWhoIs(ctx,
-			expected.Index,
+			expected.Did,
 		)
 		require.True(t, found)
 		require.Equal(t, expected.Creator, rst.Creator)
@@ -46,20 +46,20 @@ func TestWhoIsMsgServerUpdate(t *testing.T) {
 		{
 			desc: "Completed",
 			request: &types.MsgUpdateWhoIs{Creator: creator,
-				Index: strconv.Itoa(0),
+				Did: strconv.Itoa(0),
 			},
 		},
 		{
 			desc: "Unauthorized",
 			request: &types.MsgUpdateWhoIs{Creator: "B",
-				Index: strconv.Itoa(0),
+				Did: strconv.Itoa(0),
 			},
 			err: sdkerrors.ErrUnauthorized,
 		},
 		{
 			desc: "KeyNotFound",
 			request: &types.MsgUpdateWhoIs{Creator: creator,
-				Index: strconv.Itoa(100000),
+				Did: strconv.Itoa(100000),
 			},
 			err: sdkerrors.ErrKeyNotFound,
 		},
@@ -69,7 +69,7 @@ func TestWhoIsMsgServerUpdate(t *testing.T) {
 			srv := keeper.NewMsgServerImpl(*k)
 			wctx := sdk.WrapSDKContext(ctx)
 			expected := &types.MsgCreateWhoIs{Creator: creator,
-				Index: strconv.Itoa(0),
+				Did: strconv.Itoa(0),
 			}
 			_, err := srv.CreateWhoIs(wctx, expected)
 			require.NoError(t, err)
@@ -80,7 +80,7 @@ func TestWhoIsMsgServerUpdate(t *testing.T) {
 			} else {
 				require.NoError(t, err)
 				rst, found := k.GetWhoIs(ctx,
-					expected.Index,
+					expected.Did,
 				)
 				require.True(t, found)
 				require.Equal(t, expected.Creator, rst.Creator)
@@ -100,20 +100,20 @@ func TestWhoIsMsgServerDelete(t *testing.T) {
 		{
 			desc: "Completed",
 			request: &types.MsgDeleteWhoIs{Creator: creator,
-				Index: strconv.Itoa(0),
+				Did: strconv.Itoa(0),
 			},
 		},
 		{
 			desc: "Unauthorized",
 			request: &types.MsgDeleteWhoIs{Creator: "B",
-				Index: strconv.Itoa(0),
+				Did: strconv.Itoa(0),
 			},
 			err: sdkerrors.ErrUnauthorized,
 		},
 		{
 			desc: "KeyNotFound",
 			request: &types.MsgDeleteWhoIs{Creator: creator,
-				Index: strconv.Itoa(100000),
+				Did: strconv.Itoa(100000),
 			},
 			err: sdkerrors.ErrKeyNotFound,
 		},
@@ -124,7 +124,7 @@ func TestWhoIsMsgServerDelete(t *testing.T) {
 			wctx := sdk.WrapSDKContext(ctx)
 
 			_, err := srv.CreateWhoIs(wctx, &types.MsgCreateWhoIs{Creator: creator,
-				Index: strconv.Itoa(0),
+				Did: strconv.Itoa(0),
 			})
 			require.NoError(t, err)
 			_, err = srv.DeleteWhoIs(wctx, tc.request)
@@ -133,7 +133,7 @@ func TestWhoIsMsgServerDelete(t *testing.T) {
 			} else {
 				require.NoError(t, err)
 				_, found := k.GetWhoIs(ctx,
-					tc.request.Index,
+					tc.request.Did,
 				)
 				require.False(t, found)
 			}

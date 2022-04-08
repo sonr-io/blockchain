@@ -43,6 +43,13 @@ func (k msgServer) RegisterApplication(goCtx context.Context, msg *types.MsgRegi
 		return nil, err
 	}
 
+	// Generate Metadata for the Application
+	m := make(map[string]string)
+	m["app_name"] = name
+	m["app_description"] = msg.GetApplicationDescription()
+	m["app_url"] = msg.GetApplicationUrl()
+	m["app_category"] = msg.GetApplicationCategory()
+
 	// Create a new who is record
 	newWhois := types.WhoIs{
 		Name:     name,
@@ -50,16 +57,23 @@ func (k msgServer) RegisterApplication(goCtx context.Context, msg *types.MsgRegi
 		Document: didJson,
 		Creator:  msg.GetCreator(),
 		Type:     types.WhoIs_Application,
+		Metadata: m,
 	}
 
-	newWhois.AddCredential(msg.GetCredential())
+	// Create new session object
+	session := &types.Session{
+		BaseDid:    doc.ID.ID,
+		Whois:      &newWhois,
+		Credential: msg.GetCredential(),
+	}
 
 	// Write whois information to the store
+	newWhois.AddCredential(msg.GetCredential())
 	k.SetWhoIs(ctx, newWhois)
 
+	// Return the DID and WhoIs information
 	return &types.MsgRegisterApplicationResponse{
-		IsSuccess:       true,
-		DidUrl:          doc.ID.ID,
-		DidDocumentJson: didJson,
+		Session: session,
+		WhoIs:   &newWhois,
 	}, nil
 }

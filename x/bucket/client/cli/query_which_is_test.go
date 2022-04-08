@@ -29,7 +29,7 @@ func networkWithWhichIsObjects(t *testing.T, n int) (*network.Network, []types.W
 
 	for i := 0; i < n; i++ {
 		whichIs := types.WhichIs{
-			Index: strconv.Itoa(i),
+			Did: strconv.Itoa(i),
 		}
 		nullify.Fill(&whichIs)
 		state.WhichIsList = append(state.WhichIsList, whichIs)
@@ -57,7 +57,7 @@ func TestShowWhichIs(t *testing.T) {
 	}{
 		{
 			desc:    "found",
-			idIndex: objs[0].Index,
+			idIndex: objs[0].Did,
 
 			args: common,
 			obj:  objs[0],

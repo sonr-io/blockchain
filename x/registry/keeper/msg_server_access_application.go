@@ -27,8 +27,15 @@ func (k msgServer) AccessApplication(goCtx context.Context, msg *types.MsgAccess
 		return nil, types.ErrInvalidWhoisType
 	}
 
-	return &types.MsgAccessApplicationResponse{
+	// Create new session object
+	session := &types.Session{
+		BaseDid:    whois.Did,
+		Whois:      &whois,
+		Credential: msg.GetCredential(),
+	}
 
-		WhoIs: &whois,
+	return &types.MsgAccessApplicationResponse{
+		Session: session,
+		WhoIs:   &whois,
 	}, nil
 }

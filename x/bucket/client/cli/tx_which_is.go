@@ -30,7 +30,7 @@ func CmdCreateWhichIs() *cobra.Command {
 				clientCtx.GetFromAddress().String(),
 				indexIndex,
 				argDid,
-				"",
+				nil,
 			)
 			if err := msg.ValidateBasic(); err != nil {
 				return err
@@ -66,7 +66,7 @@ func CmdUpdateWhichIs() *cobra.Command {
 				clientCtx.GetFromAddress().String(),
 				indexIndex,
 				argDid,
-				"",
+				nil,
 			)
 			if err := msg.ValidateBasic(); err != nil {
 				return err

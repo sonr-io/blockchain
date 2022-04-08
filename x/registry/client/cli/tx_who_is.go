@@ -16,11 +16,6 @@ func CmdCreateWhoIs() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			// Get indexes
 			indexIndex := args[0]
-
-			// Get value arguments
-			argDid := args[1]
-			//argValue := args[2]
-
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
 				return err
@@ -29,8 +24,8 @@ func CmdCreateWhoIs() *cobra.Command {
 			msg := types.NewMsgCreateWhoIs(
 				clientCtx.GetFromAddress().String(),
 				indexIndex,
-				argDid,
-				"",
+				nil,
+				nil,
 			)
 			if err := msg.ValidateBasic(); err != nil {
 				return err
@@ -53,10 +48,6 @@ func CmdUpdateWhoIs() *cobra.Command {
 			// Get indexes
 			indexIndex := args[0]
 
-			// Get value arguments
-			argDid := args[1]
-			//argValue := args[2]
-
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
 				return err
@@ -65,8 +56,8 @@ func CmdUpdateWhoIs() *cobra.Command {
 			msg := types.NewMsgUpdateWhoIs(
 				clientCtx.GetFromAddress().String(),
 				indexIndex,
-				argDid,
-				"",
+				nil,
+				nil,
 			)
 			if err := msg.ValidateBasic(); err != nil {
 				return err
