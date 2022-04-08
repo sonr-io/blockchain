@@ -30,13 +30,6 @@ export interface ObjectMsgDeleteWhatIsResponse {
   did?: string;
 }
 
-export interface ObjectMsgReadObjectResponse {
-  /** @format int32 */
-  code?: number;
-  message?: string;
-  what_is?: ObjectWhatIs;
-}
-
 export interface ObjectMsgUpdateObjectResponse {
   /** @format int32 */
   code?: number;
@@ -683,6 +676,18 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       "pagination.limit"?: string;
       "pagination.count_total"?: boolean;
       "pagination.reverse"?: boolean;
+      "session.base_did"?: string;
+      "session.whois.name"?: string;
+      "session.whois.did"?: string;
+      "session.whois.document"?: string;
+      "session.whois.creator"?: string;
+      "session.whois.type"?: "User" | "Application";
+      "session.credential.i_d"?: string;
+      "session.credential.public_key"?: string;
+      "session.credential.attestation_type"?: string;
+      "session.credential.authenticator.aaguid"?: string;
+      "session.credential.authenticator.sign_count"?: number;
+      "session.credential.authenticator.clone_warning"?: boolean;
     },
     params: RequestParams = {},
   ) =>
@@ -702,10 +707,28 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    * @summary Queries a WhatIs by index.
    * @request GET:/sonr-io/sonr/object/what_is/{index}
    */
-  queryWhatIs = (index: string, params: RequestParams = {}) =>
+  queryWhatIs = (
+    index: string,
+    query?: {
+      "session.base_did"?: string;
+      "session.whois.name"?: string;
+      "session.whois.did"?: string;
+      "session.whois.document"?: string;
+      "session.whois.creator"?: string;
+      "session.whois.type"?: "User" | "Application";
+      "session.credential.i_d"?: string;
+      "session.credential.public_key"?: string;
+      "session.credential.attestation_type"?: string;
+      "session.credential.authenticator.aaguid"?: string;
+      "session.credential.authenticator.sign_count"?: number;
+      "session.credential.authenticator.clone_warning"?: boolean;
+    },
+    params: RequestParams = {},
+  ) =>
     this.request<ObjectQueryGetWhatIsResponse, RpcStatus>({
       path: `/sonr-io/sonr/object/what_is/${index}`,
       method: "GET",
+      query: query,
       format: "json",
       ...params,
     });

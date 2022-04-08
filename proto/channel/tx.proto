@@ -56,6 +56,10 @@ message MsgDeleteChannelResponse {
 message MsgUpdateChannel {
   string creator = 1;
   string did = 2;
+  string label = 3;
+  string description = 4;
+  sonrio.sonr.object.ObjectDoc object_to_register = 5;
+  sonrio.sonr.registry.Session session = 6;
 }
 
 message MsgUpdateChannelResponse {
@@ -71,14 +75,29 @@ message MsgCreateHowIs {
   string did = 2;
   ChannelDoc channel = 4;
 }
-message MsgCreateHowIsResponse {}
+message MsgCreateHowIsResponse {
+    // Code of the response
+    int32 code = 1;
+
+    // Message of the response
+    string message = 2;
+
+    HowIs how_is = 3;
+}
 
 message MsgUpdateHowIs {
   string creator = 1;
   string did = 2;
   ChannelDoc channel = 4;
 }
-message MsgUpdateHowIsResponse {}
+message MsgUpdateHowIsResponse {
+    // Code of the response
+    int32 code = 1;
+
+    // Message of the response
+    string message = 2;
+
+    HowIs how_is = 3;}
 
 message MsgDeleteHowIs {
   string creator = 1;
@@ -86,6 +105,11 @@ message MsgDeleteHowIs {
 }
 
 message MsgDeleteHowIsResponse {
+    // Code of the response
+    int32 code = 1;
+
+    // Message of the response
+    string message = 2;
 }
 
 // this line is used by starport scaffolding # proto/tx/message

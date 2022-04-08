@@ -27687,7 +27687,77 @@ paths:
         '200':
           description: A successful response.
           schema:
-            $ref: '#/definitions/sonrio.sonr.bucket.QueryAllWhichIsResponse'
+            type: object
+            properties:
+              whichIs:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    did:
+                      type: string
+                    creator:
+                      type: string
+                      title: >-
+                        Document is the DID Document of the registered name and
+                        account encoded as JSON
+                    bucket:
+                      type: object
+                      properties:
+                        label:
+                          type: string
+                          description: Label is human-readable name of the bucket.
+                        description:
+                          type: string
+                          description: >-
+                            Description is a human-readable description of the
+                            bucket.
+                        type:
+                          description: >-
+                            Type is the kind of bucket for either App specific
+                            or User specific data.
+                          type: string
+                          enum:
+                            - BUCKET_TYPE_UNSPECIFIED
+                            - BUCKET_TYPE_APP
+                            - BUCKET_TYPE_USER
+                          default: BUCKET_TYPE_UNSPECIFIED
+                        did:
+                          type: string
+                          description: Did is the identifier of the bucket.
+                        object_dids:
+                          type: array
+                          items:
+                            type: string
+                          description: Objects are stored in a tree structure.
+                      description: Bucket is a collection of objects.
+              pagination:
+                type: object
+                properties:
+                  next_key:
+                    type: string
+                    format: byte
+                    title: |-
+                      next_key is the key to be passed to PageRequest.key to
+                      query the next page most efficiently
+                  total:
+                    type: string
+                    format: uint64
+                    title: >-
+                      total is total number of results available if
+                      PageRequest.count_total
+
+                      was set, its value is undefined otherwise
+                description: >-
+                  PageResponse is to be embedded in gRPC response messages where
+                  the
+
+                  corresponding request message has used PageRequest.
+
+                   message SomeResponse {
+                           repeated Bar results = 1;
+                           PageResponse page = 2;
+                   }
         default:
           description: An unexpected error response.
           schema:
@@ -27763,6 +27833,120 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: session.base_did
+          description: Base DID is the current Account or Application whois DID url
+          in: query
+          required: false
+          type: string
+        - name: session.whois.name
+          description: Name is the registered name of the User or Application
+          in: query
+          required: false
+          type: string
+        - name: session.whois.did
+          description: DID is the DID of the account
+          in: query
+          required: false
+          type: string
+        - name: session.whois.document
+          description: >-
+            Document is the DID Document of the registered name and account
+            encoded as JSON
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: session.whois.creator
+          description: Creator is the DID of the creator of the DID Document
+          in: query
+          required: false
+          type: string
+        - name: session.whois.type
+          description: |-
+            Type is the type of the registered name
+
+             - User: User is the type of the registered name
+             - Application: Application is the type of the registered name
+          in: query
+          required: false
+          type: string
+          enum:
+            - User
+            - Application
+          default: User
+        - name: session.credential.i_d
+          description: >-
+            A probabilistically-unique byte sequence identifying a public key
+            credential source and its authentication assertions.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: session.credential.public_key
+          description: >-
+            The public key portion of a Relying Party-specific credential key
+            pair, generated by an authenticator and returned to
+
+            a Relying Party at registration time (see also public key
+            credential). The private key portion of the credential key
+
+            pair is known as the credential private key. Note that in the case
+            of self attestation, the credential key pair is also
+
+            used as the attestation key pair, see self attestation for details.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: session.credential.attestation_type
+          description: >-
+            The attestation format used (if any) by the authenticator when
+            creating the credential.
+          in: query
+          required: false
+          type: string
+        - name: session.credential.authenticator.aaguid
+          description: >-
+            The AAGUID of the authenticator. An AAGUID is defined as an array
+            containing the globally unique
+
+            identifier of the authenticator model being sought.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: session.credential.authenticator.sign_count
+          description: >-
+            SignCount -Upon a new login operation, the Relying Party compares
+            the stored signature counter value
+
+            with the new sign_count value returned in the assertion’s
+            authenticator data. If this new
+
+            signCount value is less than or equal to the stored value, a cloned
+            authenticator may
+
+            exist, or the authenticator may be malfunctioning.
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: session.credential.authenticator.clone_warning
+          description: >-
+            CloneWarning - This is a signal that the authenticator may be
+            cloned, i.e. at least two copies of the
+
+            credential private key may exist and are being used in parallel.
+            Relying Parties should incorporate
+
+            this information into their risk scoring. Whether the Relying Party
+            updates the stored signature
+
+            counter value in this case, or not, or fails the authentication
+            ceremony or not, is Relying Party-specific.
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/sonr-io/sonr/bucket/which_is/{index}':
@@ -27773,7 +27957,48 @@ paths:
         '200':
           description: A successful response.
           schema:
-            $ref: '#/definitions/sonrio.sonr.bucket.QueryGetWhichIsResponse'
+            type: object
+            properties:
+              whichIs:
+                type: object
+                properties:
+                  did:
+                    type: string
+                  creator:
+                    type: string
+                    title: >-
+                      Document is the DID Document of the registered name and
+                      account encoded as JSON
+                  bucket:
+                    type: object
+                    properties:
+                      label:
+                        type: string
+                        description: Label is human-readable name of the bucket.
+                      description:
+                        type: string
+                        description: >-
+                          Description is a human-readable description of the
+                          bucket.
+                      type:
+                        description: >-
+                          Type is the kind of bucket for either App specific or
+                          User specific data.
+                        type: string
+                        enum:
+                          - BUCKET_TYPE_UNSPECIFIED
+                          - BUCKET_TYPE_APP
+                          - BUCKET_TYPE_USER
+                        default: BUCKET_TYPE_UNSPECIFIED
+                      did:
+                        type: string
+                        description: Did is the identifier of the bucket.
+                      object_dids:
+                        type: array
+                        items:
+                          type: string
+                        description: Objects are stored in a tree structure.
+                    description: Bucket is a collection of objects.
         default:
           description: An unexpected error response.
           schema:
@@ -27797,6 +28022,120 @@ paths:
           in: path
           required: true
           type: string
+        - name: session.base_did
+          description: Base DID is the current Account or Application whois DID url
+          in: query
+          required: false
+          type: string
+        - name: session.whois.name
+          description: Name is the registered name of the User or Application
+          in: query
+          required: false
+          type: string
+        - name: session.whois.did
+          description: DID is the DID of the account
+          in: query
+          required: false
+          type: string
+        - name: session.whois.document
+          description: >-
+            Document is the DID Document of the registered name and account
+            encoded as JSON
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: session.whois.creator
+          description: Creator is the DID of the creator of the DID Document
+          in: query
+          required: false
+          type: string
+        - name: session.whois.type
+          description: |-
+            Type is the type of the registered name
+
+             - User: User is the type of the registered name
+             - Application: Application is the type of the registered name
+          in: query
+          required: false
+          type: string
+          enum:
+            - User
+            - Application
+          default: User
+        - name: session.credential.i_d
+          description: >-
+            A probabilistically-unique byte sequence identifying a public key
+            credential source and its authentication assertions.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: session.credential.public_key
+          description: >-
+            The public key portion of a Relying Party-specific credential key
+            pair, generated by an authenticator and returned to
+
+            a Relying Party at registration time (see also public key
+            credential). The private key portion of the credential key
+
+            pair is known as the credential private key. Note that in the case
+            of self attestation, the credential key pair is also
+
+            used as the attestation key pair, see self attestation for details.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: session.credential.attestation_type
+          description: >-
+            The attestation format used (if any) by the authenticator when
+            creating the credential.
+          in: query
+          required: false
+          type: string
+        - name: session.credential.authenticator.aaguid
+          description: >-
+            The AAGUID of the authenticator. An AAGUID is defined as an array
+            containing the globally unique
+
+            identifier of the authenticator model being sought.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: session.credential.authenticator.sign_count
+          description: >-
+            SignCount -Upon a new login operation, the Relying Party compares
+            the stored signature counter value
+
+            with the new sign_count value returned in the assertion’s
+            authenticator data. If this new
+
+            signCount value is less than or equal to the stored value, a cloned
+            authenticator may
+
+            exist, or the authenticator may be malfunctioning.
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: session.credential.authenticator.clone_warning
+          description: >-
+            CloneWarning - This is a signal that the authenticator may be
+            cloned, i.e. at least two copies of the
+
+            credential private key may exist and are being used in parallel.
+            Relying Parties should incorporate
+
+            this information into their risk scoring. Whether the Relying Party
+            updates the stored signature
+
+            counter value in this case, or not, or fails the authentication
+            ceremony or not, is Relying Party-specific.
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   /sonrio/sonr/bucket/params:
@@ -27919,6 +28258,120 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: session.base_did
+          description: Base DID is the current Account or Application whois DID url
+          in: query
+          required: false
+          type: string
+        - name: session.whois.name
+          description: Name is the registered name of the User or Application
+          in: query
+          required: false
+          type: string
+        - name: session.whois.did
+          description: DID is the DID of the account
+          in: query
+          required: false
+          type: string
+        - name: session.whois.document
+          description: >-
+            Document is the DID Document of the registered name and account
+            encoded as JSON
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: session.whois.creator
+          description: Creator is the DID of the creator of the DID Document
+          in: query
+          required: false
+          type: string
+        - name: session.whois.type
+          description: |-
+            Type is the type of the registered name
+
+             - User: User is the type of the registered name
+             - Application: Application is the type of the registered name
+          in: query
+          required: false
+          type: string
+          enum:
+            - User
+            - Application
+          default: User
+        - name: session.credential.i_d
+          description: >-
+            A probabilistically-unique byte sequence identifying a public key
+            credential source and its authentication assertions.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: session.credential.public_key
+          description: >-
+            The public key portion of a Relying Party-specific credential key
+            pair, generated by an authenticator and returned to
+
+            a Relying Party at registration time (see also public key
+            credential). The private key portion of the credential key
+
+            pair is known as the credential private key. Note that in the case
+            of self attestation, the credential key pair is also
+
+            used as the attestation key pair, see self attestation for details.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: session.credential.attestation_type
+          description: >-
+            The attestation format used (if any) by the authenticator when
+            creating the credential.
+          in: query
+          required: false
+          type: string
+        - name: session.credential.authenticator.aaguid
+          description: >-
+            The AAGUID of the authenticator. An AAGUID is defined as an array
+            containing the globally unique
+
+            identifier of the authenticator model being sought.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: session.credential.authenticator.sign_count
+          description: >-
+            SignCount -Upon a new login operation, the Relying Party compares
+            the stored signature counter value
+
+            with the new sign_count value returned in the assertion’s
+            authenticator data. If this new
+
+            signCount value is less than or equal to the stored value, a cloned
+            authenticator may
+
+            exist, or the authenticator may be malfunctioning.
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: session.credential.authenticator.clone_warning
+          description: >-
+            CloneWarning - This is a signal that the authenticator may be
+            cloned, i.e. at least two copies of the
+
+            credential private key may exist and are being used in parallel.
+            Relying Parties should incorporate
+
+            this information into their risk scoring. Whether the Relying Party
+            updates the stored signature
+
+            counter value in this case, or not, or fails the authentication
+            ceremony or not, is Relying Party-specific.
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/sonr-io/sonr/channel/how_is/{index}':
@@ -27953,6 +28406,120 @@ paths:
           in: path
           required: true
           type: string
+        - name: session.base_did
+          description: Base DID is the current Account or Application whois DID url
+          in: query
+          required: false
+          type: string
+        - name: session.whois.name
+          description: Name is the registered name of the User or Application
+          in: query
+          required: false
+          type: string
+        - name: session.whois.did
+          description: DID is the DID of the account
+          in: query
+          required: false
+          type: string
+        - name: session.whois.document
+          description: >-
+            Document is the DID Document of the registered name and account
+            encoded as JSON
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: session.whois.creator
+          description: Creator is the DID of the creator of the DID Document
+          in: query
+          required: false
+          type: string
+        - name: session.whois.type
+          description: |-
+            Type is the type of the registered name
+
+             - User: User is the type of the registered name
+             - Application: Application is the type of the registered name
+          in: query
+          required: false
+          type: string
+          enum:
+            - User
+            - Application
+          default: User
+        - name: session.credential.i_d
+          description: >-
+            A probabilistically-unique byte sequence identifying a public key
+            credential source and its authentication assertions.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: session.credential.public_key
+          description: >-
+            The public key portion of a Relying Party-specific credential key
+            pair, generated by an authenticator and returned to
+
+            a Relying Party at registration time (see also public key
+            credential). The private key portion of the credential key
+
+            pair is known as the credential private key. Note that in the case
+            of self attestation, the credential key pair is also
+
+            used as the attestation key pair, see self attestation for details.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: session.credential.attestation_type
+          description: >-
+            The attestation format used (if any) by the authenticator when
+            creating the credential.
+          in: query
+          required: false
+          type: string
+        - name: session.credential.authenticator.aaguid
+          description: >-
+            The AAGUID of the authenticator. An AAGUID is defined as an array
+            containing the globally unique
+
+            identifier of the authenticator model being sought.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: session.credential.authenticator.sign_count
+          description: >-
+            SignCount -Upon a new login operation, the Relying Party compares
+            the stored signature counter value
+
+            with the new sign_count value returned in the assertion’s
+            authenticator data. If this new
+
+            signCount value is less than or equal to the stored value, a cloned
+            authenticator may
+
+            exist, or the authenticator may be malfunctioning.
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: session.credential.authenticator.clone_warning
+          description: >-
+            CloneWarning - This is a signal that the authenticator may be
+            cloned, i.e. at least two copies of the
+
+            credential private key may exist and are being used in parallel.
+            Relying Parties should incorporate
+
+            this information into their risk scoring. Whether the Relying Party
+            updates the stored signature
+
+            counter value in this case, or not, or fails the authentication
+            ceremony or not, is Relying Party-specific.
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   /sonrio/sonr/channel/params:
@@ -28075,6 +28642,120 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: session.base_did
+          description: Base DID is the current Account or Application whois DID url
+          in: query
+          required: false
+          type: string
+        - name: session.whois.name
+          description: Name is the registered name of the User or Application
+          in: query
+          required: false
+          type: string
+        - name: session.whois.did
+          description: DID is the DID of the account
+          in: query
+          required: false
+          type: string
+        - name: session.whois.document
+          description: >-
+            Document is the DID Document of the registered name and account
+            encoded as JSON
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: session.whois.creator
+          description: Creator is the DID of the creator of the DID Document
+          in: query
+          required: false
+          type: string
+        - name: session.whois.type
+          description: |-
+            Type is the type of the registered name
+
+             - User: User is the type of the registered name
+             - Application: Application is the type of the registered name
+          in: query
+          required: false
+          type: string
+          enum:
+            - User
+            - Application
+          default: User
+        - name: session.credential.i_d
+          description: >-
+            A probabilistically-unique byte sequence identifying a public key
+            credential source and its authentication assertions.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: session.credential.public_key
+          description: >-
+            The public key portion of a Relying Party-specific credential key
+            pair, generated by an authenticator and returned to
+
+            a Relying Party at registration time (see also public key
+            credential). The private key portion of the credential key
+
+            pair is known as the credential private key. Note that in the case
+            of self attestation, the credential key pair is also
+
+            used as the attestation key pair, see self attestation for details.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: session.credential.attestation_type
+          description: >-
+            The attestation format used (if any) by the authenticator when
+            creating the credential.
+          in: query
+          required: false
+          type: string
+        - name: session.credential.authenticator.aaguid
+          description: >-
+            The AAGUID of the authenticator. An AAGUID is defined as an array
+            containing the globally unique
+
+            identifier of the authenticator model being sought.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: session.credential.authenticator.sign_count
+          description: >-
+            SignCount -Upon a new login operation, the Relying Party compares
+            the stored signature counter value
+
+            with the new sign_count value returned in the assertion’s
+            authenticator data. If this new
+
+            signCount value is less than or equal to the stored value, a cloned
+            authenticator may
+
+            exist, or the authenticator may be malfunctioning.
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: session.credential.authenticator.clone_warning
+          description: >-
+            CloneWarning - This is a signal that the authenticator may be
+            cloned, i.e. at least two copies of the
+
+            credential private key may exist and are being used in parallel.
+            Relying Parties should incorporate
+
+            this information into their risk scoring. Whether the Relying Party
+            updates the stored signature
+
+            counter value in this case, or not, or fails the authentication
+            ceremony or not, is Relying Party-specific.
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/sonr-io/sonr/object/what_is/{index}':
@@ -28109,6 +28790,120 @@ paths:
           in: path
           required: true
           type: string
+        - name: session.base_did
+          description: Base DID is the current Account or Application whois DID url
+          in: query
+          required: false
+          type: string
+        - name: session.whois.name
+          description: Name is the registered name of the User or Application
+          in: query
+          required: false
+          type: string
+        - name: session.whois.did
+          description: DID is the DID of the account
+          in: query
+          required: false
+          type: string
+        - name: session.whois.document
+          description: >-
+            Document is the DID Document of the registered name and account
+            encoded as JSON
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: session.whois.creator
+          description: Creator is the DID of the creator of the DID Document
+          in: query
+          required: false
+          type: string
+        - name: session.whois.type
+          description: |-
+            Type is the type of the registered name
+
+             - User: User is the type of the registered name
+             - Application: Application is the type of the registered name
+          in: query
+          required: false
+          type: string
+          enum:
+            - User
+            - Application
+          default: User
+        - name: session.credential.i_d
+          description: >-
+            A probabilistically-unique byte sequence identifying a public key
+            credential source and its authentication assertions.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: session.credential.public_key
+          description: >-
+            The public key portion of a Relying Party-specific credential key
+            pair, generated by an authenticator and returned to
+
+            a Relying Party at registration time (see also public key
+            credential). The private key portion of the credential key
+
+            pair is known as the credential private key. Note that in the case
+            of self attestation, the credential key pair is also
+
+            used as the attestation key pair, see self attestation for details.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: session.credential.attestation_type
+          description: >-
+            The attestation format used (if any) by the authenticator when
+            creating the credential.
+          in: query
+          required: false
+          type: string
+        - name: session.credential.authenticator.aaguid
+          description: >-
+            The AAGUID of the authenticator. An AAGUID is defined as an array
+            containing the globally unique
+
+            identifier of the authenticator model being sought.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: session.credential.authenticator.sign_count
+          description: >-
+            SignCount -Upon a new login operation, the Relying Party compares
+            the stored signature counter value
+
+            with the new sign_count value returned in the assertion’s
+            authenticator data. If this new
+
+            signCount value is less than or equal to the stored value, a cloned
+            authenticator may
+
+            exist, or the authenticator may be malfunctioning.
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: session.credential.authenticator.clone_warning
+          description: >-
+            CloneWarning - This is a signal that the authenticator may be
+            cloned, i.e. at least two copies of the
+
+            credential private key may exist and are being used in parallel.
+            Relying Parties should incorporate
+
+            this information into their risk scoring. Whether the Relying Party
+            updates the stored signature
+
+            counter value in this case, or not, or fails the authentication
+            ceremony or not, is Relying Party-specific.
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   /sonrio/sonr/object/params:
@@ -47904,10 +48699,10 @@ definitions:
       did:
         type: string
         description: Did is the identifier of the bucket.
-      objects:
+      object_dids:
         type: array
         items:
-          $ref: '#/definitions/sonrio.sonr.object.ObjectDoc'
+          type: string
         description: Objects are stored in a tree structure.
     description: Bucket is a collection of objects.
   sonrio.sonr.bucket.BucketType:
@@ -47935,7 +48730,43 @@ definitions:
         type: string
         title: Message of the response
       which_is:
-        $ref: '#/definitions/sonrio.sonr.bucket.WhichIs'
+        type: object
+        properties:
+          did:
+            type: string
+          creator:
+            type: string
+            title: >-
+              Document is the DID Document of the registered name and account
+              encoded as JSON
+          bucket:
+            type: object
+            properties:
+              label:
+                type: string
+                description: Label is human-readable name of the bucket.
+              description:
+                type: string
+                description: Description is a human-readable description of the bucket.
+              type:
+                description: >-
+                  Type is the kind of bucket for either App specific or User
+                  specific data.
+                type: string
+                enum:
+                  - BUCKET_TYPE_UNSPECIFIED
+                  - BUCKET_TYPE_APP
+                  - BUCKET_TYPE_USER
+                default: BUCKET_TYPE_UNSPECIFIED
+              did:
+                type: string
+                description: Did is the identifier of the bucket.
+              object_dids:
+                type: array
+                items:
+                  type: string
+                description: Objects are stored in a tree structure.
+            description: Bucket is a collection of objects.
         title: Whichis response of the ObjectDoc
   sonrio.sonr.bucket.MsgCreateWhichIsResponse:
     type: object
@@ -47951,19 +48782,6 @@ definitions:
         title: Message of the response
   sonrio.sonr.bucket.MsgDeleteWhichIsResponse:
     type: object
-  sonrio.sonr.bucket.MsgReadBucketResponse:
-    type: object
-    properties:
-      code:
-        type: integer
-        format: int32
-        title: Code of the response
-      message:
-        type: string
-        title: Message of the response
-      which_is:
-        $ref: '#/definitions/sonrio.sonr.bucket.WhichIs'
-        title: Whichis response of the ObjectDoc
   sonrio.sonr.bucket.MsgUpdateBucketResponse:
     type: object
     properties:
@@ -47975,7 +48793,43 @@ definitions:
         type: string
         title: Message of the response
       which_is:
-        $ref: '#/definitions/sonrio.sonr.bucket.WhichIs'
+        type: object
+        properties:
+          did:
+            type: string
+          creator:
+            type: string
+            title: >-
+              Document is the DID Document of the registered name and account
+              encoded as JSON
+          bucket:
+            type: object
+            properties:
+              label:
+                type: string
+                description: Label is human-readable name of the bucket.
+              description:
+                type: string
+                description: Description is a human-readable description of the bucket.
+              type:
+                description: >-
+                  Type is the kind of bucket for either App specific or User
+                  specific data.
+                type: string
+                enum:
+                  - BUCKET_TYPE_UNSPECIFIED
+                  - BUCKET_TYPE_APP
+                  - BUCKET_TYPE_USER
+                default: BUCKET_TYPE_UNSPECIFIED
+              did:
+                type: string
+                description: Did is the identifier of the bucket.
+              object_dids:
+                type: array
+                items:
+                  type: string
+                description: Objects are stored in a tree structure.
+            description: Bucket is a collection of objects.
         title: Whichis response of the ObjectDoc
   sonrio.sonr.bucket.MsgUpdateWhichIsResponse:
     type: object
@@ -47988,7 +48842,43 @@ definitions:
       whichIs:
         type: array
         items:
-          $ref: '#/definitions/sonrio.sonr.bucket.WhichIs'
+          type: object
+          properties:
+            did:
+              type: string
+            creator:
+              type: string
+              title: >-
+                Document is the DID Document of the registered name and account
+                encoded as JSON
+            bucket:
+              type: object
+              properties:
+                label:
+                  type: string
+                  description: Label is human-readable name of the bucket.
+                description:
+                  type: string
+                  description: Description is a human-readable description of the bucket.
+                type:
+                  description: >-
+                    Type is the kind of bucket for either App specific or User
+                    specific data.
+                  type: string
+                  enum:
+                    - BUCKET_TYPE_UNSPECIFIED
+                    - BUCKET_TYPE_APP
+                    - BUCKET_TYPE_USER
+                  default: BUCKET_TYPE_UNSPECIFIED
+                did:
+                  type: string
+                  description: Did is the identifier of the bucket.
+                object_dids:
+                  type: array
+                  items:
+                    type: string
+                  description: Objects are stored in a tree structure.
+              description: Bucket is a collection of objects.
       pagination:
         type: object
         properties:
@@ -48018,7 +48908,43 @@ definitions:
     type: object
     properties:
       whichIs:
-        $ref: '#/definitions/sonrio.sonr.bucket.WhichIs'
+        type: object
+        properties:
+          did:
+            type: string
+          creator:
+            type: string
+            title: >-
+              Document is the DID Document of the registered name and account
+              encoded as JSON
+          bucket:
+            type: object
+            properties:
+              label:
+                type: string
+                description: Label is human-readable name of the bucket.
+              description:
+                type: string
+                description: Description is a human-readable description of the bucket.
+              type:
+                description: >-
+                  Type is the kind of bucket for either App specific or User
+                  specific data.
+                type: string
+                enum:
+                  - BUCKET_TYPE_UNSPECIFIED
+                  - BUCKET_TYPE_APP
+                  - BUCKET_TYPE_USER
+                default: BUCKET_TYPE_UNSPECIFIED
+              did:
+                type: string
+                description: Did is the identifier of the bucket.
+              object_dids:
+                type: array
+                items:
+                  type: string
+                description: Objects are stored in a tree structure.
+            description: Bucket is a collection of objects.
   sonrio.sonr.bucket.QueryParamsResponse:
     type: object
     properties:
@@ -48037,466 +48963,33 @@ definitions:
           Document is the DID Document of the registered name and account
           encoded as JSON
       bucket:
-        $ref: '#/definitions/sonrio.sonr.bucket.BucketDoc'
-  sonrio.sonr.object.ObjectDoc:
-    type: object
-    properties:
-      label:
-        type: string
-        description: Label is human-readable name of the bucket.
-      description:
-        type: string
-        description: Description is a human-readable description of the bucket.
-      did:
-        type: string
-        description: Did is the identifier of the object.
-      bucket_did:
-        type: string
-        description: Bucket is the did of the bucket that contains this object.
-      fields:
-        type: object
-        additionalProperties:
-          $ref: '#/definitions/sonrio.sonr.object.ObjectField'
-        description: Fields are the fields associated with the object.
-    description: ObjectDoc is a document for an Object stored in the graph.
-  sonrio.sonr.object.ObjectField:
-    type: object
-    properties:
-      label:
-        type: string
-        title: Label is the name of the field
-      type:
-        title: Type is the type of the field
-        type: string
-        enum:
-          - OBJECT_FIELD_TYPE_UNSPECIFIED
-          - OBJECT_FIELD_TYPE_STRING
-          - OBJECT_FIELD_TYPE_NUMBER
-          - OBJECT_FIELD_TYPE_BOOL
-          - OBJECT_FIELD_TYPE_ARRAY
-          - OBJECT_FIELD_TYPE_TIMESTAMP
-          - OBJECT_FIELD_TYPE_GEOPOINT
-          - OBJECT_FIELD_TYPE_BLOB
-          - OBJECT_FIELD_TYPE_BLOCKCHAIN_ADDRESS
-        default: OBJECT_FIELD_TYPE_UNSPECIFIED
-        description: >-
-          - OBJECT_FIELD_TYPE_UNSPECIFIED: ObjectFieldTypeUnspecified is the
-          default value
-           - OBJECT_FIELD_TYPE_STRING: ObjectFieldTypeString is a string or text field
-           - OBJECT_FIELD_TYPE_NUMBER: ObjectFieldTypeInt is an integer
-           - OBJECT_FIELD_TYPE_BOOL: ObjectFieldTypeBool is a boolean
-           - OBJECT_FIELD_TYPE_ARRAY: ObjectFieldTypeArray is a list of values
-           - OBJECT_FIELD_TYPE_TIMESTAMP: ObjectFieldTypeDateTime is a datetime
-           - OBJECT_FIELD_TYPE_GEOPOINT: ObjectFieldTypeGeopoint is a geopoint
-           - OBJECT_FIELD_TYPE_BLOB: ObjectFieldTypeBlob is a blob of data
-           - OBJECT_FIELD_TYPE_BLOCKCHAIN_ADDRESS: ObjectFieldTypeETU is a pointer to an Ethereum account address.
-      did:
-        type: string
-        description: Did is the identifier of the field.
-      string_value:
-        title: String is the value of the field
         type: object
         properties:
           label:
             type: string
-            title: Label is the name of the field
-          did:
+            description: Label is human-readable name of the bucket.
+          description:
             type: string
-            description: Did is the identifier of the field.
-          value:
-            type: string
-            title: Value is the value of the field
-          metadata:
-            type: object
-            additionalProperties:
-              type: string
-            title: Metadata is additional info about the field
-        description: ObjectFieldText is a text field of an Object.
-      number_value:
-        title: Number is the value of the field
-        type: object
-        properties:
-          label:
-            type: string
-            title: Label is the name of the field
-          did:
-            type: string
-            description: Did is the identifier of the field.
-          value:
-            type: number
-            format: double
-            title: Value is the value of the field
-          metadata:
-            type: object
-            additionalProperties:
-              type: string
-            title: Metadata is additional info about the field
-        description: ObjectFieldNumber is a number field of an Object.
-      bool_value:
-        title: Float is the value of the field
-        type: object
-        properties:
-          label:
-            type: string
-            title: Label is the name of the field
-          did:
-            type: string
-            description: Did is the identifier of the field.
-          value:
-            type: boolean
-            title: Value is the value of the field
-          metadata:
-            type: object
-            additionalProperties:
-              type: string
-            title: Metadata is additional info about the field
-        description: ObjectFieldBool is a boolean field of an Object.
-      array_value:
-        $ref: '#/definitions/sonrio.sonr.object.ObjectFieldArray'
-        title: Array is the value of the field
-      time_stamp_value:
-        description: Time is defined by milliseconds since epoch.
-        type: object
-        properties:
-          label:
-            type: string
-            title: Label is the name of the field
-          did:
-            type: string
-            description: Did is the identifier of the field.
-          value:
-            type: string
-            format: int64
-            title: Value is the value of the field
-          metadata:
-            type: object
-            additionalProperties:
-              type: string
-            title: Metadata is additional info about the field
-      geopoint_value:
-        title: Geopoint is the value of the field
-        type: object
-        properties:
-          label:
-            type: string
-            title: Label is the name of the field
+            description: Description is a human-readable description of the bucket.
           type:
-            title: Type is the type of the field
+            description: >-
+              Type is the kind of bucket for either App specific or User
+              specific data.
             type: string
             enum:
-              - OBJECT_FIELD_TYPE_UNSPECIFIED
-              - OBJECT_FIELD_TYPE_STRING
-              - OBJECT_FIELD_TYPE_NUMBER
-              - OBJECT_FIELD_TYPE_BOOL
-              - OBJECT_FIELD_TYPE_ARRAY
-              - OBJECT_FIELD_TYPE_TIMESTAMP
-              - OBJECT_FIELD_TYPE_GEOPOINT
-              - OBJECT_FIELD_TYPE_BLOB
-              - OBJECT_FIELD_TYPE_BLOCKCHAIN_ADDRESS
-            default: OBJECT_FIELD_TYPE_UNSPECIFIED
-            description: >-
-              - OBJECT_FIELD_TYPE_UNSPECIFIED: ObjectFieldTypeUnspecified is the
-              default value
-               - OBJECT_FIELD_TYPE_STRING: ObjectFieldTypeString is a string or text field
-               - OBJECT_FIELD_TYPE_NUMBER: ObjectFieldTypeInt is an integer
-               - OBJECT_FIELD_TYPE_BOOL: ObjectFieldTypeBool is a boolean
-               - OBJECT_FIELD_TYPE_ARRAY: ObjectFieldTypeArray is a list of values
-               - OBJECT_FIELD_TYPE_TIMESTAMP: ObjectFieldTypeDateTime is a datetime
-               - OBJECT_FIELD_TYPE_GEOPOINT: ObjectFieldTypeGeopoint is a geopoint
-               - OBJECT_FIELD_TYPE_BLOB: ObjectFieldTypeBlob is a blob of data
-               - OBJECT_FIELD_TYPE_BLOCKCHAIN_ADDRESS: ObjectFieldTypeETU is a pointer to an Ethereum account address.
+              - BUCKET_TYPE_UNSPECIFIED
+              - BUCKET_TYPE_APP
+              - BUCKET_TYPE_USER
+            default: BUCKET_TYPE_UNSPECIFIED
           did:
             type: string
-            description: Did is the identifier of the field.
-          latitude:
-            type: number
-            format: double
-            description: Latitude is the geo-latitude of the point.
-          longitude:
-            type: number
-            format: double
-            title: Longitude is the geo-longitude of the field
-          metadata:
-            type: object
-            additionalProperties:
+            description: Did is the identifier of the bucket.
+          object_dids:
+            type: array
+            items:
               type: string
-            title: Metadata is additional info about the field
-        description: ObjectFieldGeopoint is a field of an Object for geopoints.
-      blob_value:
-        title: Blob is the value of the field
-        type: object
-        properties:
-          label:
-            type: string
-            title: Label is the name of the field
-          did:
-            type: string
-            description: Did is the identifier of the field.
-          value:
-            type: string
-            format: byte
-            title: Value is the value of the field
-          metadata:
-            type: object
-            additionalProperties:
-              type: string
-            title: Metadata is additional info about the field
-        description: ObjectFieldBlob is a field of an Object for blobs.
-      blockchain_addr_value:
-        title: Blockchain Address is the value of the field
-        type: object
-        properties:
-          label:
-            type: string
-            title: Label is the name of the field
-          did:
-            type: string
-            description: Did is the identifier of the field.
-          value:
-            type: string
-            title: Value is the value of the field
-          metadata:
-            type: object
-            additionalProperties:
-              type: string
-            title: Metadata is additional info about the field
-        description: >-
-          ObjectFieldBlockchainAddress is a field of an Object for blockchain
-          addresses.
-      metadata:
-        type: object
-        additionalProperties:
-          type: string
-        title: Metadata is additional info about the field
-    description: ObjectField is a field of an Object.
-  sonrio.sonr.object.ObjectFieldArray:
-    type: object
-    properties:
-      label:
-        type: string
-        title: Label is the name of the field
-      type:
-        title: Type is the type of the field
-        type: string
-        enum:
-          - OBJECT_FIELD_TYPE_UNSPECIFIED
-          - OBJECT_FIELD_TYPE_STRING
-          - OBJECT_FIELD_TYPE_NUMBER
-          - OBJECT_FIELD_TYPE_BOOL
-          - OBJECT_FIELD_TYPE_ARRAY
-          - OBJECT_FIELD_TYPE_TIMESTAMP
-          - OBJECT_FIELD_TYPE_GEOPOINT
-          - OBJECT_FIELD_TYPE_BLOB
-          - OBJECT_FIELD_TYPE_BLOCKCHAIN_ADDRESS
-        default: OBJECT_FIELD_TYPE_UNSPECIFIED
-        description: >-
-          - OBJECT_FIELD_TYPE_UNSPECIFIED: ObjectFieldTypeUnspecified is the
-          default value
-           - OBJECT_FIELD_TYPE_STRING: ObjectFieldTypeString is a string or text field
-           - OBJECT_FIELD_TYPE_NUMBER: ObjectFieldTypeInt is an integer
-           - OBJECT_FIELD_TYPE_BOOL: ObjectFieldTypeBool is a boolean
-           - OBJECT_FIELD_TYPE_ARRAY: ObjectFieldTypeArray is a list of values
-           - OBJECT_FIELD_TYPE_TIMESTAMP: ObjectFieldTypeDateTime is a datetime
-           - OBJECT_FIELD_TYPE_GEOPOINT: ObjectFieldTypeGeopoint is a geopoint
-           - OBJECT_FIELD_TYPE_BLOB: ObjectFieldTypeBlob is a blob of data
-           - OBJECT_FIELD_TYPE_BLOCKCHAIN_ADDRESS: ObjectFieldTypeETU is a pointer to an Ethereum account address.
-      did:
-        type: string
-        description: Did is the identifier of the field.
-      items:
-        type: array
-        items:
-          $ref: '#/definitions/sonrio.sonr.object.ObjectField'
-        title: Entries are the values of the field
-    description: >-
-      ObjectFieldArray is an array of ObjectFields to be stored in the graph
-      object.
-  sonrio.sonr.object.ObjectFieldBlob:
-    type: object
-    properties:
-      label:
-        type: string
-        title: Label is the name of the field
-      did:
-        type: string
-        description: Did is the identifier of the field.
-      value:
-        type: string
-        format: byte
-        title: Value is the value of the field
-      metadata:
-        type: object
-        additionalProperties:
-          type: string
-        title: Metadata is additional info about the field
-    description: ObjectFieldBlob is a field of an Object for blobs.
-  sonrio.sonr.object.ObjectFieldBlockchainAddress:
-    type: object
-    properties:
-      label:
-        type: string
-        title: Label is the name of the field
-      did:
-        type: string
-        description: Did is the identifier of the field.
-      value:
-        type: string
-        title: Value is the value of the field
-      metadata:
-        type: object
-        additionalProperties:
-          type: string
-        title: Metadata is additional info about the field
-    description: >-
-      ObjectFieldBlockchainAddress is a field of an Object for blockchain
-      addresses.
-  sonrio.sonr.object.ObjectFieldBool:
-    type: object
-    properties:
-      label:
-        type: string
-        title: Label is the name of the field
-      did:
-        type: string
-        description: Did is the identifier of the field.
-      value:
-        type: boolean
-        title: Value is the value of the field
-      metadata:
-        type: object
-        additionalProperties:
-          type: string
-        title: Metadata is additional info about the field
-    description: ObjectFieldBool is a boolean field of an Object.
-  sonrio.sonr.object.ObjectFieldGeopoint:
-    type: object
-    properties:
-      label:
-        type: string
-        title: Label is the name of the field
-      type:
-        title: Type is the type of the field
-        type: string
-        enum:
-          - OBJECT_FIELD_TYPE_UNSPECIFIED
-          - OBJECT_FIELD_TYPE_STRING
-          - OBJECT_FIELD_TYPE_NUMBER
-          - OBJECT_FIELD_TYPE_BOOL
-          - OBJECT_FIELD_TYPE_ARRAY
-          - OBJECT_FIELD_TYPE_TIMESTAMP
-          - OBJECT_FIELD_TYPE_GEOPOINT
-          - OBJECT_FIELD_TYPE_BLOB
-          - OBJECT_FIELD_TYPE_BLOCKCHAIN_ADDRESS
-        default: OBJECT_FIELD_TYPE_UNSPECIFIED
-        description: >-
-          - OBJECT_FIELD_TYPE_UNSPECIFIED: ObjectFieldTypeUnspecified is the
-          default value
-           - OBJECT_FIELD_TYPE_STRING: ObjectFieldTypeString is a string or text field
-           - OBJECT_FIELD_TYPE_NUMBER: ObjectFieldTypeInt is an integer
-           - OBJECT_FIELD_TYPE_BOOL: ObjectFieldTypeBool is a boolean
-           - OBJECT_FIELD_TYPE_ARRAY: ObjectFieldTypeArray is a list of values
-           - OBJECT_FIELD_TYPE_TIMESTAMP: ObjectFieldTypeDateTime is a datetime
-           - OBJECT_FIELD_TYPE_GEOPOINT: ObjectFieldTypeGeopoint is a geopoint
-           - OBJECT_FIELD_TYPE_BLOB: ObjectFieldTypeBlob is a blob of data
-           - OBJECT_FIELD_TYPE_BLOCKCHAIN_ADDRESS: ObjectFieldTypeETU is a pointer to an Ethereum account address.
-      did:
-        type: string
-        description: Did is the identifier of the field.
-      latitude:
-        type: number
-        format: double
-        description: Latitude is the geo-latitude of the point.
-      longitude:
-        type: number
-        format: double
-        title: Longitude is the geo-longitude of the field
-      metadata:
-        type: object
-        additionalProperties:
-          type: string
-        title: Metadata is additional info about the field
-    description: ObjectFieldGeopoint is a field of an Object for geopoints.
-  sonrio.sonr.object.ObjectFieldNumber:
-    type: object
-    properties:
-      label:
-        type: string
-        title: Label is the name of the field
-      did:
-        type: string
-        description: Did is the identifier of the field.
-      value:
-        type: number
-        format: double
-        title: Value is the value of the field
-      metadata:
-        type: object
-        additionalProperties:
-          type: string
-        title: Metadata is additional info about the field
-    description: ObjectFieldNumber is a number field of an Object.
-  sonrio.sonr.object.ObjectFieldText:
-    type: object
-    properties:
-      label:
-        type: string
-        title: Label is the name of the field
-      did:
-        type: string
-        description: Did is the identifier of the field.
-      value:
-        type: string
-        title: Value is the value of the field
-      metadata:
-        type: object
-        additionalProperties:
-          type: string
-        title: Metadata is additional info about the field
-    description: ObjectFieldText is a text field of an Object.
-  sonrio.sonr.object.ObjectFieldTime:
-    type: object
-    properties:
-      label:
-        type: string
-        title: Label is the name of the field
-      did:
-        type: string
-        description: Did is the identifier of the field.
-      value:
-        type: string
-        format: int64
-        title: Value is the value of the field
-      metadata:
-        type: object
-        additionalProperties:
-          type: string
-        title: Metadata is additional info about the field
-    description: ObjectFieldTime is a time field of an Object.
-  sonrio.sonr.object.ObjectFieldType:
-    type: string
-    enum:
-      - OBJECT_FIELD_TYPE_UNSPECIFIED
-      - OBJECT_FIELD_TYPE_STRING
-      - OBJECT_FIELD_TYPE_NUMBER
-      - OBJECT_FIELD_TYPE_BOOL
-      - OBJECT_FIELD_TYPE_ARRAY
-      - OBJECT_FIELD_TYPE_TIMESTAMP
-      - OBJECT_FIELD_TYPE_GEOPOINT
-      - OBJECT_FIELD_TYPE_BLOB
-      - OBJECT_FIELD_TYPE_BLOCKCHAIN_ADDRESS
-    default: OBJECT_FIELD_TYPE_UNSPECIFIED
-    description: >-
-      - OBJECT_FIELD_TYPE_UNSPECIFIED: ObjectFieldTypeUnspecified is the default
-      value
-       - OBJECT_FIELD_TYPE_STRING: ObjectFieldTypeString is a string or text field
-       - OBJECT_FIELD_TYPE_NUMBER: ObjectFieldTypeInt is an integer
-       - OBJECT_FIELD_TYPE_BOOL: ObjectFieldTypeBool is a boolean
-       - OBJECT_FIELD_TYPE_ARRAY: ObjectFieldTypeArray is a list of values
-       - OBJECT_FIELD_TYPE_TIMESTAMP: ObjectFieldTypeDateTime is a datetime
-       - OBJECT_FIELD_TYPE_GEOPOINT: ObjectFieldTypeGeopoint is a geopoint
-       - OBJECT_FIELD_TYPE_BLOB: ObjectFieldTypeBlob is a blob of data
-       - OBJECT_FIELD_TYPE_BLOCKCHAIN_ADDRESS: ObjectFieldTypeETU is a pointer to an Ethereum account address.
-    title: ObjectFieldType is the type of the field
+            description: Objects are stored in a tree structure.
+        description: Bucket is a collection of objects.
   sonrio.sonr.registry.Authenticator:
     type: object
     properties:
@@ -48960,6 +49453,16 @@ definitions:
         title: HowIs of the Channel
   sonrio.sonr.channel.MsgCreateHowIsResponse:
     type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+        title: Code of the response
+      message:
+        type: string
+        title: Message of the response
+      how_is:
+        $ref: '#/definitions/sonrio.sonr.channel.HowIs'
   sonrio.sonr.channel.MsgDeleteChannelResponse:
     type: object
     properties:
@@ -48972,8 +49475,6 @@ definitions:
         title: Message of the response
   sonrio.sonr.channel.MsgDeleteHowIsResponse:
     type: object
-  sonrio.sonr.channel.MsgReadChannelResponse:
-    type: object
     properties:
       code:
         type: integer
@@ -48982,9 +49483,6 @@ definitions:
       message:
         type: string
         title: Message of the response
-      how_is:
-        $ref: '#/definitions/sonrio.sonr.channel.HowIs'
-        title: HowIs of the Channel
   sonrio.sonr.channel.MsgUpdateChannelResponse:
     type: object
     properties:
@@ -48997,6 +49495,16 @@ definitions:
         title: Message of the response
   sonrio.sonr.channel.MsgUpdateHowIsResponse:
     type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+        title: Code of the response
+      message:
+        type: string
+        title: Message of the response
+      how_is:
+        $ref: '#/definitions/sonrio.sonr.channel.HowIs'
   sonrio.sonr.channel.Params:
     type: object
     description: Params defines the parameters for the module.
@@ -49044,6 +49552,465 @@ definitions:
         description: params holds all the parameters of this module.
         type: object
     description: QueryParamsResponse is response type for the Query/Params RPC method.
+  sonrio.sonr.object.ObjectDoc:
+    type: object
+    properties:
+      label:
+        type: string
+        description: Label is human-readable name of the bucket.
+      description:
+        type: string
+        description: Description is a human-readable description of the bucket.
+      did:
+        type: string
+        description: Did is the identifier of the object.
+      bucket_did:
+        type: string
+        description: Bucket is the did of the bucket that contains this object.
+      fields:
+        type: object
+        additionalProperties:
+          $ref: '#/definitions/sonrio.sonr.object.ObjectField'
+        description: Fields are the fields associated with the object.
+    description: ObjectDoc is a document for an Object stored in the graph.
+  sonrio.sonr.object.ObjectField:
+    type: object
+    properties:
+      label:
+        type: string
+        title: Label is the name of the field
+      type:
+        title: Type is the type of the field
+        type: string
+        enum:
+          - OBJECT_FIELD_TYPE_UNSPECIFIED
+          - OBJECT_FIELD_TYPE_STRING
+          - OBJECT_FIELD_TYPE_NUMBER
+          - OBJECT_FIELD_TYPE_BOOL
+          - OBJECT_FIELD_TYPE_ARRAY
+          - OBJECT_FIELD_TYPE_TIMESTAMP
+          - OBJECT_FIELD_TYPE_GEOPOINT
+          - OBJECT_FIELD_TYPE_BLOB
+          - OBJECT_FIELD_TYPE_BLOCKCHAIN_ADDRESS
+        default: OBJECT_FIELD_TYPE_UNSPECIFIED
+        description: >-
+          - OBJECT_FIELD_TYPE_UNSPECIFIED: ObjectFieldTypeUnspecified is the
+          default value
+           - OBJECT_FIELD_TYPE_STRING: ObjectFieldTypeString is a string or text field
+           - OBJECT_FIELD_TYPE_NUMBER: ObjectFieldTypeInt is an integer
+           - OBJECT_FIELD_TYPE_BOOL: ObjectFieldTypeBool is a boolean
+           - OBJECT_FIELD_TYPE_ARRAY: ObjectFieldTypeArray is a list of values
+           - OBJECT_FIELD_TYPE_TIMESTAMP: ObjectFieldTypeDateTime is a datetime
+           - OBJECT_FIELD_TYPE_GEOPOINT: ObjectFieldTypeGeopoint is a geopoint
+           - OBJECT_FIELD_TYPE_BLOB: ObjectFieldTypeBlob is a blob of data
+           - OBJECT_FIELD_TYPE_BLOCKCHAIN_ADDRESS: ObjectFieldTypeETU is a pointer to an Ethereum account address.
+      did:
+        type: string
+        description: Did is the identifier of the field.
+      string_value:
+        title: String is the value of the field
+        type: object
+        properties:
+          label:
+            type: string
+            title: Label is the name of the field
+          did:
+            type: string
+            description: Did is the identifier of the field.
+          value:
+            type: string
+            title: Value is the value of the field
+          metadata:
+            type: object
+            additionalProperties:
+              type: string
+            title: Metadata is additional info about the field
+        description: ObjectFieldText is a text field of an Object.
+      number_value:
+        title: Number is the value of the field
+        type: object
+        properties:
+          label:
+            type: string
+            title: Label is the name of the field
+          did:
+            type: string
+            description: Did is the identifier of the field.
+          value:
+            type: number
+            format: double
+            title: Value is the value of the field
+          metadata:
+            type: object
+            additionalProperties:
+              type: string
+            title: Metadata is additional info about the field
+        description: ObjectFieldNumber is a number field of an Object.
+      bool_value:
+        title: Float is the value of the field
+        type: object
+        properties:
+          label:
+            type: string
+            title: Label is the name of the field
+          did:
+            type: string
+            description: Did is the identifier of the field.
+          value:
+            type: boolean
+            title: Value is the value of the field
+          metadata:
+            type: object
+            additionalProperties:
+              type: string
+            title: Metadata is additional info about the field
+        description: ObjectFieldBool is a boolean field of an Object.
+      array_value:
+        $ref: '#/definitions/sonrio.sonr.object.ObjectFieldArray'
+        title: Array is the value of the field
+      time_stamp_value:
+        description: Time is defined by milliseconds since epoch.
+        type: object
+        properties:
+          label:
+            type: string
+            title: Label is the name of the field
+          did:
+            type: string
+            description: Did is the identifier of the field.
+          value:
+            type: string
+            format: int64
+            title: Value is the value of the field
+          metadata:
+            type: object
+            additionalProperties:
+              type: string
+            title: Metadata is additional info about the field
+      geopoint_value:
+        title: Geopoint is the value of the field
+        type: object
+        properties:
+          label:
+            type: string
+            title: Label is the name of the field
+          type:
+            title: Type is the type of the field
+            type: string
+            enum:
+              - OBJECT_FIELD_TYPE_UNSPECIFIED
+              - OBJECT_FIELD_TYPE_STRING
+              - OBJECT_FIELD_TYPE_NUMBER
+              - OBJECT_FIELD_TYPE_BOOL
+              - OBJECT_FIELD_TYPE_ARRAY
+              - OBJECT_FIELD_TYPE_TIMESTAMP
+              - OBJECT_FIELD_TYPE_GEOPOINT
+              - OBJECT_FIELD_TYPE_BLOB
+              - OBJECT_FIELD_TYPE_BLOCKCHAIN_ADDRESS
+            default: OBJECT_FIELD_TYPE_UNSPECIFIED
+            description: >-
+              - OBJECT_FIELD_TYPE_UNSPECIFIED: ObjectFieldTypeUnspecified is the
+              default value
+               - OBJECT_FIELD_TYPE_STRING: ObjectFieldTypeString is a string or text field
+               - OBJECT_FIELD_TYPE_NUMBER: ObjectFieldTypeInt is an integer
+               - OBJECT_FIELD_TYPE_BOOL: ObjectFieldTypeBool is a boolean
+               - OBJECT_FIELD_TYPE_ARRAY: ObjectFieldTypeArray is a list of values
+               - OBJECT_FIELD_TYPE_TIMESTAMP: ObjectFieldTypeDateTime is a datetime
+               - OBJECT_FIELD_TYPE_GEOPOINT: ObjectFieldTypeGeopoint is a geopoint
+               - OBJECT_FIELD_TYPE_BLOB: ObjectFieldTypeBlob is a blob of data
+               - OBJECT_FIELD_TYPE_BLOCKCHAIN_ADDRESS: ObjectFieldTypeETU is a pointer to an Ethereum account address.
+          did:
+            type: string
+            description: Did is the identifier of the field.
+          latitude:
+            type: number
+            format: double
+            description: Latitude is the geo-latitude of the point.
+          longitude:
+            type: number
+            format: double
+            title: Longitude is the geo-longitude of the field
+          metadata:
+            type: object
+            additionalProperties:
+              type: string
+            title: Metadata is additional info about the field
+        description: ObjectFieldGeopoint is a field of an Object for geopoints.
+      blob_value:
+        title: Blob is the value of the field
+        type: object
+        properties:
+          label:
+            type: string
+            title: Label is the name of the field
+          did:
+            type: string
+            description: Did is the identifier of the field.
+          value:
+            type: string
+            format: byte
+            title: Value is the value of the field
+          metadata:
+            type: object
+            additionalProperties:
+              type: string
+            title: Metadata is additional info about the field
+        description: ObjectFieldBlob is a field of an Object for blobs.
+      blockchain_addr_value:
+        title: Blockchain Address is the value of the field
+        type: object
+        properties:
+          label:
+            type: string
+            title: Label is the name of the field
+          did:
+            type: string
+            description: Did is the identifier of the field.
+          value:
+            type: string
+            title: Value is the value of the field
+          metadata:
+            type: object
+            additionalProperties:
+              type: string
+            title: Metadata is additional info about the field
+        description: >-
+          ObjectFieldBlockchainAddress is a field of an Object for blockchain
+          addresses.
+      metadata:
+        type: object
+        additionalProperties:
+          type: string
+        title: Metadata is additional info about the field
+    description: ObjectField is a field of an Object.
+  sonrio.sonr.object.ObjectFieldArray:
+    type: object
+    properties:
+      label:
+        type: string
+        title: Label is the name of the field
+      type:
+        title: Type is the type of the field
+        type: string
+        enum:
+          - OBJECT_FIELD_TYPE_UNSPECIFIED
+          - OBJECT_FIELD_TYPE_STRING
+          - OBJECT_FIELD_TYPE_NUMBER
+          - OBJECT_FIELD_TYPE_BOOL
+          - OBJECT_FIELD_TYPE_ARRAY
+          - OBJECT_FIELD_TYPE_TIMESTAMP
+          - OBJECT_FIELD_TYPE_GEOPOINT
+          - OBJECT_FIELD_TYPE_BLOB
+          - OBJECT_FIELD_TYPE_BLOCKCHAIN_ADDRESS
+        default: OBJECT_FIELD_TYPE_UNSPECIFIED
+        description: >-
+          - OBJECT_FIELD_TYPE_UNSPECIFIED: ObjectFieldTypeUnspecified is the
+          default value
+           - OBJECT_FIELD_TYPE_STRING: ObjectFieldTypeString is a string or text field
+           - OBJECT_FIELD_TYPE_NUMBER: ObjectFieldTypeInt is an integer
+           - OBJECT_FIELD_TYPE_BOOL: ObjectFieldTypeBool is a boolean
+           - OBJECT_FIELD_TYPE_ARRAY: ObjectFieldTypeArray is a list of values
+           - OBJECT_FIELD_TYPE_TIMESTAMP: ObjectFieldTypeDateTime is a datetime
+           - OBJECT_FIELD_TYPE_GEOPOINT: ObjectFieldTypeGeopoint is a geopoint
+           - OBJECT_FIELD_TYPE_BLOB: ObjectFieldTypeBlob is a blob of data
+           - OBJECT_FIELD_TYPE_BLOCKCHAIN_ADDRESS: ObjectFieldTypeETU is a pointer to an Ethereum account address.
+      did:
+        type: string
+        description: Did is the identifier of the field.
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/sonrio.sonr.object.ObjectField'
+        title: Entries are the values of the field
+    description: >-
+      ObjectFieldArray is an array of ObjectFields to be stored in the graph
+      object.
+  sonrio.sonr.object.ObjectFieldBlob:
+    type: object
+    properties:
+      label:
+        type: string
+        title: Label is the name of the field
+      did:
+        type: string
+        description: Did is the identifier of the field.
+      value:
+        type: string
+        format: byte
+        title: Value is the value of the field
+      metadata:
+        type: object
+        additionalProperties:
+          type: string
+        title: Metadata is additional info about the field
+    description: ObjectFieldBlob is a field of an Object for blobs.
+  sonrio.sonr.object.ObjectFieldBlockchainAddress:
+    type: object
+    properties:
+      label:
+        type: string
+        title: Label is the name of the field
+      did:
+        type: string
+        description: Did is the identifier of the field.
+      value:
+        type: string
+        title: Value is the value of the field
+      metadata:
+        type: object
+        additionalProperties:
+          type: string
+        title: Metadata is additional info about the field
+    description: >-
+      ObjectFieldBlockchainAddress is a field of an Object for blockchain
+      addresses.
+  sonrio.sonr.object.ObjectFieldBool:
+    type: object
+    properties:
+      label:
+        type: string
+        title: Label is the name of the field
+      did:
+        type: string
+        description: Did is the identifier of the field.
+      value:
+        type: boolean
+        title: Value is the value of the field
+      metadata:
+        type: object
+        additionalProperties:
+          type: string
+        title: Metadata is additional info about the field
+    description: ObjectFieldBool is a boolean field of an Object.
+  sonrio.sonr.object.ObjectFieldGeopoint:
+    type: object
+    properties:
+      label:
+        type: string
+        title: Label is the name of the field
+      type:
+        title: Type is the type of the field
+        type: string
+        enum:
+          - OBJECT_FIELD_TYPE_UNSPECIFIED
+          - OBJECT_FIELD_TYPE_STRING
+          - OBJECT_FIELD_TYPE_NUMBER
+          - OBJECT_FIELD_TYPE_BOOL
+          - OBJECT_FIELD_TYPE_ARRAY
+          - OBJECT_FIELD_TYPE_TIMESTAMP
+          - OBJECT_FIELD_TYPE_GEOPOINT
+          - OBJECT_FIELD_TYPE_BLOB
+          - OBJECT_FIELD_TYPE_BLOCKCHAIN_ADDRESS
+        default: OBJECT_FIELD_TYPE_UNSPECIFIED
+        description: >-
+          - OBJECT_FIELD_TYPE_UNSPECIFIED: ObjectFieldTypeUnspecified is the
+          default value
+           - OBJECT_FIELD_TYPE_STRING: ObjectFieldTypeString is a string or text field
+           - OBJECT_FIELD_TYPE_NUMBER: ObjectFieldTypeInt is an integer
+           - OBJECT_FIELD_TYPE_BOOL: ObjectFieldTypeBool is a boolean
+           - OBJECT_FIELD_TYPE_ARRAY: ObjectFieldTypeArray is a list of values
+           - OBJECT_FIELD_TYPE_TIMESTAMP: ObjectFieldTypeDateTime is a datetime
+           - OBJECT_FIELD_TYPE_GEOPOINT: ObjectFieldTypeGeopoint is a geopoint
+           - OBJECT_FIELD_TYPE_BLOB: ObjectFieldTypeBlob is a blob of data
+           - OBJECT_FIELD_TYPE_BLOCKCHAIN_ADDRESS: ObjectFieldTypeETU is a pointer to an Ethereum account address.
+      did:
+        type: string
+        description: Did is the identifier of the field.
+      latitude:
+        type: number
+        format: double
+        description: Latitude is the geo-latitude of the point.
+      longitude:
+        type: number
+        format: double
+        title: Longitude is the geo-longitude of the field
+      metadata:
+        type: object
+        additionalProperties:
+          type: string
+        title: Metadata is additional info about the field
+    description: ObjectFieldGeopoint is a field of an Object for geopoints.
+  sonrio.sonr.object.ObjectFieldNumber:
+    type: object
+    properties:
+      label:
+        type: string
+        title: Label is the name of the field
+      did:
+        type: string
+        description: Did is the identifier of the field.
+      value:
+        type: number
+        format: double
+        title: Value is the value of the field
+      metadata:
+        type: object
+        additionalProperties:
+          type: string
+        title: Metadata is additional info about the field
+    description: ObjectFieldNumber is a number field of an Object.
+  sonrio.sonr.object.ObjectFieldText:
+    type: object
+    properties:
+      label:
+        type: string
+        title: Label is the name of the field
+      did:
+        type: string
+        description: Did is the identifier of the field.
+      value:
+        type: string
+        title: Value is the value of the field
+      metadata:
+        type: object
+        additionalProperties:
+          type: string
+        title: Metadata is additional info about the field
+    description: ObjectFieldText is a text field of an Object.
+  sonrio.sonr.object.ObjectFieldTime:
+    type: object
+    properties:
+      label:
+        type: string
+        title: Label is the name of the field
+      did:
+        type: string
+        description: Did is the identifier of the field.
+      value:
+        type: string
+        format: int64
+        title: Value is the value of the field
+      metadata:
+        type: object
+        additionalProperties:
+          type: string
+        title: Metadata is additional info about the field
+    description: ObjectFieldTime is a time field of an Object.
+  sonrio.sonr.object.ObjectFieldType:
+    type: string
+    enum:
+      - OBJECT_FIELD_TYPE_UNSPECIFIED
+      - OBJECT_FIELD_TYPE_STRING
+      - OBJECT_FIELD_TYPE_NUMBER
+      - OBJECT_FIELD_TYPE_BOOL
+      - OBJECT_FIELD_TYPE_ARRAY
+      - OBJECT_FIELD_TYPE_TIMESTAMP
+      - OBJECT_FIELD_TYPE_GEOPOINT
+      - OBJECT_FIELD_TYPE_BLOB
+      - OBJECT_FIELD_TYPE_BLOCKCHAIN_ADDRESS
+    default: OBJECT_FIELD_TYPE_UNSPECIFIED
+    description: >-
+      - OBJECT_FIELD_TYPE_UNSPECIFIED: ObjectFieldTypeUnspecified is the default
+      value
+       - OBJECT_FIELD_TYPE_STRING: ObjectFieldTypeString is a string or text field
+       - OBJECT_FIELD_TYPE_NUMBER: ObjectFieldTypeInt is an integer
+       - OBJECT_FIELD_TYPE_BOOL: ObjectFieldTypeBool is a boolean
+       - OBJECT_FIELD_TYPE_ARRAY: ObjectFieldTypeArray is a list of values
+       - OBJECT_FIELD_TYPE_TIMESTAMP: ObjectFieldTypeDateTime is a datetime
+       - OBJECT_FIELD_TYPE_GEOPOINT: ObjectFieldTypeGeopoint is a geopoint
+       - OBJECT_FIELD_TYPE_BLOB: ObjectFieldTypeBlob is a blob of data
+       - OBJECT_FIELD_TYPE_BLOCKCHAIN_ADDRESS: ObjectFieldTypeETU is a pointer to an Ethereum account address.
+    title: ObjectFieldType is the type of the field
   sonrio.sonr.object.MsgCreateObjectResponse:
     type: object
     properties:
@@ -49077,19 +50044,6 @@ definitions:
     properties:
       did:
         type: string
-  sonrio.sonr.object.MsgReadObjectResponse:
-    type: object
-    properties:
-      code:
-        type: integer
-        format: int32
-        title: Code of the response
-      message:
-        type: string
-        title: Message of the response
-      what_is:
-        $ref: '#/definitions/sonrio.sonr.object.WhatIs'
-        title: WhatIs of the Channel
   sonrio.sonr.object.MsgUpdateObjectResponse:
     type: object
     properties:
@@ -49810,8 +50764,138 @@ definitions:
             title: Credential is the current Credential for the DID
   sonrio.sonr.registry.MsgCreateWhoIsResponse:
     type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+        title: Code of the response
+      message:
+        type: string
+        title: Message of the response
+      who_is:
+        type: object
+        properties:
+          name:
+            type: string
+            title: Name is the registered name of the User or Application
+          did:
+            type: string
+            title: DID is the DID of the account
+          document:
+            type: string
+            format: byte
+            title: >-
+              Document is the DID Document of the registered name and account
+              encoded as JSON
+          creator:
+            type: string
+            title: Creator is the DID of the creator of the DID Document
+          credentials:
+            type: array
+            items:
+              type: object
+              properties:
+                i_d:
+                  type: string
+                  format: byte
+                  description: >-
+                    A probabilistically-unique byte sequence identifying a
+                    public key credential source and its authentication
+                    assertions.
+                public_key:
+                  type: string
+                  format: byte
+                  description: >-
+                    The public key portion of a Relying Party-specific
+                    credential key pair, generated by an authenticator and
+                    returned to
+
+                    a Relying Party at registration time (see also public key
+                    credential). The private key portion of the credential key
+
+                    pair is known as the credential private key. Note that in
+                    the case of self attestation, the credential key pair is
+                    also
+
+                    used as the attestation key pair, see self attestation for
+                    details.
+                attestation_type:
+                  type: string
+                  description: >-
+                    The attestation format used (if any) by the authenticator
+                    when creating the credential.
+                authenticator:
+                  title: The Authenticator information for a given certificate
+                  type: object
+                  properties:
+                    aaguid:
+                      type: string
+                      format: byte
+                      description: >-
+                        The AAGUID of the authenticator. An AAGUID is defined as
+                        an array containing the globally unique
+
+                        identifier of the authenticator model being sought.
+                    sign_count:
+                      type: integer
+                      format: int64
+                      description: >-
+                        SignCount -Upon a new login operation, the Relying Party
+                        compares the stored signature counter value
+
+                        with the new sign_count value returned in the
+                        assertion’s authenticator data. If this new
+
+                        signCount value is less than or equal to the stored
+                        value, a cloned authenticator may
+
+                        exist, or the authenticator may be malfunctioning.
+                    clone_warning:
+                      type: boolean
+                      description: >-
+                        CloneWarning - This is a signal that the authenticator
+                        may be cloned, i.e. at least two copies of the
+
+                        credential private key may exist and are being used in
+                        parallel. Relying Parties should incorporate
+
+                        this information into their risk scoring. Whether the
+                        Relying Party updates the stored signature
+
+                        counter value in this case, or not, or fails the
+                        authentication ceremony or not, is Relying
+                        Party-specific.
+            title: >-
+              Credentials are the biometric info of the registered name and
+              account encoded with public key
+          type:
+            title: Type is the type of the registered name
+            type: string
+            enum:
+              - User
+              - Application
+            default: User
+            description: |-
+              - User: User is the type of the registered name
+               - Application: Application is the type of the registered name
+          metadata:
+            type: object
+            additionalProperties:
+              type: string
+            title: Additional Metadata for associated WhoIs
+        description: >-
+          WhoIs is the entry pointing a registered name to a user account
+          address, Did Url string, and a DIDDocument.
   sonrio.sonr.registry.MsgDeleteWhoIsResponse:
     type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+        title: Code of the response
+      message:
+        type: string
+        title: Message of the response
   sonrio.sonr.registry.MsgRegisterApplicationResponse:
     type: object
     properties:
@@ -50707,6 +51791,128 @@ definitions:
         title: WhoIs for the registered name
   sonrio.sonr.registry.MsgUpdateWhoIsResponse:
     type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+        title: Code of the response
+      message:
+        type: string
+        title: Message of the response
+      who_is:
+        type: object
+        properties:
+          name:
+            type: string
+            title: Name is the registered name of the User or Application
+          did:
+            type: string
+            title: DID is the DID of the account
+          document:
+            type: string
+            format: byte
+            title: >-
+              Document is the DID Document of the registered name and account
+              encoded as JSON
+          creator:
+            type: string
+            title: Creator is the DID of the creator of the DID Document
+          credentials:
+            type: array
+            items:
+              type: object
+              properties:
+                i_d:
+                  type: string
+                  format: byte
+                  description: >-
+                    A probabilistically-unique byte sequence identifying a
+                    public key credential source and its authentication
+                    assertions.
+                public_key:
+                  type: string
+                  format: byte
+                  description: >-
+                    The public key portion of a Relying Party-specific
+                    credential key pair, generated by an authenticator and
+                    returned to
+
+                    a Relying Party at registration time (see also public key
+                    credential). The private key portion of the credential key
+
+                    pair is known as the credential private key. Note that in
+                    the case of self attestation, the credential key pair is
+                    also
+
+                    used as the attestation key pair, see self attestation for
+                    details.
+                attestation_type:
+                  type: string
+                  description: >-
+                    The attestation format used (if any) by the authenticator
+                    when creating the credential.
+                authenticator:
+                  title: The Authenticator information for a given certificate
+                  type: object
+                  properties:
+                    aaguid:
+                      type: string
+                      format: byte
+                      description: >-
+                        The AAGUID of the authenticator. An AAGUID is defined as
+                        an array containing the globally unique
+
+                        identifier of the authenticator model being sought.
+                    sign_count:
+                      type: integer
+                      format: int64
+                      description: >-
+                        SignCount -Upon a new login operation, the Relying Party
+                        compares the stored signature counter value
+
+                        with the new sign_count value returned in the
+                        assertion’s authenticator data. If this new
+
+                        signCount value is less than or equal to the stored
+                        value, a cloned authenticator may
+
+                        exist, or the authenticator may be malfunctioning.
+                    clone_warning:
+                      type: boolean
+                      description: >-
+                        CloneWarning - This is a signal that the authenticator
+                        may be cloned, i.e. at least two copies of the
+
+                        credential private key may exist and are being used in
+                        parallel. Relying Parties should incorporate
+
+                        this information into their risk scoring. Whether the
+                        Relying Party updates the stored signature
+
+                        counter value in this case, or not, or fails the
+                        authentication ceremony or not, is Relying
+                        Party-specific.
+            title: >-
+              Credentials are the biometric info of the registered name and
+              account encoded with public key
+          type:
+            title: Type is the type of the registered name
+            type: string
+            enum:
+              - User
+              - Application
+            default: User
+            description: |-
+              - User: User is the type of the registered name
+               - Application: Application is the type of the registered name
+          metadata:
+            type: object
+            additionalProperties:
+              type: string
+            title: Additional Metadata for associated WhoIs
+        description: >-
+          WhoIs is the entry pointing a registered name to a user account
+          address, Did Url string, and a DIDDocument.
   sonrio.sonr.registry.Params:
     type: object
     description: Params defines the parameters for the module.

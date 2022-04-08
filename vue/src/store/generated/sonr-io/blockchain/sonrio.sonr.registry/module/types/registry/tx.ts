@@ -11,13 +11,13 @@ export interface MsgRegisterApplication {
   /** Client side JSON Web Token for AssertionMethod */
   credential: Credential | undefined;
   /** Application Name is the endpoint of the Application. */
-  ApplicationName: string;
+  application_name: string;
   /** Application Description is the description of the Application. */
-  ApplicationDescription: string;
+  application_description: string;
   /** Application URL is the URL of the Application. */
-  ApplicationURL: string;
+  application_url: string;
   /** Application Category is the category of the Application. */
-  ApplicationCategory: string;
+  application_category: string;
 }
 
 export interface MsgRegisterApplicationResponse {
@@ -85,10 +85,12 @@ export interface MsgUpdateName {
   creator: string;
   /** The did of the peer to update the name of */
   did: string;
-  /** Client side JSON Web Token for AssertionMethod */
+  /** Client side JSON Web Token for AssertionMethod. For additional devices being linked. */
   credential: Credential | undefined;
   /** The Updated Metadata */
   metadata: { [key: string]: string };
+  /** Session returns the session for the name */
+  session: Session | undefined;
 }
 
 export interface MsgUpdateName_MetadataEntry {
@@ -139,6 +141,8 @@ export interface MsgUpdateApplication {
   did: string;
   /** The updated configuration for the Application */
   metadata: { [key: string]: string };
+  /** Session returns the session for the name */
+  session: Session | undefined;
 }
 
 export interface MsgUpdateApplication_MetadataEntry {
@@ -170,7 +174,13 @@ export interface MsgCreateWhoIs {
   name: string;
 }
 
-export interface MsgCreateWhoIsResponse {}
+export interface MsgCreateWhoIsResponse {
+  /** Code of the response */
+  code: number;
+  /** Message of the response */
+  message: string;
+  who_is: WhoIs | undefined;
+}
 
 export interface MsgUpdateWhoIs {
   creator: string;
@@ -179,21 +189,32 @@ export interface MsgUpdateWhoIs {
   credentials: Credential[];
 }
 
-export interface MsgUpdateWhoIsResponse {}
+export interface MsgUpdateWhoIsResponse {
+  /** Code of the response */
+  code: number;
+  /** Message of the response */
+  message: string;
+  who_is: WhoIs | undefined;
+}
 
 export interface MsgDeleteWhoIs {
   creator: string;
   did: string;
 }
 
-export interface MsgDeleteWhoIsResponse {}
+export interface MsgDeleteWhoIsResponse {
+  /** Code of the response */
+  code: number;
+  /** Message of the response */
+  message: string;
+}
 
 const baseMsgRegisterApplication: object = {
   creator: "",
-  ApplicationName: "",
-  ApplicationDescription: "",
-  ApplicationURL: "",
-  ApplicationCategory: "",
+  application_name: "",
+  application_description: "",
+  application_url: "",
+  application_category: "",
 };
 
 export const MsgRegisterApplication = {
@@ -207,17 +228,17 @@ export const MsgRegisterApplication = {
     if (message.credential !== undefined) {
       Credential.encode(message.credential, writer.uint32(18).fork()).ldelim();
     }
-    if (message.ApplicationName !== "") {
-      writer.uint32(26).string(message.ApplicationName);
+    if (message.application_name !== "") {
+      writer.uint32(26).string(message.application_name);
     }
-    if (message.ApplicationDescription !== "") {
-      writer.uint32(34).string(message.ApplicationDescription);
+    if (message.application_description !== "") {
+      writer.uint32(34).string(message.application_description);
     }
-    if (message.ApplicationURL !== "") {
-      writer.uint32(42).string(message.ApplicationURL);
+    if (message.application_url !== "") {
+      writer.uint32(42).string(message.application_url);
     }
-    if (message.ApplicationCategory !== "") {
-      writer.uint32(50).string(message.ApplicationCategory);
+    if (message.application_category !== "") {
+      writer.uint32(50).string(message.application_category);
     }
     return writer;
   },
@@ -236,16 +257,16 @@ export const MsgRegisterApplication = {
           message.credential = Credential.decode(reader, reader.uint32());
           break;
         case 3:
-          message.ApplicationName = reader.string();
+          message.application_name = reader.string();
           break;
         case 4:
-          message.ApplicationDescription = reader.string();
+          message.application_description = reader.string();
           break;
         case 5:
-          message.ApplicationURL = reader.string();
+          message.application_url = reader.string();
           break;
         case 6:
-          message.ApplicationCategory = reader.string();
+          message.application_category = reader.string();
           break;
         default:
           reader.skipType(tag & 7);
@@ -268,33 +289,36 @@ export const MsgRegisterApplication = {
       message.credential = undefined;
     }
     if (
-      object.ApplicationName !== undefined &&
-      object.ApplicationName !== null
+      object.application_name !== undefined &&
+      object.application_name !== null
     ) {
-      message.ApplicationName = String(object.ApplicationName);
+      message.application_name = String(object.application_name);
     } else {
-      message.ApplicationName = "";
+      message.application_name = "";
     }
     if (
-      object.ApplicationDescription !== undefined &&
-      object.ApplicationDescription !== null
+      object.application_description !== undefined &&
+      object.application_description !== null
     ) {
-      message.ApplicationDescription = String(object.ApplicationDescription);
+      message.application_description = String(object.application_description);
     } else {
-      message.ApplicationDescription = "";
-    }
-    if (object.ApplicationURL !== undefined && object.ApplicationURL !== null) {
-      message.ApplicationURL = String(object.ApplicationURL);
-    } else {
-      message.ApplicationURL = "";
+      message.application_description = "";
     }
     if (
-      object.ApplicationCategory !== undefined &&
-      object.ApplicationCategory !== null
+      object.application_url !== undefined &&
+      object.application_url !== null
     ) {
-      message.ApplicationCategory = String(object.ApplicationCategory);
+      message.application_url = String(object.application_url);
     } else {
-      message.ApplicationCategory = "";
+      message.application_url = "";
+    }
+    if (
+      object.application_category !== undefined &&
+      object.application_category !== null
+    ) {
+      message.application_category = String(object.application_category);
+    } else {
+      message.application_category = "";
     }
     return message;
   },
@@ -306,14 +330,14 @@ export const MsgRegisterApplication = {
       (obj.credential = message.credential
         ? Credential.toJSON(message.credential)
         : undefined);
-    message.ApplicationName !== undefined &&
-      (obj.ApplicationName = message.ApplicationName);
-    message.ApplicationDescription !== undefined &&
-      (obj.ApplicationDescription = message.ApplicationDescription);
-    message.ApplicationURL !== undefined &&
-      (obj.ApplicationURL = message.ApplicationURL);
-    message.ApplicationCategory !== undefined &&
-      (obj.ApplicationCategory = message.ApplicationCategory);
+    message.application_name !== undefined &&
+      (obj.application_name = message.application_name);
+    message.application_description !== undefined &&
+      (obj.application_description = message.application_description);
+    message.application_url !== undefined &&
+      (obj.application_url = message.application_url);
+    message.application_category !== undefined &&
+      (obj.application_category = message.application_category);
     return obj;
   },
 
@@ -332,33 +356,36 @@ export const MsgRegisterApplication = {
       message.credential = undefined;
     }
     if (
-      object.ApplicationName !== undefined &&
-      object.ApplicationName !== null
+      object.application_name !== undefined &&
+      object.application_name !== null
     ) {
-      message.ApplicationName = object.ApplicationName;
+      message.application_name = object.application_name;
     } else {
-      message.ApplicationName = "";
+      message.application_name = "";
     }
     if (
-      object.ApplicationDescription !== undefined &&
-      object.ApplicationDescription !== null
+      object.application_description !== undefined &&
+      object.application_description !== null
     ) {
-      message.ApplicationDescription = object.ApplicationDescription;
+      message.application_description = object.application_description;
     } else {
-      message.ApplicationDescription = "";
-    }
-    if (object.ApplicationURL !== undefined && object.ApplicationURL !== null) {
-      message.ApplicationURL = object.ApplicationURL;
-    } else {
-      message.ApplicationURL = "";
+      message.application_description = "";
     }
     if (
-      object.ApplicationCategory !== undefined &&
-      object.ApplicationCategory !== null
+      object.application_url !== undefined &&
+      object.application_url !== null
     ) {
-      message.ApplicationCategory = object.ApplicationCategory;
+      message.application_url = object.application_url;
     } else {
-      message.ApplicationCategory = "";
+      message.application_url = "";
+    }
+    if (
+      object.application_category !== undefined &&
+      object.application_category !== null
+    ) {
+      message.application_category = object.application_category;
+    } else {
+      message.application_category = "";
     }
     return message;
   },
@@ -1050,6 +1077,9 @@ export const MsgUpdateName = {
         writer.uint32(34).fork()
       ).ldelim();
     });
+    if (message.session !== undefined) {
+      Session.encode(message.session, writer.uint32(42).fork()).ldelim();
+    }
     return writer;
   },
 
@@ -1078,6 +1108,9 @@ export const MsgUpdateName = {
           if (entry4.value !== undefined) {
             message.metadata[entry4.key] = entry4.value;
           }
+          break;
+        case 5:
+          message.session = Session.decode(reader, reader.uint32());
           break;
         default:
           reader.skipType(tag & 7);
@@ -1110,6 +1143,11 @@ export const MsgUpdateName = {
         message.metadata[key] = String(value);
       });
     }
+    if (object.session !== undefined && object.session !== null) {
+      message.session = Session.fromJSON(object.session);
+    } else {
+      message.session = undefined;
+    }
     return message;
   },
 
@@ -1127,6 +1165,10 @@ export const MsgUpdateName = {
         obj.metadata[k] = v;
       });
     }
+    message.session !== undefined &&
+      (obj.session = message.session
+        ? Session.toJSON(message.session)
+        : undefined);
     return obj;
   },
 
@@ -1154,6 +1196,11 @@ export const MsgUpdateName = {
           message.metadata[key] = String(value);
         }
       });
+    }
+    if (object.session !== undefined && object.session !== null) {
+      message.session = Session.fromPartial(object.session);
+    } else {
+      message.session = undefined;
     }
     return message;
   },
@@ -1703,6 +1750,9 @@ export const MsgUpdateApplication = {
         writer.uint32(26).fork()
       ).ldelim();
     });
+    if (message.session !== undefined) {
+      Session.encode(message.session, writer.uint32(34).fork()).ldelim();
+    }
     return writer;
   },
 
@@ -1728,6 +1778,9 @@ export const MsgUpdateApplication = {
           if (entry3.value !== undefined) {
             message.metadata[entry3.key] = entry3.value;
           }
+          break;
+        case 4:
+          message.session = Session.decode(reader, reader.uint32());
           break;
         default:
           reader.skipType(tag & 7);
@@ -1755,6 +1808,11 @@ export const MsgUpdateApplication = {
         message.metadata[key] = String(value);
       });
     }
+    if (object.session !== undefined && object.session !== null) {
+      message.session = Session.fromJSON(object.session);
+    } else {
+      message.session = undefined;
+    }
     return message;
   },
 
@@ -1768,6 +1826,10 @@ export const MsgUpdateApplication = {
         obj.metadata[k] = v;
       });
     }
+    message.session !== undefined &&
+      (obj.session = message.session
+        ? Session.toJSON(message.session)
+        : undefined);
     return obj;
   },
 
@@ -1790,6 +1852,11 @@ export const MsgUpdateApplication = {
           message.metadata[key] = String(value);
         }
       });
+    }
+    if (object.session !== undefined && object.session !== null) {
+      message.session = Session.fromPartial(object.session);
+    } else {
+      message.session = undefined;
     }
     return message;
   },
@@ -2243,10 +2310,22 @@ export const MsgCreateWhoIs = {
   },
 };
 
-const baseMsgCreateWhoIsResponse: object = {};
+const baseMsgCreateWhoIsResponse: object = { code: 0, message: "" };
 
 export const MsgCreateWhoIsResponse = {
-  encode(_: MsgCreateWhoIsResponse, writer: Writer = Writer.create()): Writer {
+  encode(
+    message: MsgCreateWhoIsResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.code !== 0) {
+      writer.uint32(8).int32(message.code);
+    }
+    if (message.message !== "") {
+      writer.uint32(18).string(message.message);
+    }
+    if (message.who_is !== undefined) {
+      WhoIs.encode(message.who_is, writer.uint32(26).fork()).ldelim();
+    }
     return writer;
   },
 
@@ -2257,6 +2336,15 @@ export const MsgCreateWhoIsResponse = {
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
+        case 1:
+          message.code = reader.int32();
+          break;
+        case 2:
+          message.message = reader.string();
+          break;
+        case 3:
+          message.who_is = WhoIs.decode(reader, reader.uint32());
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -2265,18 +2353,54 @@ export const MsgCreateWhoIsResponse = {
     return message;
   },
 
-  fromJSON(_: any): MsgCreateWhoIsResponse {
+  fromJSON(object: any): MsgCreateWhoIsResponse {
     const message = { ...baseMsgCreateWhoIsResponse } as MsgCreateWhoIsResponse;
+    if (object.code !== undefined && object.code !== null) {
+      message.code = Number(object.code);
+    } else {
+      message.code = 0;
+    }
+    if (object.message !== undefined && object.message !== null) {
+      message.message = String(object.message);
+    } else {
+      message.message = "";
+    }
+    if (object.who_is !== undefined && object.who_is !== null) {
+      message.who_is = WhoIs.fromJSON(object.who_is);
+    } else {
+      message.who_is = undefined;
+    }
     return message;
   },
 
-  toJSON(_: MsgCreateWhoIsResponse): unknown {
+  toJSON(message: MsgCreateWhoIsResponse): unknown {
     const obj: any = {};
+    message.code !== undefined && (obj.code = message.code);
+    message.message !== undefined && (obj.message = message.message);
+    message.who_is !== undefined &&
+      (obj.who_is = message.who_is ? WhoIs.toJSON(message.who_is) : undefined);
     return obj;
   },
 
-  fromPartial(_: DeepPartial<MsgCreateWhoIsResponse>): MsgCreateWhoIsResponse {
+  fromPartial(
+    object: DeepPartial<MsgCreateWhoIsResponse>
+  ): MsgCreateWhoIsResponse {
     const message = { ...baseMsgCreateWhoIsResponse } as MsgCreateWhoIsResponse;
+    if (object.code !== undefined && object.code !== null) {
+      message.code = object.code;
+    } else {
+      message.code = 0;
+    }
+    if (object.message !== undefined && object.message !== null) {
+      message.message = object.message;
+    } else {
+      message.message = "";
+    }
+    if (object.who_is !== undefined && object.who_is !== null) {
+      message.who_is = WhoIs.fromPartial(object.who_is);
+    } else {
+      message.who_is = undefined;
+    }
     return message;
   },
 };
@@ -2397,10 +2521,22 @@ export const MsgUpdateWhoIs = {
   },
 };
 
-const baseMsgUpdateWhoIsResponse: object = {};
+const baseMsgUpdateWhoIsResponse: object = { code: 0, message: "" };
 
 export const MsgUpdateWhoIsResponse = {
-  encode(_: MsgUpdateWhoIsResponse, writer: Writer = Writer.create()): Writer {
+  encode(
+    message: MsgUpdateWhoIsResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.code !== 0) {
+      writer.uint32(8).int32(message.code);
+    }
+    if (message.message !== "") {
+      writer.uint32(18).string(message.message);
+    }
+    if (message.who_is !== undefined) {
+      WhoIs.encode(message.who_is, writer.uint32(26).fork()).ldelim();
+    }
     return writer;
   },
 
@@ -2411,6 +2547,15 @@ export const MsgUpdateWhoIsResponse = {
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
+        case 1:
+          message.code = reader.int32();
+          break;
+        case 2:
+          message.message = reader.string();
+          break;
+        case 3:
+          message.who_is = WhoIs.decode(reader, reader.uint32());
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -2419,18 +2564,54 @@ export const MsgUpdateWhoIsResponse = {
     return message;
   },
 
-  fromJSON(_: any): MsgUpdateWhoIsResponse {
+  fromJSON(object: any): MsgUpdateWhoIsResponse {
     const message = { ...baseMsgUpdateWhoIsResponse } as MsgUpdateWhoIsResponse;
+    if (object.code !== undefined && object.code !== null) {
+      message.code = Number(object.code);
+    } else {
+      message.code = 0;
+    }
+    if (object.message !== undefined && object.message !== null) {
+      message.message = String(object.message);
+    } else {
+      message.message = "";
+    }
+    if (object.who_is !== undefined && object.who_is !== null) {
+      message.who_is = WhoIs.fromJSON(object.who_is);
+    } else {
+      message.who_is = undefined;
+    }
     return message;
   },
 
-  toJSON(_: MsgUpdateWhoIsResponse): unknown {
+  toJSON(message: MsgUpdateWhoIsResponse): unknown {
     const obj: any = {};
+    message.code !== undefined && (obj.code = message.code);
+    message.message !== undefined && (obj.message = message.message);
+    message.who_is !== undefined &&
+      (obj.who_is = message.who_is ? WhoIs.toJSON(message.who_is) : undefined);
     return obj;
   },
 
-  fromPartial(_: DeepPartial<MsgUpdateWhoIsResponse>): MsgUpdateWhoIsResponse {
+  fromPartial(
+    object: DeepPartial<MsgUpdateWhoIsResponse>
+  ): MsgUpdateWhoIsResponse {
     const message = { ...baseMsgUpdateWhoIsResponse } as MsgUpdateWhoIsResponse;
+    if (object.code !== undefined && object.code !== null) {
+      message.code = object.code;
+    } else {
+      message.code = 0;
+    }
+    if (object.message !== undefined && object.message !== null) {
+      message.message = object.message;
+    } else {
+      message.message = "";
+    }
+    if (object.who_is !== undefined && object.who_is !== null) {
+      message.who_is = WhoIs.fromPartial(object.who_is);
+    } else {
+      message.who_is = undefined;
+    }
     return message;
   },
 };
@@ -2507,10 +2688,19 @@ export const MsgDeleteWhoIs = {
   },
 };
 
-const baseMsgDeleteWhoIsResponse: object = {};
+const baseMsgDeleteWhoIsResponse: object = { code: 0, message: "" };
 
 export const MsgDeleteWhoIsResponse = {
-  encode(_: MsgDeleteWhoIsResponse, writer: Writer = Writer.create()): Writer {
+  encode(
+    message: MsgDeleteWhoIsResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.code !== 0) {
+      writer.uint32(8).int32(message.code);
+    }
+    if (message.message !== "") {
+      writer.uint32(18).string(message.message);
+    }
     return writer;
   },
 
@@ -2521,6 +2711,12 @@ export const MsgDeleteWhoIsResponse = {
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
+        case 1:
+          message.code = reader.int32();
+          break;
+        case 2:
+          message.message = reader.string();
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -2529,18 +2725,42 @@ export const MsgDeleteWhoIsResponse = {
     return message;
   },
 
-  fromJSON(_: any): MsgDeleteWhoIsResponse {
+  fromJSON(object: any): MsgDeleteWhoIsResponse {
     const message = { ...baseMsgDeleteWhoIsResponse } as MsgDeleteWhoIsResponse;
+    if (object.code !== undefined && object.code !== null) {
+      message.code = Number(object.code);
+    } else {
+      message.code = 0;
+    }
+    if (object.message !== undefined && object.message !== null) {
+      message.message = String(object.message);
+    } else {
+      message.message = "";
+    }
     return message;
   },
 
-  toJSON(_: MsgDeleteWhoIsResponse): unknown {
+  toJSON(message: MsgDeleteWhoIsResponse): unknown {
     const obj: any = {};
+    message.code !== undefined && (obj.code = message.code);
+    message.message !== undefined && (obj.message = message.message);
     return obj;
   },
 
-  fromPartial(_: DeepPartial<MsgDeleteWhoIsResponse>): MsgDeleteWhoIsResponse {
+  fromPartial(
+    object: DeepPartial<MsgDeleteWhoIsResponse>
+  ): MsgDeleteWhoIsResponse {
     const message = { ...baseMsgDeleteWhoIsResponse } as MsgDeleteWhoIsResponse;
+    if (object.code !== undefined && object.code !== null) {
+      message.code = object.code;
+    } else {
+      message.code = 0;
+    }
+    if (object.message !== undefined && object.message !== null) {
+      message.message = object.message;
+    } else {
+      message.message = "";
+    }
     return message;
   },
 };

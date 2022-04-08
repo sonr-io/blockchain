@@ -29,16 +29,16 @@ message MsgRegisterApplication {
   Credential credential = 2;
 
   // Application Name is the endpoint of the Application.
-  string ApplicationName = 3;
+  string application_name = 3;
 
   // Application Description is the description of the Application.
-  string ApplicationDescription = 4; //optional
+  string application_description = 4; //optional
 
   // Application URL is the URL of the Application.
-  string ApplicationURL = 5; //optional
+  string application_url = 5; //optional
 
   // Application Category is the category of the Application.
-  string ApplicationCategory = 6; //optional
+  string application_category = 6; //optional
 }
 
 message MsgRegisterApplicationResponse {
@@ -117,11 +117,14 @@ message MsgUpdateName {
   // The did of the peer to update the name of
   string did = 2;
 
-    // Client side JSON Web Token for AssertionMethod
+  // Client side JSON Web Token for AssertionMethod. For additional devices being linked.
   Credential credential = 3;
 
   // The Updated Metadata
   map<string, string> metadata = 4; // optional
+
+  // Session returns the session for the name
+  Session session = 5;
 }
 
 message MsgUpdateNameResponse {
@@ -172,6 +175,9 @@ message MsgUpdateApplication {
 
   // The updated configuration for the Application
   map<string, string> metadata = 3;
+
+  // Session returns the session for the name
+  Session session = 4;
 }
 
 message MsgUpdateApplicationResponse {
@@ -195,7 +201,15 @@ message MsgCreateWhoIs {
   repeated Credential credentials = 4;
   string name = 5;
 }
-message MsgCreateWhoIsResponse {}
+message MsgCreateWhoIsResponse {
+    // Code of the response
+    int32 code = 1;
+
+    // Message of the response
+    string message = 2;
+
+    WhoIs who_is = 3;
+}
 
 message MsgUpdateWhoIs {
   string creator = 1;
@@ -203,12 +217,26 @@ message MsgUpdateWhoIs {
   bytes document = 3;
   repeated Credential credentials = 4;
 }
-message MsgUpdateWhoIsResponse {}
+message MsgUpdateWhoIsResponse {
+    // Code of the response
+    int32 code = 1;
+
+    // Message of the response
+    string message = 2;
+
+    WhoIs who_is = 3;}
 
 message MsgDeleteWhoIs {
   string creator = 1;
   string did = 2;
 }
-message MsgDeleteWhoIsResponse {}
+
+message MsgDeleteWhoIsResponse {
+    // Code of the response
+    int32 code = 1;
+
+    // Message of the response
+    string message = 2;
+}
 
 // this line is used by starport scaffolding # proto/tx/message

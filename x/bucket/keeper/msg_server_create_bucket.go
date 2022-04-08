@@ -33,7 +33,7 @@ func (k msgServer) CreateBucket(goCtx context.Context, msg *types.MsgCreateBucke
 		Label:       msg.GetLabel(),
 		Did:         did.ID,
 		Description: msg.GetDescription(),
-		Objects:     msg.GetInitialObjects(),
+		ObjectDids:  msg.GetInitialObjectDids(),
 	}
 
 	// Create a new channel record

@@ -109,7 +109,7 @@ export interface BucketDoc {
   /** Did is the identifier of the bucket. */
   did: string;
   /** Objects are stored in a tree structure. */
-  objects: ObjectDoc[];
+  object_dids: string[];
 }
 
 /** BucketEvent is the base event type for all Bucket events. */
@@ -129,7 +129,13 @@ export interface BucketEvent_MetadataEntry {
   value: string;
 }
 
-const baseBucketDoc: object = { label: "", description: "", type: 0, did: "" };
+const baseBucketDoc: object = {
+  label: "",
+  description: "",
+  type: 0,
+  did: "",
+  object_dids: "",
+};
 
 export const BucketDoc = {
   encode(message: BucketDoc, writer: Writer = Writer.create()): Writer {
@@ -145,8 +151,8 @@ export const BucketDoc = {
     if (message.did !== "") {
       writer.uint32(34).string(message.did);
     }
-    for (const v of message.objects) {
-      ObjectDoc.encode(v!, writer.uint32(42).fork()).ldelim();
+    for (const v of message.object_dids) {
+      writer.uint32(42).string(v!);
     }
     return writer;
   },
@@ -155,7 +161,7 @@ export const BucketDoc = {
     const reader = input instanceof Uint8Array ? new Reader(input) : input;
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = { ...baseBucketDoc } as BucketDoc;
-    message.objects = [];
+    message.object_dids = [];
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -172,7 +178,7 @@ export const BucketDoc = {
           message.did = reader.string();
           break;
         case 5:
-          message.objects.push(ObjectDoc.decode(reader, reader.uint32()));
+          message.object_dids.push(reader.string());
           break;
         default:
           reader.skipType(tag & 7);
@@ -184,7 +190,7 @@ export const BucketDoc = {
 
   fromJSON(object: any): BucketDoc {
     const message = { ...baseBucketDoc } as BucketDoc;
-    message.objects = [];
+    message.object_dids = [];
     if (object.label !== undefined && object.label !== null) {
       message.label = String(object.label);
     } else {
@@ -205,9 +211,9 @@ export const BucketDoc = {
     } else {
       message.did = "";
     }
-    if (object.objects !== undefined && object.objects !== null) {
-      for (const e of object.objects) {
-        message.objects.push(ObjectDoc.fromJSON(e));
+    if (object.object_dids !== undefined && object.object_dids !== null) {
+      for (const e of object.object_dids) {
+        message.object_dids.push(String(e));
       }
     }
     return message;
@@ -220,19 +226,17 @@ export const BucketDoc = {
       (obj.description = message.description);
     message.type !== undefined && (obj.type = bucketTypeToJSON(message.type));
     message.did !== undefined && (obj.did = message.did);
-    if (message.objects) {
-      obj.objects = message.objects.map((e) =>
-        e ? ObjectDoc.toJSON(e) : undefined
-      );
+    if (message.object_dids) {
+      obj.object_dids = message.object_dids.map((e) => e);
     } else {
-      obj.objects = [];
+      obj.object_dids = [];
     }
     return obj;
   },
 
   fromPartial(object: DeepPartial<BucketDoc>): BucketDoc {
     const message = { ...baseBucketDoc } as BucketDoc;
-    message.objects = [];
+    message.object_dids = [];
     if (object.label !== undefined && object.label !== null) {
       message.label = object.label;
     } else {
@@ -253,9 +257,9 @@ export const BucketDoc = {
     } else {
       message.did = "";
     }
-    if (object.objects !== undefined && object.objects !== null) {
-      for (const e of object.objects) {
-        message.objects.push(ObjectDoc.fromPartial(e));
+    if (object.object_dids !== undefined && object.object_dids !== null) {
+      for (const e of object.object_dids) {
+        message.object_dids.push(e);
       }
     }
     return message;

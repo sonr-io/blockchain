@@ -6,20 +6,18 @@ import { Registry, OfflineSigner, EncodeObject, DirectSecp256k1HdWallet } from "
 import { Api } from "./rest";
 import { MsgCreateChannel } from "./types/channel/tx";
 import { MsgUpdateChannel } from "./types/channel/tx";
-import { MsgCreateHowIs } from "./types/channel/tx";
-import { MsgReadChannel } from "./types/channel/tx";
-import { MsgUpdateHowIs } from "./types/channel/tx";
 import { MsgDeleteHowIs } from "./types/channel/tx";
+import { MsgUpdateHowIs } from "./types/channel/tx";
+import { MsgCreateHowIs } from "./types/channel/tx";
 import { MsgDeleteChannel } from "./types/channel/tx";
 
 
 const types = [
   ["/sonrio.sonr.channel.MsgCreateChannel", MsgCreateChannel],
   ["/sonrio.sonr.channel.MsgUpdateChannel", MsgUpdateChannel],
-  ["/sonrio.sonr.channel.MsgCreateHowIs", MsgCreateHowIs],
-  ["/sonrio.sonr.channel.MsgReadChannel", MsgReadChannel],
-  ["/sonrio.sonr.channel.MsgUpdateHowIs", MsgUpdateHowIs],
   ["/sonrio.sonr.channel.MsgDeleteHowIs", MsgDeleteHowIs],
+  ["/sonrio.sonr.channel.MsgUpdateHowIs", MsgUpdateHowIs],
+  ["/sonrio.sonr.channel.MsgCreateHowIs", MsgCreateHowIs],
   ["/sonrio.sonr.channel.MsgDeleteChannel", MsgDeleteChannel],
   
 ];
@@ -55,10 +53,9 @@ const txClient = async (wallet: OfflineSigner, { addr: addr }: TxClientOptions =
     signAndBroadcast: (msgs: EncodeObject[], { fee, memo }: SignAndBroadcastOptions = {fee: defaultFee, memo: ""}) => client.signAndBroadcast(address, msgs, fee,memo),
     msgCreateChannel: (data: MsgCreateChannel): EncodeObject => ({ typeUrl: "/sonrio.sonr.channel.MsgCreateChannel", value: MsgCreateChannel.fromPartial( data ) }),
     msgUpdateChannel: (data: MsgUpdateChannel): EncodeObject => ({ typeUrl: "/sonrio.sonr.channel.MsgUpdateChannel", value: MsgUpdateChannel.fromPartial( data ) }),
-    msgCreateHowIs: (data: MsgCreateHowIs): EncodeObject => ({ typeUrl: "/sonrio.sonr.channel.MsgCreateHowIs", value: MsgCreateHowIs.fromPartial( data ) }),
-    msgReadChannel: (data: MsgReadChannel): EncodeObject => ({ typeUrl: "/sonrio.sonr.channel.MsgReadChannel", value: MsgReadChannel.fromPartial( data ) }),
-    msgUpdateHowIs: (data: MsgUpdateHowIs): EncodeObject => ({ typeUrl: "/sonrio.sonr.channel.MsgUpdateHowIs", value: MsgUpdateHowIs.fromPartial( data ) }),
     msgDeleteHowIs: (data: MsgDeleteHowIs): EncodeObject => ({ typeUrl: "/sonrio.sonr.channel.MsgDeleteHowIs", value: MsgDeleteHowIs.fromPartial( data ) }),
+    msgUpdateHowIs: (data: MsgUpdateHowIs): EncodeObject => ({ typeUrl: "/sonrio.sonr.channel.MsgUpdateHowIs", value: MsgUpdateHowIs.fromPartial( data ) }),
+    msgCreateHowIs: (data: MsgCreateHowIs): EncodeObject => ({ typeUrl: "/sonrio.sonr.channel.MsgCreateHowIs", value: MsgCreateHowIs.fromPartial( data ) }),
     msgDeleteChannel: (data: MsgDeleteChannel): EncodeObject => ({ typeUrl: "/sonrio.sonr.channel.MsgDeleteChannel", value: MsgDeleteChannel.fromPartial( data ) }),
     
   };

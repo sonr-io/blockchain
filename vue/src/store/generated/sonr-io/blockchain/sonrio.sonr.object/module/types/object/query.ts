@@ -1,6 +1,7 @@
 /* eslint-disable */
 import { Reader, Writer } from "protobufjs/minimal";
 import { Params } from "../object/params";
+import { Session } from "../registry/who_is";
 import { WhatIs } from "../object/what_is";
 import {
   PageRequest,
@@ -20,6 +21,7 @@ export interface QueryParamsResponse {
 
 export interface QueryGetWhatIsRequest {
   index: string;
+  session: Session | undefined;
 }
 
 export interface QueryGetWhatIsResponse {
@@ -28,6 +30,7 @@ export interface QueryGetWhatIsResponse {
 
 export interface QueryAllWhatIsRequest {
   pagination: PageRequest | undefined;
+  session: Session | undefined;
 }
 
 export interface QueryAllWhatIsResponse {
@@ -142,6 +145,9 @@ export const QueryGetWhatIsRequest = {
     if (message.index !== "") {
       writer.uint32(10).string(message.index);
     }
+    if (message.session !== undefined) {
+      Session.encode(message.session, writer.uint32(18).fork()).ldelim();
+    }
     return writer;
   },
 
@@ -154,6 +160,9 @@ export const QueryGetWhatIsRequest = {
       switch (tag >>> 3) {
         case 1:
           message.index = reader.string();
+          break;
+        case 2:
+          message.session = Session.decode(reader, reader.uint32());
           break;
         default:
           reader.skipType(tag & 7);
@@ -170,12 +179,21 @@ export const QueryGetWhatIsRequest = {
     } else {
       message.index = "";
     }
+    if (object.session !== undefined && object.session !== null) {
+      message.session = Session.fromJSON(object.session);
+    } else {
+      message.session = undefined;
+    }
     return message;
   },
 
   toJSON(message: QueryGetWhatIsRequest): unknown {
     const obj: any = {};
     message.index !== undefined && (obj.index = message.index);
+    message.session !== undefined &&
+      (obj.session = message.session
+        ? Session.toJSON(message.session)
+        : undefined);
     return obj;
   },
 
@@ -187,6 +205,11 @@ export const QueryGetWhatIsRequest = {
       message.index = object.index;
     } else {
       message.index = "";
+    }
+    if (object.session !== undefined && object.session !== null) {
+      message.session = Session.fromPartial(object.session);
+    } else {
+      message.session = undefined;
     }
     return message;
   },
@@ -263,6 +286,9 @@ export const QueryAllWhatIsRequest = {
     if (message.pagination !== undefined) {
       PageRequest.encode(message.pagination, writer.uint32(10).fork()).ldelim();
     }
+    if (message.session !== undefined) {
+      Session.encode(message.session, writer.uint32(18).fork()).ldelim();
+    }
     return writer;
   },
 
@@ -275,6 +301,9 @@ export const QueryAllWhatIsRequest = {
       switch (tag >>> 3) {
         case 1:
           message.pagination = PageRequest.decode(reader, reader.uint32());
+          break;
+        case 2:
+          message.session = Session.decode(reader, reader.uint32());
           break;
         default:
           reader.skipType(tag & 7);
@@ -291,6 +320,11 @@ export const QueryAllWhatIsRequest = {
     } else {
       message.pagination = undefined;
     }
+    if (object.session !== undefined && object.session !== null) {
+      message.session = Session.fromJSON(object.session);
+    } else {
+      message.session = undefined;
+    }
     return message;
   },
 
@@ -299,6 +333,10 @@ export const QueryAllWhatIsRequest = {
     message.pagination !== undefined &&
       (obj.pagination = message.pagination
         ? PageRequest.toJSON(message.pagination)
+        : undefined);
+    message.session !== undefined &&
+      (obj.session = message.session
+        ? Session.toJSON(message.session)
         : undefined);
     return obj;
   },
@@ -311,6 +349,11 @@ export const QueryAllWhatIsRequest = {
       message.pagination = PageRequest.fromPartial(object.pagination);
     } else {
       message.pagination = undefined;
+    }
+    if (object.session !== undefined && object.session !== null) {
+      message.session = Session.fromPartial(object.session);
+    } else {
+      message.session = undefined;
     }
     return message;
   },

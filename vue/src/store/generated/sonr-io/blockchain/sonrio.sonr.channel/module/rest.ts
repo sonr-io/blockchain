@@ -36,7 +36,12 @@ export interface ChannelMsgCreateChannelResponse {
   how_is?: ChannelHowIs;
 }
 
-export type ChannelMsgCreateHowIsResponse = object;
+export interface ChannelMsgCreateHowIsResponse {
+  /** @format int32 */
+  code?: number;
+  message?: string;
+  how_is?: ChannelHowIs;
+}
 
 export interface ChannelMsgDeleteChannelResponse {
   /** @format int32 */
@@ -44,13 +49,10 @@ export interface ChannelMsgDeleteChannelResponse {
   message?: string;
 }
 
-export type ChannelMsgDeleteHowIsResponse = object;
-
-export interface ChannelMsgReadChannelResponse {
+export interface ChannelMsgDeleteHowIsResponse {
   /** @format int32 */
   code?: number;
   message?: string;
-  how_is?: ChannelHowIs;
 }
 
 export interface ChannelMsgUpdateChannelResponse {
@@ -59,7 +61,12 @@ export interface ChannelMsgUpdateChannelResponse {
   message?: string;
 }
 
-export type ChannelMsgUpdateHowIsResponse = object;
+export interface ChannelMsgUpdateHowIsResponse {
+  /** @format int32 */
+  code?: number;
+  message?: string;
+  how_is?: ChannelHowIs;
+}
 
 /**
  * Params defines the parameters for the module.
@@ -688,6 +695,18 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       "pagination.limit"?: string;
       "pagination.count_total"?: boolean;
       "pagination.reverse"?: boolean;
+      "session.base_did"?: string;
+      "session.whois.name"?: string;
+      "session.whois.did"?: string;
+      "session.whois.document"?: string;
+      "session.whois.creator"?: string;
+      "session.whois.type"?: "User" | "Application";
+      "session.credential.i_d"?: string;
+      "session.credential.public_key"?: string;
+      "session.credential.attestation_type"?: string;
+      "session.credential.authenticator.aaguid"?: string;
+      "session.credential.authenticator.sign_count"?: number;
+      "session.credential.authenticator.clone_warning"?: boolean;
     },
     params: RequestParams = {},
   ) =>
@@ -707,10 +726,28 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    * @summary Queries a HowIs by index.
    * @request GET:/sonr-io/sonr/channel/how_is/{index}
    */
-  queryHowIs = (index: string, params: RequestParams = {}) =>
+  queryHowIs = (
+    index: string,
+    query?: {
+      "session.base_did"?: string;
+      "session.whois.name"?: string;
+      "session.whois.did"?: string;
+      "session.whois.document"?: string;
+      "session.whois.creator"?: string;
+      "session.whois.type"?: "User" | "Application";
+      "session.credential.i_d"?: string;
+      "session.credential.public_key"?: string;
+      "session.credential.attestation_type"?: string;
+      "session.credential.authenticator.aaguid"?: string;
+      "session.credential.authenticator.sign_count"?: number;
+      "session.credential.authenticator.clone_warning"?: boolean;
+    },
+    params: RequestParams = {},
+  ) =>
     this.request<ChannelQueryGetHowIsResponse, RpcStatus>({
       path: `/sonr-io/sonr/channel/how_is/${index}`,
       method: "GET",
+      query: query,
       format: "json",
       ...params,
     });

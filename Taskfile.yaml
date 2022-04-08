@@ -12,6 +12,15 @@ tasks:
       - starport chain build
     silent: true
 
+  gen:
+    summary: Generates protobuf, openapi, and vue stores
+    cmds:
+      - starport generate openapi
+      - starport generate vuex
+      - starport generate proto-go
+      - go mod tidy
+    silent: true
+
   serve:
     summary: Serve the blockchain using starport
     cmds:
@@ -22,6 +31,7 @@ tasks:
     summary: Start a locally built blockchain daemon
     deps: [build]
     cmds:
+      - rm -rf ~/.sonr
       - sonrd init my-node --chain-id sonr
       - sonrd keys add --keyring-backend test alice --home ~/.sonr
       - sonrd add-genesis-account $(sonrd keys show alice -a) 1000000000000000stake,1000000000000snr

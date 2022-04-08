@@ -18,7 +18,7 @@ message BucketDoc {
     string did = 4;
 
     // Objects are stored in a tree structure.
-    repeated sonrio.sonr.object.ObjectDoc objects = 5;
+    repeated string object_dids = 5;
 }
 
 // BucketType is the type of a bucket.

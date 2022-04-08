@@ -23,21 +23,6 @@ export interface MsgCreateObjectResponse {
   what_is: WhatIs | undefined;
 }
 
-export interface MsgReadObject {
-  creator: string;
-  did: string;
-  session: Session | undefined;
-}
-
-export interface MsgReadObjectResponse {
-  /** Code of the response */
-  code: number;
-  /** Message of the response */
-  message: string;
-  /** WhatIs of the Channel */
-  what_is: WhatIs | undefined;
-}
-
 export interface MsgUpdateObject {
   creator: string;
   /** Label of the Object */
@@ -323,195 +308,6 @@ export const MsgCreateObjectResponse = {
     const message = {
       ...baseMsgCreateObjectResponse,
     } as MsgCreateObjectResponse;
-    if (object.code !== undefined && object.code !== null) {
-      message.code = object.code;
-    } else {
-      message.code = 0;
-    }
-    if (object.message !== undefined && object.message !== null) {
-      message.message = object.message;
-    } else {
-      message.message = "";
-    }
-    if (object.what_is !== undefined && object.what_is !== null) {
-      message.what_is = WhatIs.fromPartial(object.what_is);
-    } else {
-      message.what_is = undefined;
-    }
-    return message;
-  },
-};
-
-const baseMsgReadObject: object = { creator: "", did: "" };
-
-export const MsgReadObject = {
-  encode(message: MsgReadObject, writer: Writer = Writer.create()): Writer {
-    if (message.creator !== "") {
-      writer.uint32(10).string(message.creator);
-    }
-    if (message.did !== "") {
-      writer.uint32(18).string(message.did);
-    }
-    if (message.session !== undefined) {
-      Session.encode(message.session, writer.uint32(26).fork()).ldelim();
-    }
-    return writer;
-  },
-
-  decode(input: Reader | Uint8Array, length?: number): MsgReadObject {
-    const reader = input instanceof Uint8Array ? new Reader(input) : input;
-    let end = length === undefined ? reader.len : reader.pos + length;
-    const message = { ...baseMsgReadObject } as MsgReadObject;
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.creator = reader.string();
-          break;
-        case 2:
-          message.did = reader.string();
-          break;
-        case 3:
-          message.session = Session.decode(reader, reader.uint32());
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
-      }
-    }
-    return message;
-  },
-
-  fromJSON(object: any): MsgReadObject {
-    const message = { ...baseMsgReadObject } as MsgReadObject;
-    if (object.creator !== undefined && object.creator !== null) {
-      message.creator = String(object.creator);
-    } else {
-      message.creator = "";
-    }
-    if (object.did !== undefined && object.did !== null) {
-      message.did = String(object.did);
-    } else {
-      message.did = "";
-    }
-    if (object.session !== undefined && object.session !== null) {
-      message.session = Session.fromJSON(object.session);
-    } else {
-      message.session = undefined;
-    }
-    return message;
-  },
-
-  toJSON(message: MsgReadObject): unknown {
-    const obj: any = {};
-    message.creator !== undefined && (obj.creator = message.creator);
-    message.did !== undefined && (obj.did = message.did);
-    message.session !== undefined &&
-      (obj.session = message.session
-        ? Session.toJSON(message.session)
-        : undefined);
-    return obj;
-  },
-
-  fromPartial(object: DeepPartial<MsgReadObject>): MsgReadObject {
-    const message = { ...baseMsgReadObject } as MsgReadObject;
-    if (object.creator !== undefined && object.creator !== null) {
-      message.creator = object.creator;
-    } else {
-      message.creator = "";
-    }
-    if (object.did !== undefined && object.did !== null) {
-      message.did = object.did;
-    } else {
-      message.did = "";
-    }
-    if (object.session !== undefined && object.session !== null) {
-      message.session = Session.fromPartial(object.session);
-    } else {
-      message.session = undefined;
-    }
-    return message;
-  },
-};
-
-const baseMsgReadObjectResponse: object = { code: 0, message: "" };
-
-export const MsgReadObjectResponse = {
-  encode(
-    message: MsgReadObjectResponse,
-    writer: Writer = Writer.create()
-  ): Writer {
-    if (message.code !== 0) {
-      writer.uint32(8).int32(message.code);
-    }
-    if (message.message !== "") {
-      writer.uint32(18).string(message.message);
-    }
-    if (message.what_is !== undefined) {
-      WhatIs.encode(message.what_is, writer.uint32(26).fork()).ldelim();
-    }
-    return writer;
-  },
-
-  decode(input: Reader | Uint8Array, length?: number): MsgReadObjectResponse {
-    const reader = input instanceof Uint8Array ? new Reader(input) : input;
-    let end = length === undefined ? reader.len : reader.pos + length;
-    const message = { ...baseMsgReadObjectResponse } as MsgReadObjectResponse;
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.code = reader.int32();
-          break;
-        case 2:
-          message.message = reader.string();
-          break;
-        case 3:
-          message.what_is = WhatIs.decode(reader, reader.uint32());
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
-      }
-    }
-    return message;
-  },
-
-  fromJSON(object: any): MsgReadObjectResponse {
-    const message = { ...baseMsgReadObjectResponse } as MsgReadObjectResponse;
-    if (object.code !== undefined && object.code !== null) {
-      message.code = Number(object.code);
-    } else {
-      message.code = 0;
-    }
-    if (object.message !== undefined && object.message !== null) {
-      message.message = String(object.message);
-    } else {
-      message.message = "";
-    }
-    if (object.what_is !== undefined && object.what_is !== null) {
-      message.what_is = WhatIs.fromJSON(object.what_is);
-    } else {
-      message.what_is = undefined;
-    }
-    return message;
-  },
-
-  toJSON(message: MsgReadObjectResponse): unknown {
-    const obj: any = {};
-    message.code !== undefined && (obj.code = message.code);
-    message.message !== undefined && (obj.message = message.message);
-    message.what_is !== undefined &&
-      (obj.what_is = message.what_is
-        ? WhatIs.toJSON(message.what_is)
-        : undefined);
-    return obj;
-  },
-
-  fromPartial(
-    object: DeepPartial<MsgReadObjectResponse>
-  ): MsgReadObjectResponse {
-    const message = { ...baseMsgReadObjectResponse } as MsgReadObjectResponse;
     if (object.code !== undefined && object.code !== null) {
       message.code = object.code;
     } else {
@@ -1414,7 +1210,6 @@ export const MsgDeleteWhatIsResponse = {
 /** Msg defines the Msg service. */
 export interface Msg {
   CreateObject(request: MsgCreateObject): Promise<MsgCreateObjectResponse>;
-  ReadObject(request: MsgReadObject): Promise<MsgReadObjectResponse>;
   UpdateObject(request: MsgUpdateObject): Promise<MsgUpdateObjectResponse>;
   DeleteObject(request: MsgDeleteObject): Promise<MsgDeleteObjectResponse>;
   CreateWhatIs(request: MsgCreateWhatIs): Promise<MsgCreateWhatIsResponse>;
@@ -1437,18 +1232,6 @@ export class MsgClientImpl implements Msg {
     );
     return promise.then((data) =>
       MsgCreateObjectResponse.decode(new Reader(data))
-    );
-  }
-
-  ReadObject(request: MsgReadObject): Promise<MsgReadObjectResponse> {
-    const data = MsgReadObject.encode(request).finish();
-    const promise = this.rpc.request(
-      "sonrio.sonr.object.Msg",
-      "ReadObject",
-      data
-    );
-    return promise.then((data) =>
-      MsgReadObjectResponse.decode(new Reader(data))
     );
   }
 

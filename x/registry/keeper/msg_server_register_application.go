@@ -47,7 +47,7 @@ func (k msgServer) RegisterApplication(goCtx context.Context, msg *types.MsgRegi
 	m := make(map[string]string)
 	m["app_name"] = name
 	m["app_description"] = msg.GetApplicationDescription()
-	m["app_url"] = msg.GetApplicationURL()
+	m["app_url"] = msg.GetApplicationUrl()
 	m["app_category"] = msg.GetApplicationCategory()
 
 	// Create a new who is record

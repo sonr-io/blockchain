@@ -81,9 +81,20 @@ export interface RegistryMsgAccessNameResponse {
   session?: RegistrySession;
 }
 
-export type RegistryMsgCreateWhoIsResponse = object;
+export interface RegistryMsgCreateWhoIsResponse {
+  /** @format int32 */
+  code?: number;
+  message?: string;
 
-export type RegistryMsgDeleteWhoIsResponse = object;
+  /** WhoIs is the entry pointing a registered name to a user account address, Did Url string, and a DIDDocument. */
+  who_is?: RegistryWhoIs;
+}
+
+export interface RegistryMsgDeleteWhoIsResponse {
+  /** @format int32 */
+  code?: number;
+  message?: string;
+}
 
 export interface RegistryMsgRegisterApplicationResponse {
   /** @format int32 */
@@ -124,7 +135,14 @@ export interface RegistryMsgUpdateNameResponse {
   whoIs?: RegistryWhoIs;
 }
 
-export type RegistryMsgUpdateWhoIsResponse = object;
+export interface RegistryMsgUpdateWhoIsResponse {
+  /** @format int32 */
+  code?: number;
+  message?: string;
+
+  /** WhoIs is the entry pointing a registered name to a user account address, Did Url string, and a DIDDocument. */
+  who_is?: RegistryWhoIs;
+}
 
 /**
  * Params defines the parameters for the module.

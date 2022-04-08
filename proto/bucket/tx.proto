@@ -30,7 +30,7 @@ message MsgCreateBucket {
   sonrio.sonr.registry.Session session = 5;
 
   // Provided initial objects for the bucket
-  repeated sonrio.sonr.object.ObjectDoc initial_objects = 6;
+  repeated string initial_object_dids = 6;
 }
 
 message MsgCreateBucketResponse {
@@ -57,10 +57,10 @@ message MsgUpdateBucket {
   sonrio.sonr.registry.Session session = 4;
 
   // Added Objects
-  repeated sonrio.sonr.object.ObjectDoc added_objects = 5;
+  repeated string added_object_dids = 5;
 
   // Removed Objects
-  repeated sonrio.sonr.object.ObjectDoc removed_objects = 6;
+  repeated string removed_object_dids = 6;
 }
 
 message MsgUpdateBucketResponse {
