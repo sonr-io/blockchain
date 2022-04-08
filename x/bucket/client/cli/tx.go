@@ -31,7 +31,6 @@ func GetTxCmd() *cobra.Command {
 	}
 
 	cmd.AddCommand(CmdCreateBucket())
-	cmd.AddCommand(CmdReadBucket())
 	cmd.AddCommand(CmdUpdateBucket())
 	cmd.AddCommand(CmdDeleteBucket())
 	cmd.AddCommand(CmdCreateWhichIs())

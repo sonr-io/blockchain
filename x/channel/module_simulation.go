@@ -110,17 +110,6 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 		channelsimulation.SimulateMsgCreateChannel(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
-	var weightMsgReadChannel int
-	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgReadChannel, &weightMsgReadChannel, nil,
-		func(_ *rand.Rand) {
-			weightMsgReadChannel = defaultWeightMsgReadChannel
-		},
-	)
-	operations = append(operations, simulation.NewWeightedOperation(
-		weightMsgReadChannel,
-		channelsimulation.SimulateMsgReadChannel(am.accountKeeper, am.bankKeeper, am.keeper),
-	))
-
 	var weightMsgDeleteChannel int
 	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgDeleteChannel, &weightMsgDeleteChannel, nil,
 		func(_ *rand.Rand) {

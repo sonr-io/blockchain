@@ -31,7 +31,6 @@ func GetTxCmd() *cobra.Command {
 	}
 
 	cmd.AddCommand(CmdCreateObject())
-	cmd.AddCommand(CmdReadObject())
 	cmd.AddCommand(CmdUpdateObject())
 	cmd.AddCommand(CmdDeleteObject())
 	cmd.AddCommand(CmdCreateWhatIs())

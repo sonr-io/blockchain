@@ -106,17 +106,6 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 		objectsimulation.SimulateMsgCreateObject(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
-	var weightMsgReadObject int
-	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgReadObject, &weightMsgReadObject, nil,
-		func(_ *rand.Rand) {
-			weightMsgReadObject = defaultWeightMsgReadObject
-		},
-	)
-	operations = append(operations, simulation.NewWeightedOperation(
-		weightMsgReadObject,
-		objectsimulation.SimulateMsgReadObject(am.accountKeeper, am.bankKeeper, am.keeper),
-	))
-
 	var weightMsgUpdateObject int
 	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgUpdateObject, &weightMsgUpdateObject, nil,
 		func(_ *rand.Rand) {

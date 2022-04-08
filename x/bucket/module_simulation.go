@@ -110,17 +110,6 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 		bucketsimulation.SimulateMsgCreateBucket(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
-	var weightMsgReadBucket int
-	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgReadBucket, &weightMsgReadBucket, nil,
-		func(_ *rand.Rand) {
-			weightMsgReadBucket = defaultWeightMsgReadBucket
-		},
-	)
-	operations = append(operations, simulation.NewWeightedOperation(
-		weightMsgReadBucket,
-		bucketsimulation.SimulateMsgReadBucket(am.accountKeeper, am.bankKeeper, am.keeper),
-	))
-
 	var weightMsgUpdateBucket int
 	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgUpdateBucket, &weightMsgUpdateBucket, nil,
 		func(_ *rand.Rand) {

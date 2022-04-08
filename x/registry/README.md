@@ -26,6 +26,22 @@ The record type utilized in the **Registry module** is the `WhoIs` type. This ty
     - (`string`) ApplicationURL         : Website/Homepage of the App
     - (`string`) ApplicationCategory    : Category of the Application Type
 
+#### `AccessName()` - Accesses a particular name essentially a "Login" function
+
+    - (`string`) Creator            : The Account Address signing this message
+    - (`Credential`) Credential     : Webauthn credential to use for registration
+    - (`string`) Name               : The name to authenticate and retreive data
+
+#### `AccessApplication()` - Accesses a particular application essentially a "Register" function
+
+    - (`string`) Creator                : The Account Address signing this message
+    - (`string`) AppName                : The Name of the Application being accessed
+    - (`Credential`) Credential         : Webauthn Credential of the authenticated user
+
+## Record Type: `WhoIs`
+
+WIP
+
 ## Status Codes
 
 WIP

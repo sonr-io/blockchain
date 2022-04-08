@@ -11,8 +11,7 @@ option go_package = "github.com/sonr-io/blockchain/x/bucket/types";
 
 // Msg defines the Msg service.
 service Msg {
-      rpc CreateBucket(MsgCreateBucket) returns (MsgCreateBucketResponse);
-  rpc ReadBucket(MsgReadBucket) returns (MsgReadBucketResponse);
+  rpc CreateBucket(MsgCreateBucket) returns (MsgCreateBucketResponse);
   rpc UpdateBucket(MsgUpdateBucket) returns (MsgUpdateBucketResponse);
   rpc DeleteBucket(MsgDeleteBucket) returns (MsgDeleteBucketResponse);
   rpc CreateWhichIs(MsgCreateWhichIs) returns (MsgCreateWhichIsResponse);
@@ -35,29 +34,6 @@ message MsgCreateBucket {
 }
 
 message MsgCreateBucketResponse {
-    // Code of the response
-    int32 code = 1;
-
-    // Message of the response
-    string message = 2;
-
-    // Whichis response of the ObjectDoc
-    WhichIs which_is = 3;
-}
-
-
-message MsgReadBucket {
-  // Creator of request
-  string creator = 1;
-
-  // The bucket label to read
-  string label = 2;
-
-  // Session data of authenticated user
-  sonrio.sonr.registry.Session session = 3;
-}
-
-message MsgReadBucketResponse {
     // Code of the response
     int32 code = 1;
 
