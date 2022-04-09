@@ -15,11 +15,17 @@ tasks:
   gen:
     summary: Generates protobuf, openapi, and vue stores
     cmds:
-      - mkdir -p x/bucket/types && mkdir -p x/channel/types && mkdir -p x/object/types && mkdir -p x/registry/types
+      - mkdir -p x/bucket/types x/channel/types x/object/types x/registry/types
       - starport generate openapi
       - starport generate vuex
       - starport generate proto-go
       - go mod tidy
+    silent: true
+
+  degen:
+    summary: Deletes generated protobuf and vue stores
+    cmds:
+      - rm -r x/bucket/types x/channel/types x/object/types x/registry/types
     silent: true
 
   serve:
@@ -46,3 +52,4 @@ tasks:
       - rm -rf dist
       - rm -rf release
       - go mod tidy
+
