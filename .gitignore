@@ -23,6 +23,12 @@ chain
 node_modules/
 build/
 
+# Proto files
+x/bucket/types
+x/channel/types
+x/object/types
+x/registry/types
+
 ### Node ###
 # Logs
 logs
