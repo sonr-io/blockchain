@@ -6,12 +6,10 @@ require (
 	github.com/cosmos/cosmos-sdk v0.44.5
 	github.com/cosmos/ibc-go v1.2.2
 	github.com/duo-labs/webauthn v0.0.0-20220330035159-03696f3d4499
-	github.com/fxamacker/cbor/v2 v2.4.0
 	github.com/gogo/protobuf v1.3.3
 	github.com/golang/protobuf v1.5.2
 	github.com/gorilla/mux v1.8.0
 	github.com/grpc-ecosystem/grpc-gateway v1.16.0
-	github.com/pkg/errors v0.9.1
 	github.com/sonr-io/core v0.22.0
 	github.com/spf13/cast v1.4.1
 	github.com/spf13/cobra v1.3.0
@@ -21,7 +19,6 @@ require (
 	github.com/tendermint/tm-db v0.6.4
 	google.golang.org/genproto v0.0.0-20220317150908-0efb43f6373e
 	google.golang.org/grpc v1.45.0
-	gopkg.in/yaml.v2 v2.4.0
 )
 
 replace (

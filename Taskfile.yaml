@@ -15,6 +15,7 @@ tasks:
   gen:
     summary: Generates protobuf, openapi, and vue stores
     cmds:
+      - mkdir -p x/bucket/types && mkdir -p x/channel/types && mkdir -p x/object/types && mkdir -p x/registry/types
       - starport generate openapi
       - starport generate vuex
       - starport generate proto-go
