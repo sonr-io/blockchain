@@ -4,21 +4,21 @@ import { StdFee } from "@cosmjs/launchpad";
 import { SigningStargateClient } from "@cosmjs/stargate";
 import { Registry, OfflineSigner, EncodeObject, DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
 import { Api } from "./rest";
-import { MsgCreateChannel } from "./types/channel/tx";
 import { MsgUpdateChannel } from "./types/channel/tx";
-import { MsgDeleteHowIs } from "./types/channel/tx";
-import { MsgUpdateHowIs } from "./types/channel/tx";
 import { MsgCreateHowIs } from "./types/channel/tx";
 import { MsgDeleteChannel } from "./types/channel/tx";
+import { MsgDeleteHowIs } from "./types/channel/tx";
+import { MsgUpdateHowIs } from "./types/channel/tx";
+import { MsgCreateChannel } from "./types/channel/tx";
 
 
 const types = [
-  ["/sonrio.sonr.channel.MsgCreateChannel", MsgCreateChannel],
   ["/sonrio.sonr.channel.MsgUpdateChannel", MsgUpdateChannel],
-  ["/sonrio.sonr.channel.MsgDeleteHowIs", MsgDeleteHowIs],
-  ["/sonrio.sonr.channel.MsgUpdateHowIs", MsgUpdateHowIs],
   ["/sonrio.sonr.channel.MsgCreateHowIs", MsgCreateHowIs],
   ["/sonrio.sonr.channel.MsgDeleteChannel", MsgDeleteChannel],
+  ["/sonrio.sonr.channel.MsgDeleteHowIs", MsgDeleteHowIs],
+  ["/sonrio.sonr.channel.MsgUpdateHowIs", MsgUpdateHowIs],
+  ["/sonrio.sonr.channel.MsgCreateChannel", MsgCreateChannel],
   
 ];
 export const MissingWalletError = new Error("wallet is required");
@@ -51,12 +51,12 @@ const txClient = async (wallet: OfflineSigner, { addr: addr }: TxClientOptions =
 
   return {
     signAndBroadcast: (msgs: EncodeObject[], { fee, memo }: SignAndBroadcastOptions = {fee: defaultFee, memo: ""}) => client.signAndBroadcast(address, msgs, fee,memo),
-    msgCreateChannel: (data: MsgCreateChannel): EncodeObject => ({ typeUrl: "/sonrio.sonr.channel.MsgCreateChannel", value: MsgCreateChannel.fromPartial( data ) }),
     msgUpdateChannel: (data: MsgUpdateChannel): EncodeObject => ({ typeUrl: "/sonrio.sonr.channel.MsgUpdateChannel", value: MsgUpdateChannel.fromPartial( data ) }),
-    msgDeleteHowIs: (data: MsgDeleteHowIs): EncodeObject => ({ typeUrl: "/sonrio.sonr.channel.MsgDeleteHowIs", value: MsgDeleteHowIs.fromPartial( data ) }),
-    msgUpdateHowIs: (data: MsgUpdateHowIs): EncodeObject => ({ typeUrl: "/sonrio.sonr.channel.MsgUpdateHowIs", value: MsgUpdateHowIs.fromPartial( data ) }),
     msgCreateHowIs: (data: MsgCreateHowIs): EncodeObject => ({ typeUrl: "/sonrio.sonr.channel.MsgCreateHowIs", value: MsgCreateHowIs.fromPartial( data ) }),
     msgDeleteChannel: (data: MsgDeleteChannel): EncodeObject => ({ typeUrl: "/sonrio.sonr.channel.MsgDeleteChannel", value: MsgDeleteChannel.fromPartial( data ) }),
+    msgDeleteHowIs: (data: MsgDeleteHowIs): EncodeObject => ({ typeUrl: "/sonrio.sonr.channel.MsgDeleteHowIs", value: MsgDeleteHowIs.fromPartial( data ) }),
+    msgUpdateHowIs: (data: MsgUpdateHowIs): EncodeObject => ({ typeUrl: "/sonrio.sonr.channel.MsgUpdateHowIs", value: MsgUpdateHowIs.fromPartial( data ) }),
+    msgCreateChannel: (data: MsgCreateChannel): EncodeObject => ({ typeUrl: "/sonrio.sonr.channel.MsgCreateChannel", value: MsgCreateChannel.fromPartial( data ) }),
     
   };
 };

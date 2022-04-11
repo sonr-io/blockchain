@@ -3,7 +3,7 @@ name: Bug report
 about: Create a report to help us improve
 title: "[BUG] New Bug Title"
 labels: bug
-assignees: prnk28
+assignees: prnk28, ntindle
 
 ---
 

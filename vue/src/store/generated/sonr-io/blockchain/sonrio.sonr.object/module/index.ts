@@ -7,18 +7,18 @@ import { Api } from "./rest";
 import { MsgUpdateWhatIs } from "./types/object/tx";
 import { MsgCreateObject } from "./types/object/tx";
 import { MsgUpdateObject } from "./types/object/tx";
-import { MsgDeleteWhatIs } from "./types/object/tx";
-import { MsgDeleteObject } from "./types/object/tx";
 import { MsgCreateWhatIs } from "./types/object/tx";
+import { MsgDeleteObject } from "./types/object/tx";
+import { MsgDeleteWhatIs } from "./types/object/tx";
 
 
 const types = [
   ["/sonrio.sonr.object.MsgUpdateWhatIs", MsgUpdateWhatIs],
   ["/sonrio.sonr.object.MsgCreateObject", MsgCreateObject],
   ["/sonrio.sonr.object.MsgUpdateObject", MsgUpdateObject],
-  ["/sonrio.sonr.object.MsgDeleteWhatIs", MsgDeleteWhatIs],
-  ["/sonrio.sonr.object.MsgDeleteObject", MsgDeleteObject],
   ["/sonrio.sonr.object.MsgCreateWhatIs", MsgCreateWhatIs],
+  ["/sonrio.sonr.object.MsgDeleteObject", MsgDeleteObject],
+  ["/sonrio.sonr.object.MsgDeleteWhatIs", MsgDeleteWhatIs],
   
 ];
 export const MissingWalletError = new Error("wallet is required");
@@ -54,9 +54,9 @@ const txClient = async (wallet: OfflineSigner, { addr: addr }: TxClientOptions =
     msgUpdateWhatIs: (data: MsgUpdateWhatIs): EncodeObject => ({ typeUrl: "/sonrio.sonr.object.MsgUpdateWhatIs", value: MsgUpdateWhatIs.fromPartial( data ) }),
     msgCreateObject: (data: MsgCreateObject): EncodeObject => ({ typeUrl: "/sonrio.sonr.object.MsgCreateObject", value: MsgCreateObject.fromPartial( data ) }),
     msgUpdateObject: (data: MsgUpdateObject): EncodeObject => ({ typeUrl: "/sonrio.sonr.object.MsgUpdateObject", value: MsgUpdateObject.fromPartial( data ) }),
-    msgDeleteWhatIs: (data: MsgDeleteWhatIs): EncodeObject => ({ typeUrl: "/sonrio.sonr.object.MsgDeleteWhatIs", value: MsgDeleteWhatIs.fromPartial( data ) }),
-    msgDeleteObject: (data: MsgDeleteObject): EncodeObject => ({ typeUrl: "/sonrio.sonr.object.MsgDeleteObject", value: MsgDeleteObject.fromPartial( data ) }),
     msgCreateWhatIs: (data: MsgCreateWhatIs): EncodeObject => ({ typeUrl: "/sonrio.sonr.object.MsgCreateWhatIs", value: MsgCreateWhatIs.fromPartial( data ) }),
+    msgDeleteObject: (data: MsgDeleteObject): EncodeObject => ({ typeUrl: "/sonrio.sonr.object.MsgDeleteObject", value: MsgDeleteObject.fromPartial( data ) }),
+    msgDeleteWhatIs: (data: MsgDeleteWhatIs): EncodeObject => ({ typeUrl: "/sonrio.sonr.object.MsgDeleteWhatIs", value: MsgDeleteWhatIs.fromPartial( data ) }),
     
   };
 };

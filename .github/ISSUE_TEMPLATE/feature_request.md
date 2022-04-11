@@ -3,7 +3,7 @@ name: Feature request
 about: Suggest an idea for this project
 title: "[FEATURE] New Feature Title"
 labels: feature
-assignees: prnk28, ma-sonr
+assignees: prnk28, ntindle
 
 ---
 
