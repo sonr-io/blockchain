@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -43,5 +44,9 @@ func (k msgServer) UpdateBucket(goCtx context.Context, msg *types.MsgUpdateBucke
 	whichis.IsActive = true
 	k.SetWhichIs(ctx, whichis)
 
-	return &types.MsgUpdateBucketResponse{}, nil
+	return &types.MsgUpdateBucketResponse{
+		Code:    100,
+		Message: fmt.Sprintf("Existing Bucket %s has been updated", whichis.Did),
+		WhichIs: &whichis,
+	}, nil
 }

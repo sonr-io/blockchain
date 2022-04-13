@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"context"
+	"fmt"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
@@ -27,5 +28,8 @@ func (k msgServer) UpdateChannel(goCtx context.Context, msg *types.MsgUpdateChan
 	howis.Channel.Label = msg.GetLabel()
 	howis.Channel.RegisteredObject = msg.GetObjectToRegister()
 
-	return &types.MsgUpdateChannelResponse{}, nil
+	return &types.MsgUpdateChannelResponse{
+		Code:    100,
+		Message: fmt.Sprintf("Existing Channel %s has been updated", howis.Did),
+	}, nil
 }

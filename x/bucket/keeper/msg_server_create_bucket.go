@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -50,5 +51,7 @@ func (k msgServer) CreateBucket(goCtx context.Context, msg *types.MsgCreateBucke
 	k.SetWhichIs(ctx, newWhichIs)
 	return &types.MsgCreateBucketResponse{
 		WhichIs: &newWhichIs,
+		Code:    100,
+		Message: fmt.Sprintf("New Bucket %s has been created", newWhichIs.Did),
 	}, nil
 }

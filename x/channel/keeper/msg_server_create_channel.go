@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -50,6 +51,8 @@ func (k msgServer) CreateChannel(goCtx context.Context, msg *types.MsgCreateChan
 	// Store the channel record
 	k.SetHowIs(ctx, newHowis)
 	return &types.MsgCreateChannelResponse{
-		HowIs: &newHowis,
+		Code:    100,
+		Message: fmt.Sprintf("New Channel %s has been created", newHowis.Did),
+		HowIs:   &newHowis,
 	}, nil
 }

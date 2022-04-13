@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -45,6 +46,8 @@ func (k msgServer) UpdateObject(goCtx context.Context, msg *types.MsgUpdateObjec
 
 	// Return Response
 	return &types.MsgUpdateObjectResponse{
-		WhatIs: &whatis,
+		WhatIs:  &whatis,
+		Code:    100,
+		Message: fmt.Sprintf("Existing Object %s has been updated", whatis.Did),
 	}, nil
 }

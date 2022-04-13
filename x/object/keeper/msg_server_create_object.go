@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -55,6 +56,8 @@ func (k msgServer) CreateObject(goCtx context.Context, msg *types.MsgCreateObjec
 	// Store the Object record
 	k.SetWhatIs(ctx, newWhatIs)
 	return &types.MsgCreateObjectResponse{
-		WhatIs: &newWhatIs,
+		WhatIs:  &newWhatIs,
+		Code:    100,
+		Message: fmt.Sprintf("New Object %s has been created", newWhatIs.Did),
 	}, nil
 }

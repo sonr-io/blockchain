@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -67,7 +68,8 @@ func (k msgServer) RegisterName(goCtx context.Context, msg *types.MsgRegisterNam
 
 	// Return the DID and WhoIs information
 	return &types.MsgRegisterNameResponse{
-
+		Code:    100,
+		Message: fmt.Sprintf("New name (%s) has been registered to DID (%s)", name, doc.ID.ID),
 		WhoIs:   &newWhois,
 		Session: session,
 	}, nil
