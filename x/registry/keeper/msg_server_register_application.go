@@ -2,6 +2,8 @@ package keeper
 
 import (
 	"context"
+	"fmt"
+	"time"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
@@ -52,12 +54,14 @@ func (k msgServer) RegisterApplication(goCtx context.Context, msg *types.MsgRegi
 
 	// Create a new who is record
 	newWhois := types.WhoIs{
-		Name:     name,
-		Did:      doc.ID.ID,
-		Document: didJson,
-		Creator:  msg.GetCreator(),
-		Type:     types.WhoIs_Application,
-		Metadata: m,
+		Name:      name,
+		Did:       doc.ID.ID,
+		Document:  didJson,
+		Creator:   msg.GetCreator(),
+		Type:      types.WhoIs_Application,
+		Metadata:  m,
+		Timestamp: time.Now().Unix(),
+		IsActive:  true,
 	}
 
 	// Create new session object
@@ -73,6 +77,8 @@ func (k msgServer) RegisterApplication(goCtx context.Context, msg *types.MsgRegi
 
 	// Return the DID and WhoIs information
 	return &types.MsgRegisterApplicationResponse{
+		Code:    100,
+		Message: fmt.Sprintf("New Application (%s) has been registered to DID (%s)", name, doc.ID.ID),
 		Session: session,
 		WhoIs:   &newWhois,
 	}, nil

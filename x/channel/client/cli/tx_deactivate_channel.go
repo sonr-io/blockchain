@@ -25,7 +25,7 @@ func CmdDeleteChannel() *cobra.Command {
 				return err
 			}
 
-			msg := types.NewMsgDeleteChannel(
+			msg := types.NewMsgDeactivateChannel(
 				clientCtx.GetFromAddress().String(),
 				argDid,
 				nil,

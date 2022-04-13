@@ -36,9 +36,9 @@ const (
 	// TODO: Determine the simulation weight value
 	defaultWeightMsgUpdateObject int = 100
 
-	opWeightMsgDeleteObject = "op_weight_msg_create_chain"
+	opWeightMsgDeactivateObject = "op_weight_msg_create_chain"
 	// TODO: Determine the simulation weight value
-	defaultWeightMsgDeleteObject int = 100
+	defaultWeightMsgDeactivateObject int = 100
 
 	opWeightMsgCreateWhatIs = "op_weight_msg_create_chain"
 	// TODO: Determine the simulation weight value
@@ -117,15 +117,15 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 		objectsimulation.SimulateMsgUpdateObject(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
-	var weightMsgDeleteObject int
-	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgDeleteObject, &weightMsgDeleteObject, nil,
+	var weightMsgDeactivateObject int
+	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgDeactivateObject, &weightMsgDeactivateObject, nil,
 		func(_ *rand.Rand) {
-			weightMsgDeleteObject = defaultWeightMsgDeleteObject
+			weightMsgDeactivateObject = defaultWeightMsgDeactivateObject
 		},
 	)
 	operations = append(operations, simulation.NewWeightedOperation(
-		weightMsgDeleteObject,
-		objectsimulation.SimulateMsgDeleteObject(am.accountKeeper, am.bankKeeper, am.keeper),
+		weightMsgDeactivateObject,
+		objectsimulation.SimulateMsgDeactivateObject(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
 	var weightMsgCreateWhatIs int

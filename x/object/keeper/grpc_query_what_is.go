@@ -53,5 +53,10 @@ func (k Keeper) WhatIs(c context.Context, req *types.QueryGetWhatIsRequest) (*ty
 		return nil, status.Error(codes.InvalidArgument, "not found")
 	}
 
+	// Check if Object is IsActive
+	if !val.IsActive {
+		return nil, types.ErrInactiveObject
+	}
+
 	return &types.QueryGetWhatIsResponse{WhatIs: val}, nil
 }

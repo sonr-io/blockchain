@@ -127,8 +127,12 @@ export default {
             try {
                 const txClient = await initTxClient(rootGetters);
                 const msg = await txClient.msgReadChannel(value);
-                const result = await txClient.signAndBroadcast([msg], { fee: { amount: fee,
-                        gas: "200000" }, memo });
+                const result = await txClient.signAndBroadcast([msg], {
+                    fee: {
+                        amount: fee,
+                        gas: "200000"
+                    }, memo
+                });
                 return result;
             }
             catch (e) {
@@ -144,8 +148,12 @@ export default {
             try {
                 const txClient = await initTxClient(rootGetters);
                 const msg = await txClient.msgCreateChannel(value);
-                const result = await txClient.signAndBroadcast([msg], { fee: { amount: fee,
-                        gas: "200000" }, memo });
+                const result = await txClient.signAndBroadcast([msg], {
+                    fee: {
+                        amount: fee,
+                        gas: "200000"
+                    }, memo
+                });
                 return result;
             }
             catch (e) {
@@ -157,20 +165,24 @@ export default {
                 }
             }
         },
-        async sendMsgDeleteChannel({ rootGetters }, { value, fee = [], memo = '' }) {
+        async sendMsgDeactivateChannel({ rootGetters }, { value, fee = [], memo = '' }) {
             try {
                 const txClient = await initTxClient(rootGetters);
-                const msg = await txClient.msgDeleteChannel(value);
-                const result = await txClient.signAndBroadcast([msg], { fee: { amount: fee,
-                        gas: "200000" }, memo });
+                const msg = await txClient.MsgDeactivateChannel(value);
+                const result = await txClient.signAndBroadcast([msg], {
+                    fee: {
+                        amount: fee,
+                        gas: "200000"
+                    }, memo
+                });
                 return result;
             }
             catch (e) {
                 if (e == MissingWalletError) {
-                    throw new SpVuexError('TxClient:MsgDeleteChannel:Init', 'Could not initialize signing client. Wallet is required.');
+                    throw new SpVuexError('TxClient:MsgDeactivateChannel:Init', 'Could not initialize signing client. Wallet is required.');
                 }
                 else {
-                    throw new SpVuexError('TxClient:MsgDeleteChannel:Send', 'Could not broadcast Tx: ' + e.message);
+                    throw new SpVuexError('TxClient:MsgDeactivateChannel:Send', 'Could not broadcast Tx: ' + e.message);
                 }
             }
         },
@@ -178,8 +190,12 @@ export default {
             try {
                 const txClient = await initTxClient(rootGetters);
                 const msg = await txClient.msgUpdateChannel(value);
-                const result = await txClient.signAndBroadcast([msg], { fee: { amount: fee,
-                        gas: "200000" }, memo });
+                const result = await txClient.signAndBroadcast([msg], {
+                    fee: {
+                        amount: fee,
+                        gas: "200000"
+                    }, memo
+                });
                 return result;
             }
             catch (e) {
@@ -221,18 +237,18 @@ export default {
                 }
             }
         },
-        async MsgDeleteChannel({ rootGetters }, { value }) {
+        async MsgDeactivateChannel({ rootGetters }, { value }) {
             try {
                 const txClient = await initTxClient(rootGetters);
-                const msg = await txClient.msgDeleteChannel(value);
+                const msg = await txClient.MsgDeactivateChannel(value);
                 return msg;
             }
             catch (e) {
                 if (e == MissingWalletError) {
-                    throw new SpVuexError('TxClient:MsgDeleteChannel:Init', 'Could not initialize signing client. Wallet is required.');
+                    throw new SpVuexError('TxClient:MsgDeactivateChannel:Init', 'Could not initialize signing client. Wallet is required.');
                 }
                 else {
-                    throw new SpVuexError('TxClient:MsgDeleteChannel:Create', 'Could not create message: ' + e.message);
+                    throw new SpVuexError('TxClient:MsgDeactivateChannel:Create', 'Could not create message: ' + e.message);
                 }
             }
         },

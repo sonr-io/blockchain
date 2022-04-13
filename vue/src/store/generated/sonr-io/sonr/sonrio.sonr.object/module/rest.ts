@@ -11,7 +11,7 @@
 
 export type ObjectMsgCreateObjectResponse = object;
 
-export type ObjectMsgDeleteObjectResponse = object;
+export type ObjectMsgDeactivateObjectResponse = object;
 
 export type ObjectMsgReadObjectResponse = object;
 

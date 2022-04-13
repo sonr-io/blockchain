@@ -121,20 +121,24 @@ export default {
                 throw new SpVuexError('QueryClient:QueryParams', 'API Node Unavailable. Could not perform query: ' + e.message);
             }
         },
-        async sendMsgDeleteBucket({ rootGetters }, { value, fee = [], memo = '' }) {
+        async sendMsgDeactivateBucket({ rootGetters }, { value, fee = [], memo = '' }) {
             try {
                 const txClient = await initTxClient(rootGetters);
-                const msg = await txClient.msgDeleteBucket(value);
-                const result = await txClient.signAndBroadcast([msg], { fee: { amount: fee,
-                        gas: "200000" }, memo });
+                const msg = await txClient.MsgDeactivateBucket(value);
+                const result = await txClient.signAndBroadcast([msg], {
+                    fee: {
+                        amount: fee,
+                        gas: "200000"
+                    }, memo
+                });
                 return result;
             }
             catch (e) {
                 if (e == MissingWalletError) {
-                    throw new SpVuexError('TxClient:MsgDeleteBucket:Init', 'Could not initialize signing client. Wallet is required.');
+                    throw new SpVuexError('TxClient:MsgDeactivateBucket:Init', 'Could not initialize signing client. Wallet is required.');
                 }
                 else {
-                    throw new SpVuexError('TxClient:MsgDeleteBucket:Send', 'Could not broadcast Tx: ' + e.message);
+                    throw new SpVuexError('TxClient:MsgDeactivateBucket:Send', 'Could not broadcast Tx: ' + e.message);
                 }
             }
         },
@@ -142,8 +146,12 @@ export default {
             try {
                 const txClient = await initTxClient(rootGetters);
                 const msg = await txClient.msgCreateBucket(value);
-                const result = await txClient.signAndBroadcast([msg], { fee: { amount: fee,
-                        gas: "200000" }, memo });
+                const result = await txClient.signAndBroadcast([msg], {
+                    fee: {
+                        amount: fee,
+                        gas: "200000"
+                    }, memo
+                });
                 return result;
             }
             catch (e) {
@@ -159,8 +167,12 @@ export default {
             try {
                 const txClient = await initTxClient(rootGetters);
                 const msg = await txClient.msgReadBucket(value);
-                const result = await txClient.signAndBroadcast([msg], { fee: { amount: fee,
-                        gas: "200000" }, memo });
+                const result = await txClient.signAndBroadcast([msg], {
+                    fee: {
+                        amount: fee,
+                        gas: "200000"
+                    }, memo
+                });
                 return result;
             }
             catch (e) {
@@ -176,8 +188,12 @@ export default {
             try {
                 const txClient = await initTxClient(rootGetters);
                 const msg = await txClient.msgUpdateBucket(value);
-                const result = await txClient.signAndBroadcast([msg], { fee: { amount: fee,
-                        gas: "200000" }, memo });
+                const result = await txClient.signAndBroadcast([msg], {
+                    fee: {
+                        amount: fee,
+                        gas: "200000"
+                    }, memo
+                });
                 return result;
             }
             catch (e) {
@@ -189,18 +205,18 @@ export default {
                 }
             }
         },
-        async MsgDeleteBucket({ rootGetters }, { value }) {
+        async MsgDeactivateBucket({ rootGetters }, { value }) {
             try {
                 const txClient = await initTxClient(rootGetters);
-                const msg = await txClient.msgDeleteBucket(value);
+                const msg = await txClient.MsgDeactivateBucket(value);
                 return msg;
             }
             catch (e) {
                 if (e == MissingWalletError) {
-                    throw new SpVuexError('TxClient:MsgDeleteBucket:Init', 'Could not initialize signing client. Wallet is required.');
+                    throw new SpVuexError('TxClient:MsgDeactivateBucket:Init', 'Could not initialize signing client. Wallet is required.');
                 }
                 else {
-                    throw new SpVuexError('TxClient:MsgDeleteBucket:Create', 'Could not create message: ' + e.message);
+                    throw new SpVuexError('TxClient:MsgDeactivateBucket:Create', 'Could not create message: ' + e.message);
                 }
             }
         },

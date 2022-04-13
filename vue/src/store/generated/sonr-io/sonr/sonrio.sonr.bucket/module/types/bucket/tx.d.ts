@@ -22,12 +22,12 @@ export interface MsgUpdateBucket {
 }
 export interface MsgUpdateBucketResponse {
 }
-export interface MsgDeleteBucket {
+export interface MsgDeactivateBucket {
     creator: string;
     did: string;
     publicKey: string;
 }
-export interface MsgDeleteBucketResponse {
+export interface MsgDeactivateBucketResponse {
 }
 export declare const MsgCreateBucket: {
     encode(message: MsgCreateBucket, writer?: Writer): Writer;
@@ -71,19 +71,19 @@ export declare const MsgUpdateBucketResponse: {
     toJSON(_: MsgUpdateBucketResponse): unknown;
     fromPartial(_: DeepPartial<MsgUpdateBucketResponse>): MsgUpdateBucketResponse;
 };
-export declare const MsgDeleteBucket: {
-    encode(message: MsgDeleteBucket, writer?: Writer): Writer;
-    decode(input: Reader | Uint8Array, length?: number): MsgDeleteBucket;
-    fromJSON(object: any): MsgDeleteBucket;
-    toJSON(message: MsgDeleteBucket): unknown;
-    fromPartial(object: DeepPartial<MsgDeleteBucket>): MsgDeleteBucket;
+export declare const MsgDeactivateBucket: {
+    encode(message: MsgDeactivateBucket, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgDeactivateBucket;
+    fromJSON(object: any): MsgDeactivateBucket;
+    toJSON(message: MsgDeactivateBucket): unknown;
+    fromPartial(object: DeepPartial<MsgDeactivateBucket>): MsgDeactivateBucket;
 };
-export declare const MsgDeleteBucketResponse: {
-    encode(_: MsgDeleteBucketResponse, writer?: Writer): Writer;
-    decode(input: Reader | Uint8Array, length?: number): MsgDeleteBucketResponse;
-    fromJSON(_: any): MsgDeleteBucketResponse;
-    toJSON(_: MsgDeleteBucketResponse): unknown;
-    fromPartial(_: DeepPartial<MsgDeleteBucketResponse>): MsgDeleteBucketResponse;
+export declare const MsgDeactivateBucketResponse: {
+    encode(_: MsgDeactivateBucketResponse, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgDeactivateBucketResponse;
+    fromJSON(_: any): MsgDeactivateBucketResponse;
+    toJSON(_: MsgDeactivateBucketResponse): unknown;
+    fromPartial(_: DeepPartial<MsgDeactivateBucketResponse>): MsgDeactivateBucketResponse;
 };
 /** Msg defines the Msg service. */
 export interface Msg {
@@ -91,7 +91,7 @@ export interface Msg {
     ReadBucket(request: MsgReadBucket): Promise<MsgReadBucketResponse>;
     UpdateBucket(request: MsgUpdateBucket): Promise<MsgUpdateBucketResponse>;
     /** this line is used by starport scaffolding # proto/tx/rpc */
-    DeleteBucket(request: MsgDeleteBucket): Promise<MsgDeleteBucketResponse>;
+    DeleteBucket(request: MsgDeactivateBucket): Promise<MsgDeactivateBucketResponse>;
 }
 export declare class MsgClientImpl implements Msg {
     private readonly rpc;
@@ -99,7 +99,7 @@ export declare class MsgClientImpl implements Msg {
     CreateBucket(request: MsgCreateBucket): Promise<MsgCreateBucketResponse>;
     ReadBucket(request: MsgReadBucket): Promise<MsgReadBucketResponse>;
     UpdateBucket(request: MsgUpdateBucket): Promise<MsgUpdateBucketResponse>;
-    DeleteBucket(request: MsgDeleteBucket): Promise<MsgDeleteBucketResponse>;
+    DeleteBucket(request: MsgDeactivateBucket): Promise<MsgDeactivateBucketResponse>;
 }
 interface Rpc {
     request(service: string, method: string, data: Uint8Array): Promise<Uint8Array>;

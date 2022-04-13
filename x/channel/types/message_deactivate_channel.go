@@ -6,27 +6,27 @@ import (
 	rt "github.com/sonr-io/blockchain/x/registry/types"
 )
 
-const TypeMsgDeleteChannel = "delete_channel"
+const TypeMsgDeactivateChannel = "delete_channel"
 
-var _ sdk.Msg = &MsgDeleteChannel{}
+var _ sdk.Msg = &MsgDeactivateChannel{}
 
-func NewMsgDeleteChannel(creator string, did string, s *rt.Session) *MsgDeleteChannel {
-	return &MsgDeleteChannel{
+func NewMsgDeactivateChannel(creator string, did string, s *rt.Session) *MsgDeactivateChannel {
+	return &MsgDeactivateChannel{
 		Creator: creator,
 		Did:     did,
 		Session: s,
 	}
 }
 
-func (msg *MsgDeleteChannel) Route() string {
+func (msg *MsgDeactivateChannel) Route() string {
 	return RouterKey
 }
 
-func (msg *MsgDeleteChannel) Type() string {
-	return TypeMsgDeleteChannel
+func (msg *MsgDeactivateChannel) Type() string {
+	return TypeMsgDeactivateChannel
 }
 
-func (msg *MsgDeleteChannel) GetSigners() []sdk.AccAddress {
+func (msg *MsgDeactivateChannel) GetSigners() []sdk.AccAddress {
 	creator, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		panic(err)
@@ -34,12 +34,12 @@ func (msg *MsgDeleteChannel) GetSigners() []sdk.AccAddress {
 	return []sdk.AccAddress{creator}
 }
 
-func (msg *MsgDeleteChannel) GetSignBytes() []byte {
+func (msg *MsgDeactivateChannel) GetSignBytes() []byte {
 	bz := ModuleCdc.MustMarshalJSON(msg)
 	return sdk.MustSortJSON(bz)
 }
 
-func (msg *MsgDeleteChannel) ValidateBasic() error {
+func (msg *MsgDeactivateChannel) ValidateBasic() error {
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)

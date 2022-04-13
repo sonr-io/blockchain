@@ -16,12 +16,12 @@ export interface MsgReadChannel {
 }
 export interface MsgReadChannelResponse {
 }
-export interface MsgDeleteChannel {
+export interface MsgDeactivateChannel {
     creator: string;
     did: string;
     publicKey: string;
 }
-export interface MsgDeleteChannelResponse {
+export interface MsgDeactivateChannelResponse {
 }
 export interface MsgUpdateChannel {
     creator: string;
@@ -57,19 +57,19 @@ export declare const MsgReadChannelResponse: {
     toJSON(_: MsgReadChannelResponse): unknown;
     fromPartial(_: DeepPartial<MsgReadChannelResponse>): MsgReadChannelResponse;
 };
-export declare const MsgDeleteChannel: {
-    encode(message: MsgDeleteChannel, writer?: Writer): Writer;
-    decode(input: Reader | Uint8Array, length?: number): MsgDeleteChannel;
-    fromJSON(object: any): MsgDeleteChannel;
-    toJSON(message: MsgDeleteChannel): unknown;
-    fromPartial(object: DeepPartial<MsgDeleteChannel>): MsgDeleteChannel;
+export declare const MsgDeactivateChannel: {
+    encode(message: MsgDeactivateChannel, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgDeactivateChannel;
+    fromJSON(object: any): MsgDeactivateChannel;
+    toJSON(message: MsgDeactivateChannel): unknown;
+    fromPartial(object: DeepPartial<MsgDeactivateChannel>): MsgDeactivateChannel;
 };
-export declare const MsgDeleteChannelResponse: {
-    encode(_: MsgDeleteChannelResponse, writer?: Writer): Writer;
-    decode(input: Reader | Uint8Array, length?: number): MsgDeleteChannelResponse;
-    fromJSON(_: any): MsgDeleteChannelResponse;
-    toJSON(_: MsgDeleteChannelResponse): unknown;
-    fromPartial(_: DeepPartial<MsgDeleteChannelResponse>): MsgDeleteChannelResponse;
+export declare const MsgDeactivateChannelResponse: {
+    encode(_: MsgDeactivateChannelResponse, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgDeactivateChannelResponse;
+    fromJSON(_: any): MsgDeactivateChannelResponse;
+    toJSON(_: MsgDeactivateChannelResponse): unknown;
+    fromPartial(_: DeepPartial<MsgDeactivateChannelResponse>): MsgDeactivateChannelResponse;
 };
 export declare const MsgUpdateChannel: {
     encode(message: MsgUpdateChannel, writer?: Writer): Writer;
@@ -89,7 +89,7 @@ export declare const MsgUpdateChannelResponse: {
 export interface Msg {
     CreateChannel(request: MsgCreateChannel): Promise<MsgCreateChannelResponse>;
     ReadChannel(request: MsgReadChannel): Promise<MsgReadChannelResponse>;
-    DeleteChannel(request: MsgDeleteChannel): Promise<MsgDeleteChannelResponse>;
+    DeleteChannel(request: MsgDeactivateChannel): Promise<MsgDeactivateChannelResponse>;
     /** this line is used by starport scaffolding # proto/tx/rpc */
     UpdateChannel(request: MsgUpdateChannel): Promise<MsgUpdateChannelResponse>;
 }
@@ -98,7 +98,7 @@ export declare class MsgClientImpl implements Msg {
     constructor(rpc: Rpc);
     CreateChannel(request: MsgCreateChannel): Promise<MsgCreateChannelResponse>;
     ReadChannel(request: MsgReadChannel): Promise<MsgReadChannelResponse>;
-    DeleteChannel(request: MsgDeleteChannel): Promise<MsgDeleteChannelResponse>;
+    DeleteChannel(request: MsgDeactivateChannel): Promise<MsgDeactivateChannelResponse>;
     UpdateChannel(request: MsgUpdateChannel): Promise<MsgUpdateChannelResponse>;
 }
 interface Rpc {

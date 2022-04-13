@@ -2,6 +2,8 @@ package keeper
 
 import (
 	"context"
+	"fmt"
+	"time"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
@@ -44,11 +46,13 @@ func (k msgServer) RegisterName(goCtx context.Context, msg *types.MsgRegisterNam
 
 	// Create a new who is record
 	newWhois := types.WhoIs{
-		Name:     name,
-		Did:      doc.ID.ID,
-		Document: didJson,
-		Creator:  msg.GetCreator(),
-		Type:     types.WhoIs_User,
+		Name:      name,
+		Did:       doc.ID.ID,
+		Document:  didJson,
+		Creator:   msg.GetCreator(),
+		Type:      types.WhoIs_User,
+		Timestamp: time.Now().Unix(),
+		IsActive:  true,
 	}
 
 	// Create new session object
@@ -64,7 +68,8 @@ func (k msgServer) RegisterName(goCtx context.Context, msg *types.MsgRegisterNam
 
 	// Return the DID and WhoIs information
 	return &types.MsgRegisterNameResponse{
-
+		Code:    100,
+		Message: fmt.Sprintf("New name (%s) has been registered to DID (%s)", name, doc.ID.ID),
 		WhoIs:   &newWhois,
 		Session: session,
 	}, nil

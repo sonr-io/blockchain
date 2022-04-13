@@ -1,5 +1,5 @@
 export declare type BucketMsgCreateBucketResponse = object;
-export declare type BucketMsgDeleteBucketResponse = object;
+export declare type BucketMsgDeactivateBucketResponse = object;
 export declare type BucketMsgReadBucketResponse = object;
 export declare type BucketMsgUpdateBucketResponse = object;
 /**

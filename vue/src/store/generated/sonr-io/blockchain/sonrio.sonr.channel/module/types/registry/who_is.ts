@@ -1,6 +1,7 @@
 /* eslint-disable */
+import * as Long from "long";
+import { util, configure, Writer, Reader } from "protobufjs/minimal";
 import { Credential } from "../registry/credential";
-import { Writer, Reader } from "protobufjs/minimal";
 
 export const protobufPackage = "sonrio.sonr.registry";
 
@@ -12,7 +13,7 @@ export interface WhoIs {
   did: string;
   /** Document is the DID Document of the registered name and account encoded as JSON */
   document: Uint8Array;
-  /** Creator is the DID of the creator of the DID Document */
+  /** Creator is the Account Address of the creator of the DID Document */
   creator: string;
   /** Credentials are the biometric info of the registered name and account encoded with public key */
   credentials: Credential[];
@@ -20,6 +21,10 @@ export interface WhoIs {
   type: WhoIs_Type;
   /** Additional Metadata for associated WhoIs */
   metadata: { [key: string]: string };
+  /** Timestamp is the time of the last update of the DID Document */
+  timestamp: number;
+  /** IsActive is the status of the DID Document */
+  is_active: boolean;
 }
 
 /** Type is the type of the registered name */
@@ -72,7 +77,14 @@ export interface Session {
   credential: Credential | undefined;
 }
 
-const baseWhoIs: object = { name: "", did: "", creator: "", type: 0 };
+const baseWhoIs: object = {
+  name: "",
+  did: "",
+  creator: "",
+  type: 0,
+  timestamp: 0,
+  is_active: false,
+};
 
 export const WhoIs = {
   encode(message: WhoIs, writer: Writer = Writer.create()): Writer {
@@ -100,6 +112,12 @@ export const WhoIs = {
         writer.uint32(58).fork()
       ).ldelim();
     });
+    if (message.timestamp !== 0) {
+      writer.uint32(64).int64(message.timestamp);
+    }
+    if (message.is_active === true) {
+      writer.uint32(72).bool(message.is_active);
+    }
     return writer;
   },
 
@@ -135,6 +153,12 @@ export const WhoIs = {
           if (entry7.value !== undefined) {
             message.metadata[entry7.key] = entry7.value;
           }
+          break;
+        case 8:
+          message.timestamp = longToNumber(reader.int64() as Long);
+          break;
+        case 9:
+          message.is_active = reader.bool();
           break;
         default:
           reader.skipType(tag & 7);
@@ -181,6 +205,16 @@ export const WhoIs = {
         message.metadata[key] = String(value);
       });
     }
+    if (object.timestamp !== undefined && object.timestamp !== null) {
+      message.timestamp = Number(object.timestamp);
+    } else {
+      message.timestamp = 0;
+    }
+    if (object.is_active !== undefined && object.is_active !== null) {
+      message.is_active = Boolean(object.is_active);
+    } else {
+      message.is_active = false;
+    }
     return message;
   },
 
@@ -207,6 +241,8 @@ export const WhoIs = {
         obj.metadata[k] = v;
       });
     }
+    message.timestamp !== undefined && (obj.timestamp = message.timestamp);
+    message.is_active !== undefined && (obj.is_active = message.is_active);
     return obj;
   },
 
@@ -250,6 +286,16 @@ export const WhoIs = {
           message.metadata[key] = String(value);
         }
       });
+    }
+    if (object.timestamp !== undefined && object.timestamp !== null) {
+      message.timestamp = object.timestamp;
+    } else {
+      message.timestamp = 0;
+    }
+    if (object.is_active !== undefined && object.is_active !== null) {
+      message.is_active = object.is_active;
+    } else {
+      message.is_active = false;
     }
     return message;
   },
@@ -466,3 +512,15 @@ export type DeepPartial<T> = T extends Builtin
   : T extends {}
   ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>;
+
+function longToNumber(long: Long): number {
+  if (long.gt(Number.MAX_SAFE_INTEGER)) {
+    throw new globalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
+  }
+  return long.toNumber();
+}
+
+if (util.Long !== Long) {
+  util.Long = Long as any;
+  configure();
+}

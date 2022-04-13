@@ -11,7 +11,7 @@ option go_package = "github.com/sonr-io/blockchain/x/channel/types";
 // Msg defines the Msg service.
 service Msg {
   rpc CreateChannel(MsgCreateChannel) returns (MsgCreateChannelResponse);
-  rpc DeleteChannel(MsgDeleteChannel) returns (MsgDeleteChannelResponse);
+  rpc DeactivateChannel(MsgDeactivateChannel) returns (MsgDeactivateChannelResponse);
   rpc UpdateChannel(MsgUpdateChannel) returns (MsgUpdateChannelResponse);
   rpc CreateHowIs(MsgCreateHowIs) returns (MsgCreateHowIsResponse);
   rpc UpdateHowIs(MsgUpdateHowIs) returns (MsgUpdateHowIsResponse);
@@ -38,13 +38,13 @@ message MsgCreateChannelResponse {
   HowIs how_is = 3;
 }
 
-message MsgDeleteChannel {
+message MsgDeactivateChannel {
   string creator = 1;
   string did = 2;
   sonrio.sonr.registry.Session session = 3;
 }
 
-message MsgDeleteChannelResponse {
+message MsgDeactivateChannelResponse {
 // Code of the response
   int32 code = 1;
 

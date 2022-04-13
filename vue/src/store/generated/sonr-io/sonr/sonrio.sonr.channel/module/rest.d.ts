@@ -1,5 +1,5 @@
 export declare type ChannelMsgCreateChannelResponse = object;
-export declare type ChannelMsgDeleteChannelResponse = object;
+export declare type ChannelMsgDeactivateChannelResponse = object;
 export declare type ChannelMsgReadChannelResponse = object;
 export declare type ChannelMsgUpdateChannelResponse = object;
 /**

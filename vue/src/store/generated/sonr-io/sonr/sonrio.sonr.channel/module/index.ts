@@ -6,16 +6,16 @@ import { Registry, OfflineSigner, EncodeObject, DirectSecp256k1HdWallet } from "
 import { Api } from "./rest";
 import { MsgReadChannel } from "./types/channel/tx";
 import { MsgCreateChannel } from "./types/channel/tx";
-import { MsgDeleteChannel } from "./types/channel/tx";
+import { MsgDeactivateChannel } from "./types/channel/tx";
 import { MsgUpdateChannel } from "./types/channel/tx";
 
 
 const types = [
   ["/sonrio.sonr.channel.MsgReadChannel", MsgReadChannel],
   ["/sonrio.sonr.channel.MsgCreateChannel", MsgCreateChannel],
-  ["/sonrio.sonr.channel.MsgDeleteChannel", MsgDeleteChannel],
+  ["/sonrio.sonr.channel.MsgDeactivateChannel", MsgDeactivateChannel],
   ["/sonrio.sonr.channel.MsgUpdateChannel", MsgUpdateChannel],
-  
+
 ];
 export const MissingWalletError = new Error("wallet is required");
 
@@ -49,9 +49,9 @@ const txClient = async (wallet: OfflineSigner, { addr: addr }: TxClientOptions =
     signAndBroadcast: (msgs: EncodeObject[], { fee, memo }: SignAndBroadcastOptions = {fee: defaultFee, memo: ""}) => client.signAndBroadcast(address, msgs, fee,memo),
     msgReadChannel: (data: MsgReadChannel): EncodeObject => ({ typeUrl: "/sonrio.sonr.channel.MsgReadChannel", value: MsgReadChannel.fromPartial( data ) }),
     msgCreateChannel: (data: MsgCreateChannel): EncodeObject => ({ typeUrl: "/sonrio.sonr.channel.MsgCreateChannel", value: MsgCreateChannel.fromPartial( data ) }),
-    msgDeleteChannel: (data: MsgDeleteChannel): EncodeObject => ({ typeUrl: "/sonrio.sonr.channel.MsgDeleteChannel", value: MsgDeleteChannel.fromPartial( data ) }),
+    MsgDeactivateChannel: (data: MsgDeactivateChannel): EncodeObject => ({ typeUrl: "/sonrio.sonr.channel.MsgDeactivateChannel", value: MsgDeactivateChannel.fromPartial( data ) }),
     msgUpdateChannel: (data: MsgUpdateChannel): EncodeObject => ({ typeUrl: "/sonrio.sonr.channel.MsgUpdateChannel", value: MsgUpdateChannel.fromPartial( data ) }),
-    
+
   };
 };
 

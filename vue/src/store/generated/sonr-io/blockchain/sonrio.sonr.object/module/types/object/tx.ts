@@ -44,13 +44,13 @@ export interface MsgUpdateObjectResponse {
   what_is: WhatIs | undefined;
 }
 
-export interface MsgDeleteObject {
+export interface MsgDeactivateObject {
   creator: string;
   did: string;
   session: Session | undefined;
 }
 
-export interface MsgDeleteObjectResponse {
+export interface MsgDeactivateObjectResponse {
   /** Code of the response */
   code: number;
   /** Message of the response */
@@ -578,10 +578,13 @@ export const MsgUpdateObjectResponse = {
   },
 };
 
-const baseMsgDeleteObject: object = { creator: "", did: "" };
+const baseMsgDeactivateObject: object = { creator: "", did: "" };
 
-export const MsgDeleteObject = {
-  encode(message: MsgDeleteObject, writer: Writer = Writer.create()): Writer {
+export const MsgDeactivateObject = {
+  encode(
+    message: MsgDeactivateObject,
+    writer: Writer = Writer.create()
+  ): Writer {
     if (message.creator !== "") {
       writer.uint32(10).string(message.creator);
     }
@@ -594,10 +597,10 @@ export const MsgDeleteObject = {
     return writer;
   },
 
-  decode(input: Reader | Uint8Array, length?: number): MsgDeleteObject {
+  decode(input: Reader | Uint8Array, length?: number): MsgDeactivateObject {
     const reader = input instanceof Uint8Array ? new Reader(input) : input;
     let end = length === undefined ? reader.len : reader.pos + length;
-    const message = { ...baseMsgDeleteObject } as MsgDeleteObject;
+    const message = { ...baseMsgDeactivateObject } as MsgDeactivateObject;
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -618,8 +621,8 @@ export const MsgDeleteObject = {
     return message;
   },
 
-  fromJSON(object: any): MsgDeleteObject {
-    const message = { ...baseMsgDeleteObject } as MsgDeleteObject;
+  fromJSON(object: any): MsgDeactivateObject {
+    const message = { ...baseMsgDeactivateObject } as MsgDeactivateObject;
     if (object.creator !== undefined && object.creator !== null) {
       message.creator = String(object.creator);
     } else {
@@ -638,7 +641,7 @@ export const MsgDeleteObject = {
     return message;
   },
 
-  toJSON(message: MsgDeleteObject): unknown {
+  toJSON(message: MsgDeactivateObject): unknown {
     const obj: any = {};
     message.creator !== undefined && (obj.creator = message.creator);
     message.did !== undefined && (obj.did = message.did);
@@ -649,8 +652,8 @@ export const MsgDeleteObject = {
     return obj;
   },
 
-  fromPartial(object: DeepPartial<MsgDeleteObject>): MsgDeleteObject {
-    const message = { ...baseMsgDeleteObject } as MsgDeleteObject;
+  fromPartial(object: DeepPartial<MsgDeactivateObject>): MsgDeactivateObject {
+    const message = { ...baseMsgDeactivateObject } as MsgDeactivateObject;
     if (object.creator !== undefined && object.creator !== null) {
       message.creator = object.creator;
     } else {
@@ -670,11 +673,11 @@ export const MsgDeleteObject = {
   },
 };
 
-const baseMsgDeleteObjectResponse: object = { code: 0, message: "" };
+const baseMsgDeactivateObjectResponse: object = { code: 0, message: "" };
 
-export const MsgDeleteObjectResponse = {
+export const MsgDeactivateObjectResponse = {
   encode(
-    message: MsgDeleteObjectResponse,
+    message: MsgDeactivateObjectResponse,
     writer: Writer = Writer.create()
   ): Writer {
     if (message.code !== 0) {
@@ -686,12 +689,15 @@ export const MsgDeleteObjectResponse = {
     return writer;
   },
 
-  decode(input: Reader | Uint8Array, length?: number): MsgDeleteObjectResponse {
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): MsgDeactivateObjectResponse {
     const reader = input instanceof Uint8Array ? new Reader(input) : input;
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = {
-      ...baseMsgDeleteObjectResponse,
-    } as MsgDeleteObjectResponse;
+      ...baseMsgDeactivateObjectResponse,
+    } as MsgDeactivateObjectResponse;
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -709,10 +715,10 @@ export const MsgDeleteObjectResponse = {
     return message;
   },
 
-  fromJSON(object: any): MsgDeleteObjectResponse {
+  fromJSON(object: any): MsgDeactivateObjectResponse {
     const message = {
-      ...baseMsgDeleteObjectResponse,
-    } as MsgDeleteObjectResponse;
+      ...baseMsgDeactivateObjectResponse,
+    } as MsgDeactivateObjectResponse;
     if (object.code !== undefined && object.code !== null) {
       message.code = Number(object.code);
     } else {
@@ -726,7 +732,7 @@ export const MsgDeleteObjectResponse = {
     return message;
   },
 
-  toJSON(message: MsgDeleteObjectResponse): unknown {
+  toJSON(message: MsgDeactivateObjectResponse): unknown {
     const obj: any = {};
     message.code !== undefined && (obj.code = message.code);
     message.message !== undefined && (obj.message = message.message);
@@ -734,11 +740,11 @@ export const MsgDeleteObjectResponse = {
   },
 
   fromPartial(
-    object: DeepPartial<MsgDeleteObjectResponse>
-  ): MsgDeleteObjectResponse {
+    object: DeepPartial<MsgDeactivateObjectResponse>
+  ): MsgDeactivateObjectResponse {
     const message = {
-      ...baseMsgDeleteObjectResponse,
-    } as MsgDeleteObjectResponse;
+      ...baseMsgDeactivateObjectResponse,
+    } as MsgDeactivateObjectResponse;
     if (object.code !== undefined && object.code !== null) {
       message.code = object.code;
     } else {
@@ -1211,7 +1217,9 @@ export const MsgDeleteWhatIsResponse = {
 export interface Msg {
   CreateObject(request: MsgCreateObject): Promise<MsgCreateObjectResponse>;
   UpdateObject(request: MsgUpdateObject): Promise<MsgUpdateObjectResponse>;
-  DeleteObject(request: MsgDeleteObject): Promise<MsgDeleteObjectResponse>;
+  DeactivateObject(
+    request: MsgDeactivateObject
+  ): Promise<MsgDeactivateObjectResponse>;
   CreateWhatIs(request: MsgCreateWhatIs): Promise<MsgCreateWhatIsResponse>;
   UpdateWhatIs(request: MsgUpdateWhatIs): Promise<MsgUpdateWhatIsResponse>;
   /** this line is used by starport scaffolding # proto/tx/rpc */
@@ -1247,15 +1255,17 @@ export class MsgClientImpl implements Msg {
     );
   }
 
-  DeleteObject(request: MsgDeleteObject): Promise<MsgDeleteObjectResponse> {
-    const data = MsgDeleteObject.encode(request).finish();
+  DeactivateObject(
+    request: MsgDeactivateObject
+  ): Promise<MsgDeactivateObjectResponse> {
+    const data = MsgDeactivateObject.encode(request).finish();
     const promise = this.rpc.request(
       "sonrio.sonr.object.Msg",
-      "DeleteObject",
+      "DeactivateObject",
       data
     );
     return promise.then((data) =>
-      MsgDeleteObjectResponse.decode(new Reader(data))
+      MsgDeactivateObjectResponse.decode(new Reader(data))
     );
   }
 

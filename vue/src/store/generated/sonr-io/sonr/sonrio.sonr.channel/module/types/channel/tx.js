@@ -296,8 +296,8 @@ export const MsgReadChannelResponse = {
         return message;
     },
 };
-const baseMsgDeleteChannel = { creator: "", did: "", publicKey: "" };
-export const MsgDeleteChannel = {
+const baseMsgDeactivateChannel = { creator: "", did: "", publicKey: "" };
+export const MsgDeactivateChannel = {
     encode(message, writer = Writer.create()) {
         if (message.creator !== "") {
             writer.uint32(10).string(message.creator);
@@ -313,7 +313,7 @@ export const MsgDeleteChannel = {
     decode(input, length) {
         const reader = input instanceof Uint8Array ? new Reader(input) : input;
         let end = length === undefined ? reader.len : reader.pos + length;
-        const message = { ...baseMsgDeleteChannel };
+        const message = { ...baseMsgDeactivateChannel };
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
@@ -334,7 +334,7 @@ export const MsgDeleteChannel = {
         return message;
     },
     fromJSON(object) {
-        const message = { ...baseMsgDeleteChannel };
+        const message = { ...baseMsgDeactivateChannel };
         if (object.creator !== undefined && object.creator !== null) {
             message.creator = String(object.creator);
         }
@@ -363,7 +363,7 @@ export const MsgDeleteChannel = {
         return obj;
     },
     fromPartial(object) {
-        const message = { ...baseMsgDeleteChannel };
+        const message = { ...baseMsgDeactivateChannel };
         if (object.creator !== undefined && object.creator !== null) {
             message.creator = object.creator;
         }
@@ -385,8 +385,8 @@ export const MsgDeleteChannel = {
         return message;
     },
 };
-const baseMsgDeleteChannelResponse = {};
-export const MsgDeleteChannelResponse = {
+const baseMsgDeactivateChannelResponse = {};
+export const MsgDeactivateChannelResponse = {
     encode(_, writer = Writer.create()) {
         return writer;
     },
@@ -394,7 +394,7 @@ export const MsgDeleteChannelResponse = {
         const reader = input instanceof Uint8Array ? new Reader(input) : input;
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = {
-            ...baseMsgDeleteChannelResponse,
+            ...baseMsgDeactivateChannelResponse,
         };
         while (reader.pos < end) {
             const tag = reader.uint32();
@@ -408,7 +408,7 @@ export const MsgDeleteChannelResponse = {
     },
     fromJSON(_) {
         const message = {
-            ...baseMsgDeleteChannelResponse,
+            ...baseMsgDeactivateChannelResponse,
         };
         return message;
     },
@@ -418,7 +418,7 @@ export const MsgDeleteChannelResponse = {
     },
     fromPartial(_) {
         const message = {
-            ...baseMsgDeleteChannelResponse,
+            ...baseMsgDeactivateChannelResponse,
         };
         return message;
     },
@@ -546,9 +546,9 @@ export class MsgClientImpl {
         return promise.then((data) => MsgReadChannelResponse.decode(new Reader(data)));
     }
     DeleteChannel(request) {
-        const data = MsgDeleteChannel.encode(request).finish();
+        const data = MsgDeactivateChannel.encode(request).finish();
         const promise = this.rpc.request("sonrio.sonr.channel.Msg", "DeleteChannel", data);
-        return promise.then((data) => MsgDeleteChannelResponse.decode(new Reader(data)));
+        return promise.then((data) => MsgDeactivateChannelResponse.decode(new Reader(data)));
     }
     UpdateChannel(request) {
         const data = MsgUpdateChannel.encode(request).finish();

@@ -1,6 +1,20 @@
 # Changelog
 
-## v0.0.8 (Pending - 04/07/2022)
+## v0.0.9 (04/13/2022)
+
+### Added
+
+- Deactivate (bucket, channel, object) module logic in Keeper
+- Return codes and messages for module CUD methods
+- Implemented UpdateBucket logic
+
+### Modified
+
+- Renamed Delete methods to utilize Deactivate to be compliant with the W3 Spec
+- Query checks status of record before returning the document
+- Update methods now check if the status of the record is active before updating
+
+## v0.0.8 (04/07/2022)
 
 ### Added
 

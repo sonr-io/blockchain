@@ -8,21 +8,21 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestMsgDeleteChannel_ValidateBasic(t *testing.T) {
+func TestMsgDeactivateBucket_ValidateBasic(t *testing.T) {
 	tests := []struct {
 		name string
-		msg  MsgDeleteChannel
+		msg  MsgDeactivateBucket
 		err  error
 	}{
 		{
 			name: "invalid address",
-			msg: MsgDeleteChannel{
+			msg: MsgDeactivateBucket{
 				Creator: "invalid_address",
 			},
 			err: sdkerrors.ErrInvalidAddress,
 		}, {
 			name: "valid address",
-			msg: MsgDeleteChannel{
+			msg: MsgDeactivateBucket{
 				Creator: sample.AccAddress(),
 			},
 		},

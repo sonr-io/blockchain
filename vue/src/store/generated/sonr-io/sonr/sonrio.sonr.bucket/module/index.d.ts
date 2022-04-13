@@ -1,7 +1,7 @@
 import { StdFee } from "@cosmjs/launchpad";
 import { Registry, OfflineSigner, EncodeObject } from "@cosmjs/proto-signing";
 import { Api } from "./rest";
-import { MsgDeleteBucket } from "./types/bucket/tx";
+import { MsgDeactivateBucket } from "./types/bucket/tx";
 import { MsgCreateBucket } from "./types/bucket/tx";
 import { MsgReadBucket } from "./types/bucket/tx";
 import { MsgUpdateBucket } from "./types/bucket/tx";
@@ -16,7 +16,7 @@ interface SignAndBroadcastOptions {
 }
 declare const txClient: (wallet: OfflineSigner, { addr: addr }?: TxClientOptions) => Promise<{
     signAndBroadcast: (msgs: EncodeObject[], { fee, memo }?: SignAndBroadcastOptions) => any;
-    msgDeleteBucket: (data: MsgDeleteBucket) => EncodeObject;
+    MsgDeactivateBucket: (data: MsgDeactivateBucket) => EncodeObject;
     msgCreateBucket: (data: MsgCreateBucket) => EncodeObject;
     msgReadBucket: (data: MsgReadBucket) => EncodeObject;
     msgUpdateBucket: (data: MsgUpdateBucket) => EncodeObject;

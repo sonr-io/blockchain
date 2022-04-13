@@ -2,6 +2,8 @@ package keeper
 
 import (
 	"context"
+	"fmt"
+	"time"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
@@ -30,13 +32,22 @@ func (k msgServer) UpdateObject(goCtx context.Context, msg *types.MsgUpdateObjec
 		return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "Object was not found in this Application")
 	}
 
+	// Check if Object is IsActive
+	if !whatis.IsActive {
+		return nil, types.ErrInactiveObject
+	}
+
 	// Create New Field Map
 	whatis.ObjectDoc.AddFields(msg.GetAddedFields()...)
 	whatis.ObjectDoc.RemoveFields(msg.GetRemovedFields()...)
+	whatis.Timestamp = time.Now().Unix()
+	whatis.IsActive = true
 	k.SetWhatIs(ctx, whatis)
 
 	// Return Response
 	return &types.MsgUpdateObjectResponse{
-		WhatIs: &whatis,
+		WhatIs:  &whatis,
+		Code:    100,
+		Message: fmt.Sprintf("Existing Object %s has been updated", whatis.Did),
 	}, nil
 }

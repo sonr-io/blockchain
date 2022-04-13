@@ -20,7 +20,7 @@ export interface ObjectMsgCreateWhatIsResponse {
   did?: string;
 }
 
-export interface ObjectMsgDeleteObjectResponse {
+export interface ObjectMsgDeactivateObjectResponse {
   /** @format int32 */
   code?: number;
   message?: string;
@@ -305,6 +305,10 @@ export interface ObjectWhatIs {
   /** ObjectDoc is a document for an Object stored in the graph. */
   object_doc?: ObjectObjectDoc;
   creator?: string;
+
+  /** @format int64 */
+  timestamp?: string;
+  is_active?: boolean;
 }
 
 export interface ProtobufAny {
@@ -384,6 +388,10 @@ export interface RegistryWhoIs {
    */
   type?: RegistryWhoIsType;
   metadata?: Record<string, string>;
+
+  /** @format int64 */
+  timestamp?: string;
+  is_active?: boolean;
 }
 
 /**
@@ -682,6 +690,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       "session.whois.document"?: string;
       "session.whois.creator"?: string;
       "session.whois.type"?: "User" | "Application";
+      "session.whois.timestamp"?: string;
+      "session.whois.is_active"?: boolean;
       "session.credential.i_d"?: string;
       "session.credential.public_key"?: string;
       "session.credential.attestation_type"?: string;
@@ -716,6 +726,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       "session.whois.document"?: string;
       "session.whois.creator"?: string;
       "session.whois.type"?: "User" | "Application";
+      "session.whois.timestamp"?: string;
+      "session.whois.is_active"?: boolean;
       "session.credential.i_d"?: string;
       "session.credential.public_key"?: string;
       "session.credential.attestation_type"?: string;

@@ -36,9 +36,9 @@ const (
 	// TODO: Determine the simulation weight value
 	defaultWeightMsgUpdateBucket int = 100
 
-	opWeightMsgDeleteBucket = "op_weight_msg_create_chain"
+	opWeightMsgDeactivateBucket = "op_weight_msg_create_chain"
 	// TODO: Determine the simulation weight value
-	defaultWeightMsgDeleteBucket int = 100
+	defaultWeightMsgDeactivateBucket int = 100
 
 	opWeightMsgListenBucket = "op_weight_msg_create_chain"
 	// TODO: Determine the simulation weight value
@@ -121,15 +121,15 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 		bucketsimulation.SimulateMsgUpdateBucket(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
-	var weightMsgDeleteBucket int
-	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgDeleteBucket, &weightMsgDeleteBucket, nil,
+	var weightMsgDeactivateBucket int
+	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgDeactivateBucket, &weightMsgDeactivateBucket, nil,
 		func(_ *rand.Rand) {
-			weightMsgDeleteBucket = defaultWeightMsgDeleteBucket
+			weightMsgDeactivateBucket = defaultWeightMsgDeactivateBucket
 		},
 	)
 	operations = append(operations, simulation.NewWeightedOperation(
-		weightMsgDeleteBucket,
-		bucketsimulation.SimulateMsgDeleteBucket(am.accountKeeper, am.bankKeeper, am.keeper),
+		weightMsgDeactivateBucket,
+		bucketsimulation.SimulateMsgDeactivateBucket(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
 	var weightMsgCreateWhichIs int

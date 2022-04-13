@@ -23,8 +23,8 @@ func NewHandler(k keeper.Keeper) sdk.Handler {
 		case *types.MsgUpdateBucket:
 			res, err := msgServer.UpdateBucket(sdk.WrapSDKContext(ctx), msg)
 			return sdk.WrapServiceResult(ctx, res, err)
-		case *types.MsgDeleteBucket:
-			res, err := msgServer.DeleteBucket(sdk.WrapSDKContext(ctx), msg)
+		case *types.MsgDeactivateBucket:
+			res, err := msgServer.DeactivateBucket(sdk.WrapSDKContext(ctx), msg)
 			return sdk.WrapServiceResult(ctx, res, err)
 		case *types.MsgCreateWhichIs:
 			res, err := msgServer.CreateWhichIs(sdk.WrapSDKContext(ctx), msg)
