@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"context"
+	"time"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
@@ -44,11 +45,13 @@ func (k msgServer) RegisterName(goCtx context.Context, msg *types.MsgRegisterNam
 
 	// Create a new who is record
 	newWhois := types.WhoIs{
-		Name:     name,
-		Did:      doc.ID.ID,
-		Document: didJson,
-		Creator:  msg.GetCreator(),
-		Type:     types.WhoIs_User,
+		Name:      name,
+		Did:       doc.ID.ID,
+		Document:  didJson,
+		Creator:   msg.GetCreator(),
+		Type:      types.WhoIs_User,
+		Timestamp: time.Now().Unix(),
+		IsActive:  true,
 	}
 
 	// Create new session object

@@ -20,8 +20,8 @@ func NewHandler(k keeper.Keeper) sdk.Handler {
 		case *types.MsgCreateChannel:
 			res, err := msgServer.CreateChannel(sdk.WrapSDKContext(ctx), msg)
 			return sdk.WrapServiceResult(ctx, res, err)
-		case *types.MsgDeleteChannel:
-			res, err := msgServer.DeleteChannel(sdk.WrapSDKContext(ctx), msg)
+		case *types.MsgDeactivateChannel:
+			res, err := msgServer.DeactivateChannel(sdk.WrapSDKContext(ctx), msg)
 			return sdk.WrapServiceResult(ctx, res, err)
 
 		case *types.MsgUpdateChannel:

@@ -27696,12 +27696,12 @@ paths:
                   properties:
                     did:
                       type: string
+                      description: DID is the DID of the bucket.
                     creator:
                       type: string
-                      title: >-
-                        Document is the DID Document of the registered name and
-                        account encoded as JSON
+                      description: Creator is the Account that created the bucket.
                     bucket:
+                      description: Bucket is the document of the bucket.
                       type: object
                       properties:
                         label:
@@ -27730,7 +27730,15 @@ paths:
                           items:
                             type: string
                           description: Objects are stored in a tree structure.
-                      description: Bucket is a collection of objects.
+                    timestamp:
+                      type: string
+                      format: int64
+                      title: >-
+                        Timestamp is the time of the last update of the DID
+                        Document
+                    is_active:
+                      type: boolean
+                      title: IsActive is the status of the DID Document
               pagination:
                 type: object
                 properties:
@@ -27857,7 +27865,7 @@ paths:
           type: string
           format: byte
         - name: session.whois.creator
-          description: Creator is the DID of the creator of the DID Document
+          description: Creator is the Account Address of the creator of the DID Document
           in: query
           required: false
           type: string
@@ -27874,6 +27882,17 @@ paths:
             - User
             - Application
           default: User
+        - name: session.whois.timestamp
+          description: Timestamp is the time of the last update of the DID Document
+          in: query
+          required: false
+          type: string
+          format: int64
+        - name: session.whois.is_active
+          description: IsActive is the status of the DID Document
+          in: query
+          required: false
+          type: boolean
         - name: session.credential.i_d
           description: >-
             A probabilistically-unique byte sequence identifying a public key
@@ -27964,12 +27983,12 @@ paths:
                 properties:
                   did:
                     type: string
+                    description: DID is the DID of the bucket.
                   creator:
                     type: string
-                    title: >-
-                      Document is the DID Document of the registered name and
-                      account encoded as JSON
+                    description: Creator is the Account that created the bucket.
                   bucket:
+                    description: Bucket is the document of the bucket.
                     type: object
                     properties:
                       label:
@@ -27998,7 +28017,15 @@ paths:
                         items:
                           type: string
                         description: Objects are stored in a tree structure.
-                    description: Bucket is a collection of objects.
+                  timestamp:
+                    type: string
+                    format: int64
+                    title: >-
+                      Timestamp is the time of the last update of the DID
+                      Document
+                  is_active:
+                    type: boolean
+                    title: IsActive is the status of the DID Document
         default:
           description: An unexpected error response.
           schema:
@@ -28046,7 +28073,7 @@ paths:
           type: string
           format: byte
         - name: session.whois.creator
-          description: Creator is the DID of the creator of the DID Document
+          description: Creator is the Account Address of the creator of the DID Document
           in: query
           required: false
           type: string
@@ -28063,6 +28090,17 @@ paths:
             - User
             - Application
           default: User
+        - name: session.whois.timestamp
+          description: Timestamp is the time of the last update of the DID Document
+          in: query
+          required: false
+          type: string
+          format: int64
+        - name: session.whois.is_active
+          description: IsActive is the status of the DID Document
+          in: query
+          required: false
+          type: boolean
         - name: session.credential.i_d
           description: >-
             A probabilistically-unique byte sequence identifying a public key
@@ -28282,7 +28320,7 @@ paths:
           type: string
           format: byte
         - name: session.whois.creator
-          description: Creator is the DID of the creator of the DID Document
+          description: Creator is the Account Address of the creator of the DID Document
           in: query
           required: false
           type: string
@@ -28299,6 +28337,17 @@ paths:
             - User
             - Application
           default: User
+        - name: session.whois.timestamp
+          description: Timestamp is the time of the last update of the DID Document
+          in: query
+          required: false
+          type: string
+          format: int64
+        - name: session.whois.is_active
+          description: IsActive is the status of the DID Document
+          in: query
+          required: false
+          type: boolean
         - name: session.credential.i_d
           description: >-
             A probabilistically-unique byte sequence identifying a public key
@@ -28430,7 +28479,7 @@ paths:
           type: string
           format: byte
         - name: session.whois.creator
-          description: Creator is the DID of the creator of the DID Document
+          description: Creator is the Account Address of the creator of the DID Document
           in: query
           required: false
           type: string
@@ -28447,6 +28496,17 @@ paths:
             - User
             - Application
           default: User
+        - name: session.whois.timestamp
+          description: Timestamp is the time of the last update of the DID Document
+          in: query
+          required: false
+          type: string
+          format: int64
+        - name: session.whois.is_active
+          description: IsActive is the status of the DID Document
+          in: query
+          required: false
+          type: boolean
         - name: session.credential.i_d
           description: >-
             A probabilistically-unique byte sequence identifying a public key
@@ -28666,7 +28726,7 @@ paths:
           type: string
           format: byte
         - name: session.whois.creator
-          description: Creator is the DID of the creator of the DID Document
+          description: Creator is the Account Address of the creator of the DID Document
           in: query
           required: false
           type: string
@@ -28683,6 +28743,17 @@ paths:
             - User
             - Application
           default: User
+        - name: session.whois.timestamp
+          description: Timestamp is the time of the last update of the DID Document
+          in: query
+          required: false
+          type: string
+          format: int64
+        - name: session.whois.is_active
+          description: IsActive is the status of the DID Document
+          in: query
+          required: false
+          type: boolean
         - name: session.credential.i_d
           description: >-
             A probabilistically-unique byte sequence identifying a public key
@@ -28814,7 +28885,7 @@ paths:
           type: string
           format: byte
         - name: session.whois.creator
-          description: Creator is the DID of the creator of the DID Document
+          description: Creator is the Account Address of the creator of the DID Document
           in: query
           required: false
           type: string
@@ -28831,6 +28902,17 @@ paths:
             - User
             - Application
           default: User
+        - name: session.whois.timestamp
+          description: Timestamp is the time of the last update of the DID Document
+          in: query
+          required: false
+          type: string
+          format: int64
+        - name: session.whois.is_active
+          description: IsActive is the status of the DID Document
+          in: query
+          required: false
+          type: boolean
         - name: session.credential.i_d
           description: >-
             A probabilistically-unique byte sequence identifying a public key
@@ -28971,7 +29053,9 @@ paths:
                         account encoded as JSON
                     creator:
                       type: string
-                      title: Creator is the DID of the creator of the DID Document
+                      title: >-
+                        Creator is the Account Address of the creator of the DID
+                        Document
                     credentials:
                       type: array
                       items:
@@ -29075,6 +29159,15 @@ paths:
                       additionalProperties:
                         type: string
                       title: Additional Metadata for associated WhoIs
+                    timestamp:
+                      type: string
+                      format: int64
+                      title: >-
+                        Timestamp is the time of the last update of the DID
+                        Document
+                    is_active:
+                      type: boolean
+                      title: IsActive is the status of the DID Document
                   description: >-
                     WhoIs is the entry pointing a registered name to a user
                     account address, Did Url string, and a DIDDocument.
@@ -29209,7 +29302,9 @@ paths:
                       account encoded as JSON
                   creator:
                     type: string
-                    title: Creator is the DID of the creator of the DID Document
+                    title: >-
+                      Creator is the Account Address of the creator of the DID
+                      Document
                   credentials:
                     type: array
                     items:
@@ -29313,6 +29408,15 @@ paths:
                     additionalProperties:
                       type: string
                     title: Additional Metadata for associated WhoIs
+                  timestamp:
+                    type: string
+                    format: int64
+                    title: >-
+                      Timestamp is the time of the last update of the DID
+                      Document
+                  is_active:
+                    type: boolean
+                    title: IsActive is the status of the DID Document
                 description: >-
                   WhoIs is the entry pointing a registered name to a user
                   account address, Did Url string, and a DIDDocument.
@@ -48734,12 +48838,12 @@ definitions:
         properties:
           did:
             type: string
+            description: DID is the DID of the bucket.
           creator:
             type: string
-            title: >-
-              Document is the DID Document of the registered name and account
-              encoded as JSON
+            description: Creator is the Account that created the bucket.
           bucket:
+            description: Bucket is the document of the bucket.
             type: object
             properties:
               label:
@@ -48766,11 +48870,17 @@ definitions:
                 items:
                   type: string
                 description: Objects are stored in a tree structure.
-            description: Bucket is a collection of objects.
+          timestamp:
+            type: string
+            format: int64
+            title: Timestamp is the time of the last update of the DID Document
+          is_active:
+            type: boolean
+            title: IsActive is the status of the DID Document
         title: Whichis response of the ObjectDoc
   sonrio.sonr.bucket.MsgCreateWhichIsResponse:
     type: object
-  sonrio.sonr.bucket.MsgDeleteBucketResponse:
+  sonrio.sonr.bucket.MsgDeactivateBucketResponse:
     type: object
     properties:
       code:
@@ -48797,12 +48907,12 @@ definitions:
         properties:
           did:
             type: string
+            description: DID is the DID of the bucket.
           creator:
             type: string
-            title: >-
-              Document is the DID Document of the registered name and account
-              encoded as JSON
+            description: Creator is the Account that created the bucket.
           bucket:
+            description: Bucket is the document of the bucket.
             type: object
             properties:
               label:
@@ -48829,7 +48939,13 @@ definitions:
                 items:
                   type: string
                 description: Objects are stored in a tree structure.
-            description: Bucket is a collection of objects.
+          timestamp:
+            type: string
+            format: int64
+            title: Timestamp is the time of the last update of the DID Document
+          is_active:
+            type: boolean
+            title: IsActive is the status of the DID Document
         title: Whichis response of the ObjectDoc
   sonrio.sonr.bucket.MsgUpdateWhichIsResponse:
     type: object
@@ -48846,12 +48962,12 @@ definitions:
           properties:
             did:
               type: string
+              description: DID is the DID of the bucket.
             creator:
               type: string
-              title: >-
-                Document is the DID Document of the registered name and account
-                encoded as JSON
+              description: Creator is the Account that created the bucket.
             bucket:
+              description: Bucket is the document of the bucket.
               type: object
               properties:
                 label:
@@ -48878,7 +48994,13 @@ definitions:
                   items:
                     type: string
                   description: Objects are stored in a tree structure.
-              description: Bucket is a collection of objects.
+            timestamp:
+              type: string
+              format: int64
+              title: Timestamp is the time of the last update of the DID Document
+            is_active:
+              type: boolean
+              title: IsActive is the status of the DID Document
       pagination:
         type: object
         properties:
@@ -48912,12 +49034,12 @@ definitions:
         properties:
           did:
             type: string
+            description: DID is the DID of the bucket.
           creator:
             type: string
-            title: >-
-              Document is the DID Document of the registered name and account
-              encoded as JSON
+            description: Creator is the Account that created the bucket.
           bucket:
+            description: Bucket is the document of the bucket.
             type: object
             properties:
               label:
@@ -48944,7 +49066,13 @@ definitions:
                 items:
                   type: string
                 description: Objects are stored in a tree structure.
-            description: Bucket is a collection of objects.
+          timestamp:
+            type: string
+            format: int64
+            title: Timestamp is the time of the last update of the DID Document
+          is_active:
+            type: boolean
+            title: IsActive is the status of the DID Document
   sonrio.sonr.bucket.QueryParamsResponse:
     type: object
     properties:
@@ -48957,12 +49085,12 @@ definitions:
     properties:
       did:
         type: string
+        description: DID is the DID of the bucket.
       creator:
         type: string
-        title: >-
-          Document is the DID Document of the registered name and account
-          encoded as JSON
+        description: Creator is the Account that created the bucket.
       bucket:
+        description: Bucket is the document of the bucket.
         type: object
         properties:
           label:
@@ -48989,7 +49117,13 @@ definitions:
             items:
               type: string
             description: Objects are stored in a tree structure.
-        description: Bucket is a collection of objects.
+      timestamp:
+        type: string
+        format: int64
+        title: Timestamp is the time of the last update of the DID Document
+      is_active:
+        type: boolean
+        title: IsActive is the status of the DID Document
   sonrio.sonr.registry.Authenticator:
     type: object
     properties:
@@ -49121,7 +49255,7 @@ definitions:
               encoded as JSON
           creator:
             type: string
-            title: Creator is the DID of the creator of the DID Document
+            title: Creator is the Account Address of the creator of the DID Document
           credentials:
             type: array
             items:
@@ -49215,6 +49349,13 @@ definitions:
             additionalProperties:
               type: string
             title: Additional Metadata for associated WhoIs
+          timestamp:
+            type: string
+            format: int64
+            title: Timestamp is the time of the last update of the DID Document
+          is_active:
+            type: boolean
+            title: IsActive is the status of the DID Document
         description: >-
           WhoIs is the entry pointing a registered name to a user account
           address, Did Url string, and a DIDDocument.
@@ -49306,7 +49447,7 @@ definitions:
           encoded as JSON
       creator:
         type: string
-        title: Creator is the DID of the creator of the DID Document
+        title: Creator is the Account Address of the creator of the DID Document
       credentials:
         type: array
         items:
@@ -49396,6 +49537,13 @@ definitions:
         additionalProperties:
           type: string
         title: Additional Metadata for associated WhoIs
+      timestamp:
+        type: string
+        format: int64
+        title: Timestamp is the time of the last update of the DID Document
+      is_active:
+        type: boolean
+        title: IsActive is the status of the DID Document
     description: >-
       WhoIs is the entry pointing a registered name to a user account address,
       Did Url string, and a DIDDocument.
@@ -49431,6 +49579,7 @@ definitions:
     properties:
       did:
         type: string
+        title: Did is the DID of the channel
       creator:
         type: string
         title: >-
@@ -49438,6 +49587,14 @@ definitions:
           encoded as JSON
       channel:
         $ref: '#/definitions/sonrio.sonr.channel.ChannelDoc'
+        title: ChannelDoc is the structure of the channel encoded as JSON
+      timestamp:
+        type: string
+        format: int64
+        title: Timestamp is the time of the last update of the DID Document
+      is_active:
+        type: boolean
+        title: IsActive is the status of the DID Document
   sonrio.sonr.channel.MsgCreateChannelResponse:
     type: object
     properties:
@@ -49463,7 +49620,7 @@ definitions:
         title: Message of the response
       how_is:
         $ref: '#/definitions/sonrio.sonr.channel.HowIs'
-  sonrio.sonr.channel.MsgDeleteChannelResponse:
+  sonrio.sonr.channel.MsgDeactivateChannelResponse:
     type: object
     properties:
       code:
@@ -50029,7 +50186,7 @@ definitions:
     properties:
       did:
         type: string
-  sonrio.sonr.object.MsgDeleteObjectResponse:
+  sonrio.sonr.object.MsgDeactivateObjectResponse:
     type: object
     properties:
       code:
@@ -50117,8 +50274,17 @@ definitions:
         title: DID is the DID of the object
       object_doc:
         $ref: '#/definitions/sonrio.sonr.object.ObjectDoc'
+        title: Object_doc is the object document
       creator:
         type: string
+        title: Creator is the DID of the creator
+      timestamp:
+        type: string
+        format: int64
+        title: Timestamp is the time of the last update of the DID Document
+      is_active:
+        type: boolean
+        title: IsActive is the status of the DID Document
   sonrio.sonr.registry.MsgAccessApplicationResponse:
     type: object
     properties:
@@ -50151,7 +50317,7 @@ definitions:
               encoded as JSON
           creator:
             type: string
-            title: Creator is the DID of the creator of the DID Document
+            title: Creator is the Account Address of the creator of the DID Document
           credentials:
             type: array
             items:
@@ -50245,6 +50411,13 @@ definitions:
             additionalProperties:
               type: string
             title: Additional Metadata for associated WhoIs
+          timestamp:
+            type: string
+            format: int64
+            title: Timestamp is the time of the last update of the DID Document
+          is_active:
+            type: boolean
+            title: IsActive is the status of the DID Document
         description: >-
           WhoIs is the entry pointing a registered name to a user account
           address, Did Url string, and a DIDDocument.
@@ -50273,7 +50446,9 @@ definitions:
                   account encoded as JSON
               creator:
                 type: string
-                title: Creator is the DID of the creator of the DID Document
+                title: >-
+                  Creator is the Account Address of the creator of the DID
+                  Document
               credentials:
                 type: array
                 items:
@@ -50369,6 +50544,13 @@ definitions:
                 additionalProperties:
                   type: string
                 title: Additional Metadata for associated WhoIs
+              timestamp:
+                type: string
+                format: int64
+                title: Timestamp is the time of the last update of the DID Document
+              is_active:
+                type: boolean
+                title: IsActive is the status of the DID Document
             description: >-
               WhoIs is the entry pointing a registered name to a user account
               address, Did Url string, and a DIDDocument.
@@ -50470,7 +50652,7 @@ definitions:
               encoded as JSON
           creator:
             type: string
-            title: Creator is the DID of the creator of the DID Document
+            title: Creator is the Account Address of the creator of the DID Document
           credentials:
             type: array
             items:
@@ -50564,6 +50746,13 @@ definitions:
             additionalProperties:
               type: string
             title: Additional Metadata for associated WhoIs
+          timestamp:
+            type: string
+            format: int64
+            title: Timestamp is the time of the last update of the DID Document
+          is_active:
+            type: boolean
+            title: IsActive is the status of the DID Document
         description: >-
           WhoIs is the entry pointing a registered name to a user account
           address, Did Url string, and a DIDDocument.
@@ -50592,7 +50781,9 @@ definitions:
                   account encoded as JSON
               creator:
                 type: string
-                title: Creator is the DID of the creator of the DID Document
+                title: >-
+                  Creator is the Account Address of the creator of the DID
+                  Document
               credentials:
                 type: array
                 items:
@@ -50688,6 +50879,13 @@ definitions:
                 additionalProperties:
                   type: string
                 title: Additional Metadata for associated WhoIs
+              timestamp:
+                type: string
+                format: int64
+                title: Timestamp is the time of the last update of the DID Document
+              is_active:
+                type: boolean
+                title: IsActive is the status of the DID Document
             description: >-
               WhoIs is the entry pointing a registered name to a user account
               address, Did Url string, and a DIDDocument.
@@ -50789,7 +50987,7 @@ definitions:
               encoded as JSON
           creator:
             type: string
-            title: Creator is the DID of the creator of the DID Document
+            title: Creator is the Account Address of the creator of the DID Document
           credentials:
             type: array
             items:
@@ -50883,6 +51081,13 @@ definitions:
             additionalProperties:
               type: string
             title: Additional Metadata for associated WhoIs
+          timestamp:
+            type: string
+            format: int64
+            title: Timestamp is the time of the last update of the DID Document
+          is_active:
+            type: boolean
+            title: IsActive is the status of the DID Document
         description: >-
           WhoIs is the entry pointing a registered name to a user account
           address, Did Url string, and a DIDDocument.
@@ -50923,7 +51128,7 @@ definitions:
               encoded as JSON
           creator:
             type: string
-            title: Creator is the DID of the creator of the DID Document
+            title: Creator is the Account Address of the creator of the DID Document
           credentials:
             type: array
             items:
@@ -51017,6 +51222,13 @@ definitions:
             additionalProperties:
               type: string
             title: Additional Metadata for associated WhoIs
+          timestamp:
+            type: string
+            format: int64
+            title: Timestamp is the time of the last update of the DID Document
+          is_active:
+            type: boolean
+            title: IsActive is the status of the DID Document
         description: >-
           WhoIs is the entry pointing a registered name to a user account
           address, Did Url string, and a DIDDocument.
@@ -51045,7 +51257,9 @@ definitions:
                   account encoded as JSON
               creator:
                 type: string
-                title: Creator is the DID of the creator of the DID Document
+                title: >-
+                  Creator is the Account Address of the creator of the DID
+                  Document
               credentials:
                 type: array
                 items:
@@ -51141,6 +51355,13 @@ definitions:
                 additionalProperties:
                   type: string
                 title: Additional Metadata for associated WhoIs
+              timestamp:
+                type: string
+                format: int64
+                title: Timestamp is the time of the last update of the DID Document
+              is_active:
+                type: boolean
+                title: IsActive is the status of the DID Document
             description: >-
               WhoIs is the entry pointing a registered name to a user account
               address, Did Url string, and a DIDDocument.
@@ -51242,7 +51463,7 @@ definitions:
               encoded as JSON
           creator:
             type: string
-            title: Creator is the DID of the creator of the DID Document
+            title: Creator is the Account Address of the creator of the DID Document
           credentials:
             type: array
             items:
@@ -51336,6 +51557,13 @@ definitions:
             additionalProperties:
               type: string
             title: Additional Metadata for associated WhoIs
+          timestamp:
+            type: string
+            format: int64
+            title: Timestamp is the time of the last update of the DID Document
+          is_active:
+            type: boolean
+            title: IsActive is the status of the DID Document
         description: >-
           WhoIs is the entry pointing a registered name to a user account
           address, Did Url string, and a DIDDocument.
@@ -51364,7 +51592,9 @@ definitions:
                   account encoded as JSON
               creator:
                 type: string
-                title: Creator is the DID of the creator of the DID Document
+                title: >-
+                  Creator is the Account Address of the creator of the DID
+                  Document
               credentials:
                 type: array
                 items:
@@ -51460,6 +51690,13 @@ definitions:
                 additionalProperties:
                   type: string
                 title: Additional Metadata for associated WhoIs
+              timestamp:
+                type: string
+                format: int64
+                title: Timestamp is the time of the last update of the DID Document
+              is_active:
+                type: boolean
+                title: IsActive is the status of the DID Document
             description: >-
               WhoIs is the entry pointing a registered name to a user account
               address, Did Url string, and a DIDDocument.
@@ -51566,7 +51803,7 @@ definitions:
               encoded as JSON
           creator:
             type: string
-            title: Creator is the DID of the creator of the DID Document
+            title: Creator is the Account Address of the creator of the DID Document
           credentials:
             type: array
             items:
@@ -51660,6 +51897,13 @@ definitions:
             additionalProperties:
               type: string
             title: Additional Metadata for associated WhoIs
+          timestamp:
+            type: string
+            format: int64
+            title: Timestamp is the time of the last update of the DID Document
+          is_active:
+            type: boolean
+            title: IsActive is the status of the DID Document
         description: >-
           WhoIs is the entry pointing a registered name to a user account
           address, Did Url string, and a DIDDocument.
@@ -51691,7 +51935,7 @@ definitions:
               encoded as JSON
           creator:
             type: string
-            title: Creator is the DID of the creator of the DID Document
+            title: Creator is the Account Address of the creator of the DID Document
           credentials:
             type: array
             items:
@@ -51785,6 +52029,13 @@ definitions:
             additionalProperties:
               type: string
             title: Additional Metadata for associated WhoIs
+          timestamp:
+            type: string
+            format: int64
+            title: Timestamp is the time of the last update of the DID Document
+          is_active:
+            type: boolean
+            title: IsActive is the status of the DID Document
         description: >-
           WhoIs is the entry pointing a registered name to a user account
           address, Did Url string, and a DIDDocument.
@@ -51816,7 +52067,7 @@ definitions:
               encoded as JSON
           creator:
             type: string
-            title: Creator is the DID of the creator of the DID Document
+            title: Creator is the Account Address of the creator of the DID Document
           credentials:
             type: array
             items:
@@ -51910,6 +52161,13 @@ definitions:
             additionalProperties:
               type: string
             title: Additional Metadata for associated WhoIs
+          timestamp:
+            type: string
+            format: int64
+            title: Timestamp is the time of the last update of the DID Document
+          is_active:
+            type: boolean
+            title: IsActive is the status of the DID Document
         description: >-
           WhoIs is the entry pointing a registered name to a user account
           address, Did Url string, and a DIDDocument.
@@ -51938,7 +52196,9 @@ definitions:
                 encoded as JSON
             creator:
               type: string
-              title: Creator is the DID of the creator of the DID Document
+              title: >-
+                Creator is the Account Address of the creator of the DID
+                Document
             credentials:
               type: array
               items:
@@ -52032,6 +52292,13 @@ definitions:
               additionalProperties:
                 type: string
               title: Additional Metadata for associated WhoIs
+            timestamp:
+              type: string
+              format: int64
+              title: Timestamp is the time of the last update of the DID Document
+            is_active:
+              type: boolean
+              title: IsActive is the status of the DID Document
           description: >-
             WhoIs is the entry pointing a registered name to a user account
             address, Did Url string, and a DIDDocument.
@@ -52080,7 +52347,7 @@ definitions:
               encoded as JSON
           creator:
             type: string
-            title: Creator is the DID of the creator of the DID Document
+            title: Creator is the Account Address of the creator of the DID Document
           credentials:
             type: array
             items:
@@ -52174,6 +52441,13 @@ definitions:
             additionalProperties:
               type: string
             title: Additional Metadata for associated WhoIs
+          timestamp:
+            type: string
+            format: int64
+            title: Timestamp is the time of the last update of the DID Document
+          is_active:
+            type: boolean
+            title: IsActive is the status of the DID Document
         description: >-
           WhoIs is the entry pointing a registered name to a user account
           address, Did Url string, and a DIDDocument.

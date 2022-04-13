@@ -54,7 +54,7 @@ function getStructure(template) {
 const getDefaultState = () => {
 	return {
 				Params: {},
-				
+
 				_Structure: {
 						ObjectDoc: getStructure(ObjectDoc.fromPartial({})),
 						ObjectField: getStructure(ObjectField.fromPartial({})),
@@ -67,7 +67,7 @@ const getDefaultState = () => {
 						ObjectFieldBlob: getStructure(ObjectFieldBlob.fromPartial({})),
 						ObjectFieldBlockchainAddress: getStructure(ObjectFieldBlockchainAddress.fromPartial({})),
 						Params: getStructure(Params.fromPartial({})),
-						
+
 		},
 		_Registry: registry,
 		_Subscriptions: new Set(),
@@ -101,7 +101,7 @@ export default {
 					}
 			return state.Params[JSON.stringify(params)] ?? {}
 		},
-				
+
 		getTypeStructure: (state) => (type) => {
 			return state._Structure[type].fields
 		},
@@ -134,41 +134,41 @@ export default {
 				}
 			})
 		},
-		
-		
-		
-		 		
-		
-		
+
+
+
+
+
+
 		async QueryParams({ commit, rootGetters, getters }, { options: { subscribe, all} = { subscribe:false, all:false}, params, query=null }) {
 			try {
 				const key = params ?? {};
 				const queryClient=await initQueryClient(rootGetters)
 				let value= (await queryClient.queryParams()).data
-				
-					
+
+
 				commit('QUERY', { query: 'Params', key: { params: {...key}, query}, value })
 				if (subscribe) commit('SUBSCRIBE', { action: 'QueryParams', payload: { options: { all }, params: {...key},query }})
 				return getters['getParams']( { params: {...key}, query}) ?? {}
 			} catch (e) {
 				throw new SpVuexError('QueryClient:QueryParams', 'API Node Unavailable. Could not perform query: ' + e.message)
-				
+
 			}
 		},
-		
-		
-		async sendMsgDeleteObject({ rootGetters }, { value, fee = [], memo = '' }) {
+
+
+		async sendMsgDeactivateObject({ rootGetters }, { value, fee = [], memo = '' }) {
 			try {
 				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgDeleteObject(value)
-				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
+				const msg = await txClient.MsgDeactivateObject(value)
+				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee,
 	gas: "200000" }, memo})
 				return result
 			} catch (e) {
 				if (e == MissingWalletError) {
-					throw new SpVuexError('TxClient:MsgDeleteObject:Init', 'Could not initialize signing client. Wallet is required.')
+					throw new SpVuexError('TxClient:MsgDeactivateObject:Init', 'Could not initialize signing client. Wallet is required.')
 				}else{
-					throw new SpVuexError('TxClient:MsgDeleteObject:Send', 'Could not broadcast Tx: '+ e.message)
+					throw new SpVuexError('TxClient:MsgDeactivateObject:Send', 'Could not broadcast Tx: '+ e.message)
 				}
 			}
 		},
@@ -176,7 +176,7 @@ export default {
 			try {
 				const txClient=await initTxClient(rootGetters)
 				const msg = await txClient.msgReadObject(value)
-				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
+				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee,
 	gas: "200000" }, memo})
 				return result
 			} catch (e) {
@@ -191,7 +191,7 @@ export default {
 			try {
 				const txClient=await initTxClient(rootGetters)
 				const msg = await txClient.msgCreateObject(value)
-				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
+				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee,
 	gas: "200000" }, memo})
 				return result
 			} catch (e) {
@@ -206,7 +206,7 @@ export default {
 			try {
 				const txClient=await initTxClient(rootGetters)
 				const msg = await txClient.msgUpdateObject(value)
-				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
+				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee,
 	gas: "200000" }, memo})
 				return result
 			} catch (e) {
@@ -217,18 +217,18 @@ export default {
 				}
 			}
 		},
-		
-		async MsgDeleteObject({ rootGetters }, { value }) {
+
+		async MsgDeactivateObject({ rootGetters }, { value }) {
 			try {
 				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgDeleteObject(value)
+				const msg = await txClient.MsgDeactivateObject(value)
 				return msg
 			} catch (e) {
 				if (e == MissingWalletError) {
-					throw new SpVuexError('TxClient:MsgDeleteObject:Init', 'Could not initialize signing client. Wallet is required.')
+					throw new SpVuexError('TxClient:MsgDeactivateObject:Init', 'Could not initialize signing client. Wallet is required.')
 				}else{
-					throw new SpVuexError('TxClient:MsgDeleteObject:Create', 'Could not create message: ' + e.message)
-					
+					throw new SpVuexError('TxClient:MsgDeactivateObject:Create', 'Could not create message: ' + e.message)
+
 				}
 			}
 		},
@@ -242,7 +242,7 @@ export default {
 					throw new SpVuexError('TxClient:MsgReadObject:Init', 'Could not initialize signing client. Wallet is required.')
 				}else{
 					throw new SpVuexError('TxClient:MsgReadObject:Create', 'Could not create message: ' + e.message)
-					
+
 				}
 			}
 		},
@@ -256,7 +256,7 @@ export default {
 					throw new SpVuexError('TxClient:MsgCreateObject:Init', 'Could not initialize signing client. Wallet is required.')
 				}else{
 					throw new SpVuexError('TxClient:MsgCreateObject:Create', 'Could not create message: ' + e.message)
-					
+
 				}
 			}
 		},
@@ -270,10 +270,10 @@ export default {
 					throw new SpVuexError('TxClient:MsgUpdateObject:Init', 'Could not initialize signing client. Wallet is required.')
 				}else{
 					throw new SpVuexError('TxClient:MsgUpdateObject:Create', 'Could not create message: ' + e.message)
-					
+
 				}
 			}
 		},
-		
+
 	}
 }

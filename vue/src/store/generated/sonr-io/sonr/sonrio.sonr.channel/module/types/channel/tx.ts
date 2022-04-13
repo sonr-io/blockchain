@@ -22,13 +22,13 @@ export interface MsgReadChannel {
 
 export interface MsgReadChannelResponse {}
 
-export interface MsgDeleteChannel {
+export interface MsgDeactivateChannel {
   creator: string;
   did: string;
   publicKey: string;
 }
 
-export interface MsgDeleteChannelResponse {}
+export interface MsgDeactivateChannelResponse {}
 
 export interface MsgUpdateChannel {
   creator: string;
@@ -347,10 +347,10 @@ export const MsgReadChannelResponse = {
   },
 };
 
-const baseMsgDeleteChannel: object = { creator: "", did: "", publicKey: "" };
+const baseMsgDeactivateChannel: object = { creator: "", did: "", publicKey: "" };
 
-export const MsgDeleteChannel = {
-  encode(message: MsgDeleteChannel, writer: Writer = Writer.create()): Writer {
+export const MsgDeactivateChannel = {
+  encode(message: MsgDeactivateChannel, writer: Writer = Writer.create()): Writer {
     if (message.creator !== "") {
       writer.uint32(10).string(message.creator);
     }
@@ -363,10 +363,10 @@ export const MsgDeleteChannel = {
     return writer;
   },
 
-  decode(input: Reader | Uint8Array, length?: number): MsgDeleteChannel {
+  decode(input: Reader | Uint8Array, length?: number): MsgDeactivateChannel {
     const reader = input instanceof Uint8Array ? new Reader(input) : input;
     let end = length === undefined ? reader.len : reader.pos + length;
-    const message = { ...baseMsgDeleteChannel } as MsgDeleteChannel;
+    const message = { ...baseMsgDeactivateChannel } as MsgDeactivateChannel;
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -387,8 +387,8 @@ export const MsgDeleteChannel = {
     return message;
   },
 
-  fromJSON(object: any): MsgDeleteChannel {
-    const message = { ...baseMsgDeleteChannel } as MsgDeleteChannel;
+  fromJSON(object: any): MsgDeactivateChannel {
+    const message = { ...baseMsgDeactivateChannel } as MsgDeactivateChannel;
     if (object.creator !== undefined && object.creator !== null) {
       message.creator = String(object.creator);
     } else {
@@ -407,7 +407,7 @@ export const MsgDeleteChannel = {
     return message;
   },
 
-  toJSON(message: MsgDeleteChannel): unknown {
+  toJSON(message: MsgDeactivateChannel): unknown {
     const obj: any = {};
     message.creator !== undefined && (obj.creator = message.creator);
     message.did !== undefined && (obj.did = message.did);
@@ -415,8 +415,8 @@ export const MsgDeleteChannel = {
     return obj;
   },
 
-  fromPartial(object: DeepPartial<MsgDeleteChannel>): MsgDeleteChannel {
-    const message = { ...baseMsgDeleteChannel } as MsgDeleteChannel;
+  fromPartial(object: DeepPartial<MsgDeactivateChannel>): MsgDeactivateChannel {
+    const message = { ...baseMsgDeactivateChannel } as MsgDeactivateChannel;
     if (object.creator !== undefined && object.creator !== null) {
       message.creator = object.creator;
     } else {
@@ -436,11 +436,11 @@ export const MsgDeleteChannel = {
   },
 };
 
-const baseMsgDeleteChannelResponse: object = {};
+const baseMsgDeactivateChannelResponse: object = {};
 
-export const MsgDeleteChannelResponse = {
+export const MsgDeactivateChannelResponse = {
   encode(
-    _: MsgDeleteChannelResponse,
+    _: MsgDeactivateChannelResponse,
     writer: Writer = Writer.create()
   ): Writer {
     return writer;
@@ -449,12 +449,12 @@ export const MsgDeleteChannelResponse = {
   decode(
     input: Reader | Uint8Array,
     length?: number
-  ): MsgDeleteChannelResponse {
+  ): MsgDeactivateChannelResponse {
     const reader = input instanceof Uint8Array ? new Reader(input) : input;
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = {
-      ...baseMsgDeleteChannelResponse,
-    } as MsgDeleteChannelResponse;
+      ...baseMsgDeactivateChannelResponse,
+    } as MsgDeactivateChannelResponse;
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -466,24 +466,24 @@ export const MsgDeleteChannelResponse = {
     return message;
   },
 
-  fromJSON(_: any): MsgDeleteChannelResponse {
+  fromJSON(_: any): MsgDeactivateChannelResponse {
     const message = {
-      ...baseMsgDeleteChannelResponse,
-    } as MsgDeleteChannelResponse;
+      ...baseMsgDeactivateChannelResponse,
+    } as MsgDeactivateChannelResponse;
     return message;
   },
 
-  toJSON(_: MsgDeleteChannelResponse): unknown {
+  toJSON(_: MsgDeactivateChannelResponse): unknown {
     const obj: any = {};
     return obj;
   },
 
   fromPartial(
-    _: DeepPartial<MsgDeleteChannelResponse>
-  ): MsgDeleteChannelResponse {
+    _: DeepPartial<MsgDeactivateChannelResponse>
+  ): MsgDeactivateChannelResponse {
     const message = {
-      ...baseMsgDeleteChannelResponse,
-    } as MsgDeleteChannelResponse;
+      ...baseMsgDeactivateChannelResponse,
+    } as MsgDeactivateChannelResponse;
     return message;
   },
 };
@@ -616,7 +616,7 @@ export const MsgUpdateChannelResponse = {
 export interface Msg {
   CreateChannel(request: MsgCreateChannel): Promise<MsgCreateChannelResponse>;
   ReadChannel(request: MsgReadChannel): Promise<MsgReadChannelResponse>;
-  DeleteChannel(request: MsgDeleteChannel): Promise<MsgDeleteChannelResponse>;
+  DeleteChannel(request: MsgDeactivateChannel): Promise<MsgDeactivateChannelResponse>;
   /** this line is used by starport scaffolding # proto/tx/rpc */
   UpdateChannel(request: MsgUpdateChannel): Promise<MsgUpdateChannelResponse>;
 }
@@ -650,15 +650,15 @@ export class MsgClientImpl implements Msg {
     );
   }
 
-  DeleteChannel(request: MsgDeleteChannel): Promise<MsgDeleteChannelResponse> {
-    const data = MsgDeleteChannel.encode(request).finish();
+  DeleteChannel(request: MsgDeactivateChannel): Promise<MsgDeactivateChannelResponse> {
+    const data = MsgDeactivateChannel.encode(request).finish();
     const promise = this.rpc.request(
       "sonrio.sonr.channel.Msg",
       "DeleteChannel",
       data
     );
     return promise.then((data) =>
-      MsgDeleteChannelResponse.decode(new Reader(data))
+      MsgDeactivateChannelResponse.decode(new Reader(data))
     );
   }
 

@@ -13,7 +13,7 @@ option go_package = "github.com/sonr-io/blockchain/x/bucket/types";
 service Msg {
   rpc CreateBucket(MsgCreateBucket) returns (MsgCreateBucketResponse);
   rpc UpdateBucket(MsgUpdateBucket) returns (MsgUpdateBucketResponse);
-  rpc DeleteBucket(MsgDeleteBucket) returns (MsgDeleteBucketResponse);
+  rpc DeactivateBucket(MsgDeactivateBucket) returns (MsgDeactivateBucketResponse);
   rpc CreateWhichIs(MsgCreateWhichIs) returns (MsgCreateWhichIsResponse);
   rpc UpdateWhichIs(MsgUpdateWhichIs) returns (MsgUpdateWhichIsResponse);
   rpc DeleteWhichIs(MsgDeleteWhichIs) returns (MsgDeleteWhichIsResponse);
@@ -74,13 +74,13 @@ message MsgUpdateBucketResponse {
     WhichIs which_is = 3;
 }
 
-message MsgDeleteBucket {
+message MsgDeactivateBucket {
   string creator = 1;
   string did = 2;
   sonrio.sonr.registry.Session session = 3;
 }
 
-message MsgDeleteBucketResponse {
+message MsgDeactivateBucketResponse {
     // Code of the response
     int32 code = 1;
 

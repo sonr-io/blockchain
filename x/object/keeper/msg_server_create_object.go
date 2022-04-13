@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"context"
+	"time"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
@@ -47,6 +48,8 @@ func (k msgServer) CreateObject(goCtx context.Context, msg *types.MsgCreateObjec
 		Did:       did.ID,
 		Creator:   msg.GetSession().Creator(),
 		ObjectDoc: doc,
+		Timestamp: time.Now().Unix(),
+		IsActive:  true,
 	}
 
 	// Store the Object record

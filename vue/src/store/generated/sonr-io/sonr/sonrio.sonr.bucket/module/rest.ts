@@ -11,7 +11,7 @@
 
 export type BucketMsgCreateBucketResponse = object;
 
-export type BucketMsgDeleteBucketResponse = object;
+export type BucketMsgDeactivateBucketResponse = object;
 
 export type BucketMsgReadBucketResponse = object;
 

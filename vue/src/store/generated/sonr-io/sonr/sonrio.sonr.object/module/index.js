@@ -2,12 +2,12 @@
 import { SigningStargateClient } from "@cosmjs/stargate";
 import { Registry } from "@cosmjs/proto-signing";
 import { Api } from "./rest";
-import { MsgDeleteObject } from "./types/object/tx";
+import { MsgDeactivateObject } from "./types/object/tx";
 import { MsgReadObject } from "./types/object/tx";
 import { MsgCreateObject } from "./types/object/tx";
 import { MsgUpdateObject } from "./types/object/tx";
 const types = [
-    ["/sonrio.sonr.object.MsgDeleteObject", MsgDeleteObject],
+    ["/sonrio.sonr.object.MsgDeactivateObject", MsgDeactivateObject],
     ["/sonrio.sonr.object.MsgReadObject", MsgReadObject],
     ["/sonrio.sonr.object.MsgCreateObject", MsgCreateObject],
     ["/sonrio.sonr.object.MsgUpdateObject", MsgUpdateObject],
@@ -31,7 +31,7 @@ const txClient = async (wallet, { addr: addr } = { addr: "http://localhost:26657
     const { address } = (await wallet.getAccounts())[0];
     return {
         signAndBroadcast: (msgs, { fee, memo } = { fee: defaultFee, memo: "" }) => client.signAndBroadcast(address, msgs, fee, memo),
-        msgDeleteObject: (data) => ({ typeUrl: "/sonrio.sonr.object.MsgDeleteObject", value: MsgDeleteObject.fromPartial(data) }),
+        MsgDeactivateObject: (data) => ({ typeUrl: "/sonrio.sonr.object.MsgDeactivateObject", value: MsgDeactivateObject.fromPartial(data) }),
         msgReadObject: (data) => ({ typeUrl: "/sonrio.sonr.object.MsgReadObject", value: MsgReadObject.fromPartial(data) }),
         msgCreateObject: (data) => ({ typeUrl: "/sonrio.sonr.object.MsgCreateObject", value: MsgCreateObject.fromPartial(data) }),
         msgUpdateObject: (data) => ({ typeUrl: "/sonrio.sonr.object.MsgUpdateObject", value: MsgUpdateObject.fromPartial(data) }),

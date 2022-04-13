@@ -26,7 +26,7 @@ func CmdDeleteBucket() *cobra.Command {
 				return err
 			}
 
-			msg := types.NewMsgDeleteBucket(
+			msg := types.NewMsgDeactivateBucket(
 				clientCtx.GetFromAddress().String(),
 				argDid,
 				argPublicKey,

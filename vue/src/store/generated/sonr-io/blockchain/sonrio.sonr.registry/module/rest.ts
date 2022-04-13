@@ -203,6 +203,10 @@ export interface RegistryWhoIs {
    */
   type?: RegistryWhoIsType;
   metadata?: Record<string, string>;
+
+  /** @format int64 */
+  timestamp?: string;
+  is_active?: boolean;
 }
 
 /**

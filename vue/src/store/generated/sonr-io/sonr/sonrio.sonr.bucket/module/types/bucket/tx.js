@@ -407,8 +407,8 @@ export const MsgUpdateBucketResponse = {
         return message;
     },
 };
-const baseMsgDeleteBucket = { creator: "", did: "", publicKey: "" };
-export const MsgDeleteBucket = {
+const baseMsgDeactivateBucket = { creator: "", did: "", publicKey: "" };
+export const MsgDeactivateBucket = {
     encode(message, writer = Writer.create()) {
         if (message.creator !== "") {
             writer.uint32(10).string(message.creator);
@@ -424,7 +424,7 @@ export const MsgDeleteBucket = {
     decode(input, length) {
         const reader = input instanceof Uint8Array ? new Reader(input) : input;
         let end = length === undefined ? reader.len : reader.pos + length;
-        const message = { ...baseMsgDeleteBucket };
+        const message = { ...baseMsgDeactivateBucket };
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
@@ -445,7 +445,7 @@ export const MsgDeleteBucket = {
         return message;
     },
     fromJSON(object) {
-        const message = { ...baseMsgDeleteBucket };
+        const message = { ...baseMsgDeactivateBucket };
         if (object.creator !== undefined && object.creator !== null) {
             message.creator = String(object.creator);
         }
@@ -474,7 +474,7 @@ export const MsgDeleteBucket = {
         return obj;
     },
     fromPartial(object) {
-        const message = { ...baseMsgDeleteBucket };
+        const message = { ...baseMsgDeactivateBucket };
         if (object.creator !== undefined && object.creator !== null) {
             message.creator = object.creator;
         }
@@ -496,8 +496,8 @@ export const MsgDeleteBucket = {
         return message;
     },
 };
-const baseMsgDeleteBucketResponse = {};
-export const MsgDeleteBucketResponse = {
+const baseMsgDeactivateBucketResponse = {};
+export const MsgDeactivateBucketResponse = {
     encode(_, writer = Writer.create()) {
         return writer;
     },
@@ -505,7 +505,7 @@ export const MsgDeleteBucketResponse = {
         const reader = input instanceof Uint8Array ? new Reader(input) : input;
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = {
-            ...baseMsgDeleteBucketResponse,
+            ...baseMsgDeactivateBucketResponse,
         };
         while (reader.pos < end) {
             const tag = reader.uint32();
@@ -519,7 +519,7 @@ export const MsgDeleteBucketResponse = {
     },
     fromJSON(_) {
         const message = {
-            ...baseMsgDeleteBucketResponse,
+            ...baseMsgDeactivateBucketResponse,
         };
         return message;
     },
@@ -529,7 +529,7 @@ export const MsgDeleteBucketResponse = {
     },
     fromPartial(_) {
         const message = {
-            ...baseMsgDeleteBucketResponse,
+            ...baseMsgDeactivateBucketResponse,
         };
         return message;
     },
@@ -554,8 +554,8 @@ export class MsgClientImpl {
         return promise.then((data) => MsgUpdateBucketResponse.decode(new Reader(data)));
     }
     DeleteBucket(request) {
-        const data = MsgDeleteBucket.encode(request).finish();
+        const data = MsgDeactivateBucket.encode(request).finish();
         const promise = this.rpc.request("sonrio.sonr.bucket.Msg", "DeleteBucket", data);
-        return promise.then((data) => MsgDeleteBucketResponse.decode(new Reader(data)));
+        return promise.then((data) => MsgDeactivateBucketResponse.decode(new Reader(data)));
     }
 }

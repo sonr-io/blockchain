@@ -1,5 +1,5 @@
 export declare type ObjectMsgCreateObjectResponse = object;
-export declare type ObjectMsgDeleteObjectResponse = object;
+export declare type ObjectMsgDeactivateObjectResponse = object;
 export declare type ObjectMsgReadObjectResponse = object;
 export declare type ObjectMsgUpdateObjectResponse = object;
 /**

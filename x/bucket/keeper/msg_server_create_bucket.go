@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"context"
+	"time"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
@@ -38,9 +39,11 @@ func (k msgServer) CreateBucket(goCtx context.Context, msg *types.MsgCreateBucke
 
 	// Create a new channel record
 	newWhichIs := types.WhichIs{
-		Did:     did.ID,
-		Creator: msg.GetSession().Creator(),
-		Bucket:  doc,
+		Did:       did.ID,
+		Creator:   msg.GetSession().Creator(),
+		Bucket:    doc,
+		Timestamp: time.Now().Unix(),
+		IsActive:  true,
 	}
 
 	// Store the channel record

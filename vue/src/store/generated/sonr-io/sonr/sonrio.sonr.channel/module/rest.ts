@@ -11,7 +11,7 @@
 
 export type ChannelMsgCreateChannelResponse = object;
 
-export type ChannelMsgDeleteChannelResponse = object;
+export type ChannelMsgDeactivateChannelResponse = object;
 
 export type ChannelMsgReadChannelResponse = object;
 

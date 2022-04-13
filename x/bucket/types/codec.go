@@ -10,7 +10,7 @@ import (
 func RegisterCodec(cdc *codec.LegacyAmino) {
 	cdc.RegisterConcrete(&MsgCreateBucket{}, "bucket/CreateBucket", nil)
 	cdc.RegisterConcrete(&MsgUpdateBucket{}, "bucket/UpdateBucket", nil)
-	cdc.RegisterConcrete(&MsgDeleteBucket{}, "bucket/DeleteBucket", nil)
+	cdc.RegisterConcrete(&MsgDeactivateBucket{}, "bucket/DeactivateBucket", nil)
 	cdc.RegisterConcrete(&MsgCreateWhichIs{}, "bucket/CreateWhichIs", nil)
 	cdc.RegisterConcrete(&MsgUpdateWhichIs{}, "bucket/UpdateWhichIs", nil)
 	cdc.RegisterConcrete(&MsgDeleteWhichIs{}, "bucket/DeleteWhichIs", nil)
@@ -25,7 +25,7 @@ func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 		&MsgUpdateBucket{},
 	)
 	registry.RegisterImplementations((*sdk.Msg)(nil),
-		&MsgDeleteBucket{},
+		&MsgDeactivateBucket{},
 	)
 
 	registry.RegisterImplementations((*sdk.Msg)(nil),

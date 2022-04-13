@@ -3,7 +3,7 @@ import { Registry, OfflineSigner, EncodeObject } from "@cosmjs/proto-signing";
 import { Api } from "./rest";
 import { MsgReadChannel } from "./types/channel/tx";
 import { MsgCreateChannel } from "./types/channel/tx";
-import { MsgDeleteChannel } from "./types/channel/tx";
+import { MsgDeactivateChannel } from "./types/channel/tx";
 import { MsgUpdateChannel } from "./types/channel/tx";
 export declare const MissingWalletError: Error;
 export declare const registry: Registry;
@@ -18,7 +18,7 @@ declare const txClient: (wallet: OfflineSigner, { addr: addr }?: TxClientOptions
     signAndBroadcast: (msgs: EncodeObject[], { fee, memo }?: SignAndBroadcastOptions) => any;
     msgReadChannel: (data: MsgReadChannel) => EncodeObject;
     msgCreateChannel: (data: MsgCreateChannel) => EncodeObject;
-    msgDeleteChannel: (data: MsgDeleteChannel) => EncodeObject;
+    MsgDeactivateChannel: (data: MsgDeactivateChannel) => EncodeObject;
     msgUpdateChannel: (data: MsgUpdateChannel) => EncodeObject;
 }>;
 interface QueryClientOptions {

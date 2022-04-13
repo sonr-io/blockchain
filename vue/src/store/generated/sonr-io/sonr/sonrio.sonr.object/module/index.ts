@@ -4,18 +4,18 @@ import { StdFee } from "@cosmjs/launchpad";
 import { SigningStargateClient } from "@cosmjs/stargate";
 import { Registry, OfflineSigner, EncodeObject, DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
 import { Api } from "./rest";
-import { MsgDeleteObject } from "./types/object/tx";
+import { MsgDeactivateObject } from "./types/object/tx";
 import { MsgReadObject } from "./types/object/tx";
 import { MsgCreateObject } from "./types/object/tx";
 import { MsgUpdateObject } from "./types/object/tx";
 
 
 const types = [
-  ["/sonrio.sonr.object.MsgDeleteObject", MsgDeleteObject],
+  ["/sonrio.sonr.object.MsgDeactivateObject", MsgDeactivateObject],
   ["/sonrio.sonr.object.MsgReadObject", MsgReadObject],
   ["/sonrio.sonr.object.MsgCreateObject", MsgCreateObject],
   ["/sonrio.sonr.object.MsgUpdateObject", MsgUpdateObject],
-  
+
 ];
 export const MissingWalletError = new Error("wallet is required");
 
@@ -47,11 +47,11 @@ const txClient = async (wallet: OfflineSigner, { addr: addr }: TxClientOptions =
 
   return {
     signAndBroadcast: (msgs: EncodeObject[], { fee, memo }: SignAndBroadcastOptions = {fee: defaultFee, memo: ""}) => client.signAndBroadcast(address, msgs, fee,memo),
-    msgDeleteObject: (data: MsgDeleteObject): EncodeObject => ({ typeUrl: "/sonrio.sonr.object.MsgDeleteObject", value: MsgDeleteObject.fromPartial( data ) }),
+    MsgDeactivateObject: (data: MsgDeactivateObject): EncodeObject => ({ typeUrl: "/sonrio.sonr.object.MsgDeactivateObject", value: MsgDeactivateObject.fromPartial( data ) }),
     msgReadObject: (data: MsgReadObject): EncodeObject => ({ typeUrl: "/sonrio.sonr.object.MsgReadObject", value: MsgReadObject.fromPartial( data ) }),
     msgCreateObject: (data: MsgCreateObject): EncodeObject => ({ typeUrl: "/sonrio.sonr.object.MsgCreateObject", value: MsgCreateObject.fromPartial( data ) }),
     msgUpdateObject: (data: MsgUpdateObject): EncodeObject => ({ typeUrl: "/sonrio.sonr.object.MsgUpdateObject", value: MsgUpdateObject.fromPartial( data ) }),
-    
+
   };
 };
 

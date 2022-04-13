@@ -28,13 +28,13 @@ export interface MsgUpdateBucket {
 
 export interface MsgUpdateBucketResponse {}
 
-export interface MsgDeleteBucket {
+export interface MsgDeactivateBucket {
   creator: string;
   did: string;
   publicKey: string;
 }
 
-export interface MsgDeleteBucketResponse {}
+export interface MsgDeactivateBucketResponse {}
 
 const baseMsgCreateBucket: object = {
   creator: "",
@@ -462,10 +462,10 @@ export const MsgUpdateBucketResponse = {
   },
 };
 
-const baseMsgDeleteBucket: object = { creator: "", did: "", publicKey: "" };
+const baseMsgDeactivateBucket: object = { creator: "", did: "", publicKey: "" };
 
-export const MsgDeleteBucket = {
-  encode(message: MsgDeleteBucket, writer: Writer = Writer.create()): Writer {
+export const MsgDeactivateBucket = {
+  encode(message: MsgDeactivateBucket, writer: Writer = Writer.create()): Writer {
     if (message.creator !== "") {
       writer.uint32(10).string(message.creator);
     }
@@ -478,10 +478,10 @@ export const MsgDeleteBucket = {
     return writer;
   },
 
-  decode(input: Reader | Uint8Array, length?: number): MsgDeleteBucket {
+  decode(input: Reader | Uint8Array, length?: number): MsgDeactivateBucket {
     const reader = input instanceof Uint8Array ? new Reader(input) : input;
     let end = length === undefined ? reader.len : reader.pos + length;
-    const message = { ...baseMsgDeleteBucket } as MsgDeleteBucket;
+    const message = { ...baseMsgDeactivateBucket } as MsgDeactivateBucket;
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -502,8 +502,8 @@ export const MsgDeleteBucket = {
     return message;
   },
 
-  fromJSON(object: any): MsgDeleteBucket {
-    const message = { ...baseMsgDeleteBucket } as MsgDeleteBucket;
+  fromJSON(object: any): MsgDeactivateBucket {
+    const message = { ...baseMsgDeactivateBucket } as MsgDeactivateBucket;
     if (object.creator !== undefined && object.creator !== null) {
       message.creator = String(object.creator);
     } else {
@@ -522,7 +522,7 @@ export const MsgDeleteBucket = {
     return message;
   },
 
-  toJSON(message: MsgDeleteBucket): unknown {
+  toJSON(message: MsgDeactivateBucket): unknown {
     const obj: any = {};
     message.creator !== undefined && (obj.creator = message.creator);
     message.did !== undefined && (obj.did = message.did);
@@ -530,8 +530,8 @@ export const MsgDeleteBucket = {
     return obj;
   },
 
-  fromPartial(object: DeepPartial<MsgDeleteBucket>): MsgDeleteBucket {
-    const message = { ...baseMsgDeleteBucket } as MsgDeleteBucket;
+  fromPartial(object: DeepPartial<MsgDeactivateBucket>): MsgDeactivateBucket {
+    const message = { ...baseMsgDeactivateBucket } as MsgDeactivateBucket;
     if (object.creator !== undefined && object.creator !== null) {
       message.creator = object.creator;
     } else {
@@ -551,19 +551,19 @@ export const MsgDeleteBucket = {
   },
 };
 
-const baseMsgDeleteBucketResponse: object = {};
+const baseMsgDeactivateBucketResponse: object = {};
 
-export const MsgDeleteBucketResponse = {
-  encode(_: MsgDeleteBucketResponse, writer: Writer = Writer.create()): Writer {
+export const MsgDeactivateBucketResponse = {
+  encode(_: MsgDeactivateBucketResponse, writer: Writer = Writer.create()): Writer {
     return writer;
   },
 
-  decode(input: Reader | Uint8Array, length?: number): MsgDeleteBucketResponse {
+  decode(input: Reader | Uint8Array, length?: number): MsgDeactivateBucketResponse {
     const reader = input instanceof Uint8Array ? new Reader(input) : input;
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = {
-      ...baseMsgDeleteBucketResponse,
-    } as MsgDeleteBucketResponse;
+      ...baseMsgDeactivateBucketResponse,
+    } as MsgDeactivateBucketResponse;
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -575,24 +575,24 @@ export const MsgDeleteBucketResponse = {
     return message;
   },
 
-  fromJSON(_: any): MsgDeleteBucketResponse {
+  fromJSON(_: any): MsgDeactivateBucketResponse {
     const message = {
-      ...baseMsgDeleteBucketResponse,
-    } as MsgDeleteBucketResponse;
+      ...baseMsgDeactivateBucketResponse,
+    } as MsgDeactivateBucketResponse;
     return message;
   },
 
-  toJSON(_: MsgDeleteBucketResponse): unknown {
+  toJSON(_: MsgDeactivateBucketResponse): unknown {
     const obj: any = {};
     return obj;
   },
 
   fromPartial(
-    _: DeepPartial<MsgDeleteBucketResponse>
-  ): MsgDeleteBucketResponse {
+    _: DeepPartial<MsgDeactivateBucketResponse>
+  ): MsgDeactivateBucketResponse {
     const message = {
-      ...baseMsgDeleteBucketResponse,
-    } as MsgDeleteBucketResponse;
+      ...baseMsgDeactivateBucketResponse,
+    } as MsgDeactivateBucketResponse;
     return message;
   },
 };
@@ -603,7 +603,7 @@ export interface Msg {
   ReadBucket(request: MsgReadBucket): Promise<MsgReadBucketResponse>;
   UpdateBucket(request: MsgUpdateBucket): Promise<MsgUpdateBucketResponse>;
   /** this line is used by starport scaffolding # proto/tx/rpc */
-  DeleteBucket(request: MsgDeleteBucket): Promise<MsgDeleteBucketResponse>;
+  DeleteBucket(request: MsgDeactivateBucket): Promise<MsgDeactivateBucketResponse>;
 }
 
 export class MsgClientImpl implements Msg {
@@ -647,15 +647,15 @@ export class MsgClientImpl implements Msg {
     );
   }
 
-  DeleteBucket(request: MsgDeleteBucket): Promise<MsgDeleteBucketResponse> {
-    const data = MsgDeleteBucket.encode(request).finish();
+  DeleteBucket(request: MsgDeactivateBucket): Promise<MsgDeactivateBucketResponse> {
+    const data = MsgDeactivateBucket.encode(request).finish();
     const promise = this.rpc.request(
       "sonrio.sonr.bucket.Msg",
       "DeleteBucket",
       data
     );
     return promise.then((data) =>
-      MsgDeleteBucketResponse.decode(new Reader(data))
+      MsgDeactivateBucketResponse.decode(new Reader(data))
     );
   }
 }

@@ -11,7 +11,7 @@ option go_package = "github.com/sonr-io/blockchain/x/object/types";
 service Msg {
   rpc CreateObject(MsgCreateObject) returns (MsgCreateObjectResponse);
   rpc UpdateObject(MsgUpdateObject) returns (MsgUpdateObjectResponse);
-  rpc DeleteObject(MsgDeleteObject) returns (MsgDeleteObjectResponse);
+  rpc DeactivateObject(MsgDeactivateObject) returns (MsgDeactivateObjectResponse);
   rpc CreateWhatIs(MsgCreateWhatIs) returns (MsgCreateWhatIsResponse);
   rpc UpdateWhatIs(MsgUpdateWhatIs) returns (MsgUpdateWhatIsResponse);
   rpc DeleteWhatIs(MsgDeleteWhatIs) returns (MsgDeleteWhatIsResponse);
@@ -64,13 +64,13 @@ message MsgUpdateObjectResponse {
   WhatIs what_is = 3;
 }
 
-message MsgDeleteObject {
+message MsgDeactivateObject {
   string creator = 1;
   string did = 2;
   sonrio.sonr.registry.Session session = 3;
 }
 
-message MsgDeleteObjectResponse {
+message MsgDeactivateObjectResponse {
 // Code of the response
   int32 code = 1;
 

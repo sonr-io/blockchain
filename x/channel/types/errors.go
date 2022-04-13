@@ -8,5 +8,6 @@ import (
 
 // x/channel module sentinel errors
 var (
-	ErrSample = sdkerrors.Register(ModuleName, 1100, "sample error")
+	ErrSample          = sdkerrors.Register(ModuleName, 1100, "sample error")
+	ErrInactiveChannel = sdkerrors.Register(ModuleName, 1104, "Requested channel has been deactivated")
 )

@@ -15,7 +15,7 @@ message WhoIs {
   // Document is the DID Document of the registered name and account encoded as JSON
   bytes document = 3;
 
-  // Creator is the DID of the creator of the DID Document
+  // Creator is the Account Address of the creator of the DID Document
   string creator = 4;
 
   // Credentials are the biometric info of the registered name and account encoded with public key
@@ -23,6 +23,15 @@ message WhoIs {
 
   // Type is the type of the registered name
   Type type = 6;
+
+  // Additional Metadata for associated WhoIs
+  map<string, string> metadata = 7;
+
+  // Timestamp is the time of the last update of the DID Document
+  int64 timestamp = 8;
+
+  // IsActive is the status of the DID Document
+  bool is_active = 9;
 
   // Type is the type of the registered name
   enum Type {
@@ -32,9 +41,6 @@ message WhoIs {
     // Application is the type of the registered name
     Application = 1;
   }
-
-  // Additional Metadata for associated WhoIs
-  map<string, string> metadata = 7;
 }
 
 // Session is the metadata for current user or application

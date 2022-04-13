@@ -24,13 +24,13 @@ export interface MsgCreateChannelResponse {
   how_is: HowIs | undefined;
 }
 
-export interface MsgDeleteChannel {
+export interface MsgDeactivateChannel {
   creator: string;
   did: string;
   session: Session | undefined;
 }
 
-export interface MsgDeleteChannelResponse {
+export interface MsgDeactivateChannelResponse {
   /** Code of the response */
   code: number;
   /** Message of the response */
@@ -347,10 +347,13 @@ export const MsgCreateChannelResponse = {
   },
 };
 
-const baseMsgDeleteChannel: object = { creator: "", did: "" };
+const baseMsgDeactivateChannel: object = { creator: "", did: "" };
 
-export const MsgDeleteChannel = {
-  encode(message: MsgDeleteChannel, writer: Writer = Writer.create()): Writer {
+export const MsgDeactivateChannel = {
+  encode(
+    message: MsgDeactivateChannel,
+    writer: Writer = Writer.create()
+  ): Writer {
     if (message.creator !== "") {
       writer.uint32(10).string(message.creator);
     }
@@ -363,10 +366,10 @@ export const MsgDeleteChannel = {
     return writer;
   },
 
-  decode(input: Reader | Uint8Array, length?: number): MsgDeleteChannel {
+  decode(input: Reader | Uint8Array, length?: number): MsgDeactivateChannel {
     const reader = input instanceof Uint8Array ? new Reader(input) : input;
     let end = length === undefined ? reader.len : reader.pos + length;
-    const message = { ...baseMsgDeleteChannel } as MsgDeleteChannel;
+    const message = { ...baseMsgDeactivateChannel } as MsgDeactivateChannel;
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -387,8 +390,8 @@ export const MsgDeleteChannel = {
     return message;
   },
 
-  fromJSON(object: any): MsgDeleteChannel {
-    const message = { ...baseMsgDeleteChannel } as MsgDeleteChannel;
+  fromJSON(object: any): MsgDeactivateChannel {
+    const message = { ...baseMsgDeactivateChannel } as MsgDeactivateChannel;
     if (object.creator !== undefined && object.creator !== null) {
       message.creator = String(object.creator);
     } else {
@@ -407,7 +410,7 @@ export const MsgDeleteChannel = {
     return message;
   },
 
-  toJSON(message: MsgDeleteChannel): unknown {
+  toJSON(message: MsgDeactivateChannel): unknown {
     const obj: any = {};
     message.creator !== undefined && (obj.creator = message.creator);
     message.did !== undefined && (obj.did = message.did);
@@ -418,8 +421,8 @@ export const MsgDeleteChannel = {
     return obj;
   },
 
-  fromPartial(object: DeepPartial<MsgDeleteChannel>): MsgDeleteChannel {
-    const message = { ...baseMsgDeleteChannel } as MsgDeleteChannel;
+  fromPartial(object: DeepPartial<MsgDeactivateChannel>): MsgDeactivateChannel {
+    const message = { ...baseMsgDeactivateChannel } as MsgDeactivateChannel;
     if (object.creator !== undefined && object.creator !== null) {
       message.creator = object.creator;
     } else {
@@ -439,11 +442,11 @@ export const MsgDeleteChannel = {
   },
 };
 
-const baseMsgDeleteChannelResponse: object = { code: 0, message: "" };
+const baseMsgDeactivateChannelResponse: object = { code: 0, message: "" };
 
-export const MsgDeleteChannelResponse = {
+export const MsgDeactivateChannelResponse = {
   encode(
-    message: MsgDeleteChannelResponse,
+    message: MsgDeactivateChannelResponse,
     writer: Writer = Writer.create()
   ): Writer {
     if (message.code !== 0) {
@@ -458,12 +461,12 @@ export const MsgDeleteChannelResponse = {
   decode(
     input: Reader | Uint8Array,
     length?: number
-  ): MsgDeleteChannelResponse {
+  ): MsgDeactivateChannelResponse {
     const reader = input instanceof Uint8Array ? new Reader(input) : input;
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = {
-      ...baseMsgDeleteChannelResponse,
-    } as MsgDeleteChannelResponse;
+      ...baseMsgDeactivateChannelResponse,
+    } as MsgDeactivateChannelResponse;
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -481,10 +484,10 @@ export const MsgDeleteChannelResponse = {
     return message;
   },
 
-  fromJSON(object: any): MsgDeleteChannelResponse {
+  fromJSON(object: any): MsgDeactivateChannelResponse {
     const message = {
-      ...baseMsgDeleteChannelResponse,
-    } as MsgDeleteChannelResponse;
+      ...baseMsgDeactivateChannelResponse,
+    } as MsgDeactivateChannelResponse;
     if (object.code !== undefined && object.code !== null) {
       message.code = Number(object.code);
     } else {
@@ -498,7 +501,7 @@ export const MsgDeleteChannelResponse = {
     return message;
   },
 
-  toJSON(message: MsgDeleteChannelResponse): unknown {
+  toJSON(message: MsgDeactivateChannelResponse): unknown {
     const obj: any = {};
     message.code !== undefined && (obj.code = message.code);
     message.message !== undefined && (obj.message = message.message);
@@ -506,11 +509,11 @@ export const MsgDeleteChannelResponse = {
   },
 
   fromPartial(
-    object: DeepPartial<MsgDeleteChannelResponse>
-  ): MsgDeleteChannelResponse {
+    object: DeepPartial<MsgDeactivateChannelResponse>
+  ): MsgDeactivateChannelResponse {
     const message = {
-      ...baseMsgDeleteChannelResponse,
-    } as MsgDeleteChannelResponse;
+      ...baseMsgDeactivateChannelResponse,
+    } as MsgDeactivateChannelResponse;
     if (object.code !== undefined && object.code !== null) {
       message.code = object.code;
     } else {
@@ -1305,7 +1308,9 @@ export const MsgDeleteHowIsResponse = {
 /** Msg defines the Msg service. */
 export interface Msg {
   CreateChannel(request: MsgCreateChannel): Promise<MsgCreateChannelResponse>;
-  DeleteChannel(request: MsgDeleteChannel): Promise<MsgDeleteChannelResponse>;
+  DeactivateChannel(
+    request: MsgDeactivateChannel
+  ): Promise<MsgDeactivateChannelResponse>;
   UpdateChannel(request: MsgUpdateChannel): Promise<MsgUpdateChannelResponse>;
   CreateHowIs(request: MsgCreateHowIs): Promise<MsgCreateHowIsResponse>;
   UpdateHowIs(request: MsgUpdateHowIs): Promise<MsgUpdateHowIsResponse>;
@@ -1330,15 +1335,17 @@ export class MsgClientImpl implements Msg {
     );
   }
 
-  DeleteChannel(request: MsgDeleteChannel): Promise<MsgDeleteChannelResponse> {
-    const data = MsgDeleteChannel.encode(request).finish();
+  DeactivateChannel(
+    request: MsgDeactivateChannel
+  ): Promise<MsgDeactivateChannelResponse> {
+    const data = MsgDeactivateChannel.encode(request).finish();
     const promise = this.rpc.request(
       "sonrio.sonr.channel.Msg",
-      "DeleteChannel",
+      "DeactivateChannel",
       data
     );
     return promise.then((data) =>
-      MsgDeleteChannelResponse.decode(new Reader(data))
+      MsgDeactivateChannelResponse.decode(new Reader(data))
     );
   }
 
