@@ -12,15 +12,22 @@ option go_package = "github.com/sonr-io/blockchain/x/registry/types";
 
 // Query defines the gRPC querier service.
 service Query {
-  // Parameters queries the parameters of the module.
-  rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
-    option (google.api.http).get = "/sonrio/sonr/registry/params";
-  }
-  // Queries a WhoIs by index.
+  	// Params
+  	//
+  	// Params queries the parameters of the Registry Module.
+  	rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
+    	option (google.api.http).get = "/sonrio/sonr/registry/params";
+  	}
+
+  	// WhoIs
+  	//
+  	// Queries a WhoIs by index.
 	rpc WhoIs(QueryGetWhoIsRequest) returns (QueryGetWhoIsResponse) {
 		option (google.api.http).get = "/sonr-io/sonr/registry/who_is/{index}";
 	}
 
+	// WhoIsAll
+	//
 	// Queries a list of WhoIs items.
 	rpc WhoIsAll(QueryAllWhoIsRequest) returns (QueryAllWhoIsResponse) {
 		option (google.api.http).get = "/sonr-io/sonr/registry/who_is";

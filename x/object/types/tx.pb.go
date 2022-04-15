@@ -800,11 +800,29 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type MsgClient interface {
+	// CreateObject
+	//
+	// CreateObject is the transaction that creates a new object.
 	CreateObject(ctx context.Context, in *MsgCreateObject, opts ...grpc.CallOption) (*MsgCreateObjectResponse, error)
+	// UpdateObject
+	//
+	// UpdateObject is the transaction that updates an existing object.
 	UpdateObject(ctx context.Context, in *MsgUpdateObject, opts ...grpc.CallOption) (*MsgUpdateObjectResponse, error)
+	// DeactivateObject
+	//
+	// DeactivateObject is the transaction that deactivates an existing object.
 	DeactivateObject(ctx context.Context, in *MsgDeactivateObject, opts ...grpc.CallOption) (*MsgDeactivateObjectResponse, error)
+	// CreateWhatIs
+	//
+	// CreateWhatIs is the method that creates a new what_is document in the Object module.
 	CreateWhatIs(ctx context.Context, in *MsgCreateWhatIs, opts ...grpc.CallOption) (*MsgCreateWhatIsResponse, error)
+	// UpdateWhatIs
+	//
+	// UpdateWhatIs is the method that updates an existing what_is document in the Object module.
 	UpdateWhatIs(ctx context.Context, in *MsgUpdateWhatIs, opts ...grpc.CallOption) (*MsgUpdateWhatIsResponse, error)
+	// DeleteWhatIs
+	//
+	// DeleteWhatIs is the method that deletes an existing what_is document in the Object module.
 	DeleteWhatIs(ctx context.Context, in *MsgDeleteWhatIs, opts ...grpc.CallOption) (*MsgDeleteWhatIsResponse, error)
 }
 
@@ -872,11 +890,29 @@ func (c *msgClient) DeleteWhatIs(ctx context.Context, in *MsgDeleteWhatIs, opts 
 
 // MsgServer is the server API for Msg service.
 type MsgServer interface {
+	// CreateObject
+	//
+	// CreateObject is the transaction that creates a new object.
 	CreateObject(context.Context, *MsgCreateObject) (*MsgCreateObjectResponse, error)
+	// UpdateObject
+	//
+	// UpdateObject is the transaction that updates an existing object.
 	UpdateObject(context.Context, *MsgUpdateObject) (*MsgUpdateObjectResponse, error)
+	// DeactivateObject
+	//
+	// DeactivateObject is the transaction that deactivates an existing object.
 	DeactivateObject(context.Context, *MsgDeactivateObject) (*MsgDeactivateObjectResponse, error)
+	// CreateWhatIs
+	//
+	// CreateWhatIs is the method that creates a new what_is document in the Object module.
 	CreateWhatIs(context.Context, *MsgCreateWhatIs) (*MsgCreateWhatIsResponse, error)
+	// UpdateWhatIs
+	//
+	// UpdateWhatIs is the method that updates an existing what_is document in the Object module.
 	UpdateWhatIs(context.Context, *MsgUpdateWhatIs) (*MsgUpdateWhatIsResponse, error)
+	// DeleteWhatIs
+	//
+	// DeleteWhatIs is the method that deletes an existing what_is document in the Object module.
 	DeleteWhatIs(context.Context, *MsgDeleteWhatIs) (*MsgDeleteWhatIsResponse, error)
 }
 

@@ -404,11 +404,23 @@ export const QueryAllWhoIsResponse = {
 
 /** Query defines the gRPC querier service. */
 export interface Query {
-  /** Parameters queries the parameters of the module. */
+  /**
+   * Params
+   *
+   * Params queries the parameters of the Registry Module.
+   */
   Params(request: QueryParamsRequest): Promise<QueryParamsResponse>;
-  /** Queries a WhoIs by index. */
+  /**
+   * WhoIs
+   *
+   * Queries a WhoIs by index.
+   */
   WhoIs(request: QueryGetWhoIsRequest): Promise<QueryGetWhoIsResponse>;
-  /** Queries a list of WhoIs items. */
+  /**
+   * WhoIsAll
+   *
+   * Queries a list of WhoIs items.
+   */
   WhoIsAll(request: QueryAllWhoIsRequest): Promise<QueryAllWhoIsResponse>;
 }
 

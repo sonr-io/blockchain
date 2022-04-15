@@ -375,10 +375,16 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type QueryClient interface {
+	// Params
+	//
 	// Parameters queries the parameters of the module.
 	Params(ctx context.Context, in *QueryParamsRequest, opts ...grpc.CallOption) (*QueryParamsResponse, error)
+	// HowIs
+	//
 	// Queries a HowIs by index.
 	HowIs(ctx context.Context, in *QueryGetHowIsRequest, opts ...grpc.CallOption) (*QueryGetHowIsResponse, error)
+	// HowIsAll
+	//
 	// Queries a list of HowIs items.
 	HowIsAll(ctx context.Context, in *QueryAllHowIsRequest, opts ...grpc.CallOption) (*QueryAllHowIsResponse, error)
 }
@@ -420,10 +426,16 @@ func (c *queryClient) HowIsAll(ctx context.Context, in *QueryAllHowIsRequest, op
 
 // QueryServer is the server API for Query service.
 type QueryServer interface {
+	// Params
+	//
 	// Parameters queries the parameters of the module.
 	Params(context.Context, *QueryParamsRequest) (*QueryParamsResponse, error)
+	// HowIs
+	//
 	// Queries a HowIs by index.
 	HowIs(context.Context, *QueryGetHowIsRequest) (*QueryGetHowIsResponse, error)
+	// HowIsAll
+	//
 	// Queries a list of HowIs items.
 	HowIsAll(context.Context, *QueryAllHowIsRequest) (*QueryAllHowIsResponse, error)
 }

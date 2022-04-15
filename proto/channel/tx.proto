@@ -10,11 +10,34 @@ option go_package = "github.com/sonr-io/blockchain/x/channel/types";
 
 // Msg defines the Msg service.
 service Msg {
+  // CreateChannel
+  //
+  // CreateChannel creates a new channel doc on the channel module of the blockchain.
   rpc CreateChannel(MsgCreateChannel) returns (MsgCreateChannelResponse);
-  rpc DeactivateChannel(MsgDeactivateChannel) returns (MsgDeactivateChannelResponse);
+
+  // UpdateChannel
+  //
+  // UpdateChannel updates an existing channel doc on the channel module of the blockchain.
   rpc UpdateChannel(MsgUpdateChannel) returns (MsgUpdateChannelResponse);
+
+  // DeactivateChannel
+  //
+  // DeactivateChannel deactivates an existing channel doc on the channel module of the blockchain.
+  rpc DeactivateChannel(MsgDeactivateChannel) returns (MsgDeactivateChannelResponse);
+
+  // CreateHowIs
+  //
+  // CreateHowIs creates a new how is doc on the channel module of the blockchain.
   rpc CreateHowIs(MsgCreateHowIs) returns (MsgCreateHowIsResponse);
+
+  // UpdateHowIs
+  //
+  // UpdateHowIs updates an existing how is doc on the channel module of the blockchain.
   rpc UpdateHowIs(MsgUpdateHowIs) returns (MsgUpdateHowIsResponse);
+
+  // DeleteHowIs
+  //
+  // DeleteHowIs deletes an existing how is doc on the channel module of the blockchain.
   rpc DeleteHowIs(MsgDeleteHowIs) returns (MsgDeleteHowIsResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }

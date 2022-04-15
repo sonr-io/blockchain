@@ -485,11 +485,11 @@ export class HttpClient<SecurityDataType = unknown> {
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
   /**
-   * No description
+   * @description Queries a list of WhoIs items.
    *
    * @tags Query
    * @name QueryWhoIsAll
-   * @summary Queries a list of WhoIs items.
+   * @summary WhoIsAll
    * @request GET:/sonr-io/sonr/registry/who_is
    */
   queryWhoIsAll = (
@@ -511,11 +511,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     });
 
   /**
-   * No description
+   * @description Queries a WhoIs by index.
    *
    * @tags Query
    * @name QueryWhoIs
-   * @summary Queries a WhoIs by index.
+   * @summary WhoIs
    * @request GET:/sonr-io/sonr/registry/who_is/{index}
    */
   queryWhoIs = (index: string, params: RequestParams = {}) =>
@@ -527,11 +527,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     });
 
   /**
-   * No description
+   * @description Params queries the parameters of the Registry Module.
    *
    * @tags Query
    * @name QueryParams
-   * @summary Parameters queries the parameters of the module.
+   * @summary Params
    * @request GET:/sonrio/sonr/registry/params
    */
   queryParams = (params: RequestParams = {}) =>

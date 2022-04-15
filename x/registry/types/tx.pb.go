@@ -1379,14 +1379,43 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type MsgClient interface {
+	// Register Application
+	//
+	// RegisterApplication registers a new application on the Registry module.
 	RegisterApplication(ctx context.Context, in *MsgRegisterApplication, opts ...grpc.CallOption) (*MsgRegisterApplicationResponse, error)
+	// Register Name
+	//
+	// RegisterName registers a .snr/ name for an account on the Registry module.
 	RegisterName(ctx context.Context, in *MsgRegisterName, opts ...grpc.CallOption) (*MsgRegisterNameResponse, error)
+	// Access Name
+	//
+	// AccessName allows an account to access a .snr/ name on the Registry module. The equivalent of
+	// of a traditional Login method.
 	AccessName(ctx context.Context, in *MsgAccessName, opts ...grpc.CallOption) (*MsgAccessNameResponse, error)
+	// Update Name
+	//
+	// UpdateName allows an account to update a .snr/ name on the Registry module. Or,
+	// in other words, link a new device to an existing .snr/ name.
 	UpdateName(ctx context.Context, in *MsgUpdateName, opts ...grpc.CallOption) (*MsgUpdateNameResponse, error)
+	// Access Application
+	//
+	// AccessApplication allows an account to access an application on the Registry module.
 	AccessApplication(ctx context.Context, in *MsgAccessApplication, opts ...grpc.CallOption) (*MsgAccessApplicationResponse, error)
+	// Update Application
+	//
+	// UpdateApplication allows an account to update an application's config on the Registry module.
 	UpdateApplication(ctx context.Context, in *MsgUpdateApplication, opts ...grpc.CallOption) (*MsgUpdateApplicationResponse, error)
+	// Create WhoIs
+	//
+	// CreateWhoIs allows an account to create a WhoIs on the Registry module.
 	CreateWhoIs(ctx context.Context, in *MsgCreateWhoIs, opts ...grpc.CallOption) (*MsgCreateWhoIsResponse, error)
+	// Update WhoIs
+	//
+	// UpdateWhoIs allows an account to update a WhoIs on the Registry module.
 	UpdateWhoIs(ctx context.Context, in *MsgUpdateWhoIs, opts ...grpc.CallOption) (*MsgUpdateWhoIsResponse, error)
+	// Delete WhoIs
+	//
+	// DeleteWhoIs allows an account to delete a WhoIs on the Registry module.
 	DeleteWhoIs(ctx context.Context, in *MsgDeleteWhoIs, opts ...grpc.CallOption) (*MsgDeleteWhoIsResponse, error)
 }
 
@@ -1481,14 +1510,43 @@ func (c *msgClient) DeleteWhoIs(ctx context.Context, in *MsgDeleteWhoIs, opts ..
 
 // MsgServer is the server API for Msg service.
 type MsgServer interface {
+	// Register Application
+	//
+	// RegisterApplication registers a new application on the Registry module.
 	RegisterApplication(context.Context, *MsgRegisterApplication) (*MsgRegisterApplicationResponse, error)
+	// Register Name
+	//
+	// RegisterName registers a .snr/ name for an account on the Registry module.
 	RegisterName(context.Context, *MsgRegisterName) (*MsgRegisterNameResponse, error)
+	// Access Name
+	//
+	// AccessName allows an account to access a .snr/ name on the Registry module. The equivalent of
+	// of a traditional Login method.
 	AccessName(context.Context, *MsgAccessName) (*MsgAccessNameResponse, error)
+	// Update Name
+	//
+	// UpdateName allows an account to update a .snr/ name on the Registry module. Or,
+	// in other words, link a new device to an existing .snr/ name.
 	UpdateName(context.Context, *MsgUpdateName) (*MsgUpdateNameResponse, error)
+	// Access Application
+	//
+	// AccessApplication allows an account to access an application on the Registry module.
 	AccessApplication(context.Context, *MsgAccessApplication) (*MsgAccessApplicationResponse, error)
+	// Update Application
+	//
+	// UpdateApplication allows an account to update an application's config on the Registry module.
 	UpdateApplication(context.Context, *MsgUpdateApplication) (*MsgUpdateApplicationResponse, error)
+	// Create WhoIs
+	//
+	// CreateWhoIs allows an account to create a WhoIs on the Registry module.
 	CreateWhoIs(context.Context, *MsgCreateWhoIs) (*MsgCreateWhoIsResponse, error)
+	// Update WhoIs
+	//
+	// UpdateWhoIs allows an account to update a WhoIs on the Registry module.
 	UpdateWhoIs(context.Context, *MsgUpdateWhoIs) (*MsgUpdateWhoIsResponse, error)
+	// Delete WhoIs
+	//
+	// DeleteWhoIs allows an account to delete a WhoIs on the Registry module.
 	DeleteWhoIs(context.Context, *MsgDeleteWhoIs) (*MsgDeleteWhoIsResponse, error)
 }
 

@@ -1215,14 +1215,43 @@ export const MsgDeleteWhatIsResponse = {
 
 /** Msg defines the Msg service. */
 export interface Msg {
+  /**
+   * CreateObject
+   *
+   * CreateObject is the transaction that creates a new object.
+   */
   CreateObject(request: MsgCreateObject): Promise<MsgCreateObjectResponse>;
+  /**
+   * UpdateObject
+   *
+   * UpdateObject is the transaction that updates an existing object.
+   */
   UpdateObject(request: MsgUpdateObject): Promise<MsgUpdateObjectResponse>;
+  /**
+   * DeactivateObject
+   *
+   * DeactivateObject is the transaction that deactivates an existing object.
+   */
   DeactivateObject(
     request: MsgDeactivateObject
   ): Promise<MsgDeactivateObjectResponse>;
+  /**
+   * CreateWhatIs
+   *
+   * CreateWhatIs is the method that creates a new what_is document in the Object module.
+   */
   CreateWhatIs(request: MsgCreateWhatIs): Promise<MsgCreateWhatIsResponse>;
+  /**
+   * UpdateWhatIs
+   *
+   * UpdateWhatIs is the method that updates an existing what_is document in the Object module.
+   */
   UpdateWhatIs(request: MsgUpdateWhatIs): Promise<MsgUpdateWhatIsResponse>;
-  /** this line is used by starport scaffolding # proto/tx/rpc */
+  /**
+   * DeleteWhatIs
+   *
+   * DeleteWhatIs is the method that deletes an existing what_is document in the Object module.
+   */
   DeleteWhatIs(request: MsgDeleteWhatIs): Promise<MsgDeleteWhatIsResponse>;
 }
 

@@ -1,8 +1,9 @@
 swagger: '2.0'
 info:
   title: HTTP API Console
-  name: ''
-  description: ''
+  name: 'Sonr Blockchain API'
+  description: 'API specification for methods to interact with the Sonr blockchain'
+  version: 'v0.0.1'
 paths:
   /cosmos/auth/v1beta1/accounts:
     get:
@@ -27681,7 +27682,8 @@ paths:
         - Query
   /sonr-io/sonr/bucket/which_is:
     get:
-      summary: Queries a list of WhichIs items.
+      summary: WhichIsAll
+      description: Queries a list of WhichIs items.
       operationId: SonrioSonrBucketWhichIsAll
       responses:
         '200':
@@ -27970,7 +27972,8 @@ paths:
         - Query
   '/sonr-io/sonr/bucket/which_is/{index}':
     get:
-      summary: Queries a WhichIs by index.
+      summary: WhichIs
+      description: Queries a WhichIs by index.
       operationId: SonrioSonrBucketWhichIs
       responses:
         '200':
@@ -28178,7 +28181,8 @@ paths:
         - Query
   /sonrio/sonr/bucket/params:
     get:
-      summary: Parameters queries the parameters of the module.
+      summary: Params
+      description: Parameters queries the parameters of the module.
       operationId: SonrioSonrBucketParams
       responses:
         '200':
@@ -28214,7 +28218,8 @@ paths:
         - Query
   /sonr-io/sonr/channel/how_is:
     get:
-      summary: Queries a list of HowIs items.
+      summary: HowIsAll
+      description: Queries a list of HowIs items.
       operationId: SonrioSonrChannelHowIsAll
       responses:
         '200':
@@ -28425,7 +28430,8 @@ paths:
         - Query
   '/sonr-io/sonr/channel/how_is/{index}':
     get:
-      summary: Queries a HowIs by index.
+      summary: HowIs
+      description: Queries a HowIs by index.
       operationId: SonrioSonrChannelHowIs
       responses:
         '200':
@@ -28584,7 +28590,8 @@ paths:
         - Query
   /sonrio/sonr/channel/params:
     get:
-      summary: Parameters queries the parameters of the module.
+      summary: Params
+      description: Parameters queries the parameters of the module.
       operationId: SonrioSonrChannelParams
       responses:
         '200':
@@ -28620,7 +28627,8 @@ paths:
         - Query
   /sonr-io/sonr/object/what_is:
     get:
-      summary: Queries a list of WhatIs items.
+      summary: WhatIsAll
+      description: Queries a list of WhatIs items.
       operationId: SonrioSonrObjectWhatIsAll
       responses:
         '200':
@@ -28831,7 +28839,8 @@ paths:
         - Query
   '/sonr-io/sonr/object/what_is/{index}':
     get:
-      summary: Queries a WhatIs by index.
+      summary: WhatIs
+      description: Queries a WhatIs by index.
       operationId: SonrioSonrObjectWhatIs
       responses:
         '200':
@@ -28990,7 +28999,8 @@ paths:
         - Query
   /sonrio/sonr/object/params:
     get:
-      summary: Parameters queries the parameters of the module.
+      summary: Params
+      description: Parameters queries the parameters of the module.
       operationId: SonrioSonrObjectParams
       responses:
         '200':
@@ -29026,7 +29036,8 @@ paths:
         - Query
   /sonr-io/sonr/registry/who_is:
     get:
-      summary: Queries a list of WhoIs items.
+      summary: WhoIsAll
+      description: Queries a list of WhoIs items.
       operationId: SonrioSonrRegistryWhoIsAll
       responses:
         '200':
@@ -29277,7 +29288,8 @@ paths:
         - Query
   '/sonr-io/sonr/registry/who_is/{index}':
     get:
-      summary: Queries a WhoIs by index.
+      summary: WhoIs
+      description: Queries a WhoIs by index.
       operationId: SonrioSonrRegistryWhoIs
       responses:
         '200':
@@ -29447,7 +29459,8 @@ paths:
         - Query
   /sonrio/sonr/registry/params:
     get:
-      summary: Parameters queries the parameters of the module.
+      summary: Params
+      description: Params queries the parameters of the Registry Module.
       operationId: SonrioSonrRegistryParams
       responses:
         '200':

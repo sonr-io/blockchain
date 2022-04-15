@@ -13,15 +13,22 @@ option go_package = "github.com/sonr-io/blockchain/x/channel/types";
 
 // Query defines the gRPC querier service.
 service Query {
-  // Parameters queries the parameters of the module.
-  rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
-    option (google.api.http).get = "/sonrio/sonr/channel/params";
-  }
-  // Queries a HowIs by index.
+	// Params
+	//
+  	// Parameters queries the parameters of the module.
+  	rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
+    	option (google.api.http).get = "/sonrio/sonr/channel/params";
+  	}
+
+  	// HowIs
+	//
+	// Queries a HowIs by index.
 	rpc HowIs(QueryGetHowIsRequest) returns (QueryGetHowIsResponse) {
 		option (google.api.http).get = "/sonr-io/sonr/channel/how_is/{index}";
 	}
 
+	// HowIsAll
+	//
 	// Queries a list of HowIs items.
 	rpc HowIsAll(QueryAllHowIsRequest) returns (QueryAllHowIsResponse) {
 		option (google.api.http).get = "/sonr-io/sonr/channel/how_is";

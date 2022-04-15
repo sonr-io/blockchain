@@ -814,11 +814,29 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type MsgClient interface {
+	// CreateBucket
+	//
+	// CreateBucket defines a new collection on the bucket module of the blockchain.
 	CreateBucket(ctx context.Context, in *MsgCreateBucket, opts ...grpc.CallOption) (*MsgCreateBucketResponse, error)
+	// UpdateBucket
+	//
+	// UpdateBucket updates existing collection on the bucket module of the blockchain.
 	UpdateBucket(ctx context.Context, in *MsgUpdateBucket, opts ...grpc.CallOption) (*MsgUpdateBucketResponse, error)
+	// DeactivateBucket
+	//
+	// DeactivateBucket deactivates existing collection on the bucket module of the blockchain.
 	DeactivateBucket(ctx context.Context, in *MsgDeactivateBucket, opts ...grpc.CallOption) (*MsgDeactivateBucketResponse, error)
+	// CreateWhichIs
+	//
+	// CreateWhichIs method creates a new BucketDoc record for the bucket module.
 	CreateWhichIs(ctx context.Context, in *MsgCreateWhichIs, opts ...grpc.CallOption) (*MsgCreateWhichIsResponse, error)
+	// UpdateWhichIs
+	//
+	// UpdateWhichIs method updates an existing BucketDoc from the bucket store.
 	UpdateWhichIs(ctx context.Context, in *MsgUpdateWhichIs, opts ...grpc.CallOption) (*MsgUpdateWhichIsResponse, error)
+	// DeleteWhichIs
+	//
+	// DeleteWhichIs method deletes an existing BucketDoc from the bucket store.
 	DeleteWhichIs(ctx context.Context, in *MsgDeleteWhichIs, opts ...grpc.CallOption) (*MsgDeleteWhichIsResponse, error)
 }
 
@@ -886,11 +904,29 @@ func (c *msgClient) DeleteWhichIs(ctx context.Context, in *MsgDeleteWhichIs, opt
 
 // MsgServer is the server API for Msg service.
 type MsgServer interface {
+	// CreateBucket
+	//
+	// CreateBucket defines a new collection on the bucket module of the blockchain.
 	CreateBucket(context.Context, *MsgCreateBucket) (*MsgCreateBucketResponse, error)
+	// UpdateBucket
+	//
+	// UpdateBucket updates existing collection on the bucket module of the blockchain.
 	UpdateBucket(context.Context, *MsgUpdateBucket) (*MsgUpdateBucketResponse, error)
+	// DeactivateBucket
+	//
+	// DeactivateBucket deactivates existing collection on the bucket module of the blockchain.
 	DeactivateBucket(context.Context, *MsgDeactivateBucket) (*MsgDeactivateBucketResponse, error)
+	// CreateWhichIs
+	//
+	// CreateWhichIs method creates a new BucketDoc record for the bucket module.
 	CreateWhichIs(context.Context, *MsgCreateWhichIs) (*MsgCreateWhichIsResponse, error)
+	// UpdateWhichIs
+	//
+	// UpdateWhichIs method updates an existing BucketDoc from the bucket store.
 	UpdateWhichIs(context.Context, *MsgUpdateWhichIs) (*MsgUpdateWhichIsResponse, error)
+	// DeleteWhichIs
+	//
+	// DeleteWhichIs method deletes an existing BucketDoc from the bucket store.
 	DeleteWhichIs(context.Context, *MsgDeleteWhichIs) (*MsgDeleteWhichIsResponse, error)
 }
 

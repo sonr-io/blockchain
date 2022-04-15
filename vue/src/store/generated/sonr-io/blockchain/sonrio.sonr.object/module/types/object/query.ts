@@ -453,11 +453,23 @@ export const QueryAllWhatIsResponse = {
 
 /** Query defines the gRPC querier service. */
 export interface Query {
-  /** Parameters queries the parameters of the module. */
+  /**
+   * Params
+   *
+   * Parameters queries the parameters of the module.
+   */
   Params(request: QueryParamsRequest): Promise<QueryParamsResponse>;
-  /** Queries a WhatIs by index. */
+  /**
+   * WhatIs
+   *
+   * Queries a WhatIs by index.
+   */
   WhatIs(request: QueryGetWhatIsRequest): Promise<QueryGetWhatIsResponse>;
-  /** Queries a list of WhatIs items. */
+  /**
+   * WhatIsAll
+   *
+   * Queries a list of WhatIs items.
+   */
   WhatIsAll(request: QueryAllWhatIsRequest): Promise<QueryAllWhatIsResponse>;
 }
 

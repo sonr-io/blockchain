@@ -11,11 +11,34 @@ option go_package = "github.com/sonr-io/blockchain/x/bucket/types";
 
 // Msg defines the Msg service.
 service Msg {
+  // CreateBucket
+  //
+  // CreateBucket defines a new collection on the bucket module of the blockchain.
   rpc CreateBucket(MsgCreateBucket) returns (MsgCreateBucketResponse);
+
+  // UpdateBucket
+  //
+  // UpdateBucket updates existing collection on the bucket module of the blockchain.
   rpc UpdateBucket(MsgUpdateBucket) returns (MsgUpdateBucketResponse);
+
+  // DeactivateBucket
+  //
+  // DeactivateBucket deactivates existing collection on the bucket module of the blockchain.
   rpc DeactivateBucket(MsgDeactivateBucket) returns (MsgDeactivateBucketResponse);
+
+  // CreateWhichIs
+  //
+  // CreateWhichIs method creates a new BucketDoc record for the bucket module.
   rpc CreateWhichIs(MsgCreateWhichIs) returns (MsgCreateWhichIsResponse);
+
+  // UpdateWhichIs
+  //
+  // UpdateWhichIs method updates an existing BucketDoc from the bucket store.
   rpc UpdateWhichIs(MsgUpdateWhichIs) returns (MsgUpdateWhichIsResponse);
+
+  // DeleteWhichIs
+  //
+  // DeleteWhichIs method deletes an existing BucketDoc from the bucket store.
   rpc DeleteWhichIs(MsgDeleteWhichIs) returns (MsgDeleteWhichIsResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }

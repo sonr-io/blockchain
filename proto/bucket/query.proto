@@ -13,15 +13,22 @@ option go_package = "github.com/sonr-io/blockchain/x/bucket/types";
 
 // Query defines the gRPC querier service.
 service Query {
-  // Parameters queries the parameters of the module.
-  rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
-    option (google.api.http).get = "/sonrio/sonr/bucket/params";
-  }
-  // Queries a WhichIs by index.
+	// Params
+	//
+  	// Parameters queries the parameters of the module.
+  	rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
+    	option (google.api.http).get = "/sonrio/sonr/bucket/params";
+  	}
+
+	// WhichIs
+	//
+	// Queries a WhichIs by index.
 	rpc WhichIs(QueryGetWhichIsRequest) returns (QueryGetWhichIsResponse) {
 		option (google.api.http).get = "/sonr-io/sonr/bucket/which_is/{index}";
 	}
 
+	// WhichIsAll
+	//
 	// Queries a list of WhichIs items.
 	rpc WhichIsAll(QueryAllWhichIsRequest) returns (QueryAllWhichIsResponse) {
 		option (google.api.http).get = "/sonr-io/sonr/bucket/which_is";

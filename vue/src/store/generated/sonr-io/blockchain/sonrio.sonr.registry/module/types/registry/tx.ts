@@ -2767,21 +2767,67 @@ export const MsgDeleteWhoIsResponse = {
 
 /** Msg defines the Msg Application. */
 export interface Msg {
+  /**
+   * Register Application
+   *
+   * RegisterApplication registers a new application on the Registry module.
+   */
   RegisterApplication(
     request: MsgRegisterApplication
   ): Promise<MsgRegisterApplicationResponse>;
+  /**
+   * Register Name
+   *
+   * RegisterName registers a .snr/ name for an account on the Registry module.
+   */
   RegisterName(request: MsgRegisterName): Promise<MsgRegisterNameResponse>;
+  /**
+   * Access Name
+   *
+   * AccessName allows an account to access a .snr/ name on the Registry module. The equivalent of
+   * of a traditional Login method.
+   */
   AccessName(request: MsgAccessName): Promise<MsgAccessNameResponse>;
+  /**
+   * Update Name
+   *
+   * UpdateName allows an account to update a .snr/ name on the Registry module. Or,
+   * in other words, link a new device to an existing .snr/ name.
+   */
   UpdateName(request: MsgUpdateName): Promise<MsgUpdateNameResponse>;
+  /**
+   * Access Application
+   *
+   * AccessApplication allows an account to access an application on the Registry module.
+   */
   AccessApplication(
     request: MsgAccessApplication
   ): Promise<MsgAccessApplicationResponse>;
+  /**
+   * Update Application
+   *
+   * UpdateApplication allows an account to update an application's config on the Registry module.
+   */
   UpdateApplication(
     request: MsgUpdateApplication
   ): Promise<MsgUpdateApplicationResponse>;
+  /**
+   * Create WhoIs
+   *
+   * CreateWhoIs allows an account to create a WhoIs on the Registry module.
+   */
   CreateWhoIs(request: MsgCreateWhoIs): Promise<MsgCreateWhoIsResponse>;
+  /**
+   * Update WhoIs
+   *
+   * UpdateWhoIs allows an account to update a WhoIs on the Registry module.
+   */
   UpdateWhoIs(request: MsgUpdateWhoIs): Promise<MsgUpdateWhoIsResponse>;
-  /** this line is used by starport scaffolding # proto/tx/rpc */
+  /**
+   * Delete WhoIs
+   *
+   * DeleteWhoIs allows an account to delete a WhoIs on the Registry module.
+   */
   DeleteWhoIs(request: MsgDeleteWhoIs): Promise<MsgDeleteWhoIsResponse>;
 }
 

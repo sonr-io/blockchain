@@ -5,18 +5,18 @@ import { SigningStargateClient } from "@cosmjs/stargate";
 import { Registry, OfflineSigner, EncodeObject, DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
 import { Api } from "./rest";
 import { MsgUpdateWhichIs } from "./types/bucket/tx";
-import { MsgDeleteWhichIs } from "./types/bucket/tx";
-import { MsgUpdateBucket } from "./types/bucket/tx";
 import { MsgDeactivateBucket } from "./types/bucket/tx";
+import { MsgUpdateBucket } from "./types/bucket/tx";
+import { MsgDeleteWhichIs } from "./types/bucket/tx";
 import { MsgCreateWhichIs } from "./types/bucket/tx";
 import { MsgCreateBucket } from "./types/bucket/tx";
 
 
 const types = [
   ["/sonrio.sonr.bucket.MsgUpdateWhichIs", MsgUpdateWhichIs],
-  ["/sonrio.sonr.bucket.MsgDeleteWhichIs", MsgDeleteWhichIs],
-  ["/sonrio.sonr.bucket.MsgUpdateBucket", MsgUpdateBucket],
   ["/sonrio.sonr.bucket.MsgDeactivateBucket", MsgDeactivateBucket],
+  ["/sonrio.sonr.bucket.MsgUpdateBucket", MsgUpdateBucket],
+  ["/sonrio.sonr.bucket.MsgDeleteWhichIs", MsgDeleteWhichIs],
   ["/sonrio.sonr.bucket.MsgCreateWhichIs", MsgCreateWhichIs],
   ["/sonrio.sonr.bucket.MsgCreateBucket", MsgCreateBucket],
   
@@ -52,9 +52,9 @@ const txClient = async (wallet: OfflineSigner, { addr: addr }: TxClientOptions =
   return {
     signAndBroadcast: (msgs: EncodeObject[], { fee, memo }: SignAndBroadcastOptions = {fee: defaultFee, memo: ""}) => client.signAndBroadcast(address, msgs, fee,memo),
     msgUpdateWhichIs: (data: MsgUpdateWhichIs): EncodeObject => ({ typeUrl: "/sonrio.sonr.bucket.MsgUpdateWhichIs", value: MsgUpdateWhichIs.fromPartial( data ) }),
-    msgDeleteWhichIs: (data: MsgDeleteWhichIs): EncodeObject => ({ typeUrl: "/sonrio.sonr.bucket.MsgDeleteWhichIs", value: MsgDeleteWhichIs.fromPartial( data ) }),
-    msgUpdateBucket: (data: MsgUpdateBucket): EncodeObject => ({ typeUrl: "/sonrio.sonr.bucket.MsgUpdateBucket", value: MsgUpdateBucket.fromPartial( data ) }),
     msgDeactivateBucket: (data: MsgDeactivateBucket): EncodeObject => ({ typeUrl: "/sonrio.sonr.bucket.MsgDeactivateBucket", value: MsgDeactivateBucket.fromPartial( data ) }),
+    msgUpdateBucket: (data: MsgUpdateBucket): EncodeObject => ({ typeUrl: "/sonrio.sonr.bucket.MsgUpdateBucket", value: MsgUpdateBucket.fromPartial( data ) }),
+    msgDeleteWhichIs: (data: MsgDeleteWhichIs): EncodeObject => ({ typeUrl: "/sonrio.sonr.bucket.MsgDeleteWhichIs", value: MsgDeleteWhichIs.fromPartial( data ) }),
     msgCreateWhichIs: (data: MsgCreateWhichIs): EncodeObject => ({ typeUrl: "/sonrio.sonr.bucket.MsgCreateWhichIs", value: MsgCreateWhichIs.fromPartial( data ) }),
     msgCreateBucket: (data: MsgCreateBucket): EncodeObject => ({ typeUrl: "/sonrio.sonr.bucket.MsgCreateBucket", value: MsgCreateBucket.fromPartial( data ) }),
     

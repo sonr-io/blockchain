@@ -9,14 +9,51 @@ option go_package = "github.com/sonr-io/blockchain/x/registry/types";
 
 // Msg defines the Msg Application.
 service Msg {
+  // Register Application
+  //
+  // RegisterApplication registers a new application on the Registry module.
   rpc RegisterApplication(MsgRegisterApplication) returns (MsgRegisterApplicationResponse);
+
+  // Register Name
+  //
+  // RegisterName registers a .snr/ name for an account on the Registry module.
   rpc RegisterName(MsgRegisterName) returns (MsgRegisterNameResponse);
+
+  // Access Name
+  //
+  // AccessName allows an account to access a .snr/ name on the Registry module. The equivalent of
+  // of a traditional Login method.
   rpc AccessName(MsgAccessName) returns (MsgAccessNameResponse);
+
+  // Update Name
+  //
+  // UpdateName allows an account to update a .snr/ name on the Registry module. Or,
+  // in other words, link a new device to an existing .snr/ name.
   rpc UpdateName(MsgUpdateName) returns (MsgUpdateNameResponse);
+
+  // Access Application
+  //
+  // AccessApplication allows an account to access an application on the Registry module.
   rpc AccessApplication(MsgAccessApplication) returns (MsgAccessApplicationResponse);
+
+  // Update Application
+  //
+  // UpdateApplication allows an account to update an application's config on the Registry module.
   rpc UpdateApplication(MsgUpdateApplication) returns (MsgUpdateApplicationResponse);
+
+  // Create WhoIs
+  //
+  // CreateWhoIs allows an account to create a WhoIs on the Registry module.
   rpc CreateWhoIs(MsgCreateWhoIs) returns (MsgCreateWhoIsResponse);
+
+  // Update WhoIs
+  //
+  // UpdateWhoIs allows an account to update a WhoIs on the Registry module.
   rpc UpdateWhoIs(MsgUpdateWhoIs) returns (MsgUpdateWhoIsResponse);
+
+  // Delete WhoIs
+  //
+  // DeleteWhoIs allows an account to delete a WhoIs on the Registry module.
   rpc DeleteWhoIs(MsgDeleteWhoIs) returns (MsgDeleteWhoIsResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }

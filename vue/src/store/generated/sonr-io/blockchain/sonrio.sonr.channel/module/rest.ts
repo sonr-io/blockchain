@@ -689,11 +689,11 @@ export class HttpClient<SecurityDataType = unknown> {
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
   /**
-   * No description
+   * @description Queries a list of HowIs items.
    *
    * @tags Query
    * @name QueryHowIsAll
-   * @summary Queries a list of HowIs items.
+   * @summary HowIsAll
    * @request GET:/sonr-io/sonr/channel/how_is
    */
   queryHowIsAll = (
@@ -729,11 +729,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     });
 
   /**
-   * No description
+   * @description Queries a HowIs by index.
    *
    * @tags Query
    * @name QueryHowIs
-   * @summary Queries a HowIs by index.
+   * @summary HowIs
    * @request GET:/sonr-io/sonr/channel/how_is/{index}
    */
   queryHowIs = (
@@ -765,11 +765,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     });
 
   /**
-   * No description
+   * @description Parameters queries the parameters of the module.
    *
    * @tags Query
    * @name QueryParams
-   * @summary Parameters queries the parameters of the module.
+   * @summary Params
    * @request GET:/sonrio/sonr/channel/params
    */
   queryParams = (params: RequestParams = {}) =>

@@ -475,11 +475,11 @@ export class HttpClient<SecurityDataType = unknown> {
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
   /**
-   * No description
+   * @description Queries a list of WhichIs items.
    *
    * @tags Query
    * @name QueryWhichIsAll
-   * @summary Queries a list of WhichIs items.
+   * @summary WhichIsAll
    * @request GET:/sonr-io/sonr/bucket/which_is
    */
   queryWhichIsAll = (
@@ -515,11 +515,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     });
 
   /**
-   * No description
+   * @description Queries a WhichIs by index.
    *
    * @tags Query
    * @name QueryWhichIs
-   * @summary Queries a WhichIs by index.
+   * @summary WhichIs
    * @request GET:/sonr-io/sonr/bucket/which_is/{index}
    */
   queryWhichIs = (
@@ -551,11 +551,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     });
 
   /**
-   * No description
+   * @description Parameters queries the parameters of the module.
    *
    * @tags Query
    * @name QueryParams
-   * @summary Parameters queries the parameters of the module.
+   * @summary Params
    * @request GET:/sonrio/sonr/bucket/params
    */
   queryParams = (params: RequestParams = {}) =>

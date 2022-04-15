@@ -1261,14 +1261,43 @@ export const MsgDeleteWhichIsResponse = {
 
 /** Msg defines the Msg service. */
 export interface Msg {
+  /**
+   * CreateBucket
+   *
+   * CreateBucket defines a new collection on the bucket module of the blockchain.
+   */
   CreateBucket(request: MsgCreateBucket): Promise<MsgCreateBucketResponse>;
+  /**
+   * UpdateBucket
+   *
+   * UpdateBucket updates existing collection on the bucket module of the blockchain.
+   */
   UpdateBucket(request: MsgUpdateBucket): Promise<MsgUpdateBucketResponse>;
+  /**
+   * DeactivateBucket
+   *
+   * DeactivateBucket deactivates existing collection on the bucket module of the blockchain.
+   */
   DeactivateBucket(
     request: MsgDeactivateBucket
   ): Promise<MsgDeactivateBucketResponse>;
+  /**
+   * CreateWhichIs
+   *
+   * CreateWhichIs method creates a new BucketDoc record for the bucket module.
+   */
   CreateWhichIs(request: MsgCreateWhichIs): Promise<MsgCreateWhichIsResponse>;
+  /**
+   * UpdateWhichIs
+   *
+   * UpdateWhichIs method updates an existing BucketDoc from the bucket store.
+   */
   UpdateWhichIs(request: MsgUpdateWhichIs): Promise<MsgUpdateWhichIsResponse>;
-  /** this line is used by starport scaffolding # proto/tx/rpc */
+  /**
+   * DeleteWhichIs
+   *
+   * DeleteWhichIs method deletes an existing BucketDoc from the bucket store.
+   */
   DeleteWhichIs(request: MsgDeleteWhichIs): Promise<MsgDeleteWhichIsResponse>;
 }
 

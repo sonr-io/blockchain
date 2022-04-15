@@ -1307,14 +1307,43 @@ export const MsgDeleteHowIsResponse = {
 
 /** Msg defines the Msg service. */
 export interface Msg {
+  /**
+   * CreateChannel
+   *
+   * CreateChannel creates a new channel doc on the channel module of the blockchain.
+   */
   CreateChannel(request: MsgCreateChannel): Promise<MsgCreateChannelResponse>;
+  /**
+   * UpdateChannel
+   *
+   * UpdateChannel updates an existing channel doc on the channel module of the blockchain.
+   */
+  UpdateChannel(request: MsgUpdateChannel): Promise<MsgUpdateChannelResponse>;
+  /**
+   * DeactivateChannel
+   *
+   * DeactivateChannel deactivates an existing channel doc on the channel module of the blockchain.
+   */
   DeactivateChannel(
     request: MsgDeactivateChannel
   ): Promise<MsgDeactivateChannelResponse>;
-  UpdateChannel(request: MsgUpdateChannel): Promise<MsgUpdateChannelResponse>;
+  /**
+   * CreateHowIs
+   *
+   * CreateHowIs creates a new how is doc on the channel module of the blockchain.
+   */
   CreateHowIs(request: MsgCreateHowIs): Promise<MsgCreateHowIsResponse>;
+  /**
+   * UpdateHowIs
+   *
+   * UpdateHowIs updates an existing how is doc on the channel module of the blockchain.
+   */
   UpdateHowIs(request: MsgUpdateHowIs): Promise<MsgUpdateHowIsResponse>;
-  /** this line is used by starport scaffolding # proto/tx/rpc */
+  /**
+   * DeleteHowIs
+   *
+   * DeleteHowIs deletes an existing how is doc on the channel module of the blockchain.
+   */
   DeleteHowIs(request: MsgDeleteHowIs): Promise<MsgDeleteHowIsResponse>;
 }
 
@@ -1335,6 +1364,18 @@ export class MsgClientImpl implements Msg {
     );
   }
 
+  UpdateChannel(request: MsgUpdateChannel): Promise<MsgUpdateChannelResponse> {
+    const data = MsgUpdateChannel.encode(request).finish();
+    const promise = this.rpc.request(
+      "sonrio.sonr.channel.Msg",
+      "UpdateChannel",
+      data
+    );
+    return promise.then((data) =>
+      MsgUpdateChannelResponse.decode(new Reader(data))
+    );
+  }
+
   DeactivateChannel(
     request: MsgDeactivateChannel
   ): Promise<MsgDeactivateChannelResponse> {
@@ -1346,18 +1387,6 @@ export class MsgClientImpl implements Msg {
     );
     return promise.then((data) =>
       MsgDeactivateChannelResponse.decode(new Reader(data))
-    );
-  }
-
-  UpdateChannel(request: MsgUpdateChannel): Promise<MsgUpdateChannelResponse> {
-    const data = MsgUpdateChannel.encode(request).finish();
-    const promise = this.rpc.request(
-      "sonrio.sonr.channel.Msg",
-      "UpdateChannel",
-      data
-    );
-    return promise.then((data) =>
-      MsgUpdateChannelResponse.decode(new Reader(data))
     );
   }
 
