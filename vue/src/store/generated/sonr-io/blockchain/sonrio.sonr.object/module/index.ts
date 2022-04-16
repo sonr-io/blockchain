@@ -9,6 +9,7 @@ import { MsgCreateWhatIs } from "./types/object/tx";
 import { MsgDeactivateObject } from "./types/object/tx";
 import { MsgUpdateObject } from "./types/object/tx";
 import { MsgUpdateWhatIs } from "./types/object/tx";
+import { MsgDeleteObject } from "./types/object/tx";
 import { MsgCreateObject } from "./types/object/tx";
 
 
@@ -18,6 +19,7 @@ const types = [
   ["/sonrio.sonr.object.MsgDeactivateObject", MsgDeactivateObject],
   ["/sonrio.sonr.object.MsgUpdateObject", MsgUpdateObject],
   ["/sonrio.sonr.object.MsgUpdateWhatIs", MsgUpdateWhatIs],
+  ["/sonrio.sonr.object.MsgDeleteObject", MsgDeleteObject],
   ["/sonrio.sonr.object.MsgCreateObject", MsgCreateObject],
   
 ];
@@ -56,6 +58,7 @@ const txClient = async (wallet: OfflineSigner, { addr: addr }: TxClientOptions =
     msgDeactivateObject: (data: MsgDeactivateObject): EncodeObject => ({ typeUrl: "/sonrio.sonr.object.MsgDeactivateObject", value: MsgDeactivateObject.fromPartial( data ) }),
     msgUpdateObject: (data: MsgUpdateObject): EncodeObject => ({ typeUrl: "/sonrio.sonr.object.MsgUpdateObject", value: MsgUpdateObject.fromPartial( data ) }),
     msgUpdateWhatIs: (data: MsgUpdateWhatIs): EncodeObject => ({ typeUrl: "/sonrio.sonr.object.MsgUpdateWhatIs", value: MsgUpdateWhatIs.fromPartial( data ) }),
+    msgDeleteObject: (data: MsgDeleteObject): EncodeObject => ({ typeUrl: "/sonrio.sonr.object.MsgDeleteObject", value: MsgDeleteObject.fromPartial( data ) }),
     msgCreateObject: (data: MsgCreateObject): EncodeObject => ({ typeUrl: "/sonrio.sonr.object.MsgCreateObject", value: MsgCreateObject.fromPartial( data ) }),
     
   };

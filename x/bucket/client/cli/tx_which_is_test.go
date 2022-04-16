@@ -97,6 +97,7 @@ func TestUpdateWhichIs(t *testing.T) {
 			idIndex: strconv.Itoa(0),
 
 			args: common,
+			code: sdkerrors.SuccessABCICode,
 		},
 		{
 			desc:    "key not found",

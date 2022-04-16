@@ -22,13 +22,14 @@ func TestWhichIsMsgServerCreate(t *testing.T) {
 	wctx := sdk.WrapSDKContext(ctx)
 	creator := "A"
 	for i := 0; i < 5; i++ {
-		expected := &types.MsgCreateWhichIs{Creator: creator,
-			Index: strconv.Itoa(i),
+		expected := &types.MsgCreateWhichIs{
+			Creator: creator,
+			Did:     strconv.Itoa(i),
 		}
 		_, err := srv.CreateWhichIs(wctx, expected)
 		require.NoError(t, err)
 		rst, found := k.GetWhichIs(ctx,
-			expected.Index,
+			expected.Did,
 		)
 		require.True(t, found)
 		require.Equal(t, expected.Creator, rst.Creator)
@@ -45,21 +46,22 @@ func TestWhichIsMsgServerUpdate(t *testing.T) {
 	}{
 		{
 			desc: "Completed",
-			request: &types.MsgUpdateWhichIs{Creator: creator,
-				Index: strconv.Itoa(0),
+			request: &types.MsgUpdateWhichIs{
+				Creator: creator,
+				Did:     strconv.Itoa(0),
 			},
 		},
 		{
 			desc: "Unauthorized",
 			request: &types.MsgUpdateWhichIs{Creator: "B",
-				Index: strconv.Itoa(0),
+				Did: strconv.Itoa(0),
 			},
 			err: sdkerrors.ErrUnauthorized,
 		},
 		{
 			desc: "KeyNotFound",
 			request: &types.MsgUpdateWhichIs{Creator: creator,
-				Index: strconv.Itoa(100000),
+				Did: strconv.Itoa(100000),
 			},
 			err: sdkerrors.ErrKeyNotFound,
 		},
@@ -69,7 +71,7 @@ func TestWhichIsMsgServerUpdate(t *testing.T) {
 			srv := keeper.NewMsgServerImpl(*k)
 			wctx := sdk.WrapSDKContext(ctx)
 			expected := &types.MsgCreateWhichIs{Creator: creator,
-				Index: strconv.Itoa(0),
+				Did: strconv.Itoa(0),
 			}
 			_, err := srv.CreateWhichIs(wctx, expected)
 			require.NoError(t, err)
@@ -80,7 +82,7 @@ func TestWhichIsMsgServerUpdate(t *testing.T) {
 			} else {
 				require.NoError(t, err)
 				rst, found := k.GetWhichIs(ctx,
-					expected.Index,
+					expected.Did,
 				)
 				require.True(t, found)
 				require.Equal(t, expected.Creator, rst.Creator)
@@ -99,21 +101,24 @@ func TestWhichIsMsgServerDelete(t *testing.T) {
 	}{
 		{
 			desc: "Completed",
-			request: &types.MsgDeleteWhichIs{Creator: creator,
-				Index: strconv.Itoa(0),
+			request: &types.MsgDeleteWhichIs{
+				Creator: creator,
+				Index:   strconv.Itoa(0),
 			},
 		},
 		{
 			desc: "Unauthorized",
-			request: &types.MsgDeleteWhichIs{Creator: "B",
-				Index: strconv.Itoa(0),
+			request: &types.MsgDeleteWhichIs{
+				Creator: "B",
+				Index:   strconv.Itoa(0),
 			},
 			err: sdkerrors.ErrUnauthorized,
 		},
 		{
 			desc: "KeyNotFound",
-			request: &types.MsgDeleteWhichIs{Creator: creator,
-				Index: strconv.Itoa(100000),
+			request: &types.MsgDeleteWhichIs{
+				Creator: creator,
+				Index:   strconv.Itoa(100000),
 			},
 			err: sdkerrors.ErrKeyNotFound,
 		},

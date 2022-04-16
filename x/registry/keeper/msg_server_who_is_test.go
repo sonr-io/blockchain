@@ -22,8 +22,9 @@ func TestWhoIsMsgServerCreate(t *testing.T) {
 	wctx := sdk.WrapSDKContext(ctx)
 	creator := "A"
 	for i := 0; i < 5; i++ {
-		expected := &types.MsgCreateWhoIs{Creator: creator,
-			Did: strconv.Itoa(i),
+		expected := &types.MsgCreateWhoIs{
+			Creator: creator,
+			Did:     strconv.Itoa(i),
 		}
 		_, err := srv.CreateWhoIs(wctx, expected)
 		require.NoError(t, err)

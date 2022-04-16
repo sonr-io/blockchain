@@ -18,7 +18,7 @@ var _ = strconv.IntSize
 func createNWhoIs(keeper *keeper.Keeper, ctx sdk.Context, n int) []types.WhoIs {
 	items := make([]types.WhoIs, n)
 	for i := range items {
-		items[i].Name = strconv.Itoa(i)
+		items[i].Did = strconv.Itoa(i)
 
 		keeper.SetWhoIs(ctx, items[i])
 	}
@@ -30,7 +30,7 @@ func TestWhoIsGet(t *testing.T) {
 	items := createNWhoIs(keeper, ctx, 10)
 	for _, item := range items {
 		rst, found := keeper.GetWhoIs(ctx,
-			item.Name,
+			item.Did,
 		)
 		require.True(t, found)
 		require.Equal(t,
@@ -44,10 +44,10 @@ func TestWhoIsRemove(t *testing.T) {
 	items := createNWhoIs(keeper, ctx, 10)
 	for _, item := range items {
 		keeper.RemoveWhoIs(ctx,
-			item.Name,
+			item.Did,
 		)
 		_, found := keeper.GetWhoIs(ctx,
-			item.Name,
+			item.Did,
 		)
 		require.False(t, found)
 	}
