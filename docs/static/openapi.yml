@@ -1,8 +1,9 @@
 swagger: '2.0'
 info:
   title: HTTP API Console
-  name: ''
-  description: ''
+  name: 'Sonr Blockchain API'
+  description: 'API specification for methods to interact with the Sonr blockchain'
+  version: 'v0.0.1'
 paths:
   /cosmos/auth/v1beta1/accounts:
     get:
