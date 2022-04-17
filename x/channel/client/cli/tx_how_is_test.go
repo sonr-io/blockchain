@@ -25,15 +25,15 @@ func TestCreateHowIs(t *testing.T) {
 
 	fields := []string{"xyz", "xyz"}
 	for _, tc := range []struct {
-		desc    string
-		idIndex string
+		desc string
+		did  string
 
 		args []string
 		err  error
 		code uint32
 	}{
 		{
-			idIndex: strconv.Itoa(0),
+			did: strconv.Itoa(0),
 
 			desc: "valid",
 			args: []string{
@@ -47,7 +47,7 @@ func TestCreateHowIs(t *testing.T) {
 		tc := tc
 		t.Run(tc.desc, func(t *testing.T) {
 			args := []string{
-				tc.idIndex,
+				tc.did,
 			}
 			args = append(args, fields...)
 			args = append(args, tc.args...)
@@ -148,22 +148,22 @@ func TestDeleteHowIs(t *testing.T) {
 	require.NoError(t, err)
 
 	for _, tc := range []struct {
-		desc    string
-		idIndex string
+		desc string
+		did  string
 
 		args []string
 		code uint32
 		err  error
 	}{
 		{
-			desc:    "valid",
-			idIndex: strconv.Itoa(0),
+			desc: "valid",
+			did:  strconv.Itoa(0),
 
 			args: common,
 		},
 		{
-			desc:    "key not found",
-			idIndex: strconv.Itoa(100000),
+			desc: "key not found",
+			did:  strconv.Itoa(100000),
 
 			args: common,
 			code: sdkerrors.ErrKeyNotFound.ABCICode(),
@@ -172,7 +172,7 @@ func TestDeleteHowIs(t *testing.T) {
 		tc := tc
 		t.Run(tc.desc, func(t *testing.T) {
 			args := []string{
-				tc.idIndex,
+				tc.did,
 			}
 			args = append(args, tc.args...)
 			out, err := clitestutil.ExecTestCLICmd(ctx, cli.CmdDeleteHowIs(), args)

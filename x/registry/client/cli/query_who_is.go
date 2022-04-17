@@ -44,7 +44,7 @@ func CmdListWhoIs() *cobra.Command {
 
 func CmdShowWhoIs() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "show-who-is [index]",
+		Use:   "show-who-is [did]",
 		Short: "shows a whoIs",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
@@ -52,10 +52,10 @@ func CmdShowWhoIs() *cobra.Command {
 
 			queryClient := types.NewQueryClient(clientCtx)
 
-			argIndex := args[0]
+			argDid := args[0]
 
 			params := &types.QueryWhoIsRequest{
-				Did: argIndex,
+				Did: argDid,
 			}
 
 			res, err := queryClient.WhoIs(context.Background(), params)

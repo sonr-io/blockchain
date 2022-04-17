@@ -10,15 +10,12 @@ import (
 
 func CmdCreateWhatIs() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "create-what-is [index] [did] [value]",
+		Use:   "create-what-is [did] [value]",
 		Short: "Create a new whatIs",
 		Args:  cobra.ExactArgs(3),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
-			// Get indexes
+			// Get indices
 			argDid := args[0]
-
-			// Get value arguments
-			// objJson := args[1]
 
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
@@ -44,11 +41,11 @@ func CmdCreateWhatIs() *cobra.Command {
 
 func CmdUpdateWhatIs() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "update-what-is [index] [did] [value]",
+		Use:   "update-what-is [did] [value]",
 		Short: "Update a whatIs",
 		Args:  cobra.ExactArgs(3),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
-			// Get indexes
+			// Get did
 			argDid := args[0]
 
 			clientCtx, err := client.GetClientTxContext(cmd)
@@ -75,11 +72,11 @@ func CmdUpdateWhatIs() *cobra.Command {
 
 func CmdDeleteWhatIs() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "delete-what-is [index]",
+		Use:   "delete-what-is [did]",
 		Short: "Delete a whatIs",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
-			indexIndex := args[0]
+			argDid := args[0]
 
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
@@ -88,7 +85,7 @@ func CmdDeleteWhatIs() *cobra.Command {
 
 			msg := types.NewMsgDeleteWhatIs(
 				clientCtx.GetFromAddress().String(),
-				indexIndex,
+				argDid,
 			)
 			if err := msg.ValidateBasic(); err != nil {
 				return err

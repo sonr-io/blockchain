@@ -6,7 +6,7 @@ import (
 	"github.com/sonr-io/blockchain/x/channel/types"
 )
 
-// SetHowIs set a specific howIs in the store from its index
+// SetHowIs set a specific howIs in the store from its did
 func (k Keeper) SetHowIs(ctx sdk.Context, howIs types.HowIs) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.HowIsKeyPrefix))
 	b := k.cdc.MustMarshal(&howIs)
@@ -15,7 +15,7 @@ func (k Keeper) SetHowIs(ctx sdk.Context, howIs types.HowIs) {
 	), b)
 }
 
-// GetHowIs returns a howIs from its index
+// GetHowIs returns a howIs from its did
 func (k Keeper) GetHowIs(
 	ctx sdk.Context,
 	did string,
@@ -36,12 +36,11 @@ func (k Keeper) GetHowIs(
 // RemoveHowIs removes a howIs from the store
 func (k Keeper) RemoveHowIs(
 	ctx sdk.Context,
-	index string,
-
+	did string,
 ) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.HowIsKeyPrefix))
 	store.Delete(types.HowIsKey(
-		index,
+		did,
 	))
 }
 

@@ -15,14 +15,12 @@ var _ sdk.Msg = &MsgCreateHowIs{}
 
 func NewMsgCreateHowIs(
 	creator string,
-	index string,
 	did string,
 	c *ChannelDoc,
-
 ) *MsgCreateHowIs {
 	return &MsgCreateHowIs{
 		Creator: creator,
-		Did:     index,
+		Did:     did,
 		Channel: c,
 	}
 }
@@ -60,14 +58,13 @@ var _ sdk.Msg = &MsgUpdateHowIs{}
 
 func NewMsgUpdateHowIs(
 	creator string,
-	index string,
 	did string,
 	c *ChannelDoc,
 
 ) *MsgUpdateHowIs {
 	return &MsgUpdateHowIs{
 		Creator: creator,
-		Did:     index,
+		Did:     did,
 		Channel: c,
 	}
 }
@@ -105,12 +102,11 @@ var _ sdk.Msg = &MsgDeleteHowIs{}
 
 func NewMsgDeleteHowIs(
 	creator string,
-	index string,
-
+	did string,
 ) *MsgDeleteHowIs {
 	return &MsgDeleteHowIs{
 		Creator: creator,
-		Did:     index,
+		Did:     did,
 	}
 }
 func (msg *MsgDeleteHowIs) Route() string {

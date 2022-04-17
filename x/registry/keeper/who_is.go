@@ -6,7 +6,7 @@ import (
 	"github.com/sonr-io/blockchain/x/registry/types"
 )
 
-// SetWhoIs set a specific whoIs in the store from its index
+// SetWhoIs set a specific whoIs in the store from its did
 func (k Keeper) SetWhoIs(ctx sdk.Context, whoIs types.WhoIs) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.WhoIsKeyPrefix))
 	b := k.cdc.MustMarshal(&whoIs)
@@ -15,7 +15,7 @@ func (k Keeper) SetWhoIs(ctx sdk.Context, whoIs types.WhoIs) {
 	), b)
 }
 
-// GetWhoIs returns a whoIs from its index
+// GetWhoIs returns a whoIs from its did
 func (k Keeper) GetWhoIs(
 	ctx sdk.Context,
 	did string,

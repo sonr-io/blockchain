@@ -9,14 +9,12 @@ const (
 	WhoIsKeyPrefix = "WhoIs/value/"
 )
 
-// WhoIsKey returns the store key to retrieve a WhoIs from the index fields
-func WhoIsKey(
-	index string,
-) []byte {
+// WhoIsKey returns the store key to retrieve a WhoIs from the did field
+func WhoIsKey(did string) []byte {
 	var key []byte
 
-	indexBytes := []byte(index)
-	key = append(key, indexBytes...)
+	didBytes := []byte(did)
+	key = append(key, didBytes...)
 	key = append(key, []byte("/")...)
 
 	return key

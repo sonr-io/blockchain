@@ -11,13 +11,11 @@ const (
 	WhatIsKeyPrefix = "WhatIs/value/"
 )
 
-func WhatIsKey(
-	index string,
-) []byte {
+func WhatIsKey(did string) []byte {
 	var key []byte
 
-	indexBytes := []byte(index)
-	key = append(key, indexBytes...)
+	didBytes := []byte(did)
+	key = append(key, didBytes...)
 	key = append(key, []byte("/")...)
 
 	return key

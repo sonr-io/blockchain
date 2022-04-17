@@ -44,7 +44,7 @@ func CmdListWhichIs() *cobra.Command {
 
 func CmdShowWhichIs() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "show-which-is [index]",
+		Use:   "show-which-is [did]",
 		Short: "shows a whichIs",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
@@ -52,10 +52,10 @@ func CmdShowWhichIs() *cobra.Command {
 
 			queryClient := types.NewQueryClient(clientCtx)
 
-			argIndex := args[0]
+			argDid := args[0]
 
 			params := &types.QueryWhichIsRequest{
-				Did: argIndex,
+				Did: argDid,
 			}
 
 			res, err := queryClient.WhichIs(context.Background(), params)

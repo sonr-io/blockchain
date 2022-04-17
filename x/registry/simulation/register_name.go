@@ -9,6 +9,8 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
 	"github.com/cosmos/cosmos-sdk/x/simulation"
+	"github.com/duo-labs/webauthn/webauthn"
+	"github.com/fxamacker/cbor/v2"
 	"github.com/sonr-io/blockchain/x/registry/keeper"
 	"github.com/sonr-io/blockchain/x/registry/types"
 )
@@ -21,10 +23,17 @@ func SimulateMsgRegisterName(
 	return func(r *rand.Rand, app *baseapp.BaseApp, ctx sdk.Context, accs []simtypes.Account, chainID string,
 	) (simtypes.OperationMsg, []simtypes.FutureOperation, error) {
 		simAccount, _ := simtypes.RandomAcc(r, accs)
-		msg := &types.MsgRegisterName{
-			Creator:        simAccount.Address.String(),
-			NameToRegister: "test" + strconv.Itoa(r.Int()),
+		pub, err := cbor.Marshal(&types.COSEKey{})
+		if err != nil {
+			return simtypes.OperationMsg{}, nil, err
 		}
+		msg := types.NewMsgRegisterName(
+			simAccount.Address.String(),
+			"test"+strconv.Itoa(r.Int()),
+			webauthn.Credential{
+				PublicKey: pub,
+			},
+		)
 
 		txCtx := simulation.OperationInput{
 			R:               r,

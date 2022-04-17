@@ -49,23 +49,23 @@ func TestShowWhoIs(t *testing.T) {
 		fmt.Sprintf("--%s=json", tmcli.OutputFlag),
 	}
 	for _, tc := range []struct {
-		desc    string
-		idIndex string
+		desc string
+		did  string
 
 		args []string
 		err  error
 		obj  types.WhoIs
 	}{
 		{
-			desc:    "found",
-			idIndex: objs[0].Did,
+			desc: "found",
+			did:  objs[0].Did,
 
 			args: common,
 			obj:  objs[0],
 		},
 		{
-			desc:    "not found",
-			idIndex: strconv.Itoa(100000),
+			desc: "not found",
+			did:  strconv.Itoa(100000),
 
 			args: common,
 			err:  status.Error(codes.InvalidArgument, "not found"),
@@ -74,7 +74,7 @@ func TestShowWhoIs(t *testing.T) {
 		tc := tc
 		t.Run(tc.desc, func(t *testing.T) {
 			args := []string{
-				tc.idIndex,
+				tc.did,
 			}
 			args = append(args, tc.args...)
 			out, err := clitestutil.ExecTestCLICmd(ctx, cli.CmdShowWhoIs(), args)

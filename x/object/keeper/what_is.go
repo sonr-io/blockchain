@@ -6,7 +6,7 @@ import (
 	"github.com/sonr-io/blockchain/x/object/types"
 )
 
-// SetWhatIs set a specific whatIs in the store from its index
+// SetWhatIs set a specific whatIs in the store from its did
 func (k Keeper) SetWhatIs(ctx sdk.Context, whatIs types.WhatIs) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.WhatIsKeyPrefix))
 	b := k.cdc.MustMarshal(&whatIs)
@@ -15,7 +15,7 @@ func (k Keeper) SetWhatIs(ctx sdk.Context, whatIs types.WhatIs) {
 	), b)
 }
 
-// GetWhatIs returns a whatIs from its index
+// GetWhatIs returns a whatIs from its did
 func (k Keeper) GetWhatIs(
 	ctx sdk.Context,
 	did string,

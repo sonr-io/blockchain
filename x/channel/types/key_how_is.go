@@ -9,14 +9,12 @@ const (
 	HowIsKeyPrefix = "HowIs/value/"
 )
 
-// HowIsKey returns the store key to retrieve a HowIs from the index fields
-func HowIsKey(
-	index string,
-) []byte {
+// HowIsKey returns the store key to retrieve a HowIs from the did field
+func HowIsKey(did string) []byte {
 	var key []byte
 
-	indexBytes := []byte(index)
-	key = append(key, indexBytes...)
+	didBytes := []byte(did)
+	key = append(key, didBytes...)
 	key = append(key, []byte("/")...)
 
 	return key
