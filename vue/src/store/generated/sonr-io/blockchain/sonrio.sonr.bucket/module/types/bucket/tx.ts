@@ -64,7 +64,6 @@ export interface MsgDeactivateBucketResponse {
 
 export interface MsgCreateWhichIs {
   creator: string;
-  index: string;
   did: string;
   bucket: BucketDoc | undefined;
 }
@@ -73,7 +72,6 @@ export interface MsgCreateWhichIsResponse {}
 
 export interface MsgUpdateWhichIs {
   creator: string;
-  index: string;
   did: string;
   bucket: BucketDoc | undefined;
 }
@@ -82,7 +80,7 @@ export interface MsgUpdateWhichIsResponse {}
 
 export interface MsgDeleteWhichIs {
   creator: string;
-  index: string;
+  did: string;
 }
 
 export interface MsgDeleteWhichIsResponse {}
@@ -813,21 +811,18 @@ export const MsgDeactivateBucketResponse = {
   },
 };
 
-const baseMsgCreateWhichIs: object = { creator: "", index: "", did: "" };
+const baseMsgCreateWhichIs: object = { creator: "", did: "" };
 
 export const MsgCreateWhichIs = {
   encode(message: MsgCreateWhichIs, writer: Writer = Writer.create()): Writer {
     if (message.creator !== "") {
       writer.uint32(10).string(message.creator);
     }
-    if (message.index !== "") {
-      writer.uint32(18).string(message.index);
-    }
     if (message.did !== "") {
-      writer.uint32(26).string(message.did);
+      writer.uint32(18).string(message.did);
     }
     if (message.bucket !== undefined) {
-      BucketDoc.encode(message.bucket, writer.uint32(34).fork()).ldelim();
+      BucketDoc.encode(message.bucket, writer.uint32(26).fork()).ldelim();
     }
     return writer;
   },
@@ -843,12 +838,9 @@ export const MsgCreateWhichIs = {
           message.creator = reader.string();
           break;
         case 2:
-          message.index = reader.string();
-          break;
-        case 3:
           message.did = reader.string();
           break;
-        case 4:
+        case 3:
           message.bucket = BucketDoc.decode(reader, reader.uint32());
           break;
         default:
@@ -866,11 +858,6 @@ export const MsgCreateWhichIs = {
     } else {
       message.creator = "";
     }
-    if (object.index !== undefined && object.index !== null) {
-      message.index = String(object.index);
-    } else {
-      message.index = "";
-    }
     if (object.did !== undefined && object.did !== null) {
       message.did = String(object.did);
     } else {
@@ -887,7 +874,6 @@ export const MsgCreateWhichIs = {
   toJSON(message: MsgCreateWhichIs): unknown {
     const obj: any = {};
     message.creator !== undefined && (obj.creator = message.creator);
-    message.index !== undefined && (obj.index = message.index);
     message.did !== undefined && (obj.did = message.did);
     message.bucket !== undefined &&
       (obj.bucket = message.bucket
@@ -902,11 +888,6 @@ export const MsgCreateWhichIs = {
       message.creator = object.creator;
     } else {
       message.creator = "";
-    }
-    if (object.index !== undefined && object.index !== null) {
-      message.index = object.index;
-    } else {
-      message.index = "";
     }
     if (object.did !== undefined && object.did !== null) {
       message.did = object.did;
@@ -974,21 +955,18 @@ export const MsgCreateWhichIsResponse = {
   },
 };
 
-const baseMsgUpdateWhichIs: object = { creator: "", index: "", did: "" };
+const baseMsgUpdateWhichIs: object = { creator: "", did: "" };
 
 export const MsgUpdateWhichIs = {
   encode(message: MsgUpdateWhichIs, writer: Writer = Writer.create()): Writer {
     if (message.creator !== "") {
       writer.uint32(10).string(message.creator);
     }
-    if (message.index !== "") {
-      writer.uint32(18).string(message.index);
-    }
     if (message.did !== "") {
-      writer.uint32(26).string(message.did);
+      writer.uint32(18).string(message.did);
     }
     if (message.bucket !== undefined) {
-      BucketDoc.encode(message.bucket, writer.uint32(34).fork()).ldelim();
+      BucketDoc.encode(message.bucket, writer.uint32(26).fork()).ldelim();
     }
     return writer;
   },
@@ -1004,12 +982,9 @@ export const MsgUpdateWhichIs = {
           message.creator = reader.string();
           break;
         case 2:
-          message.index = reader.string();
-          break;
-        case 3:
           message.did = reader.string();
           break;
-        case 4:
+        case 3:
           message.bucket = BucketDoc.decode(reader, reader.uint32());
           break;
         default:
@@ -1027,11 +1002,6 @@ export const MsgUpdateWhichIs = {
     } else {
       message.creator = "";
     }
-    if (object.index !== undefined && object.index !== null) {
-      message.index = String(object.index);
-    } else {
-      message.index = "";
-    }
     if (object.did !== undefined && object.did !== null) {
       message.did = String(object.did);
     } else {
@@ -1048,7 +1018,6 @@ export const MsgUpdateWhichIs = {
   toJSON(message: MsgUpdateWhichIs): unknown {
     const obj: any = {};
     message.creator !== undefined && (obj.creator = message.creator);
-    message.index !== undefined && (obj.index = message.index);
     message.did !== undefined && (obj.did = message.did);
     message.bucket !== undefined &&
       (obj.bucket = message.bucket
@@ -1063,11 +1032,6 @@ export const MsgUpdateWhichIs = {
       message.creator = object.creator;
     } else {
       message.creator = "";
-    }
-    if (object.index !== undefined && object.index !== null) {
-      message.index = object.index;
-    } else {
-      message.index = "";
     }
     if (object.did !== undefined && object.did !== null) {
       message.did = object.did;
@@ -1135,15 +1099,15 @@ export const MsgUpdateWhichIsResponse = {
   },
 };
 
-const baseMsgDeleteWhichIs: object = { creator: "", index: "" };
+const baseMsgDeleteWhichIs: object = { creator: "", did: "" };
 
 export const MsgDeleteWhichIs = {
   encode(message: MsgDeleteWhichIs, writer: Writer = Writer.create()): Writer {
     if (message.creator !== "") {
       writer.uint32(10).string(message.creator);
     }
-    if (message.index !== "") {
-      writer.uint32(18).string(message.index);
+    if (message.did !== "") {
+      writer.uint32(18).string(message.did);
     }
     return writer;
   },
@@ -1159,7 +1123,7 @@ export const MsgDeleteWhichIs = {
           message.creator = reader.string();
           break;
         case 2:
-          message.index = reader.string();
+          message.did = reader.string();
           break;
         default:
           reader.skipType(tag & 7);
@@ -1176,10 +1140,10 @@ export const MsgDeleteWhichIs = {
     } else {
       message.creator = "";
     }
-    if (object.index !== undefined && object.index !== null) {
-      message.index = String(object.index);
+    if (object.did !== undefined && object.did !== null) {
+      message.did = String(object.did);
     } else {
-      message.index = "";
+      message.did = "";
     }
     return message;
   },
@@ -1187,7 +1151,7 @@ export const MsgDeleteWhichIs = {
   toJSON(message: MsgDeleteWhichIs): unknown {
     const obj: any = {};
     message.creator !== undefined && (obj.creator = message.creator);
-    message.index !== undefined && (obj.index = message.index);
+    message.did !== undefined && (obj.did = message.did);
     return obj;
   },
 
@@ -1198,10 +1162,10 @@ export const MsgDeleteWhichIs = {
     } else {
       message.creator = "";
     }
-    if (object.index !== undefined && object.index !== null) {
-      message.index = object.index;
+    if (object.did !== undefined && object.did !== null) {
+      message.did = object.did;
     } else {
-      message.index = "";
+      message.did = "";
     }
     return message;
   },

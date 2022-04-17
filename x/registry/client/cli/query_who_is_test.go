@@ -84,7 +84,7 @@ func TestShowWhoIs(t *testing.T) {
 				require.ErrorIs(t, stat.Err(), tc.err)
 			} else {
 				require.NoError(t, err)
-				var resp types.QueryGetWhoIsResponse
+				var resp types.QueryWhoIsResponse
 				require.NoError(t, net.Config.Codec.UnmarshalJSON(out.Bytes(), &resp))
 				require.NotNil(t, resp.WhoIs)
 				require.Equal(t,

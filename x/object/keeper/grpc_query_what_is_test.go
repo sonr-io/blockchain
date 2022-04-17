@@ -24,28 +24,28 @@ func TestWhatIsQuerySingle(t *testing.T) {
 	msgs := createNWhatIs(keeper, ctx, 2)
 	for _, tc := range []struct {
 		desc     string
-		request  *types.QueryGetWhatIsRequest
-		response *types.QueryGetWhatIsResponse
+		request  *types.QueryWhatIsRequest
+		response *types.QueryWhatIsResponse
 		err      error
 	}{
 		{
 			desc: "First",
-			request: &types.QueryGetWhatIsRequest{
-				Index: msgs[0].Did,
+			request: &types.QueryWhatIsRequest{
+				Did: msgs[0].Did,
 			},
-			response: &types.QueryGetWhatIsResponse{WhatIs: msgs[0]},
+			response: &types.QueryWhatIsResponse{WhatIs: msgs[0]},
 		},
 		{
 			desc: "Second",
-			request: &types.QueryGetWhatIsRequest{
-				Index: msgs[1].Did,
+			request: &types.QueryWhatIsRequest{
+				Did: msgs[1].Did,
 			},
-			response: &types.QueryGetWhatIsResponse{WhatIs: msgs[1]},
+			response: &types.QueryWhatIsResponse{WhatIs: msgs[1]},
 		},
 		{
 			desc: "KeyNotFound",
-			request: &types.QueryGetWhatIsRequest{
-				Index: strconv.Itoa(100000),
+			request: &types.QueryWhatIsRequest{
+				Did: strconv.Itoa(100000),
 			},
 			err: status.Error(codes.InvalidArgument, "not found"),
 		},

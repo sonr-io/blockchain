@@ -18,12 +18,12 @@ export interface QueryParamsResponse {
   params: Params | undefined;
 }
 
-export interface QueryGetWhoIsRequest {
-  index: string;
+export interface QueryWhoIsRequest {
+  did: string;
 }
 
-export interface QueryGetWhoIsResponse {
-  whoIs: WhoIs | undefined;
+export interface QueryWhoIsResponse {
+  who_is: WhoIs | undefined;
 }
 
 export interface QueryAllWhoIsRequest {
@@ -31,7 +31,7 @@ export interface QueryAllWhoIsRequest {
 }
 
 export interface QueryAllWhoIsResponse {
-  whoIs: WhoIs[];
+  who_is: WhoIs[];
   pagination: PageResponse | undefined;
 }
 
@@ -132,28 +132,25 @@ export const QueryParamsResponse = {
   },
 };
 
-const baseQueryGetWhoIsRequest: object = { index: "" };
+const baseQueryWhoIsRequest: object = { did: "" };
 
-export const QueryGetWhoIsRequest = {
-  encode(
-    message: QueryGetWhoIsRequest,
-    writer: Writer = Writer.create()
-  ): Writer {
-    if (message.index !== "") {
-      writer.uint32(10).string(message.index);
+export const QueryWhoIsRequest = {
+  encode(message: QueryWhoIsRequest, writer: Writer = Writer.create()): Writer {
+    if (message.did !== "") {
+      writer.uint32(10).string(message.did);
     }
     return writer;
   },
 
-  decode(input: Reader | Uint8Array, length?: number): QueryGetWhoIsRequest {
+  decode(input: Reader | Uint8Array, length?: number): QueryWhoIsRequest {
     const reader = input instanceof Uint8Array ? new Reader(input) : input;
     let end = length === undefined ? reader.len : reader.pos + length;
-    const message = { ...baseQueryGetWhoIsRequest } as QueryGetWhoIsRequest;
+    const message = { ...baseQueryWhoIsRequest } as QueryWhoIsRequest;
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.index = reader.string();
+          message.did = reader.string();
           break;
         default:
           reader.skipType(tag & 7);
@@ -163,55 +160,55 @@ export const QueryGetWhoIsRequest = {
     return message;
   },
 
-  fromJSON(object: any): QueryGetWhoIsRequest {
-    const message = { ...baseQueryGetWhoIsRequest } as QueryGetWhoIsRequest;
-    if (object.index !== undefined && object.index !== null) {
-      message.index = String(object.index);
+  fromJSON(object: any): QueryWhoIsRequest {
+    const message = { ...baseQueryWhoIsRequest } as QueryWhoIsRequest;
+    if (object.did !== undefined && object.did !== null) {
+      message.did = String(object.did);
     } else {
-      message.index = "";
+      message.did = "";
     }
     return message;
   },
 
-  toJSON(message: QueryGetWhoIsRequest): unknown {
+  toJSON(message: QueryWhoIsRequest): unknown {
     const obj: any = {};
-    message.index !== undefined && (obj.index = message.index);
+    message.did !== undefined && (obj.did = message.did);
     return obj;
   },
 
-  fromPartial(object: DeepPartial<QueryGetWhoIsRequest>): QueryGetWhoIsRequest {
-    const message = { ...baseQueryGetWhoIsRequest } as QueryGetWhoIsRequest;
-    if (object.index !== undefined && object.index !== null) {
-      message.index = object.index;
+  fromPartial(object: DeepPartial<QueryWhoIsRequest>): QueryWhoIsRequest {
+    const message = { ...baseQueryWhoIsRequest } as QueryWhoIsRequest;
+    if (object.did !== undefined && object.did !== null) {
+      message.did = object.did;
     } else {
-      message.index = "";
+      message.did = "";
     }
     return message;
   },
 };
 
-const baseQueryGetWhoIsResponse: object = {};
+const baseQueryWhoIsResponse: object = {};
 
-export const QueryGetWhoIsResponse = {
+export const QueryWhoIsResponse = {
   encode(
-    message: QueryGetWhoIsResponse,
+    message: QueryWhoIsResponse,
     writer: Writer = Writer.create()
   ): Writer {
-    if (message.whoIs !== undefined) {
-      WhoIs.encode(message.whoIs, writer.uint32(10).fork()).ldelim();
+    if (message.who_is !== undefined) {
+      WhoIs.encode(message.who_is, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
 
-  decode(input: Reader | Uint8Array, length?: number): QueryGetWhoIsResponse {
+  decode(input: Reader | Uint8Array, length?: number): QueryWhoIsResponse {
     const reader = input instanceof Uint8Array ? new Reader(input) : input;
     let end = length === undefined ? reader.len : reader.pos + length;
-    const message = { ...baseQueryGetWhoIsResponse } as QueryGetWhoIsResponse;
+    const message = { ...baseQueryWhoIsResponse } as QueryWhoIsResponse;
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.whoIs = WhoIs.decode(reader, reader.uint32());
+          message.who_is = WhoIs.decode(reader, reader.uint32());
           break;
         default:
           reader.skipType(tag & 7);
@@ -221,31 +218,29 @@ export const QueryGetWhoIsResponse = {
     return message;
   },
 
-  fromJSON(object: any): QueryGetWhoIsResponse {
-    const message = { ...baseQueryGetWhoIsResponse } as QueryGetWhoIsResponse;
-    if (object.whoIs !== undefined && object.whoIs !== null) {
-      message.whoIs = WhoIs.fromJSON(object.whoIs);
+  fromJSON(object: any): QueryWhoIsResponse {
+    const message = { ...baseQueryWhoIsResponse } as QueryWhoIsResponse;
+    if (object.who_is !== undefined && object.who_is !== null) {
+      message.who_is = WhoIs.fromJSON(object.who_is);
     } else {
-      message.whoIs = undefined;
+      message.who_is = undefined;
     }
     return message;
   },
 
-  toJSON(message: QueryGetWhoIsResponse): unknown {
+  toJSON(message: QueryWhoIsResponse): unknown {
     const obj: any = {};
-    message.whoIs !== undefined &&
-      (obj.whoIs = message.whoIs ? WhoIs.toJSON(message.whoIs) : undefined);
+    message.who_is !== undefined &&
+      (obj.who_is = message.who_is ? WhoIs.toJSON(message.who_is) : undefined);
     return obj;
   },
 
-  fromPartial(
-    object: DeepPartial<QueryGetWhoIsResponse>
-  ): QueryGetWhoIsResponse {
-    const message = { ...baseQueryGetWhoIsResponse } as QueryGetWhoIsResponse;
-    if (object.whoIs !== undefined && object.whoIs !== null) {
-      message.whoIs = WhoIs.fromPartial(object.whoIs);
+  fromPartial(object: DeepPartial<QueryWhoIsResponse>): QueryWhoIsResponse {
+    const message = { ...baseQueryWhoIsResponse } as QueryWhoIsResponse;
+    if (object.who_is !== undefined && object.who_is !== null) {
+      message.who_is = WhoIs.fromPartial(object.who_is);
     } else {
-      message.whoIs = undefined;
+      message.who_is = undefined;
     }
     return message;
   },
@@ -319,7 +314,7 @@ export const QueryAllWhoIsResponse = {
     message: QueryAllWhoIsResponse,
     writer: Writer = Writer.create()
   ): Writer {
-    for (const v of message.whoIs) {
+    for (const v of message.who_is) {
       WhoIs.encode(v!, writer.uint32(10).fork()).ldelim();
     }
     if (message.pagination !== undefined) {
@@ -335,12 +330,12 @@ export const QueryAllWhoIsResponse = {
     const reader = input instanceof Uint8Array ? new Reader(input) : input;
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = { ...baseQueryAllWhoIsResponse } as QueryAllWhoIsResponse;
-    message.whoIs = [];
+    message.who_is = [];
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.whoIs.push(WhoIs.decode(reader, reader.uint32()));
+          message.who_is.push(WhoIs.decode(reader, reader.uint32()));
           break;
         case 2:
           message.pagination = PageResponse.decode(reader, reader.uint32());
@@ -355,10 +350,10 @@ export const QueryAllWhoIsResponse = {
 
   fromJSON(object: any): QueryAllWhoIsResponse {
     const message = { ...baseQueryAllWhoIsResponse } as QueryAllWhoIsResponse;
-    message.whoIs = [];
-    if (object.whoIs !== undefined && object.whoIs !== null) {
-      for (const e of object.whoIs) {
-        message.whoIs.push(WhoIs.fromJSON(e));
+    message.who_is = [];
+    if (object.who_is !== undefined && object.who_is !== null) {
+      for (const e of object.who_is) {
+        message.who_is.push(WhoIs.fromJSON(e));
       }
     }
     if (object.pagination !== undefined && object.pagination !== null) {
@@ -371,10 +366,10 @@ export const QueryAllWhoIsResponse = {
 
   toJSON(message: QueryAllWhoIsResponse): unknown {
     const obj: any = {};
-    if (message.whoIs) {
-      obj.whoIs = message.whoIs.map((e) => (e ? WhoIs.toJSON(e) : undefined));
+    if (message.who_is) {
+      obj.who_is = message.who_is.map((e) => (e ? WhoIs.toJSON(e) : undefined));
     } else {
-      obj.whoIs = [];
+      obj.who_is = [];
     }
     message.pagination !== undefined &&
       (obj.pagination = message.pagination
@@ -387,10 +382,10 @@ export const QueryAllWhoIsResponse = {
     object: DeepPartial<QueryAllWhoIsResponse>
   ): QueryAllWhoIsResponse {
     const message = { ...baseQueryAllWhoIsResponse } as QueryAllWhoIsResponse;
-    message.whoIs = [];
-    if (object.whoIs !== undefined && object.whoIs !== null) {
-      for (const e of object.whoIs) {
-        message.whoIs.push(WhoIs.fromPartial(e));
+    message.who_is = [];
+    if (object.who_is !== undefined && object.who_is !== null) {
+      for (const e of object.who_is) {
+        message.who_is.push(WhoIs.fromPartial(e));
       }
     }
     if (object.pagination !== undefined && object.pagination !== null) {
@@ -413,9 +408,9 @@ export interface Query {
   /**
    * WhoIs
    *
-   * Queries a WhoIs by index.
+   * Queries a WhoIs by did.
    */
-  WhoIs(request: QueryGetWhoIsRequest): Promise<QueryGetWhoIsResponse>;
+  WhoIs(request: QueryWhoIsRequest): Promise<QueryWhoIsResponse>;
   /**
    * WhoIsAll
    *
@@ -439,16 +434,14 @@ export class QueryClientImpl implements Query {
     return promise.then((data) => QueryParamsResponse.decode(new Reader(data)));
   }
 
-  WhoIs(request: QueryGetWhoIsRequest): Promise<QueryGetWhoIsResponse> {
-    const data = QueryGetWhoIsRequest.encode(request).finish();
+  WhoIs(request: QueryWhoIsRequest): Promise<QueryWhoIsResponse> {
+    const data = QueryWhoIsRequest.encode(request).finish();
     const promise = this.rpc.request(
       "sonrio.sonr.registry.Query",
       "WhoIs",
       data
     );
-    return promise.then((data) =>
-      QueryGetWhoIsResponse.decode(new Reader(data))
-    );
+    return promise.then((data) => QueryWhoIsResponse.decode(new Reader(data)));
   }
 
   WhoIsAll(request: QueryAllWhoIsRequest): Promise<QueryAllWhoIsResponse> {

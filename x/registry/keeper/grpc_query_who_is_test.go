@@ -24,28 +24,28 @@ func TestWhoIsQuerySingle(t *testing.T) {
 	msgs := createNWhoIs(keeper, ctx, 2)
 	for _, tc := range []struct {
 		desc     string
-		request  *types.QueryGetWhoIsRequest
-		response *types.QueryGetWhoIsResponse
+		request  *types.QueryWhoIsRequest
+		response *types.QueryWhoIsResponse
 		err      error
 	}{
 		{
 			desc: "First",
-			request: &types.QueryGetWhoIsRequest{
-				Index: msgs[0].Did,
+			request: &types.QueryWhoIsRequest{
+				Did: msgs[0].Did,
 			},
-			response: &types.QueryGetWhoIsResponse{WhoIs: msgs[0]},
+			response: &types.QueryWhoIsResponse{WhoIs: msgs[0]},
 		},
 		{
 			desc: "Second",
-			request: &types.QueryGetWhoIsRequest{
-				Index: msgs[1].Did,
+			request: &types.QueryWhoIsRequest{
+				Did: msgs[1].Did,
 			},
-			response: &types.QueryGetWhoIsResponse{WhoIs: msgs[1]},
+			response: &types.QueryWhoIsResponse{WhoIs: msgs[1]},
 		},
 		{
 			desc: "KeyNotFound",
-			request: &types.QueryGetWhoIsRequest{
-				Index: strconv.Itoa(100000),
+			request: &types.QueryWhoIsRequest{
+				Did: strconv.Itoa(100000),
 			},
 			err: status.Error(codes.InvalidArgument, "not found"),
 		},

@@ -103,14 +103,14 @@ func TestWhichIsMsgServerDelete(t *testing.T) {
 			desc: "Completed",
 			request: &types.MsgDeleteWhichIs{
 				Creator: creator,
-				Index:   strconv.Itoa(0),
+				Did:     strconv.Itoa(0),
 			},
 		},
 		{
 			desc: "Unauthorized",
 			request: &types.MsgDeleteWhichIs{
 				Creator: "B",
-				Index:   strconv.Itoa(0),
+				Did:     strconv.Itoa(0),
 			},
 			err: sdkerrors.ErrUnauthorized,
 		},
@@ -118,7 +118,7 @@ func TestWhichIsMsgServerDelete(t *testing.T) {
 			desc: "KeyNotFound",
 			request: &types.MsgDeleteWhichIs{
 				Creator: creator,
-				Index:   strconv.Itoa(100000),
+				Did:     strconv.Itoa(100000),
 			},
 			err: sdkerrors.ErrKeyNotFound,
 		},
@@ -129,7 +129,7 @@ func TestWhichIsMsgServerDelete(t *testing.T) {
 			wctx := sdk.WrapSDKContext(ctx)
 
 			_, err := srv.CreateWhichIs(wctx, &types.MsgCreateWhichIs{Creator: creator,
-				Index: strconv.Itoa(0),
+				Did: strconv.Itoa(0),
 			})
 			require.NoError(t, err)
 			_, err = srv.DeleteWhichIs(wctx, tc.request)
@@ -138,7 +138,7 @@ func TestWhichIsMsgServerDelete(t *testing.T) {
 			} else {
 				require.NoError(t, err)
 				_, found := k.GetWhichIs(ctx,
-					tc.request.Index,
+					tc.request.Did,
 				)
 				require.False(t, found)
 			}

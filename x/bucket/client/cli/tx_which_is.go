@@ -10,16 +10,12 @@ import (
 
 func CmdCreateWhichIs() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "create-which-is [index] [did] [value]",
+		Use:   "create-which-is [did] [value]",
 		Short: "Create a new whichIs",
 		Args:  cobra.ExactArgs(3),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
-			// Get indexes
-			indexIndex := args[0]
-
-			// Get value arguments
-			argDid := args[1]
-			//argValue := args[2]
+			// Get Did argument
+			argDid := args[0]
 
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
@@ -28,7 +24,6 @@ func CmdCreateWhichIs() *cobra.Command {
 
 			msg := types.NewMsgCreateWhichIs(
 				clientCtx.GetFromAddress().String(),
-				indexIndex,
 				argDid,
 				nil,
 			)
@@ -46,16 +41,12 @@ func CmdCreateWhichIs() *cobra.Command {
 
 func CmdUpdateWhichIs() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "update-which-is [index] [did] [value]",
+		Use:   "update-which-is [did] [value]",
 		Short: "Update a whichIs",
 		Args:  cobra.ExactArgs(3),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
-			// Get indexes
-			indexIndex := args[0]
-
-			// Get value arguments
-			argDid := args[1]
-			//argValue := args[2]
+			// Get DID argument
+			argDid := args[0]
 
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
@@ -64,7 +55,6 @@ func CmdUpdateWhichIs() *cobra.Command {
 
 			msg := types.NewMsgUpdateWhichIs(
 				clientCtx.GetFromAddress().String(),
-				indexIndex,
 				argDid,
 				nil,
 			)
@@ -82,11 +72,11 @@ func CmdUpdateWhichIs() *cobra.Command {
 
 func CmdDeleteWhichIs() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "delete-which-is [index]",
+		Use:   "delete-which-is [did]",
 		Short: "Delete a whichIs",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
-			indexIndex := args[0]
+			argDid := args[0]
 
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
@@ -95,7 +85,7 @@ func CmdDeleteWhichIs() *cobra.Command {
 
 			msg := types.NewMsgDeleteWhichIs(
 				clientCtx.GetFromAddress().String(),
-				indexIndex,
+				argDid,
 			)
 			if err := msg.ValidateBasic(); err != nil {
 				return err

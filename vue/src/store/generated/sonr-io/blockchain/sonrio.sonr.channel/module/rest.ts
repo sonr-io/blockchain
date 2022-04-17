@@ -78,7 +78,7 @@ export interface ChannelMsgUpdateHowIsResponse {
 export type ChannelParams = object;
 
 export interface ChannelQueryAllHowIsResponse {
-  howIs?: ChannelHowIs[];
+  how_is?: ChannelHowIs[];
 
   /**
    * PageResponse is to be embedded in gRPC response messages where the
@@ -92,8 +92,8 @@ export interface ChannelQueryAllHowIsResponse {
   pagination?: V1Beta1PageResponse;
 }
 
-export interface ChannelQueryGetHowIsResponse {
-  howIs?: ChannelHowIs;
+export interface ChannelQueryHowIsResponse {
+  how_is?: ChannelHowIs;
 }
 
 /**
@@ -729,15 +729,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     });
 
   /**
-   * @description Queries a HowIs by index.
+   * @description Queries a HowIs by did.
    *
    * @tags Query
    * @name QueryHowIs
    * @summary HowIs
-   * @request GET:/sonr-io/sonr/channel/how_is/{index}
+   * @request GET:/sonr-io/sonr/channel/how_is/{did}
    */
   queryHowIs = (
-    index: string,
+    did: string,
     query?: {
       "session.base_did"?: string;
       "session.whois.name"?: string;
@@ -756,8 +756,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     },
     params: RequestParams = {},
   ) =>
-    this.request<ChannelQueryGetHowIsResponse, RpcStatus>({
-      path: `/sonr-io/sonr/channel/how_is/${index}`,
+    this.request<ChannelQueryHowIsResponse, RpcStatus>({
+      path: `/sonr-io/sonr/channel/how_is/${did}`,
       method: "GET",
       query: query,
       format: "json",

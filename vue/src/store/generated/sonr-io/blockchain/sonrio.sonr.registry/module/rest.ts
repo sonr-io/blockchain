@@ -67,7 +67,7 @@ export interface RegistryMsgAccessApplicationResponse {
   metadata?: Record<string, string>;
 
   /** WhoIs is the entry pointing a registered name to a user account address, Did Url string, and a DIDDocument. */
-  whoIs?: RegistryWhoIs;
+  who_is?: RegistryWhoIs;
   session?: RegistrySession;
 }
 
@@ -77,7 +77,7 @@ export interface RegistryMsgAccessNameResponse {
   message?: string;
 
   /** WhoIs is the entry pointing a registered name to a user account address, Did Url string, and a DIDDocument. */
-  whoIs?: RegistryWhoIs;
+  who_is?: RegistryWhoIs;
   session?: RegistrySession;
 }
 
@@ -102,7 +102,7 @@ export interface RegistryMsgRegisterApplicationResponse {
   message?: string;
 
   /** WhoIs is the entry pointing a registered name to a user account address, Did Url string, and a DIDDocument. */
-  whoIs?: RegistryWhoIs;
+  who_is?: RegistryWhoIs;
   session?: RegistrySession;
 }
 
@@ -112,7 +112,7 @@ export interface RegistryMsgRegisterNameResponse {
   message?: string;
 
   /** WhoIs is the entry pointing a registered name to a user account address, Did Url string, and a DIDDocument. */
-  whoIs?: RegistryWhoIs;
+  who_is?: RegistryWhoIs;
   session?: RegistrySession;
 }
 
@@ -123,7 +123,7 @@ export interface RegistryMsgUpdateApplicationResponse {
   metadata?: Record<string, string>;
 
   /** WhoIs is the entry pointing a registered name to a user account address, Did Url string, and a DIDDocument. */
-  whoIs?: RegistryWhoIs;
+  who_is?: RegistryWhoIs;
 }
 
 export interface RegistryMsgUpdateNameResponse {
@@ -132,7 +132,7 @@ export interface RegistryMsgUpdateNameResponse {
   message?: string;
 
   /** WhoIs is the entry pointing a registered name to a user account address, Did Url string, and a DIDDocument. */
-  whoIs?: RegistryWhoIs;
+  who_is?: RegistryWhoIs;
 }
 
 export interface RegistryMsgUpdateWhoIsResponse {
@@ -150,7 +150,7 @@ export interface RegistryMsgUpdateWhoIsResponse {
 export type RegistryParams = object;
 
 export interface RegistryQueryAllWhoIsResponse {
-  whoIs?: RegistryWhoIs[];
+  who_is?: RegistryWhoIs[];
 
   /**
    * PageResponse is to be embedded in gRPC response messages where the
@@ -164,17 +164,17 @@ export interface RegistryQueryAllWhoIsResponse {
   pagination?: V1Beta1PageResponse;
 }
 
-export interface RegistryQueryGetWhoIsResponse {
-  /** WhoIs is the entry pointing a registered name to a user account address, Did Url string, and a DIDDocument. */
-  whoIs?: RegistryWhoIs;
-}
-
 /**
  * QueryParamsResponse is response type for the Query/Params RPC method.
  */
 export interface RegistryQueryParamsResponse {
   /** params holds all the parameters of this module. */
   params?: RegistryParams;
+}
+
+export interface RegistryQueryWhoIsResponse {
+  /** WhoIs is the entry pointing a registered name to a user account address, Did Url string, and a DIDDocument. */
+  who_is?: RegistryWhoIs;
 }
 
 export interface RegistrySession {
@@ -511,16 +511,16 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     });
 
   /**
-   * @description Queries a WhoIs by index.
+   * @description Queries a WhoIs by did.
    *
    * @tags Query
    * @name QueryWhoIs
    * @summary WhoIs
-   * @request GET:/sonr-io/sonr/registry/who_is/{index}
+   * @request GET:/sonr-io/sonr/registry/who_is/{did}
    */
-  queryWhoIs = (index: string, params: RequestParams = {}) =>
-    this.request<RegistryQueryGetWhoIsResponse, RpcStatus>({
-      path: `/sonr-io/sonr/registry/who_is/${index}`,
+  queryWhoIs = (did: string, params: RequestParams = {}) =>
+    this.request<RegistryQueryWhoIsResponse, RpcStatus>({
+      path: `/sonr-io/sonr/registry/who_is/${did}`,
       method: "GET",
       format: "json",
       ...params,

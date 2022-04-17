@@ -29,7 +29,8 @@ func networkWithWhichIsObjects(t *testing.T, n int) (*network.Network, []types.W
 
 	for i := 0; i < n; i++ {
 		whichIs := types.WhichIs{
-			Did: strconv.Itoa(i),
+			Did:      strconv.Itoa(i),
+			IsActive: true,
 		}
 		nullify.Fill(&whichIs)
 		state.WhichIsList = append(state.WhichIsList, whichIs)
@@ -83,7 +84,7 @@ func TestShowWhichIs(t *testing.T) {
 				require.ErrorIs(t, stat.Err(), tc.err)
 			} else {
 				require.NoError(t, err)
-				var resp types.QueryGetWhichIsResponse
+				var resp types.QueryWhichIsResponse
 				require.NoError(t, net.Config.Codec.UnmarshalJSON(out.Bytes(), &resp))
 				require.NotNil(t, resp.WhichIs)
 				require.Equal(t,

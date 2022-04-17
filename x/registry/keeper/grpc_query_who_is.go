@@ -39,7 +39,7 @@ func (k Keeper) WhoIsAll(c context.Context, req *types.QueryAllWhoIsRequest) (*t
 	return &types.QueryAllWhoIsResponse{WhoIs: whoIss, Pagination: pageRes}, nil
 }
 
-func (k Keeper) WhoIs(c context.Context, req *types.QueryGetWhoIsRequest) (*types.QueryGetWhoIsResponse, error) {
+func (k Keeper) WhoIs(c context.Context, req *types.QueryWhoIsRequest) (*types.QueryWhoIsResponse, error) {
 	if req == nil {
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
@@ -47,11 +47,11 @@ func (k Keeper) WhoIs(c context.Context, req *types.QueryGetWhoIsRequest) (*type
 
 	val, found := k.GetWhoIs(
 		ctx,
-		req.Index,
+		req.Did,
 	)
 	if !found {
 		return nil, status.Error(codes.InvalidArgument, "not found")
 	}
 
-	return &types.QueryGetWhoIsResponse{WhoIs: val}, nil
+	return &types.QueryWhoIsResponse{WhoIs: val}, nil
 }

@@ -29,7 +29,8 @@ func networkWithWhatIsObjects(t *testing.T, n int) (*network.Network, []types.Wh
 
 	for i := 0; i < n; i++ {
 		whatIs := types.WhatIs{
-			Did: strconv.Itoa(i),
+			Did:      strconv.Itoa(i),
+			IsActive: true,
 		}
 		nullify.Fill(&whatIs)
 		state.WhatIsList = append(state.WhatIsList, whatIs)
@@ -83,7 +84,7 @@ func TestShowWhatIs(t *testing.T) {
 				require.ErrorIs(t, stat.Err(), tc.err)
 			} else {
 				require.NoError(t, err)
-				var resp types.QueryGetWhatIsResponse
+				var resp types.QueryWhatIsResponse
 				require.NoError(t, net.Config.Codec.UnmarshalJSON(out.Bytes(), &resp))
 				require.NotNil(t, resp.WhatIs)
 				require.Equal(t,

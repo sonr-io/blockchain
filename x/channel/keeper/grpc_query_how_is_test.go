@@ -24,28 +24,28 @@ func TestHowIsQuerySingle(t *testing.T) {
 	msgs := createNHowIs(keeper, ctx, 2)
 	for _, tc := range []struct {
 		desc     string
-		request  *types.QueryGetHowIsRequest
-		response *types.QueryGetHowIsResponse
+		request  *types.QueryHowIsRequest
+		response *types.QueryHowIsResponse
 		err      error
 	}{
 		{
 			desc: "First",
-			request: &types.QueryGetHowIsRequest{
-				Index: msgs[0].Did,
+			request: &types.QueryHowIsRequest{
+				Did: msgs[0].Did,
 			},
-			response: &types.QueryGetHowIsResponse{HowIs: msgs[0]},
+			response: &types.QueryHowIsResponse{HowIs: msgs[0]},
 		},
 		{
 			desc: "Second",
-			request: &types.QueryGetHowIsRequest{
-				Index: msgs[1].Did,
+			request: &types.QueryHowIsRequest{
+				Did: msgs[1].Did,
 			},
-			response: &types.QueryGetHowIsResponse{HowIs: msgs[1]},
+			response: &types.QueryHowIsResponse{HowIs: msgs[1]},
 		},
 		{
 			desc: "KeyNotFound",
-			request: &types.QueryGetHowIsRequest{
-				Index: strconv.Itoa(100000),
+			request: &types.QueryHowIsRequest{
+				Did: strconv.Itoa(100000),
 			},
 			err: status.Error(codes.InvalidArgument, "not found"),
 		},

@@ -44,7 +44,7 @@ func CmdListHowIs() *cobra.Command {
 
 func CmdShowHowIs() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "show-how-is [index]",
+		Use:   "show-how-is [did]",
 		Short: "shows a howIs",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
@@ -52,10 +52,10 @@ func CmdShowHowIs() *cobra.Command {
 
 			queryClient := types.NewQueryClient(clientCtx)
 
-			argIndex := args[0]
+			argDid := args[0]
 
-			params := &types.QueryGetHowIsRequest{
-				Index: argIndex,
+			params := &types.QueryHowIsRequest{
+				Did: argDid,
 			}
 
 			res, err := queryClient.HowIs(context.Background(), params)

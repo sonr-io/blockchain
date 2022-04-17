@@ -54,8 +54,8 @@ func CmdShowWhichIs() *cobra.Command {
 
 			argIndex := args[0]
 
-			params := &types.QueryGetWhichIsRequest{
-				Index: argIndex,
+			params := &types.QueryWhichIsRequest{
+				Did: argIndex,
 			}
 
 			res, err := queryClient.WhichIs(context.Background(), params)

@@ -18,13 +18,12 @@ func (k Keeper) SetHowIs(ctx sdk.Context, howIs types.HowIs) {
 // GetHowIs returns a howIs from its index
 func (k Keeper) GetHowIs(
 	ctx sdk.Context,
-	index string,
-
+	did string,
 ) (val types.HowIs, found bool) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.HowIsKeyPrefix))
 
 	b := store.Get(types.HowIsKey(
-		index,
+		did,
 	))
 	if b == nil {
 		return val, false

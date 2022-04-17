@@ -26,7 +26,7 @@ export interface MsgRegisterApplicationResponse {
   /** Message of the response */
   message: string;
   /** WhoIs for the registered name */
-  whoIs: WhoIs | undefined;
+  who_is: WhoIs | undefined;
   /** Session returns the session for the name */
   session: Session | undefined;
 }
@@ -36,7 +36,7 @@ export interface MsgRegisterName {
   /** Account address of the name owner */
   creator: string;
   /** Selected Name to register */
-  nameToRegister: string;
+  name_to_register: string;
   /** Client side JSON Web Token for AssertionMethod */
   credential: Credential | undefined;
   /** The Updated Metadata */
@@ -54,7 +54,7 @@ export interface MsgRegisterNameResponse {
   /** Message of the response */
   message: string;
   /** WhoIs for the registered name */
-  whoIs: WhoIs | undefined;
+  who_is: WhoIs | undefined;
   /** Session returns the session for the name */
   session: Session | undefined;
 }
@@ -75,7 +75,7 @@ export interface MsgAccessNameResponse {
   /** Message of the response */
   message: string;
   /** WhoIs for the registered name */
-  whoIs: WhoIs | undefined;
+  who_is: WhoIs | undefined;
   /** Session returns the session for the name */
   session: Session | undefined;
 }
@@ -104,14 +104,14 @@ export interface MsgUpdateNameResponse {
   /** Message of the response */
   message: string;
   /** WhoIs for the registered name */
-  whoIs: WhoIs | undefined;
+  who_is: WhoIs | undefined;
 }
 
 export interface MsgAccessApplication {
   /** The account that is accessing the Application */
   creator: string;
   /** The name of the Application to access */
-  appName: string;
+  app_name: string;
   /** Client side JSON Web Token for AssertionMethod */
   credential: Credential | undefined;
 }
@@ -124,7 +124,7 @@ export interface MsgAccessApplicationResponse {
   /** Data of the response */
   metadata: { [key: string]: string };
   /** WhoIs for the registered name */
-  whoIs: WhoIs | undefined;
+  who_is: WhoIs | undefined;
   /** Session returns the session for the name */
   session: Session | undefined;
 }
@@ -158,7 +158,7 @@ export interface MsgUpdateApplicationResponse {
   /** Data of the response */
   metadata: { [key: string]: string };
   /** WhoIs for the registered name */
-  whoIs: WhoIs | undefined;
+  who_is: WhoIs | undefined;
 }
 
 export interface MsgUpdateApplicationResponse_MetadataEntry {
@@ -404,8 +404,8 @@ export const MsgRegisterApplicationResponse = {
     if (message.message !== "") {
       writer.uint32(18).string(message.message);
     }
-    if (message.whoIs !== undefined) {
-      WhoIs.encode(message.whoIs, writer.uint32(26).fork()).ldelim();
+    if (message.who_is !== undefined) {
+      WhoIs.encode(message.who_is, writer.uint32(26).fork()).ldelim();
     }
     if (message.session !== undefined) {
       Session.encode(message.session, writer.uint32(34).fork()).ldelim();
@@ -432,7 +432,7 @@ export const MsgRegisterApplicationResponse = {
           message.message = reader.string();
           break;
         case 3:
-          message.whoIs = WhoIs.decode(reader, reader.uint32());
+          message.who_is = WhoIs.decode(reader, reader.uint32());
           break;
         case 4:
           message.session = Session.decode(reader, reader.uint32());
@@ -459,10 +459,10 @@ export const MsgRegisterApplicationResponse = {
     } else {
       message.message = "";
     }
-    if (object.whoIs !== undefined && object.whoIs !== null) {
-      message.whoIs = WhoIs.fromJSON(object.whoIs);
+    if (object.who_is !== undefined && object.who_is !== null) {
+      message.who_is = WhoIs.fromJSON(object.who_is);
     } else {
-      message.whoIs = undefined;
+      message.who_is = undefined;
     }
     if (object.session !== undefined && object.session !== null) {
       message.session = Session.fromJSON(object.session);
@@ -476,8 +476,8 @@ export const MsgRegisterApplicationResponse = {
     const obj: any = {};
     message.code !== undefined && (obj.code = message.code);
     message.message !== undefined && (obj.message = message.message);
-    message.whoIs !== undefined &&
-      (obj.whoIs = message.whoIs ? WhoIs.toJSON(message.whoIs) : undefined);
+    message.who_is !== undefined &&
+      (obj.who_is = message.who_is ? WhoIs.toJSON(message.who_is) : undefined);
     message.session !== undefined &&
       (obj.session = message.session
         ? Session.toJSON(message.session)
@@ -501,10 +501,10 @@ export const MsgRegisterApplicationResponse = {
     } else {
       message.message = "";
     }
-    if (object.whoIs !== undefined && object.whoIs !== null) {
-      message.whoIs = WhoIs.fromPartial(object.whoIs);
+    if (object.who_is !== undefined && object.who_is !== null) {
+      message.who_is = WhoIs.fromPartial(object.who_is);
     } else {
-      message.whoIs = undefined;
+      message.who_is = undefined;
     }
     if (object.session !== undefined && object.session !== null) {
       message.session = Session.fromPartial(object.session);
@@ -515,15 +515,15 @@ export const MsgRegisterApplicationResponse = {
   },
 };
 
-const baseMsgRegisterName: object = { creator: "", nameToRegister: "" };
+const baseMsgRegisterName: object = { creator: "", name_to_register: "" };
 
 export const MsgRegisterName = {
   encode(message: MsgRegisterName, writer: Writer = Writer.create()): Writer {
     if (message.creator !== "") {
       writer.uint32(10).string(message.creator);
     }
-    if (message.nameToRegister !== "") {
-      writer.uint32(18).string(message.nameToRegister);
+    if (message.name_to_register !== "") {
+      writer.uint32(18).string(message.name_to_register);
     }
     if (message.credential !== undefined) {
       Credential.encode(message.credential, writer.uint32(26).fork()).ldelim();
@@ -549,7 +549,7 @@ export const MsgRegisterName = {
           message.creator = reader.string();
           break;
         case 2:
-          message.nameToRegister = reader.string();
+          message.name_to_register = reader.string();
           break;
         case 3:
           message.credential = Credential.decode(reader, reader.uint32());
@@ -579,10 +579,13 @@ export const MsgRegisterName = {
     } else {
       message.creator = "";
     }
-    if (object.nameToRegister !== undefined && object.nameToRegister !== null) {
-      message.nameToRegister = String(object.nameToRegister);
+    if (
+      object.name_to_register !== undefined &&
+      object.name_to_register !== null
+    ) {
+      message.name_to_register = String(object.name_to_register);
     } else {
-      message.nameToRegister = "";
+      message.name_to_register = "";
     }
     if (object.credential !== undefined && object.credential !== null) {
       message.credential = Credential.fromJSON(object.credential);
@@ -600,8 +603,8 @@ export const MsgRegisterName = {
   toJSON(message: MsgRegisterName): unknown {
     const obj: any = {};
     message.creator !== undefined && (obj.creator = message.creator);
-    message.nameToRegister !== undefined &&
-      (obj.nameToRegister = message.nameToRegister);
+    message.name_to_register !== undefined &&
+      (obj.name_to_register = message.name_to_register);
     message.credential !== undefined &&
       (obj.credential = message.credential
         ? Credential.toJSON(message.credential)
@@ -623,10 +626,13 @@ export const MsgRegisterName = {
     } else {
       message.creator = "";
     }
-    if (object.nameToRegister !== undefined && object.nameToRegister !== null) {
-      message.nameToRegister = object.nameToRegister;
+    if (
+      object.name_to_register !== undefined &&
+      object.name_to_register !== null
+    ) {
+      message.name_to_register = object.name_to_register;
     } else {
-      message.nameToRegister = "";
+      message.name_to_register = "";
     }
     if (object.credential !== undefined && object.credential !== null) {
       message.credential = Credential.fromPartial(object.credential);
@@ -743,8 +749,8 @@ export const MsgRegisterNameResponse = {
     if (message.message !== "") {
       writer.uint32(18).string(message.message);
     }
-    if (message.whoIs !== undefined) {
-      WhoIs.encode(message.whoIs, writer.uint32(26).fork()).ldelim();
+    if (message.who_is !== undefined) {
+      WhoIs.encode(message.who_is, writer.uint32(26).fork()).ldelim();
     }
     if (message.session !== undefined) {
       Session.encode(message.session, writer.uint32(34).fork()).ldelim();
@@ -768,7 +774,7 @@ export const MsgRegisterNameResponse = {
           message.message = reader.string();
           break;
         case 3:
-          message.whoIs = WhoIs.decode(reader, reader.uint32());
+          message.who_is = WhoIs.decode(reader, reader.uint32());
           break;
         case 4:
           message.session = Session.decode(reader, reader.uint32());
@@ -795,10 +801,10 @@ export const MsgRegisterNameResponse = {
     } else {
       message.message = "";
     }
-    if (object.whoIs !== undefined && object.whoIs !== null) {
-      message.whoIs = WhoIs.fromJSON(object.whoIs);
+    if (object.who_is !== undefined && object.who_is !== null) {
+      message.who_is = WhoIs.fromJSON(object.who_is);
     } else {
-      message.whoIs = undefined;
+      message.who_is = undefined;
     }
     if (object.session !== undefined && object.session !== null) {
       message.session = Session.fromJSON(object.session);
@@ -812,8 +818,8 @@ export const MsgRegisterNameResponse = {
     const obj: any = {};
     message.code !== undefined && (obj.code = message.code);
     message.message !== undefined && (obj.message = message.message);
-    message.whoIs !== undefined &&
-      (obj.whoIs = message.whoIs ? WhoIs.toJSON(message.whoIs) : undefined);
+    message.who_is !== undefined &&
+      (obj.who_is = message.who_is ? WhoIs.toJSON(message.who_is) : undefined);
     message.session !== undefined &&
       (obj.session = message.session
         ? Session.toJSON(message.session)
@@ -837,10 +843,10 @@ export const MsgRegisterNameResponse = {
     } else {
       message.message = "";
     }
-    if (object.whoIs !== undefined && object.whoIs !== null) {
-      message.whoIs = WhoIs.fromPartial(object.whoIs);
+    if (object.who_is !== undefined && object.who_is !== null) {
+      message.who_is = WhoIs.fromPartial(object.who_is);
     } else {
-      message.whoIs = undefined;
+      message.who_is = undefined;
     }
     if (object.session !== undefined && object.session !== null) {
       message.session = Session.fromPartial(object.session);
@@ -956,8 +962,8 @@ export const MsgAccessNameResponse = {
     if (message.message !== "") {
       writer.uint32(18).string(message.message);
     }
-    if (message.whoIs !== undefined) {
-      WhoIs.encode(message.whoIs, writer.uint32(26).fork()).ldelim();
+    if (message.who_is !== undefined) {
+      WhoIs.encode(message.who_is, writer.uint32(26).fork()).ldelim();
     }
     if (message.session !== undefined) {
       Session.encode(message.session, writer.uint32(34).fork()).ldelim();
@@ -979,7 +985,7 @@ export const MsgAccessNameResponse = {
           message.message = reader.string();
           break;
         case 3:
-          message.whoIs = WhoIs.decode(reader, reader.uint32());
+          message.who_is = WhoIs.decode(reader, reader.uint32());
           break;
         case 4:
           message.session = Session.decode(reader, reader.uint32());
@@ -1004,10 +1010,10 @@ export const MsgAccessNameResponse = {
     } else {
       message.message = "";
     }
-    if (object.whoIs !== undefined && object.whoIs !== null) {
-      message.whoIs = WhoIs.fromJSON(object.whoIs);
+    if (object.who_is !== undefined && object.who_is !== null) {
+      message.who_is = WhoIs.fromJSON(object.who_is);
     } else {
-      message.whoIs = undefined;
+      message.who_is = undefined;
     }
     if (object.session !== undefined && object.session !== null) {
       message.session = Session.fromJSON(object.session);
@@ -1021,8 +1027,8 @@ export const MsgAccessNameResponse = {
     const obj: any = {};
     message.code !== undefined && (obj.code = message.code);
     message.message !== undefined && (obj.message = message.message);
-    message.whoIs !== undefined &&
-      (obj.whoIs = message.whoIs ? WhoIs.toJSON(message.whoIs) : undefined);
+    message.who_is !== undefined &&
+      (obj.who_is = message.who_is ? WhoIs.toJSON(message.who_is) : undefined);
     message.session !== undefined &&
       (obj.session = message.session
         ? Session.toJSON(message.session)
@@ -1044,10 +1050,10 @@ export const MsgAccessNameResponse = {
     } else {
       message.message = "";
     }
-    if (object.whoIs !== undefined && object.whoIs !== null) {
-      message.whoIs = WhoIs.fromPartial(object.whoIs);
+    if (object.who_is !== undefined && object.who_is !== null) {
+      message.who_is = WhoIs.fromPartial(object.who_is);
     } else {
-      message.whoIs = undefined;
+      message.who_is = undefined;
     }
     if (object.session !== undefined && object.session !== null) {
       message.session = Session.fromPartial(object.session);
@@ -1305,8 +1311,8 @@ export const MsgUpdateNameResponse = {
     if (message.message !== "") {
       writer.uint32(18).string(message.message);
     }
-    if (message.whoIs !== undefined) {
-      WhoIs.encode(message.whoIs, writer.uint32(26).fork()).ldelim();
+    if (message.who_is !== undefined) {
+      WhoIs.encode(message.who_is, writer.uint32(26).fork()).ldelim();
     }
     return writer;
   },
@@ -1325,7 +1331,7 @@ export const MsgUpdateNameResponse = {
           message.message = reader.string();
           break;
         case 3:
-          message.whoIs = WhoIs.decode(reader, reader.uint32());
+          message.who_is = WhoIs.decode(reader, reader.uint32());
           break;
         default:
           reader.skipType(tag & 7);
@@ -1347,10 +1353,10 @@ export const MsgUpdateNameResponse = {
     } else {
       message.message = "";
     }
-    if (object.whoIs !== undefined && object.whoIs !== null) {
-      message.whoIs = WhoIs.fromJSON(object.whoIs);
+    if (object.who_is !== undefined && object.who_is !== null) {
+      message.who_is = WhoIs.fromJSON(object.who_is);
     } else {
-      message.whoIs = undefined;
+      message.who_is = undefined;
     }
     return message;
   },
@@ -1359,8 +1365,8 @@ export const MsgUpdateNameResponse = {
     const obj: any = {};
     message.code !== undefined && (obj.code = message.code);
     message.message !== undefined && (obj.message = message.message);
-    message.whoIs !== undefined &&
-      (obj.whoIs = message.whoIs ? WhoIs.toJSON(message.whoIs) : undefined);
+    message.who_is !== undefined &&
+      (obj.who_is = message.who_is ? WhoIs.toJSON(message.who_is) : undefined);
     return obj;
   },
 
@@ -1378,16 +1384,16 @@ export const MsgUpdateNameResponse = {
     } else {
       message.message = "";
     }
-    if (object.whoIs !== undefined && object.whoIs !== null) {
-      message.whoIs = WhoIs.fromPartial(object.whoIs);
+    if (object.who_is !== undefined && object.who_is !== null) {
+      message.who_is = WhoIs.fromPartial(object.who_is);
     } else {
-      message.whoIs = undefined;
+      message.who_is = undefined;
     }
     return message;
   },
 };
 
-const baseMsgAccessApplication: object = { creator: "", appName: "" };
+const baseMsgAccessApplication: object = { creator: "", app_name: "" };
 
 export const MsgAccessApplication = {
   encode(
@@ -1397,8 +1403,8 @@ export const MsgAccessApplication = {
     if (message.creator !== "") {
       writer.uint32(10).string(message.creator);
     }
-    if (message.appName !== "") {
-      writer.uint32(18).string(message.appName);
+    if (message.app_name !== "") {
+      writer.uint32(18).string(message.app_name);
     }
     if (message.credential !== undefined) {
       Credential.encode(message.credential, writer.uint32(26).fork()).ldelim();
@@ -1417,7 +1423,7 @@ export const MsgAccessApplication = {
           message.creator = reader.string();
           break;
         case 2:
-          message.appName = reader.string();
+          message.app_name = reader.string();
           break;
         case 3:
           message.credential = Credential.decode(reader, reader.uint32());
@@ -1437,10 +1443,10 @@ export const MsgAccessApplication = {
     } else {
       message.creator = "";
     }
-    if (object.appName !== undefined && object.appName !== null) {
-      message.appName = String(object.appName);
+    if (object.app_name !== undefined && object.app_name !== null) {
+      message.app_name = String(object.app_name);
     } else {
-      message.appName = "";
+      message.app_name = "";
     }
     if (object.credential !== undefined && object.credential !== null) {
       message.credential = Credential.fromJSON(object.credential);
@@ -1453,7 +1459,7 @@ export const MsgAccessApplication = {
   toJSON(message: MsgAccessApplication): unknown {
     const obj: any = {};
     message.creator !== undefined && (obj.creator = message.creator);
-    message.appName !== undefined && (obj.appName = message.appName);
+    message.app_name !== undefined && (obj.app_name = message.app_name);
     message.credential !== undefined &&
       (obj.credential = message.credential
         ? Credential.toJSON(message.credential)
@@ -1468,10 +1474,10 @@ export const MsgAccessApplication = {
     } else {
       message.creator = "";
     }
-    if (object.appName !== undefined && object.appName !== null) {
-      message.appName = object.appName;
+    if (object.app_name !== undefined && object.app_name !== null) {
+      message.app_name = object.app_name;
     } else {
-      message.appName = "";
+      message.app_name = "";
     }
     if (object.credential !== undefined && object.credential !== null) {
       message.credential = Credential.fromPartial(object.credential);
@@ -1501,8 +1507,8 @@ export const MsgAccessApplicationResponse = {
         writer.uint32(26).fork()
       ).ldelim();
     });
-    if (message.whoIs !== undefined) {
-      WhoIs.encode(message.whoIs, writer.uint32(34).fork()).ldelim();
+    if (message.who_is !== undefined) {
+      WhoIs.encode(message.who_is, writer.uint32(34).fork()).ldelim();
     }
     if (message.session !== undefined) {
       Session.encode(message.session, writer.uint32(42).fork()).ldelim();
@@ -1539,7 +1545,7 @@ export const MsgAccessApplicationResponse = {
           }
           break;
         case 4:
-          message.whoIs = WhoIs.decode(reader, reader.uint32());
+          message.who_is = WhoIs.decode(reader, reader.uint32());
           break;
         case 5:
           message.session = Session.decode(reader, reader.uint32());
@@ -1572,10 +1578,10 @@ export const MsgAccessApplicationResponse = {
         message.metadata[key] = String(value);
       });
     }
-    if (object.whoIs !== undefined && object.whoIs !== null) {
-      message.whoIs = WhoIs.fromJSON(object.whoIs);
+    if (object.who_is !== undefined && object.who_is !== null) {
+      message.who_is = WhoIs.fromJSON(object.who_is);
     } else {
-      message.whoIs = undefined;
+      message.who_is = undefined;
     }
     if (object.session !== undefined && object.session !== null) {
       message.session = Session.fromJSON(object.session);
@@ -1595,8 +1601,8 @@ export const MsgAccessApplicationResponse = {
         obj.metadata[k] = v;
       });
     }
-    message.whoIs !== undefined &&
-      (obj.whoIs = message.whoIs ? WhoIs.toJSON(message.whoIs) : undefined);
+    message.who_is !== undefined &&
+      (obj.who_is = message.who_is ? WhoIs.toJSON(message.who_is) : undefined);
     message.session !== undefined &&
       (obj.session = message.session
         ? Session.toJSON(message.session)
@@ -1628,10 +1634,10 @@ export const MsgAccessApplicationResponse = {
         }
       });
     }
-    if (object.whoIs !== undefined && object.whoIs !== null) {
-      message.whoIs = WhoIs.fromPartial(object.whoIs);
+    if (object.who_is !== undefined && object.who_is !== null) {
+      message.who_is = WhoIs.fromPartial(object.who_is);
     } else {
-      message.whoIs = undefined;
+      message.who_is = undefined;
     }
     if (object.session !== undefined && object.session !== null) {
       message.session = Session.fromPartial(object.session);
@@ -1967,8 +1973,8 @@ export const MsgUpdateApplicationResponse = {
         writer.uint32(26).fork()
       ).ldelim();
     });
-    if (message.whoIs !== undefined) {
-      WhoIs.encode(message.whoIs, writer.uint32(34).fork()).ldelim();
+    if (message.who_is !== undefined) {
+      WhoIs.encode(message.who_is, writer.uint32(34).fork()).ldelim();
     }
     return writer;
   },
@@ -2002,7 +2008,7 @@ export const MsgUpdateApplicationResponse = {
           }
           break;
         case 4:
-          message.whoIs = WhoIs.decode(reader, reader.uint32());
+          message.who_is = WhoIs.decode(reader, reader.uint32());
           break;
         default:
           reader.skipType(tag & 7);
@@ -2032,10 +2038,10 @@ export const MsgUpdateApplicationResponse = {
         message.metadata[key] = String(value);
       });
     }
-    if (object.whoIs !== undefined && object.whoIs !== null) {
-      message.whoIs = WhoIs.fromJSON(object.whoIs);
+    if (object.who_is !== undefined && object.who_is !== null) {
+      message.who_is = WhoIs.fromJSON(object.who_is);
     } else {
-      message.whoIs = undefined;
+      message.who_is = undefined;
     }
     return message;
   },
@@ -2050,8 +2056,8 @@ export const MsgUpdateApplicationResponse = {
         obj.metadata[k] = v;
       });
     }
-    message.whoIs !== undefined &&
-      (obj.whoIs = message.whoIs ? WhoIs.toJSON(message.whoIs) : undefined);
+    message.who_is !== undefined &&
+      (obj.who_is = message.who_is ? WhoIs.toJSON(message.who_is) : undefined);
     return obj;
   },
 
@@ -2079,10 +2085,10 @@ export const MsgUpdateApplicationResponse = {
         }
       });
     }
-    if (object.whoIs !== undefined && object.whoIs !== null) {
-      message.whoIs = WhoIs.fromPartial(object.whoIs);
+    if (object.who_is !== undefined && object.who_is !== null) {
+      message.who_is = WhoIs.fromPartial(object.who_is);
     } else {
-      message.whoIs = undefined;
+      message.who_is = undefined;
     }
     return message;
   },

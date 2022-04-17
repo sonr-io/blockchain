@@ -19,6 +19,7 @@ func createNHowIs(keeper *keeper.Keeper, ctx sdk.Context, n int) []types.HowIs {
 	items := make([]types.HowIs, n)
 	for i := range items {
 		items[i].Did = strconv.Itoa(i)
+		items[i].IsActive = true
 
 		keeper.SetHowIs(ctx, items[i])
 	}

@@ -15,16 +15,16 @@ option go_package = "github.com/sonr-io/blockchain/x/channel/types";
 service Query {
 	// Params
 	//
-  	// Parameters queries the parameters of the module.
-  	rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
-    	option (google.api.http).get = "/sonrio/sonr/channel/params";
-  	}
+	// Parameters queries the parameters of the module.
+	rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
+		option (google.api.http).get = "/sonrio/sonr/channel/params";
+	}
 
-  	// HowIs
+	// HowIs
 	//
-	// Queries a HowIs by index.
-	rpc HowIs(QueryGetHowIsRequest) returns (QueryGetHowIsResponse) {
-		option (google.api.http).get = "/sonr-io/sonr/channel/how_is/{index}";
+	// Queries a HowIs by did.
+	rpc HowIs(QueryHowIsRequest) returns (QueryHowIsResponse) {
+		option (google.api.http).get = "/sonr-io/sonr/channel/how_is/{did}";
 	}
 
 	// HowIsAll
@@ -46,13 +46,13 @@ message QueryParamsResponse {
   Params params = 1 [(gogoproto.nullable) = false];
 }
 
-message QueryGetHowIsRequest {
-	  string index = 1;
-	    sonrio.sonr.registry.Session session = 2;
+message QueryHowIsRequest {
+	string did = 1;
+	sonrio.sonr.registry.Session session = 2;
 }
 
-message QueryGetHowIsResponse {
-	HowIs howIs = 1 [(gogoproto.nullable) = false];
+message QueryHowIsResponse {
+	HowIs how_is = 1 [(gogoproto.nullable) = false];
 }
 
 message QueryAllHowIsRequest {
@@ -61,7 +61,7 @@ message QueryAllHowIsRequest {
 }
 
 message QueryAllHowIsResponse {
-	repeated HowIs howIs = 1 [(gogoproto.nullable) = false];
+	repeated HowIs how_is = 1 [(gogoproto.nullable) = false];
 	cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 

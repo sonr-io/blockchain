@@ -86,7 +86,7 @@ message MsgRegisterApplicationResponse {
     string message = 2;
 
     // WhoIs for the registered name
-    WhoIs whoIs = 3;
+    WhoIs who_is = 3;
 
     // Session returns the session for the name
     Session session = 4;
@@ -98,7 +98,7 @@ message MsgRegisterName {
   string creator = 1;
 
   // Selected Name to register
-  string nameToRegister = 2;
+  string name_to_register = 2;
 
   // Client side JSON Web Token for AssertionMethod
   Credential credential = 3;
@@ -115,7 +115,7 @@ message MsgRegisterNameResponse {
     string message = 2;
 
     // WhoIs for the registered name
-    WhoIs whoIs = 3;
+    WhoIs who_is = 3;
 
     // Session returns the session for the name
     Session session = 4;
@@ -141,7 +141,7 @@ message MsgAccessNameResponse {
     string message = 2;
 
     // WhoIs for the registered name
-    WhoIs whoIs = 3;
+    WhoIs who_is = 3;
 
     // Session returns the session for the name
     Session session = 4;
@@ -172,7 +172,7 @@ message MsgUpdateNameResponse {
     string message = 2;
 
     // WhoIs for the registered name
-    WhoIs whoIs = 3;
+    WhoIs who_is = 3;
 }
 
 message MsgAccessApplication {
@@ -180,7 +180,7 @@ message MsgAccessApplication {
   string creator = 1;
 
   // The name of the Application to access
-  string appName = 2;
+  string app_name = 2;
 
   // Client side JSON Web Token for AssertionMethod
   Credential credential = 3;
@@ -197,7 +197,7 @@ message MsgAccessApplicationResponse {
     map<string, string> metadata = 3;
 
     // WhoIs for the registered name
-    WhoIs whoIs = 4;
+    WhoIs who_is = 4;
 
     // Session returns the session for the name
     Session session = 5;
@@ -228,7 +228,7 @@ message MsgUpdateApplicationResponse {
     map<string, string> metadata = 3;
 
     // WhoIs for the registered name
-    WhoIs whoIs = 4;
+    WhoIs who_is = 4;
 }
 
 message MsgCreateWhoIs {

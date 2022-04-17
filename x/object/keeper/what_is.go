@@ -18,13 +18,12 @@ func (k Keeper) SetWhatIs(ctx sdk.Context, whatIs types.WhatIs) {
 // GetWhatIs returns a whatIs from its index
 func (k Keeper) GetWhatIs(
 	ctx sdk.Context,
-	index string,
-
+	did string,
 ) (val types.WhatIs, found bool) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.WhatIsKeyPrefix))
 
 	b := store.Get(types.WhatIsKey(
-		index,
+		did,
 	))
 	if b == nil {
 		return val, false
@@ -37,13 +36,10 @@ func (k Keeper) GetWhatIs(
 // RemoveWhatIs removes a whatIs from the store
 func (k Keeper) RemoveWhatIs(
 	ctx sdk.Context,
-	index string,
-
+	did string,
 ) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.WhatIsKeyPrefix))
-	store.Delete(types.WhatIsKey(
-		index,
-	))
+	store.Delete(types.WhatIsKey(did))
 }
 
 // GetAllWhatIs returns all whatIs

@@ -273,7 +273,7 @@ export enum ObjectObjectFieldType {
 export type ObjectParams = object;
 
 export interface ObjectQueryAllWhatIsResponse {
-  whatIs?: ObjectWhatIs[];
+  what_is?: ObjectWhatIs[];
 
   /**
    * PageResponse is to be embedded in gRPC response messages where the
@@ -287,16 +287,16 @@ export interface ObjectQueryAllWhatIsResponse {
   pagination?: V1Beta1PageResponse;
 }
 
-export interface ObjectQueryGetWhatIsResponse {
-  whatIs?: ObjectWhatIs;
-}
-
 /**
  * QueryParamsResponse is response type for the Query/Params RPC method.
  */
 export interface ObjectQueryParamsResponse {
   /** params holds all the parameters of this module. */
   params?: ObjectParams;
+}
+
+export interface ObjectQueryWhatIsResponse {
+  what_is?: ObjectWhatIs;
 }
 
 export interface ObjectWhatIs {
@@ -710,15 +710,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     });
 
   /**
-   * @description Queries a WhatIs by index.
+   * @description Queries a WhatIs by DID.
    *
    * @tags Query
    * @name QueryWhatIs
    * @summary WhatIs
-   * @request GET:/sonr-io/sonr/object/what_is/{index}
+   * @request GET:/sonr-io/sonr/object/what_is/{did}
    */
   queryWhatIs = (
-    index: string,
+    did: string,
     query?: {
       "session.base_did"?: string;
       "session.whois.name"?: string;
@@ -737,8 +737,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     },
     params: RequestParams = {},
   ) =>
-    this.request<ObjectQueryGetWhatIsResponse, RpcStatus>({
-      path: `/sonr-io/sonr/object/what_is/${index}`,
+    this.request<ObjectQueryWhatIsResponse, RpcStatus>({
+      path: `/sonr-io/sonr/object/what_is/${did}`,
       method: "GET",
       query: query,
       format: "json",

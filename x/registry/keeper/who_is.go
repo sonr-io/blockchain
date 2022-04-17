@@ -18,13 +18,12 @@ func (k Keeper) SetWhoIs(ctx sdk.Context, whoIs types.WhoIs) {
 // GetWhoIs returns a whoIs from its index
 func (k Keeper) GetWhoIs(
 	ctx sdk.Context,
-	index string,
-
+	did string,
 ) (val types.WhoIs, found bool) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.WhoIsKeyPrefix))
 
 	b := store.Get(types.WhoIsKey(
-		index,
+		did,
 	))
 	if b == nil {
 		return val, false
@@ -37,12 +36,11 @@ func (k Keeper) GetWhoIs(
 // RemoveWhoIs removes a whoIs from the store
 func (k Keeper) RemoveWhoIs(
 	ctx sdk.Context,
-	index string,
-
+	did string,
 ) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.WhoIsKeyPrefix))
 	store.Delete(types.WhoIsKey(
-		index,
+		did,
 	))
 }
 

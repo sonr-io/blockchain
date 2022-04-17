@@ -54,8 +54,8 @@ func CmdShowWhoIs() *cobra.Command {
 
 			argIndex := args[0]
 
-			params := &types.QueryGetWhoIsRequest{
-				Index: argIndex,
+			params := &types.QueryWhoIsRequest{
+				Did: argIndex,
 			}
 
 			res, err := queryClient.WhoIs(context.Background(), params)

@@ -14,7 +14,7 @@ func (k msgServer) CreateWhichIs(goCtx context.Context, msg *types.MsgCreateWhic
 	// Check if the value already exists
 	_, isFound := k.GetWhichIs(
 		ctx,
-		msg.Index,
+		msg.Did,
 	)
 	if isFound {
 		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "index already set")
@@ -39,7 +39,7 @@ func (k msgServer) UpdateWhichIs(goCtx context.Context, msg *types.MsgUpdateWhic
 	// Check if the value exists
 	valFound, isFound := k.GetWhichIs(
 		ctx,
-		msg.Index,
+		msg.Did,
 	)
 	if !isFound {
 		return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, "index not set")
@@ -67,7 +67,7 @@ func (k msgServer) DeleteWhichIs(goCtx context.Context, msg *types.MsgDeleteWhic
 	// Check if the value exists
 	valFound, isFound := k.GetWhichIs(
 		ctx,
-		msg.Index,
+		msg.Did,
 	)
 	if !isFound {
 		return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, "index not set")
@@ -80,7 +80,7 @@ func (k msgServer) DeleteWhichIs(goCtx context.Context, msg *types.MsgDeleteWhic
 
 	k.RemoveWhichIs(
 		ctx,
-		msg.Index,
+		msg.Did,
 	)
 
 	return &types.MsgDeleteWhichIsResponse{}, nil
