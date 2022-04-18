@@ -19,13 +19,13 @@ export interface QueryParamsResponse {
   params: Params | undefined;
 }
 
-export interface QueryGetHowIsRequest {
-  index: string;
+export interface QueryHowIsRequest {
+  did: string;
   session: Session | undefined;
 }
 
-export interface QueryGetHowIsResponse {
-  howIs: HowIs | undefined;
+export interface QueryHowIsResponse {
+  how_is: HowIs | undefined;
 }
 
 export interface QueryAllHowIsRequest {
@@ -34,7 +34,7 @@ export interface QueryAllHowIsRequest {
 }
 
 export interface QueryAllHowIsResponse {
-  howIs: HowIs[];
+  how_is: HowIs[];
   pagination: PageResponse | undefined;
 }
 
@@ -135,15 +135,12 @@ export const QueryParamsResponse = {
   },
 };
 
-const baseQueryGetHowIsRequest: object = { index: "" };
+const baseQueryHowIsRequest: object = { did: "" };
 
-export const QueryGetHowIsRequest = {
-  encode(
-    message: QueryGetHowIsRequest,
-    writer: Writer = Writer.create()
-  ): Writer {
-    if (message.index !== "") {
-      writer.uint32(10).string(message.index);
+export const QueryHowIsRequest = {
+  encode(message: QueryHowIsRequest, writer: Writer = Writer.create()): Writer {
+    if (message.did !== "") {
+      writer.uint32(10).string(message.did);
     }
     if (message.session !== undefined) {
       Session.encode(message.session, writer.uint32(18).fork()).ldelim();
@@ -151,15 +148,15 @@ export const QueryGetHowIsRequest = {
     return writer;
   },
 
-  decode(input: Reader | Uint8Array, length?: number): QueryGetHowIsRequest {
+  decode(input: Reader | Uint8Array, length?: number): QueryHowIsRequest {
     const reader = input instanceof Uint8Array ? new Reader(input) : input;
     let end = length === undefined ? reader.len : reader.pos + length;
-    const message = { ...baseQueryGetHowIsRequest } as QueryGetHowIsRequest;
+    const message = { ...baseQueryHowIsRequest } as QueryHowIsRequest;
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.index = reader.string();
+          message.did = reader.string();
           break;
         case 2:
           message.session = Session.decode(reader, reader.uint32());
@@ -172,12 +169,12 @@ export const QueryGetHowIsRequest = {
     return message;
   },
 
-  fromJSON(object: any): QueryGetHowIsRequest {
-    const message = { ...baseQueryGetHowIsRequest } as QueryGetHowIsRequest;
-    if (object.index !== undefined && object.index !== null) {
-      message.index = String(object.index);
+  fromJSON(object: any): QueryHowIsRequest {
+    const message = { ...baseQueryHowIsRequest } as QueryHowIsRequest;
+    if (object.did !== undefined && object.did !== null) {
+      message.did = String(object.did);
     } else {
-      message.index = "";
+      message.did = "";
     }
     if (object.session !== undefined && object.session !== null) {
       message.session = Session.fromJSON(object.session);
@@ -187,9 +184,9 @@ export const QueryGetHowIsRequest = {
     return message;
   },
 
-  toJSON(message: QueryGetHowIsRequest): unknown {
+  toJSON(message: QueryHowIsRequest): unknown {
     const obj: any = {};
-    message.index !== undefined && (obj.index = message.index);
+    message.did !== undefined && (obj.did = message.did);
     message.session !== undefined &&
       (obj.session = message.session
         ? Session.toJSON(message.session)
@@ -197,12 +194,12 @@ export const QueryGetHowIsRequest = {
     return obj;
   },
 
-  fromPartial(object: DeepPartial<QueryGetHowIsRequest>): QueryGetHowIsRequest {
-    const message = { ...baseQueryGetHowIsRequest } as QueryGetHowIsRequest;
-    if (object.index !== undefined && object.index !== null) {
-      message.index = object.index;
+  fromPartial(object: DeepPartial<QueryHowIsRequest>): QueryHowIsRequest {
+    const message = { ...baseQueryHowIsRequest } as QueryHowIsRequest;
+    if (object.did !== undefined && object.did !== null) {
+      message.did = object.did;
     } else {
-      message.index = "";
+      message.did = "";
     }
     if (object.session !== undefined && object.session !== null) {
       message.session = Session.fromPartial(object.session);
@@ -213,28 +210,28 @@ export const QueryGetHowIsRequest = {
   },
 };
 
-const baseQueryGetHowIsResponse: object = {};
+const baseQueryHowIsResponse: object = {};
 
-export const QueryGetHowIsResponse = {
+export const QueryHowIsResponse = {
   encode(
-    message: QueryGetHowIsResponse,
+    message: QueryHowIsResponse,
     writer: Writer = Writer.create()
   ): Writer {
-    if (message.howIs !== undefined) {
-      HowIs.encode(message.howIs, writer.uint32(10).fork()).ldelim();
+    if (message.how_is !== undefined) {
+      HowIs.encode(message.how_is, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
 
-  decode(input: Reader | Uint8Array, length?: number): QueryGetHowIsResponse {
+  decode(input: Reader | Uint8Array, length?: number): QueryHowIsResponse {
     const reader = input instanceof Uint8Array ? new Reader(input) : input;
     let end = length === undefined ? reader.len : reader.pos + length;
-    const message = { ...baseQueryGetHowIsResponse } as QueryGetHowIsResponse;
+    const message = { ...baseQueryHowIsResponse } as QueryHowIsResponse;
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.howIs = HowIs.decode(reader, reader.uint32());
+          message.how_is = HowIs.decode(reader, reader.uint32());
           break;
         default:
           reader.skipType(tag & 7);
@@ -244,31 +241,29 @@ export const QueryGetHowIsResponse = {
     return message;
   },
 
-  fromJSON(object: any): QueryGetHowIsResponse {
-    const message = { ...baseQueryGetHowIsResponse } as QueryGetHowIsResponse;
-    if (object.howIs !== undefined && object.howIs !== null) {
-      message.howIs = HowIs.fromJSON(object.howIs);
+  fromJSON(object: any): QueryHowIsResponse {
+    const message = { ...baseQueryHowIsResponse } as QueryHowIsResponse;
+    if (object.how_is !== undefined && object.how_is !== null) {
+      message.how_is = HowIs.fromJSON(object.how_is);
     } else {
-      message.howIs = undefined;
+      message.how_is = undefined;
     }
     return message;
   },
 
-  toJSON(message: QueryGetHowIsResponse): unknown {
+  toJSON(message: QueryHowIsResponse): unknown {
     const obj: any = {};
-    message.howIs !== undefined &&
-      (obj.howIs = message.howIs ? HowIs.toJSON(message.howIs) : undefined);
+    message.how_is !== undefined &&
+      (obj.how_is = message.how_is ? HowIs.toJSON(message.how_is) : undefined);
     return obj;
   },
 
-  fromPartial(
-    object: DeepPartial<QueryGetHowIsResponse>
-  ): QueryGetHowIsResponse {
-    const message = { ...baseQueryGetHowIsResponse } as QueryGetHowIsResponse;
-    if (object.howIs !== undefined && object.howIs !== null) {
-      message.howIs = HowIs.fromPartial(object.howIs);
+  fromPartial(object: DeepPartial<QueryHowIsResponse>): QueryHowIsResponse {
+    const message = { ...baseQueryHowIsResponse } as QueryHowIsResponse;
+    if (object.how_is !== undefined && object.how_is !== null) {
+      message.how_is = HowIs.fromPartial(object.how_is);
     } else {
-      message.howIs = undefined;
+      message.how_is = undefined;
     }
     return message;
   },
@@ -362,7 +357,7 @@ export const QueryAllHowIsResponse = {
     message: QueryAllHowIsResponse,
     writer: Writer = Writer.create()
   ): Writer {
-    for (const v of message.howIs) {
+    for (const v of message.how_is) {
       HowIs.encode(v!, writer.uint32(10).fork()).ldelim();
     }
     if (message.pagination !== undefined) {
@@ -378,12 +373,12 @@ export const QueryAllHowIsResponse = {
     const reader = input instanceof Uint8Array ? new Reader(input) : input;
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = { ...baseQueryAllHowIsResponse } as QueryAllHowIsResponse;
-    message.howIs = [];
+    message.how_is = [];
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.howIs.push(HowIs.decode(reader, reader.uint32()));
+          message.how_is.push(HowIs.decode(reader, reader.uint32()));
           break;
         case 2:
           message.pagination = PageResponse.decode(reader, reader.uint32());
@@ -398,10 +393,10 @@ export const QueryAllHowIsResponse = {
 
   fromJSON(object: any): QueryAllHowIsResponse {
     const message = { ...baseQueryAllHowIsResponse } as QueryAllHowIsResponse;
-    message.howIs = [];
-    if (object.howIs !== undefined && object.howIs !== null) {
-      for (const e of object.howIs) {
-        message.howIs.push(HowIs.fromJSON(e));
+    message.how_is = [];
+    if (object.how_is !== undefined && object.how_is !== null) {
+      for (const e of object.how_is) {
+        message.how_is.push(HowIs.fromJSON(e));
       }
     }
     if (object.pagination !== undefined && object.pagination !== null) {
@@ -414,10 +409,10 @@ export const QueryAllHowIsResponse = {
 
   toJSON(message: QueryAllHowIsResponse): unknown {
     const obj: any = {};
-    if (message.howIs) {
-      obj.howIs = message.howIs.map((e) => (e ? HowIs.toJSON(e) : undefined));
+    if (message.how_is) {
+      obj.how_is = message.how_is.map((e) => (e ? HowIs.toJSON(e) : undefined));
     } else {
-      obj.howIs = [];
+      obj.how_is = [];
     }
     message.pagination !== undefined &&
       (obj.pagination = message.pagination
@@ -430,10 +425,10 @@ export const QueryAllHowIsResponse = {
     object: DeepPartial<QueryAllHowIsResponse>
   ): QueryAllHowIsResponse {
     const message = { ...baseQueryAllHowIsResponse } as QueryAllHowIsResponse;
-    message.howIs = [];
-    if (object.howIs !== undefined && object.howIs !== null) {
-      for (const e of object.howIs) {
-        message.howIs.push(HowIs.fromPartial(e));
+    message.how_is = [];
+    if (object.how_is !== undefined && object.how_is !== null) {
+      for (const e of object.how_is) {
+        message.how_is.push(HowIs.fromPartial(e));
       }
     }
     if (object.pagination !== undefined && object.pagination !== null) {
@@ -456,9 +451,9 @@ export interface Query {
   /**
    * HowIs
    *
-   * Queries a HowIs by index.
+   * Queries a HowIs by did.
    */
-  HowIs(request: QueryGetHowIsRequest): Promise<QueryGetHowIsResponse>;
+  HowIs(request: QueryHowIsRequest): Promise<QueryHowIsResponse>;
   /**
    * HowIsAll
    *
@@ -482,16 +477,14 @@ export class QueryClientImpl implements Query {
     return promise.then((data) => QueryParamsResponse.decode(new Reader(data)));
   }
 
-  HowIs(request: QueryGetHowIsRequest): Promise<QueryGetHowIsResponse> {
-    const data = QueryGetHowIsRequest.encode(request).finish();
+  HowIs(request: QueryHowIsRequest): Promise<QueryHowIsResponse> {
+    const data = QueryHowIsRequest.encode(request).finish();
     const promise = this.rpc.request(
       "sonrio.sonr.channel.Query",
       "HowIs",
       data
     );
-    return promise.then((data) =>
-      QueryGetHowIsResponse.decode(new Reader(data))
-    );
+    return promise.then((data) => QueryHowIsResponse.decode(new Reader(data)));
   }
 
   HowIsAll(request: QueryAllHowIsRequest): Promise<QueryAllHowIsResponse> {

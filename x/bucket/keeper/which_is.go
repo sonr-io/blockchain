@@ -6,7 +6,7 @@ import (
 	"github.com/sonr-io/blockchain/x/bucket/types"
 )
 
-// SetWhichIs set a specific whichIs in the store from its index
+// SetWhichIs set a specific whichIs in the store from its did
 func (k Keeper) SetWhichIs(ctx sdk.Context, whichIs types.WhichIs) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.WhichIsKeyPrefix))
 	b := k.cdc.MustMarshal(&whichIs)
@@ -15,16 +15,15 @@ func (k Keeper) SetWhichIs(ctx sdk.Context, whichIs types.WhichIs) {
 	), b)
 }
 
-// GetWhichIs returns a whichIs from its index
+// GetWhichIs returns a whichIs from its did
 func (k Keeper) GetWhichIs(
 	ctx sdk.Context,
-	index string,
-
+	did string,
 ) (val types.WhichIs, found bool) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.WhichIsKeyPrefix))
 
 	b := store.Get(types.WhichIsKey(
-		index,
+		did,
 	))
 	if b == nil {
 		return val, false
@@ -37,12 +36,11 @@ func (k Keeper) GetWhichIs(
 // RemoveWhichIs removes a whichIs from the store
 func (k Keeper) RemoveWhichIs(
 	ctx sdk.Context,
-	index string,
-
+	did string,
 ) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.WhichIsKeyPrefix))
 	store.Delete(types.WhichIsKey(
-		index,
+		did,
 	))
 }
 

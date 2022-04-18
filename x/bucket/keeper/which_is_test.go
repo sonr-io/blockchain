@@ -19,6 +19,7 @@ func createNWhichIs(keeper *keeper.Keeper, ctx sdk.Context, n int) []types.Which
 	items := make([]types.WhichIs, n)
 	for i := range items {
 		items[i].Did = strconv.Itoa(i)
+		items[i].IsActive = true
 
 		keeper.SetWhichIs(ctx, items[i])
 	}

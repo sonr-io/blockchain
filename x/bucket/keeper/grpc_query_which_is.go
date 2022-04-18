@@ -39,7 +39,7 @@ func (k Keeper) WhichIsAll(c context.Context, req *types.QueryAllWhichIsRequest)
 	return &types.QueryAllWhichIsResponse{WhichIs: whichIss, Pagination: pageRes}, nil
 }
 
-func (k Keeper) WhichIs(c context.Context, req *types.QueryGetWhichIsRequest) (*types.QueryGetWhichIsResponse, error) {
+func (k Keeper) WhichIs(c context.Context, req *types.QueryWhichIsRequest) (*types.QueryWhichIsResponse, error) {
 	if req == nil {
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
@@ -47,7 +47,7 @@ func (k Keeper) WhichIs(c context.Context, req *types.QueryGetWhichIsRequest) (*
 
 	val, found := k.GetWhichIs(
 		ctx,
-		req.Index,
+		req.Did,
 	)
 	if !found {
 		return nil, status.Error(codes.InvalidArgument, "not found")
@@ -58,5 +58,5 @@ func (k Keeper) WhichIs(c context.Context, req *types.QueryGetWhichIsRequest) (*
 		return nil, types.ErrInactiveBucket
 	}
 
-	return &types.QueryGetWhichIsResponse{WhichIs: val}, nil
+	return &types.QueryWhichIsResponse{WhichIs: val}, nil
 }

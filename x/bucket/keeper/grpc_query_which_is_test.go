@@ -24,28 +24,28 @@ func TestWhichIsQuerySingle(t *testing.T) {
 	msgs := createNWhichIs(keeper, ctx, 2)
 	for _, tc := range []struct {
 		desc     string
-		request  *types.QueryGetWhichIsRequest
-		response *types.QueryGetWhichIsResponse
+		request  *types.QueryWhichIsRequest
+		response *types.QueryWhichIsResponse
 		err      error
 	}{
 		{
 			desc: "First",
-			request: &types.QueryGetWhichIsRequest{
-				Index: msgs[0].Did,
+			request: &types.QueryWhichIsRequest{
+				Did: msgs[0].Did,
 			},
-			response: &types.QueryGetWhichIsResponse{WhichIs: msgs[0]},
+			response: &types.QueryWhichIsResponse{WhichIs: msgs[0]},
 		},
 		{
 			desc: "Second",
-			request: &types.QueryGetWhichIsRequest{
-				Index: msgs[1].Did,
+			request: &types.QueryWhichIsRequest{
+				Did: msgs[1].Did,
 			},
-			response: &types.QueryGetWhichIsResponse{WhichIs: msgs[1]},
+			response: &types.QueryWhichIsResponse{WhichIs: msgs[1]},
 		},
 		{
 			desc: "KeyNotFound",
-			request: &types.QueryGetWhichIsRequest{
-				Index: strconv.Itoa(100000),
+			request: &types.QueryWhichIsRequest{
+				Did: strconv.Itoa(100000),
 			},
 			err: status.Error(codes.InvalidArgument, "not found"),
 		},

@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"context"
+	"fmt"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
@@ -17,7 +18,7 @@ func (k msgServer) CreateWhoIs(goCtx context.Context, msg *types.MsgCreateWhoIs)
 		msg.Did,
 	)
 	if isFound {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "index already set")
+		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, fmt.Sprintf("WhoIs with DID '%s' already exists", msg.Did))
 	}
 
 	var whoIs = types.WhoIs{
@@ -44,7 +45,7 @@ func (k msgServer) UpdateWhoIs(goCtx context.Context, msg *types.MsgUpdateWhoIs)
 		msg.Did,
 	)
 	if !isFound {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, "index not set")
+		return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, "UpdateWhoIs: DID not found")
 	}
 
 	// Checks if the the msg creator is the same as the current owner
@@ -74,7 +75,7 @@ func (k msgServer) DeleteWhoIs(goCtx context.Context, msg *types.MsgDeleteWhoIs)
 		msg.Did,
 	)
 	if !isFound {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, "index not set")
+		return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, fmt.Sprintf("WhoIs with DID '%s' not found", msg.Did))
 	}
 
 	// Checks if the the msg creator is the same as the current owner

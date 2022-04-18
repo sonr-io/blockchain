@@ -75,7 +75,7 @@ export type BucketMsgUpdateWhichIsResponse = object;
 export type BucketParams = object;
 
 export interface BucketQueryAllWhichIsResponse {
-  whichIs?: BucketWhichIs[];
+  which_is?: BucketWhichIs[];
 
   /**
    * PageResponse is to be embedded in gRPC response messages where the
@@ -89,16 +89,16 @@ export interface BucketQueryAllWhichIsResponse {
   pagination?: V1Beta1PageResponse;
 }
 
-export interface BucketQueryGetWhichIsResponse {
-  whichIs?: BucketWhichIs;
-}
-
 /**
  * QueryParamsResponse is response type for the Query/Params RPC method.
  */
 export interface BucketQueryParamsResponse {
   /** params holds all the parameters of this module. */
   params?: BucketParams;
+}
+
+export interface BucketQueryWhichIsResponse {
+  which_is?: BucketWhichIs;
 }
 
 export interface BucketWhichIs {
@@ -515,15 +515,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     });
 
   /**
-   * @description Queries a WhichIs by index.
+   * @description Queries a WhichIs by did.
    *
    * @tags Query
    * @name QueryWhichIs
    * @summary WhichIs
-   * @request GET:/sonr-io/sonr/bucket/which_is/{index}
+   * @request GET:/sonr-io/sonr/bucket/which_is/{did}
    */
   queryWhichIs = (
-    index: string,
+    did: string,
     query?: {
       "session.base_did"?: string;
       "session.whois.name"?: string;
@@ -542,8 +542,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     },
     params: RequestParams = {},
   ) =>
-    this.request<BucketQueryGetWhichIsResponse, RpcStatus>({
-      path: `/sonr-io/sonr/bucket/which_is/${index}`,
+    this.request<BucketQueryWhichIsResponse, RpcStatus>({
+      path: `/sonr-io/sonr/bucket/which_is/${did}`,
       method: "GET",
       query: query,
       format: "json",

@@ -9,14 +9,14 @@ const (
 	WhichIsKeyPrefix = "WhichIs/value/"
 )
 
-// WhichIsKey returns the store key to retrieve a WhichIs from the index fields
+// WhichIsKey returns the store key to retrieve a WhichIs from the did field
 func WhichIsKey(
-	index string,
+	did string,
 ) []byte {
 	var key []byte
 
-	indexBytes := []byte(index)
-	key = append(key, indexBytes...)
+	didBytes := []byte(did)
+	key = append(key, didBytes...)
 	key = append(key, []byte("/")...)
 
 	return key

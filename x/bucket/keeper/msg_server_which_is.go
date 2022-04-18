@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"context"
+	"fmt"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
@@ -14,10 +15,10 @@ func (k msgServer) CreateWhichIs(goCtx context.Context, msg *types.MsgCreateWhic
 	// Check if the value already exists
 	_, isFound := k.GetWhichIs(
 		ctx,
-		msg.Index,
+		msg.Did,
 	)
 	if isFound {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "index already set")
+		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, fmt.Sprintf("WhichIs already exists with DID '%s'", msg.Did))
 	}
 
 	var whichIs = types.WhichIs{
@@ -39,10 +40,10 @@ func (k msgServer) UpdateWhichIs(goCtx context.Context, msg *types.MsgUpdateWhic
 	// Check if the value exists
 	valFound, isFound := k.GetWhichIs(
 		ctx,
-		msg.Index,
+		msg.Did,
 	)
 	if !isFound {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, "index not set")
+		return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, fmt.Sprintf("WhichIs with DID '%s' not found", msg.Did))
 	}
 
 	// Checks if the the msg creator is the same as the current owner
@@ -67,10 +68,10 @@ func (k msgServer) DeleteWhichIs(goCtx context.Context, msg *types.MsgDeleteWhic
 	// Check if the value exists
 	valFound, isFound := k.GetWhichIs(
 		ctx,
-		msg.Index,
+		msg.Did,
 	)
 	if !isFound {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, "index not set")
+		return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, fmt.Sprintf("WhichIs with DID '%s' not found", msg.Did))
 	}
 
 	// Checks if the the msg creator is the same as the current owner
@@ -80,7 +81,7 @@ func (k msgServer) DeleteWhichIs(goCtx context.Context, msg *types.MsgDeleteWhic
 
 	k.RemoveWhichIs(
 		ctx,
-		msg.Index,
+		msg.Did,
 	)
 
 	return &types.MsgDeleteWhichIsResponse{}, nil

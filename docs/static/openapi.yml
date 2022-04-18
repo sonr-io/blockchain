@@ -27691,7 +27691,7 @@ paths:
           schema:
             type: object
             properties:
-              whichIs:
+              which_is:
                 type: array
                 items:
                   type: object
@@ -27970,10 +27970,10 @@ paths:
           type: boolean
       tags:
         - Query
-  '/sonr-io/sonr/bucket/which_is/{index}':
+  '/sonr-io/sonr/bucket/which_is/{did}':
     get:
       summary: WhichIs
-      description: Queries a WhichIs by index.
+      description: Queries a WhichIs by did.
       operationId: SonrioSonrBucketWhichIs
       responses:
         '200':
@@ -27981,7 +27981,7 @@ paths:
           schema:
             type: object
             properties:
-              whichIs:
+              which_is:
                 type: object
                 properties:
                   did:
@@ -28048,7 +28048,7 @@ paths:
                       type: string
                   additionalProperties: {}
       parameters:
-        - name: index
+        - name: did
           in: path
           required: true
           type: string
@@ -28428,16 +28428,16 @@ paths:
           type: boolean
       tags:
         - Query
-  '/sonr-io/sonr/channel/how_is/{index}':
+  '/sonr-io/sonr/channel/how_is/{did}':
     get:
       summary: HowIs
-      description: Queries a HowIs by index.
+      description: Queries a HowIs by did.
       operationId: SonrioSonrChannelHowIs
       responses:
         '200':
           description: A successful response.
           schema:
-            $ref: '#/definitions/sonrio.sonr.channel.QueryGetHowIsResponse'
+            $ref: '#/definitions/sonrio.sonr.channel.QueryHowIsResponse'
         default:
           description: An unexpected error response.
           schema:
@@ -28457,7 +28457,7 @@ paths:
                       type: string
                   additionalProperties: {}
       parameters:
-        - name: index
+        - name: did
           in: path
           required: true
           type: string
@@ -28837,16 +28837,16 @@ paths:
           type: boolean
       tags:
         - Query
-  '/sonr-io/sonr/object/what_is/{index}':
+  '/sonr-io/sonr/object/what_is/{did}':
     get:
       summary: WhatIs
-      description: Queries a WhatIs by index.
+      description: Queries a WhatIs by DID.
       operationId: SonrioSonrObjectWhatIs
       responses:
         '200':
           description: A successful response.
           schema:
-            $ref: '#/definitions/sonrio.sonr.object.QueryGetWhatIsResponse'
+            $ref: '#/definitions/sonrio.sonr.object.QueryWhatIsResponse'
         default:
           description: An unexpected error response.
           schema:
@@ -28866,7 +28866,7 @@ paths:
                       type: string
                   additionalProperties: {}
       parameters:
-        - name: index
+        - name: did
           in: path
           required: true
           type: string
@@ -29045,7 +29045,7 @@ paths:
           schema:
             type: object
             properties:
-              whoIs:
+              who_is:
                 type: array
                 items:
                   type: object
@@ -29286,10 +29286,10 @@ paths:
           type: boolean
       tags:
         - Query
-  '/sonr-io/sonr/registry/who_is/{index}':
+  '/sonr-io/sonr/registry/who_is/{did}':
     get:
       summary: WhoIs
-      description: Queries a WhoIs by index.
+      description: Queries a WhoIs by did.
       operationId: SonrioSonrRegistryWhoIs
       responses:
         '200':
@@ -29297,7 +29297,7 @@ paths:
           schema:
             type: object
             properties:
-              whoIs:
+              who_is:
                 type: object
                 properties:
                   name:
@@ -29451,7 +29451,7 @@ paths:
                       type: string
                   additionalProperties: {}
       parameters:
-        - name: index
+        - name: did
           in: path
           required: true
           type: string
@@ -48968,7 +48968,7 @@ definitions:
   sonrio.sonr.bucket.QueryAllWhichIsResponse:
     type: object
     properties:
-      whichIs:
+      which_is:
         type: array
         items:
           type: object
@@ -49039,10 +49039,17 @@ definitions:
                    repeated Bar results = 1;
                    PageResponse page = 2;
            }
-  sonrio.sonr.bucket.QueryGetWhichIsResponse:
+  sonrio.sonr.bucket.QueryParamsResponse:
     type: object
     properties:
-      whichIs:
+      params:
+        description: params holds all the parameters of this module.
+        type: object
+    description: QueryParamsResponse is response type for the Query/Params RPC method.
+  sonrio.sonr.bucket.QueryWhichIsResponse:
+    type: object
+    properties:
+      which_is:
         type: object
         properties:
           did:
@@ -49086,13 +49093,6 @@ definitions:
           is_active:
             type: boolean
             title: IsActive is the status of the DID Document
-  sonrio.sonr.bucket.QueryParamsResponse:
-    type: object
-    properties:
-      params:
-        description: params holds all the parameters of this module.
-        type: object
-    description: QueryParamsResponse is response type for the Query/Params RPC method.
   sonrio.sonr.bucket.WhichIs:
     type: object
     properties:
@@ -49681,7 +49681,7 @@ definitions:
   sonrio.sonr.channel.QueryAllHowIsResponse:
     type: object
     properties:
-      howIs:
+      how_is:
         type: array
         items:
           $ref: '#/definitions/sonrio.sonr.channel.HowIs'
@@ -49710,10 +49710,10 @@ definitions:
                    repeated Bar results = 1;
                    PageResponse page = 2;
            }
-  sonrio.sonr.channel.QueryGetHowIsResponse:
+  sonrio.sonr.channel.QueryHowIsResponse:
     type: object
     properties:
-      howIs:
+      how_is:
         $ref: '#/definitions/sonrio.sonr.channel.HowIs'
   sonrio.sonr.channel.QueryParamsResponse:
     type: object
@@ -50238,7 +50238,7 @@ definitions:
   sonrio.sonr.object.QueryAllWhatIsResponse:
     type: object
     properties:
-      whatIs:
+      what_is:
         type: array
         items:
           $ref: '#/definitions/sonrio.sonr.object.WhatIs'
@@ -50267,11 +50267,6 @@ definitions:
                    repeated Bar results = 1;
                    PageResponse page = 2;
            }
-  sonrio.sonr.object.QueryGetWhatIsResponse:
-    type: object
-    properties:
-      whatIs:
-        $ref: '#/definitions/sonrio.sonr.object.WhatIs'
   sonrio.sonr.object.QueryParamsResponse:
     type: object
     properties:
@@ -50279,6 +50274,11 @@ definitions:
         description: params holds all the parameters of this module.
         type: object
     description: QueryParamsResponse is response type for the Query/Params RPC method.
+  sonrio.sonr.object.QueryWhatIsResponse:
+    type: object
+    properties:
+      what_is:
+        $ref: '#/definitions/sonrio.sonr.object.WhatIs'
   sonrio.sonr.object.WhatIs:
     type: object
     properties:
@@ -50313,7 +50313,7 @@ definitions:
         additionalProperties:
           type: string
         title: Data of the response
-      whoIs:
+      who_is:
         type: object
         properties:
           name:
@@ -50648,7 +50648,7 @@ definitions:
       message:
         type: string
         title: Message of the response
-      whoIs:
+      who_is:
         type: object
         properties:
           name:
@@ -51124,7 +51124,7 @@ definitions:
       message:
         type: string
         title: Message of the response
-      whoIs:
+      who_is:
         type: object
         properties:
           name:
@@ -51459,7 +51459,7 @@ definitions:
       message:
         type: string
         title: Message of the response
-      whoIs:
+      who_is:
         type: object
         properties:
           name:
@@ -51799,7 +51799,7 @@ definitions:
         additionalProperties:
           type: string
         title: Data of the response
-      whoIs:
+      who_is:
         type: object
         properties:
           name:
@@ -51931,7 +51931,7 @@ definitions:
       message:
         type: string
         title: Message of the response
-      whoIs:
+      who_is:
         type: object
         properties:
           name:
@@ -52190,7 +52190,7 @@ definitions:
   sonrio.sonr.registry.QueryAllWhoIsResponse:
     type: object
     properties:
-      whoIs:
+      who_is:
         type: array
         items:
           type: object
@@ -52340,10 +52340,17 @@ definitions:
                    repeated Bar results = 1;
                    PageResponse page = 2;
            }
-  sonrio.sonr.registry.QueryGetWhoIsResponse:
+  sonrio.sonr.registry.QueryParamsResponse:
     type: object
     properties:
-      whoIs:
+      params:
+        description: params holds all the parameters of this module.
+        type: object
+    description: QueryParamsResponse is response type for the Query/Params RPC method.
+  sonrio.sonr.registry.QueryWhoIsResponse:
+    type: object
+    properties:
+      who_is:
         type: object
         properties:
           name:
@@ -52464,10 +52471,3 @@ definitions:
         description: >-
           WhoIs is the entry pointing a registered name to a user account
           address, Did Url string, and a DIDDocument.
-  sonrio.sonr.registry.QueryParamsResponse:
-    type: object
-    properties:
-      params:
-        description: params holds all the parameters of this module.
-        type: object
-    description: QueryParamsResponse is response type for the Query/Params RPC method.

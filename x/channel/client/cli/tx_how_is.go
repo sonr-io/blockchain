@@ -10,16 +10,12 @@ import (
 
 func CmdCreateHowIs() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "create-how-is [index] [did] [value]",
-		Short: "Create a new howIs",
+		Use:   "create-how-is [did] [value]",
+		Short: "Create a new HowIs",
 		Args:  cobra.ExactArgs(3),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
-			// Get indexes
-			indexIndex := args[0]
-
-			// Get value arguments
-			argDid := args[1]
-			//argValue := args[2]
+			// Get did argument
+			argDid := args[0]
 
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
@@ -28,7 +24,6 @@ func CmdCreateHowIs() *cobra.Command {
 
 			msg := types.NewMsgCreateHowIs(
 				clientCtx.GetFromAddress().String(),
-				indexIndex,
 				argDid,
 				nil,
 			)
@@ -46,16 +41,12 @@ func CmdCreateHowIs() *cobra.Command {
 
 func CmdUpdateHowIs() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "update-how-is [index] [did] [value]",
+		Use:   "update-how-is [did] [value]",
 		Short: "Update a howIs",
 		Args:  cobra.ExactArgs(3),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
-			// Get indexes
-			indexIndex := args[0]
-
 			// Get value arguments
-			argDid := args[1]
-			//argValue := args[2]
+			argDid := args[0]
 
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
@@ -64,10 +55,8 @@ func CmdUpdateHowIs() *cobra.Command {
 
 			msg := types.NewMsgUpdateHowIs(
 				clientCtx.GetFromAddress().String(),
-				indexIndex,
 				argDid,
 				nil,
-				//argValue,
 			)
 			if err := msg.ValidateBasic(); err != nil {
 				return err
@@ -83,11 +72,11 @@ func CmdUpdateHowIs() *cobra.Command {
 
 func CmdDeleteHowIs() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "delete-how-is [index]",
+		Use:   "delete-how-is [did]",
 		Short: "Delete a howIs",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
-			indexIndex := args[0]
+			did := args[0]
 
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
@@ -96,7 +85,7 @@ func CmdDeleteHowIs() *cobra.Command {
 
 			msg := types.NewMsgDeleteHowIs(
 				clientCtx.GetFromAddress().String(),
-				indexIndex,
+				did,
 			)
 			if err := msg.ValidateBasic(); err != nil {
 				return err

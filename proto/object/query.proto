@@ -13,18 +13,18 @@ option go_package = "github.com/sonr-io/blockchain/x/object/types";
 
 // Query defines the gRPC querier service.
 service Query {
-  	// Params
-  	//
-  	// Parameters queries the parameters of the module.
-  	rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
-    	option (google.api.http).get = "/sonrio/sonr/object/params";
-  	}
+	// Params
+	//
+	// Parameters queries the parameters of the module.
+	rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
+		option (google.api.http).get = "/sonrio/sonr/object/params";
+	}
 
 	// WhatIs
 	//
-	// Queries a WhatIs by index.
-	rpc WhatIs(QueryGetWhatIsRequest) returns (QueryGetWhatIsResponse) {
-		option (google.api.http).get = "/sonr-io/sonr/object/what_is/{index}";
+	// Queries a WhatIs by DID.
+	rpc WhatIs(QueryWhatIsRequest) returns (QueryWhatIsResponse) {
+		option (google.api.http).get = "/sonr-io/sonr/object/what_is/{did}";
 	}
 
 	// WhatIsAll
@@ -46,13 +46,13 @@ message QueryParamsResponse {
   Params params = 1 [(gogoproto.nullable) = false];
 }
 
-message QueryGetWhatIsRequest {
-	string index = 1;
-  	sonrio.sonr.registry.Session session = 2;
+message QueryWhatIsRequest {
+	string did = 1;
+	sonrio.sonr.registry.Session session = 2;
 }
 
-message QueryGetWhatIsResponse {
-	WhatIs whatIs = 1 [(gogoproto.nullable) = false];
+message QueryWhatIsResponse {
+	WhatIs what_is = 1 [(gogoproto.nullable) = false];
 }
 
 message QueryAllWhatIsRequest {
@@ -61,7 +61,7 @@ message QueryAllWhatIsRequest {
 }
 
 message QueryAllWhatIsResponse {
-	repeated WhatIs whatIs = 1 [(gogoproto.nullable) = false];
+	repeated WhatIs what_is = 1 [(gogoproto.nullable) = false];
 	cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 

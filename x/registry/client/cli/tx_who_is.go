@@ -10,12 +10,12 @@ import (
 
 func CmdCreateWhoIs() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "create-who-is [index] [did] [value]",
+		Use:   "create-who-is [did] [value]",
 		Short: "Create a new whoIs",
 		Args:  cobra.ExactArgs(3),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
-			// Get indexes
-			indexIndex := args[0]
+			// Get did
+			did := args[0]
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
 				return err
@@ -23,7 +23,7 @@ func CmdCreateWhoIs() *cobra.Command {
 
 			msg := types.NewMsgCreateWhoIs(
 				clientCtx.GetFromAddress().String(),
-				indexIndex,
+				did,
 				nil,
 				nil,
 			)
@@ -41,12 +41,12 @@ func CmdCreateWhoIs() *cobra.Command {
 
 func CmdUpdateWhoIs() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "update-who-is [index] [did] [value]",
+		Use:   "update-who-is [did] [value]",
 		Short: "Update a whoIs",
 		Args:  cobra.ExactArgs(3),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
-			// Get indexes
-			indexIndex := args[0]
+			// Get did
+			did := args[0]
 
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
@@ -55,7 +55,7 @@ func CmdUpdateWhoIs() *cobra.Command {
 
 			msg := types.NewMsgUpdateWhoIs(
 				clientCtx.GetFromAddress().String(),
-				indexIndex,
+				did,
 				nil,
 				nil,
 			)
@@ -73,11 +73,11 @@ func CmdUpdateWhoIs() *cobra.Command {
 
 func CmdDeleteWhoIs() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "delete-who-is [index]",
+		Use:   "delete-who-is [did]",
 		Short: "Delete a whoIs",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
-			indexIndex := args[0]
+			did := args[0]
 
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
@@ -86,7 +86,7 @@ func CmdDeleteWhoIs() *cobra.Command {
 
 			msg := types.NewMsgDeleteWhoIs(
 				clientCtx.GetFromAddress().String(),
-				indexIndex,
+				did,
 			)
 			if err := msg.ValidateBasic(); err != nil {
 				return err

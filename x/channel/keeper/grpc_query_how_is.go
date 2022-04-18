@@ -39,7 +39,7 @@ func (k Keeper) HowIsAll(c context.Context, req *types.QueryAllHowIsRequest) (*t
 	return &types.QueryAllHowIsResponse{HowIs: howIss, Pagination: pageRes}, nil
 }
 
-func (k Keeper) HowIs(c context.Context, req *types.QueryGetHowIsRequest) (*types.QueryGetHowIsResponse, error) {
+func (k Keeper) HowIs(c context.Context, req *types.QueryHowIsRequest) (*types.QueryHowIsResponse, error) {
 	if req == nil {
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
@@ -47,7 +47,7 @@ func (k Keeper) HowIs(c context.Context, req *types.QueryGetHowIsRequest) (*type
 
 	val, found := k.GetHowIs(
 		ctx,
-		req.Index,
+		req.Did,
 	)
 	if !found {
 		return nil, status.Error(codes.InvalidArgument, "not found")
@@ -58,5 +58,5 @@ func (k Keeper) HowIs(c context.Context, req *types.QueryGetHowIsRequest) (*type
 		return nil, types.ErrInactiveChannel
 	}
 
-	return &types.QueryGetHowIsResponse{HowIs: val}, nil
+	return &types.QueryHowIsResponse{HowIs: val}, nil
 }

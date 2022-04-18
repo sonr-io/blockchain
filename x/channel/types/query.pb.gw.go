@@ -52,11 +52,11 @@ func local_request_Query_Params_0(ctx context.Context, marshaler runtime.Marshal
 }
 
 var (
-	filter_Query_HowIs_0 = &utilities.DoubleArray{Encoding: map[string]int{"index": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
+	filter_Query_HowIs_0 = &utilities.DoubleArray{Encoding: map[string]int{"did": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
 )
 
 func request_Query_HowIs_0(ctx context.Context, marshaler runtime.Marshaler, client QueryClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq QueryGetHowIsRequest
+	var protoReq QueryHowIsRequest
 	var metadata runtime.ServerMetadata
 
 	var (
@@ -66,15 +66,15 @@ func request_Query_HowIs_0(ctx context.Context, marshaler runtime.Marshaler, cli
 		_   = err
 	)
 
-	val, ok = pathParams["index"]
+	val, ok = pathParams["did"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "index")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "did")
 	}
 
-	protoReq.Index, err = runtime.String(val)
+	protoReq.Did, err = runtime.String(val)
 
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "index", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "did", err)
 	}
 
 	if err := req.ParseForm(); err != nil {
@@ -90,7 +90,7 @@ func request_Query_HowIs_0(ctx context.Context, marshaler runtime.Marshaler, cli
 }
 
 func local_request_Query_HowIs_0(ctx context.Context, marshaler runtime.Marshaler, server QueryServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq QueryGetHowIsRequest
+	var protoReq QueryHowIsRequest
 	var metadata runtime.ServerMetadata
 
 	var (
@@ -100,15 +100,15 @@ func local_request_Query_HowIs_0(ctx context.Context, marshaler runtime.Marshale
 		_   = err
 	)
 
-	val, ok = pathParams["index"]
+	val, ok = pathParams["did"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "index")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "did")
 	}
 
-	protoReq.Index, err = runtime.String(val)
+	protoReq.Did, err = runtime.String(val)
 
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "index", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "did", err)
 	}
 
 	if err := req.ParseForm(); err != nil {
@@ -341,7 +341,7 @@ func RegisterQueryHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 var (
 	pattern_Query_Params_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"sonrio", "sonr", "channel", "params"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_Query_HowIs_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"sonr-io", "sonr", "channel", "how_is", "index"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_Query_HowIs_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"sonr-io", "sonr", "channel", "how_is", "did"}, "", runtime.AssumeColonVerbOpt(true)))
 
 	pattern_Query_HowIsAll_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"sonr-io", "sonr", "channel", "how_is"}, "", runtime.AssumeColonVerbOpt(true)))
 )

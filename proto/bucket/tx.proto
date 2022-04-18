@@ -3,7 +3,6 @@ package sonrio.sonr.bucket;
 import "bucket/bucket.proto";
 import "bucket/which_is.proto";
 import "registry/who_is.proto";
-import "object/object.proto";
 
 // this line is used by starport scaffolding # proto/tx/import
 
@@ -113,25 +112,21 @@ message MsgDeactivateBucketResponse {
 
 message MsgCreateWhichIs {
   string creator = 1;
-  string index = 2;
-
-  string did = 3;
-  BucketDoc bucket = 4;
+  string did = 2;
+  BucketDoc bucket = 3;
 }
 message MsgCreateWhichIsResponse {}
 
 message MsgUpdateWhichIs {
   string creator = 1;
-  string index = 2;
-
-  string did = 3;
-  BucketDoc bucket = 4;
+  string did = 2;
+  BucketDoc bucket = 3;
 }
 message MsgUpdateWhichIsResponse {}
 
 message MsgDeleteWhichIs {
   string creator = 1;
-  string index = 2;
+  string did = 2;
 }
 message MsgDeleteWhichIsResponse {}
 

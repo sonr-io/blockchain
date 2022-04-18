@@ -12,18 +12,18 @@ option go_package = "github.com/sonr-io/blockchain/x/registry/types";
 
 // Query defines the gRPC querier service.
 service Query {
-  	// Params
-  	//
-  	// Params queries the parameters of the Registry Module.
-  	rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
-    	option (google.api.http).get = "/sonrio/sonr/registry/params";
-  	}
+	// Params
+	//
+	// Params queries the parameters of the Registry Module.
+	rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
+		option (google.api.http).get = "/sonrio/sonr/registry/params";
+	}
 
-  	// WhoIs
-  	//
-  	// Queries a WhoIs by index.
-	rpc WhoIs(QueryGetWhoIsRequest) returns (QueryGetWhoIsResponse) {
-		option (google.api.http).get = "/sonr-io/sonr/registry/who_is/{index}";
+	// WhoIs
+	//
+	// Queries a WhoIs by did.
+	rpc WhoIs(QueryWhoIsRequest) returns (QueryWhoIsResponse) {
+		option (google.api.http).get = "/sonr-io/sonr/registry/who_is/{did}";
 	}
 
 	// WhoIsAll
@@ -45,12 +45,12 @@ message QueryParamsResponse {
   Params params = 1 [(gogoproto.nullable) = false];
 }
 
-message QueryGetWhoIsRequest {
-	  string index = 1;
+message QueryWhoIsRequest {
+	string did = 1;
 }
 
-message QueryGetWhoIsResponse {
-	WhoIs whoIs = 1 [(gogoproto.nullable) = false];
+message QueryWhoIsResponse {
+	WhoIs who_is = 1 [(gogoproto.nullable) = false];
 }
 
 message QueryAllWhoIsRequest {
@@ -58,7 +58,7 @@ message QueryAllWhoIsRequest {
 }
 
 message QueryAllWhoIsResponse {
-	repeated WhoIs whoIs = 1 [(gogoproto.nullable) = false];
+	repeated WhoIs who_is = 1 [(gogoproto.nullable) = false];
 	cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
