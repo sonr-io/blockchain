@@ -1,9 +1,8 @@
 swagger: '2.0'
 info:
   title: HTTP API Console
-  name: 'Sonr Blockchain API'
-  description: 'API specification for methods to interact with the Sonr blockchain'
-  version: 'v0.0.1'
+  name: ''
+  description: ''
 paths:
   /cosmos/auth/v1beta1/accounts:
     get:
@@ -28225,7 +28224,126 @@ paths:
         '200':
           description: A successful response.
           schema:
-            $ref: '#/definitions/sonrio.sonr.channel.QueryAllHowIsResponse'
+            type: object
+            properties:
+              how_is:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    did:
+                      type: string
+                      title: Did is the DID of the channel
+                    creator:
+                      type: string
+                      title: >-
+                        Document is the DID Document of the registered name and
+                        account encoded as JSON
+                    channel:
+                      title: >-
+                        ChannelDoc is the structure of the channel encoded as
+                        JSON
+                      type: object
+                      properties:
+                        label:
+                          type: string
+                          description: Label is human-readable name of the channel.
+                        description:
+                          type: string
+                          description: >-
+                            Description is a human-readable description of the
+                            channel.
+                        did:
+                          type: string
+                          description: Did is the identifier of the channel.
+                        registered_object:
+                          description: >-
+                            RegisterdObject is the object that is registered as
+                            the payload for the channel.
+                          type: object
+                          properties:
+                            label:
+                              type: string
+                              description: Label is human-readable name of the bucket.
+                            description:
+                              type: string
+                              description: >-
+                                Description is a human-readable description of
+                                the bucket.
+                            did:
+                              type: string
+                              description: Did is the identifier of the object.
+                            bucket_did:
+                              type: string
+                              description: >-
+                                Bucket is the did of the bucket that contains
+                                this object.
+                            fields:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  name:
+                                    type: string
+                                    description: Name is the name of the field.
+                                  kind:
+                                    description: Type is the type of the field.
+                                    type: string
+                                    enum:
+                                      - TypeKind_Invalid
+                                      - TypeKind_Map
+                                      - TypeKind_List
+                                      - TypeKind_Unit
+                                      - TypeKind_Bool
+                                      - TypeKind_Int
+                                      - TypeKind_Float
+                                      - TypeKind_String
+                                      - TypeKind_Bytes
+                                      - TypeKind_Link
+                                      - TypeKind_Struct
+                                      - TypeKind_Union
+                                      - TypeKind_Enum
+                                      - TypeKind_Any
+                                    default: TypeKind_Invalid
+                              description: >-
+                                Fields are the fields associated with the
+                                object.
+                    timestamp:
+                      type: string
+                      format: int64
+                      title: >-
+                        Timestamp is the time of the last update of the DID
+                        Document
+                    is_active:
+                      type: boolean
+                      title: IsActive is the status of the DID Document
+              pagination:
+                type: object
+                properties:
+                  next_key:
+                    type: string
+                    format: byte
+                    title: |-
+                      next_key is the key to be passed to PageRequest.key to
+                      query the next page most efficiently
+                  total:
+                    type: string
+                    format: uint64
+                    title: >-
+                      total is total number of results available if
+                      PageRequest.count_total
+
+                      was set, its value is undefined otherwise
+                description: >-
+                  PageResponse is to be embedded in gRPC response messages where
+                  the
+
+                  corresponding request message has used PageRequest.
+
+                   message SomeResponse {
+                           repeated Bar results = 1;
+                           PageResponse page = 2;
+                   }
         default:
           description: An unexpected error response.
           schema:
@@ -28437,7 +28555,93 @@ paths:
         '200':
           description: A successful response.
           schema:
-            $ref: '#/definitions/sonrio.sonr.channel.QueryHowIsResponse'
+            type: object
+            properties:
+              how_is:
+                type: object
+                properties:
+                  did:
+                    type: string
+                    title: Did is the DID of the channel
+                  creator:
+                    type: string
+                    title: >-
+                      Document is the DID Document of the registered name and
+                      account encoded as JSON
+                  channel:
+                    title: ChannelDoc is the structure of the channel encoded as JSON
+                    type: object
+                    properties:
+                      label:
+                        type: string
+                        description: Label is human-readable name of the channel.
+                      description:
+                        type: string
+                        description: >-
+                          Description is a human-readable description of the
+                          channel.
+                      did:
+                        type: string
+                        description: Did is the identifier of the channel.
+                      registered_object:
+                        description: >-
+                          RegisterdObject is the object that is registered as
+                          the payload for the channel.
+                        type: object
+                        properties:
+                          label:
+                            type: string
+                            description: Label is human-readable name of the bucket.
+                          description:
+                            type: string
+                            description: >-
+                              Description is a human-readable description of the
+                              bucket.
+                          did:
+                            type: string
+                            description: Did is the identifier of the object.
+                          bucket_did:
+                            type: string
+                            description: >-
+                              Bucket is the did of the bucket that contains this
+                              object.
+                          fields:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                name:
+                                  type: string
+                                  description: Name is the name of the field.
+                                kind:
+                                  description: Type is the type of the field.
+                                  type: string
+                                  enum:
+                                    - TypeKind_Invalid
+                                    - TypeKind_Map
+                                    - TypeKind_List
+                                    - TypeKind_Unit
+                                    - TypeKind_Bool
+                                    - TypeKind_Int
+                                    - TypeKind_Float
+                                    - TypeKind_String
+                                    - TypeKind_Bytes
+                                    - TypeKind_Link
+                                    - TypeKind_Struct
+                                    - TypeKind_Union
+                                    - TypeKind_Enum
+                                    - TypeKind_Any
+                                  default: TypeKind_Invalid
+                            description: Fields are the fields associated with the object.
+                  timestamp:
+                    type: string
+                    format: int64
+                    title: >-
+                      Timestamp is the time of the last update of the DID
+                      Document
+                  is_active:
+                    type: boolean
+                    title: IsActive is the status of the DID Document
         default:
           description: An unexpected error response.
           schema:
@@ -28634,7 +28838,106 @@ paths:
         '200':
           description: A successful response.
           schema:
-            $ref: '#/definitions/sonrio.sonr.object.QueryAllWhatIsResponse'
+            type: object
+            properties:
+              what_is:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    did:
+                      type: string
+                      title: DID is the DID of the object
+                    object_doc:
+                      title: Object_doc is the object document
+                      type: object
+                      properties:
+                        label:
+                          type: string
+                          description: Label is human-readable name of the bucket.
+                        description:
+                          type: string
+                          description: >-
+                            Description is a human-readable description of the
+                            bucket.
+                        did:
+                          type: string
+                          description: Did is the identifier of the object.
+                        bucket_did:
+                          type: string
+                          description: >-
+                            Bucket is the did of the bucket that contains this
+                            object.
+                        fields:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              name:
+                                type: string
+                                description: Name is the name of the field.
+                              kind:
+                                description: Type is the type of the field.
+                                type: string
+                                enum:
+                                  - TypeKind_Invalid
+                                  - TypeKind_Map
+                                  - TypeKind_List
+                                  - TypeKind_Unit
+                                  - TypeKind_Bool
+                                  - TypeKind_Int
+                                  - TypeKind_Float
+                                  - TypeKind_String
+                                  - TypeKind_Bytes
+                                  - TypeKind_Link
+                                  - TypeKind_Struct
+                                  - TypeKind_Union
+                                  - TypeKind_Enum
+                                  - TypeKind_Any
+                                default: TypeKind_Invalid
+                          description: Fields are the fields associated with the object.
+                      description: >-
+                        ObjectDoc is a document for an Object stored in the
+                        graph.
+                    creator:
+                      type: string
+                      title: Creator is the DID of the creator
+                    timestamp:
+                      type: string
+                      format: int64
+                      title: >-
+                        Timestamp is the time of the last update of the DID
+                        Document
+                    is_active:
+                      type: boolean
+                      title: IsActive is the status of the DID Document
+              pagination:
+                type: object
+                properties:
+                  next_key:
+                    type: string
+                    format: byte
+                    title: |-
+                      next_key is the key to be passed to PageRequest.key to
+                      query the next page most efficiently
+                  total:
+                    type: string
+                    format: uint64
+                    title: >-
+                      total is total number of results available if
+                      PageRequest.count_total
+
+                      was set, its value is undefined otherwise
+                description: >-
+                  PageResponse is to be embedded in gRPC response messages where
+                  the
+
+                  corresponding request message has used PageRequest.
+
+                   message SomeResponse {
+                           repeated Bar results = 1;
+                           PageResponse page = 2;
+                   }
         default:
           description: An unexpected error response.
           schema:
@@ -28846,7 +29149,75 @@ paths:
         '200':
           description: A successful response.
           schema:
-            $ref: '#/definitions/sonrio.sonr.object.QueryWhatIsResponse'
+            type: object
+            properties:
+              what_is:
+                type: object
+                properties:
+                  did:
+                    type: string
+                    title: DID is the DID of the object
+                  object_doc:
+                    title: Object_doc is the object document
+                    type: object
+                    properties:
+                      label:
+                        type: string
+                        description: Label is human-readable name of the bucket.
+                      description:
+                        type: string
+                        description: >-
+                          Description is a human-readable description of the
+                          bucket.
+                      did:
+                        type: string
+                        description: Did is the identifier of the object.
+                      bucket_did:
+                        type: string
+                        description: >-
+                          Bucket is the did of the bucket that contains this
+                          object.
+                      fields:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              description: Name is the name of the field.
+                            kind:
+                              description: Type is the type of the field.
+                              type: string
+                              enum:
+                                - TypeKind_Invalid
+                                - TypeKind_Map
+                                - TypeKind_List
+                                - TypeKind_Unit
+                                - TypeKind_Bool
+                                - TypeKind_Int
+                                - TypeKind_Float
+                                - TypeKind_String
+                                - TypeKind_Bytes
+                                - TypeKind_Link
+                                - TypeKind_Struct
+                                - TypeKind_Union
+                                - TypeKind_Enum
+                                - TypeKind_Any
+                              default: TypeKind_Invalid
+                        description: Fields are the fields associated with the object.
+                    description: ObjectDoc is a document for an Object stored in the graph.
+                  creator:
+                    type: string
+                    title: Creator is the DID of the creator
+                  timestamp:
+                    type: string
+                    format: int64
+                    title: >-
+                      Timestamp is the time of the last update of the DID
+                      Document
+                  is_active:
+                    type: boolean
+                    title: IsActive is the status of the DID Document
         default:
           description: An unexpected error response.
           schema:
@@ -49583,10 +49954,51 @@ definitions:
         type: string
         description: Did is the identifier of the channel.
       registered_object:
-        $ref: '#/definitions/sonrio.sonr.object.ObjectDoc'
         description: >-
           RegisterdObject is the object that is registered as the payload for
           the channel.
+        type: object
+        properties:
+          label:
+            type: string
+            description: Label is human-readable name of the bucket.
+          description:
+            type: string
+            description: Description is a human-readable description of the bucket.
+          did:
+            type: string
+            description: Did is the identifier of the object.
+          bucket_did:
+            type: string
+            description: Bucket is the did of the bucket that contains this object.
+          fields:
+            type: array
+            items:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Name is the name of the field.
+                kind:
+                  description: Type is the type of the field.
+                  type: string
+                  enum:
+                    - TypeKind_Invalid
+                    - TypeKind_Map
+                    - TypeKind_List
+                    - TypeKind_Unit
+                    - TypeKind_Bool
+                    - TypeKind_Int
+                    - TypeKind_Float
+                    - TypeKind_String
+                    - TypeKind_Bytes
+                    - TypeKind_Link
+                    - TypeKind_Struct
+                    - TypeKind_Union
+                    - TypeKind_Enum
+                    - TypeKind_Any
+                  default: TypeKind_Invalid
+            description: Fields are the fields associated with the object.
   sonrio.sonr.channel.HowIs:
     type: object
     properties:
@@ -49599,8 +50011,64 @@ definitions:
           Document is the DID Document of the registered name and account
           encoded as JSON
       channel:
-        $ref: '#/definitions/sonrio.sonr.channel.ChannelDoc'
         title: ChannelDoc is the structure of the channel encoded as JSON
+        type: object
+        properties:
+          label:
+            type: string
+            description: Label is human-readable name of the channel.
+          description:
+            type: string
+            description: Description is a human-readable description of the channel.
+          did:
+            type: string
+            description: Did is the identifier of the channel.
+          registered_object:
+            description: >-
+              RegisterdObject is the object that is registered as the payload
+              for the channel.
+            type: object
+            properties:
+              label:
+                type: string
+                description: Label is human-readable name of the bucket.
+              description:
+                type: string
+                description: Description is a human-readable description of the bucket.
+              did:
+                type: string
+                description: Did is the identifier of the object.
+              bucket_did:
+                type: string
+                description: Bucket is the did of the bucket that contains this object.
+              fields:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      description: Name is the name of the field.
+                    kind:
+                      description: Type is the type of the field.
+                      type: string
+                      enum:
+                        - TypeKind_Invalid
+                        - TypeKind_Map
+                        - TypeKind_List
+                        - TypeKind_Unit
+                        - TypeKind_Bool
+                        - TypeKind_Int
+                        - TypeKind_Float
+                        - TypeKind_String
+                        - TypeKind_Bytes
+                        - TypeKind_Link
+                        - TypeKind_Struct
+                        - TypeKind_Union
+                        - TypeKind_Enum
+                        - TypeKind_Any
+                      default: TypeKind_Invalid
+                description: Fields are the fields associated with the object.
       timestamp:
         type: string
         format: int64
@@ -49619,7 +50087,82 @@ definitions:
         type: string
         title: Message of the response
       how_is:
-        $ref: '#/definitions/sonrio.sonr.channel.HowIs'
+        type: object
+        properties:
+          did:
+            type: string
+            title: Did is the DID of the channel
+          creator:
+            type: string
+            title: >-
+              Document is the DID Document of the registered name and account
+              encoded as JSON
+          channel:
+            title: ChannelDoc is the structure of the channel encoded as JSON
+            type: object
+            properties:
+              label:
+                type: string
+                description: Label is human-readable name of the channel.
+              description:
+                type: string
+                description: Description is a human-readable description of the channel.
+              did:
+                type: string
+                description: Did is the identifier of the channel.
+              registered_object:
+                description: >-
+                  RegisterdObject is the object that is registered as the
+                  payload for the channel.
+                type: object
+                properties:
+                  label:
+                    type: string
+                    description: Label is human-readable name of the bucket.
+                  description:
+                    type: string
+                    description: Description is a human-readable description of the bucket.
+                  did:
+                    type: string
+                    description: Did is the identifier of the object.
+                  bucket_did:
+                    type: string
+                    description: Bucket is the did of the bucket that contains this object.
+                  fields:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: Name is the name of the field.
+                        kind:
+                          description: Type is the type of the field.
+                          type: string
+                          enum:
+                            - TypeKind_Invalid
+                            - TypeKind_Map
+                            - TypeKind_List
+                            - TypeKind_Unit
+                            - TypeKind_Bool
+                            - TypeKind_Int
+                            - TypeKind_Float
+                            - TypeKind_String
+                            - TypeKind_Bytes
+                            - TypeKind_Link
+                            - TypeKind_Struct
+                            - TypeKind_Union
+                            - TypeKind_Enum
+                            - TypeKind_Any
+                          default: TypeKind_Invalid
+                    description: Fields are the fields associated with the object.
+          timestamp:
+            type: string
+            format: int64
+            title: Timestamp is the time of the last update of the DID Document
+          is_active:
+            type: boolean
+            title: IsActive is the status of the DID Document
         title: HowIs of the Channel
   sonrio.sonr.channel.MsgCreateHowIsResponse:
     type: object
@@ -49632,7 +50175,82 @@ definitions:
         type: string
         title: Message of the response
       how_is:
-        $ref: '#/definitions/sonrio.sonr.channel.HowIs'
+        type: object
+        properties:
+          did:
+            type: string
+            title: Did is the DID of the channel
+          creator:
+            type: string
+            title: >-
+              Document is the DID Document of the registered name and account
+              encoded as JSON
+          channel:
+            title: ChannelDoc is the structure of the channel encoded as JSON
+            type: object
+            properties:
+              label:
+                type: string
+                description: Label is human-readable name of the channel.
+              description:
+                type: string
+                description: Description is a human-readable description of the channel.
+              did:
+                type: string
+                description: Did is the identifier of the channel.
+              registered_object:
+                description: >-
+                  RegisterdObject is the object that is registered as the
+                  payload for the channel.
+                type: object
+                properties:
+                  label:
+                    type: string
+                    description: Label is human-readable name of the bucket.
+                  description:
+                    type: string
+                    description: Description is a human-readable description of the bucket.
+                  did:
+                    type: string
+                    description: Did is the identifier of the object.
+                  bucket_did:
+                    type: string
+                    description: Bucket is the did of the bucket that contains this object.
+                  fields:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: Name is the name of the field.
+                        kind:
+                          description: Type is the type of the field.
+                          type: string
+                          enum:
+                            - TypeKind_Invalid
+                            - TypeKind_Map
+                            - TypeKind_List
+                            - TypeKind_Unit
+                            - TypeKind_Bool
+                            - TypeKind_Int
+                            - TypeKind_Float
+                            - TypeKind_String
+                            - TypeKind_Bytes
+                            - TypeKind_Link
+                            - TypeKind_Struct
+                            - TypeKind_Union
+                            - TypeKind_Enum
+                            - TypeKind_Any
+                          default: TypeKind_Invalid
+                    description: Fields are the fields associated with the object.
+          timestamp:
+            type: string
+            format: int64
+            title: Timestamp is the time of the last update of the DID Document
+          is_active:
+            type: boolean
+            title: IsActive is the status of the DID Document
   sonrio.sonr.channel.MsgDeactivateChannelResponse:
     type: object
     properties:
@@ -49674,7 +50292,82 @@ definitions:
         type: string
         title: Message of the response
       how_is:
-        $ref: '#/definitions/sonrio.sonr.channel.HowIs'
+        type: object
+        properties:
+          did:
+            type: string
+            title: Did is the DID of the channel
+          creator:
+            type: string
+            title: >-
+              Document is the DID Document of the registered name and account
+              encoded as JSON
+          channel:
+            title: ChannelDoc is the structure of the channel encoded as JSON
+            type: object
+            properties:
+              label:
+                type: string
+                description: Label is human-readable name of the channel.
+              description:
+                type: string
+                description: Description is a human-readable description of the channel.
+              did:
+                type: string
+                description: Did is the identifier of the channel.
+              registered_object:
+                description: >-
+                  RegisterdObject is the object that is registered as the
+                  payload for the channel.
+                type: object
+                properties:
+                  label:
+                    type: string
+                    description: Label is human-readable name of the bucket.
+                  description:
+                    type: string
+                    description: Description is a human-readable description of the bucket.
+                  did:
+                    type: string
+                    description: Did is the identifier of the object.
+                  bucket_did:
+                    type: string
+                    description: Bucket is the did of the bucket that contains this object.
+                  fields:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: Name is the name of the field.
+                        kind:
+                          description: Type is the type of the field.
+                          type: string
+                          enum:
+                            - TypeKind_Invalid
+                            - TypeKind_Map
+                            - TypeKind_List
+                            - TypeKind_Unit
+                            - TypeKind_Bool
+                            - TypeKind_Int
+                            - TypeKind_Float
+                            - TypeKind_String
+                            - TypeKind_Bytes
+                            - TypeKind_Link
+                            - TypeKind_Struct
+                            - TypeKind_Union
+                            - TypeKind_Enum
+                            - TypeKind_Any
+                          default: TypeKind_Invalid
+                    description: Fields are the fields associated with the object.
+          timestamp:
+            type: string
+            format: int64
+            title: Timestamp is the time of the last update of the DID Document
+          is_active:
+            type: boolean
+            title: IsActive is the status of the DID Document
   sonrio.sonr.channel.Params:
     type: object
     description: Params defines the parameters for the module.
@@ -49684,7 +50377,86 @@ definitions:
       how_is:
         type: array
         items:
-          $ref: '#/definitions/sonrio.sonr.channel.HowIs'
+          type: object
+          properties:
+            did:
+              type: string
+              title: Did is the DID of the channel
+            creator:
+              type: string
+              title: >-
+                Document is the DID Document of the registered name and account
+                encoded as JSON
+            channel:
+              title: ChannelDoc is the structure of the channel encoded as JSON
+              type: object
+              properties:
+                label:
+                  type: string
+                  description: Label is human-readable name of the channel.
+                description:
+                  type: string
+                  description: Description is a human-readable description of the channel.
+                did:
+                  type: string
+                  description: Did is the identifier of the channel.
+                registered_object:
+                  description: >-
+                    RegisterdObject is the object that is registered as the
+                    payload for the channel.
+                  type: object
+                  properties:
+                    label:
+                      type: string
+                      description: Label is human-readable name of the bucket.
+                    description:
+                      type: string
+                      description: >-
+                        Description is a human-readable description of the
+                        bucket.
+                    did:
+                      type: string
+                      description: Did is the identifier of the object.
+                    bucket_did:
+                      type: string
+                      description: >-
+                        Bucket is the did of the bucket that contains this
+                        object.
+                    fields:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                            description: Name is the name of the field.
+                          kind:
+                            description: Type is the type of the field.
+                            type: string
+                            enum:
+                              - TypeKind_Invalid
+                              - TypeKind_Map
+                              - TypeKind_List
+                              - TypeKind_Unit
+                              - TypeKind_Bool
+                              - TypeKind_Int
+                              - TypeKind_Float
+                              - TypeKind_String
+                              - TypeKind_Bytes
+                              - TypeKind_Link
+                              - TypeKind_Struct
+                              - TypeKind_Union
+                              - TypeKind_Enum
+                              - TypeKind_Any
+                            default: TypeKind_Invalid
+                      description: Fields are the fields associated with the object.
+            timestamp:
+              type: string
+              format: int64
+              title: Timestamp is the time of the last update of the DID Document
+            is_active:
+              type: boolean
+              title: IsActive is the status of the DID Document
       pagination:
         type: object
         properties:
@@ -49714,7 +50486,82 @@ definitions:
     type: object
     properties:
       how_is:
-        $ref: '#/definitions/sonrio.sonr.channel.HowIs'
+        type: object
+        properties:
+          did:
+            type: string
+            title: Did is the DID of the channel
+          creator:
+            type: string
+            title: >-
+              Document is the DID Document of the registered name and account
+              encoded as JSON
+          channel:
+            title: ChannelDoc is the structure of the channel encoded as JSON
+            type: object
+            properties:
+              label:
+                type: string
+                description: Label is human-readable name of the channel.
+              description:
+                type: string
+                description: Description is a human-readable description of the channel.
+              did:
+                type: string
+                description: Did is the identifier of the channel.
+              registered_object:
+                description: >-
+                  RegisterdObject is the object that is registered as the
+                  payload for the channel.
+                type: object
+                properties:
+                  label:
+                    type: string
+                    description: Label is human-readable name of the bucket.
+                  description:
+                    type: string
+                    description: Description is a human-readable description of the bucket.
+                  did:
+                    type: string
+                    description: Did is the identifier of the object.
+                  bucket_did:
+                    type: string
+                    description: Bucket is the did of the bucket that contains this object.
+                  fields:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: Name is the name of the field.
+                        kind:
+                          description: Type is the type of the field.
+                          type: string
+                          enum:
+                            - TypeKind_Invalid
+                            - TypeKind_Map
+                            - TypeKind_List
+                            - TypeKind_Unit
+                            - TypeKind_Bool
+                            - TypeKind_Int
+                            - TypeKind_Float
+                            - TypeKind_String
+                            - TypeKind_Bytes
+                            - TypeKind_Link
+                            - TypeKind_Struct
+                            - TypeKind_Union
+                            - TypeKind_Enum
+                            - TypeKind_Any
+                          default: TypeKind_Invalid
+                    description: Fields are the fields associated with the object.
+          timestamp:
+            type: string
+            format: int64
+            title: Timestamp is the time of the last update of the DID Document
+          is_active:
+            type: boolean
+            title: IsActive is the status of the DID Document
   sonrio.sonr.channel.QueryParamsResponse:
     type: object
     properties:
@@ -49738,449 +50585,77 @@ definitions:
         type: string
         description: Bucket is the did of the bucket that contains this object.
       fields:
-        type: object
-        additionalProperties:
-          $ref: '#/definitions/sonrio.sonr.object.ObjectField'
-        description: Fields are the fields associated with the object.
-    description: ObjectDoc is a document for an Object stored in the graph.
-  sonrio.sonr.object.ObjectField:
-    type: object
-    properties:
-      label:
-        type: string
-        title: Label is the name of the field
-      type:
-        title: Type is the type of the field
-        type: string
-        enum:
-          - OBJECT_FIELD_TYPE_UNSPECIFIED
-          - OBJECT_FIELD_TYPE_STRING
-          - OBJECT_FIELD_TYPE_NUMBER
-          - OBJECT_FIELD_TYPE_BOOL
-          - OBJECT_FIELD_TYPE_ARRAY
-          - OBJECT_FIELD_TYPE_TIMESTAMP
-          - OBJECT_FIELD_TYPE_GEOPOINT
-          - OBJECT_FIELD_TYPE_BLOB
-          - OBJECT_FIELD_TYPE_BLOCKCHAIN_ADDRESS
-        default: OBJECT_FIELD_TYPE_UNSPECIFIED
-        description: >-
-          - OBJECT_FIELD_TYPE_UNSPECIFIED: ObjectFieldTypeUnspecified is the
-          default value
-           - OBJECT_FIELD_TYPE_STRING: ObjectFieldTypeString is a string or text field
-           - OBJECT_FIELD_TYPE_NUMBER: ObjectFieldTypeInt is an integer
-           - OBJECT_FIELD_TYPE_BOOL: ObjectFieldTypeBool is a boolean
-           - OBJECT_FIELD_TYPE_ARRAY: ObjectFieldTypeArray is a list of values
-           - OBJECT_FIELD_TYPE_TIMESTAMP: ObjectFieldTypeDateTime is a datetime
-           - OBJECT_FIELD_TYPE_GEOPOINT: ObjectFieldTypeGeopoint is a geopoint
-           - OBJECT_FIELD_TYPE_BLOB: ObjectFieldTypeBlob is a blob of data
-           - OBJECT_FIELD_TYPE_BLOCKCHAIN_ADDRESS: ObjectFieldTypeETU is a pointer to an Ethereum account address.
-      did:
-        type: string
-        description: Did is the identifier of the field.
-      string_value:
-        title: String is the value of the field
-        type: object
-        properties:
-          label:
-            type: string
-            title: Label is the name of the field
-          did:
-            type: string
-            description: Did is the identifier of the field.
-          value:
-            type: string
-            title: Value is the value of the field
-          metadata:
-            type: object
-            additionalProperties:
-              type: string
-            title: Metadata is additional info about the field
-        description: ObjectFieldText is a text field of an Object.
-      number_value:
-        title: Number is the value of the field
-        type: object
-        properties:
-          label:
-            type: string
-            title: Label is the name of the field
-          did:
-            type: string
-            description: Did is the identifier of the field.
-          value:
-            type: number
-            format: double
-            title: Value is the value of the field
-          metadata:
-            type: object
-            additionalProperties:
-              type: string
-            title: Metadata is additional info about the field
-        description: ObjectFieldNumber is a number field of an Object.
-      bool_value:
-        title: Float is the value of the field
-        type: object
-        properties:
-          label:
-            type: string
-            title: Label is the name of the field
-          did:
-            type: string
-            description: Did is the identifier of the field.
-          value:
-            type: boolean
-            title: Value is the value of the field
-          metadata:
-            type: object
-            additionalProperties:
-              type: string
-            title: Metadata is additional info about the field
-        description: ObjectFieldBool is a boolean field of an Object.
-      array_value:
-        $ref: '#/definitions/sonrio.sonr.object.ObjectFieldArray'
-        title: Array is the value of the field
-      time_stamp_value:
-        description: Time is defined by milliseconds since epoch.
-        type: object
-        properties:
-          label:
-            type: string
-            title: Label is the name of the field
-          did:
-            type: string
-            description: Did is the identifier of the field.
-          value:
-            type: string
-            format: int64
-            title: Value is the value of the field
-          metadata:
-            type: object
-            additionalProperties:
-              type: string
-            title: Metadata is additional info about the field
-      geopoint_value:
-        title: Geopoint is the value of the field
-        type: object
-        properties:
-          label:
-            type: string
-            title: Label is the name of the field
-          type:
-            title: Type is the type of the field
-            type: string
-            enum:
-              - OBJECT_FIELD_TYPE_UNSPECIFIED
-              - OBJECT_FIELD_TYPE_STRING
-              - OBJECT_FIELD_TYPE_NUMBER
-              - OBJECT_FIELD_TYPE_BOOL
-              - OBJECT_FIELD_TYPE_ARRAY
-              - OBJECT_FIELD_TYPE_TIMESTAMP
-              - OBJECT_FIELD_TYPE_GEOPOINT
-              - OBJECT_FIELD_TYPE_BLOB
-              - OBJECT_FIELD_TYPE_BLOCKCHAIN_ADDRESS
-            default: OBJECT_FIELD_TYPE_UNSPECIFIED
-            description: >-
-              - OBJECT_FIELD_TYPE_UNSPECIFIED: ObjectFieldTypeUnspecified is the
-              default value
-               - OBJECT_FIELD_TYPE_STRING: ObjectFieldTypeString is a string or text field
-               - OBJECT_FIELD_TYPE_NUMBER: ObjectFieldTypeInt is an integer
-               - OBJECT_FIELD_TYPE_BOOL: ObjectFieldTypeBool is a boolean
-               - OBJECT_FIELD_TYPE_ARRAY: ObjectFieldTypeArray is a list of values
-               - OBJECT_FIELD_TYPE_TIMESTAMP: ObjectFieldTypeDateTime is a datetime
-               - OBJECT_FIELD_TYPE_GEOPOINT: ObjectFieldTypeGeopoint is a geopoint
-               - OBJECT_FIELD_TYPE_BLOB: ObjectFieldTypeBlob is a blob of data
-               - OBJECT_FIELD_TYPE_BLOCKCHAIN_ADDRESS: ObjectFieldTypeETU is a pointer to an Ethereum account address.
-          did:
-            type: string
-            description: Did is the identifier of the field.
-          latitude:
-            type: number
-            format: double
-            description: Latitude is the geo-latitude of the point.
-          longitude:
-            type: number
-            format: double
-            title: Longitude is the geo-longitude of the field
-          metadata:
-            type: object
-            additionalProperties:
-              type: string
-            title: Metadata is additional info about the field
-        description: ObjectFieldGeopoint is a field of an Object for geopoints.
-      blob_value:
-        title: Blob is the value of the field
-        type: object
-        properties:
-          label:
-            type: string
-            title: Label is the name of the field
-          did:
-            type: string
-            description: Did is the identifier of the field.
-          value:
-            type: string
-            format: byte
-            title: Value is the value of the field
-          metadata:
-            type: object
-            additionalProperties:
-              type: string
-            title: Metadata is additional info about the field
-        description: ObjectFieldBlob is a field of an Object for blobs.
-      blockchain_addr_value:
-        title: Blockchain Address is the value of the field
-        type: object
-        properties:
-          label:
-            type: string
-            title: Label is the name of the field
-          did:
-            type: string
-            description: Did is the identifier of the field.
-          value:
-            type: string
-            title: Value is the value of the field
-          metadata:
-            type: object
-            additionalProperties:
-              type: string
-            title: Metadata is additional info about the field
-        description: >-
-          ObjectFieldBlockchainAddress is a field of an Object for blockchain
-          addresses.
-      metadata:
-        type: object
-        additionalProperties:
-          type: string
-        title: Metadata is additional info about the field
-    description: ObjectField is a field of an Object.
-  sonrio.sonr.object.ObjectFieldArray:
-    type: object
-    properties:
-      label:
-        type: string
-        title: Label is the name of the field
-      type:
-        title: Type is the type of the field
-        type: string
-        enum:
-          - OBJECT_FIELD_TYPE_UNSPECIFIED
-          - OBJECT_FIELD_TYPE_STRING
-          - OBJECT_FIELD_TYPE_NUMBER
-          - OBJECT_FIELD_TYPE_BOOL
-          - OBJECT_FIELD_TYPE_ARRAY
-          - OBJECT_FIELD_TYPE_TIMESTAMP
-          - OBJECT_FIELD_TYPE_GEOPOINT
-          - OBJECT_FIELD_TYPE_BLOB
-          - OBJECT_FIELD_TYPE_BLOCKCHAIN_ADDRESS
-        default: OBJECT_FIELD_TYPE_UNSPECIFIED
-        description: >-
-          - OBJECT_FIELD_TYPE_UNSPECIFIED: ObjectFieldTypeUnspecified is the
-          default value
-           - OBJECT_FIELD_TYPE_STRING: ObjectFieldTypeString is a string or text field
-           - OBJECT_FIELD_TYPE_NUMBER: ObjectFieldTypeInt is an integer
-           - OBJECT_FIELD_TYPE_BOOL: ObjectFieldTypeBool is a boolean
-           - OBJECT_FIELD_TYPE_ARRAY: ObjectFieldTypeArray is a list of values
-           - OBJECT_FIELD_TYPE_TIMESTAMP: ObjectFieldTypeDateTime is a datetime
-           - OBJECT_FIELD_TYPE_GEOPOINT: ObjectFieldTypeGeopoint is a geopoint
-           - OBJECT_FIELD_TYPE_BLOB: ObjectFieldTypeBlob is a blob of data
-           - OBJECT_FIELD_TYPE_BLOCKCHAIN_ADDRESS: ObjectFieldTypeETU is a pointer to an Ethereum account address.
-      did:
-        type: string
-        description: Did is the identifier of the field.
-      items:
         type: array
         items:
-          $ref: '#/definitions/sonrio.sonr.object.ObjectField'
-        title: Entries are the values of the field
-    description: >-
-      ObjectFieldArray is an array of ObjectFields to be stored in the graph
-      object.
-  sonrio.sonr.object.ObjectFieldBlob:
+          type: object
+          properties:
+            name:
+              type: string
+              description: Name is the name of the field.
+            kind:
+              description: Type is the type of the field.
+              type: string
+              enum:
+                - TypeKind_Invalid
+                - TypeKind_Map
+                - TypeKind_List
+                - TypeKind_Unit
+                - TypeKind_Bool
+                - TypeKind_Int
+                - TypeKind_Float
+                - TypeKind_String
+                - TypeKind_Bytes
+                - TypeKind_Link
+                - TypeKind_Struct
+                - TypeKind_Union
+                - TypeKind_Enum
+                - TypeKind_Any
+              default: TypeKind_Invalid
+        description: Fields are the fields associated with the object.
+    description: ObjectDoc is a document for an Object stored in the graph.
+  sonrio.sonr.object.TypeField:
     type: object
     properties:
-      label:
+      name:
         type: string
-        title: Label is the name of the field
-      did:
-        type: string
-        description: Did is the identifier of the field.
-      value:
-        type: string
-        format: byte
-        title: Value is the value of the field
-      metadata:
-        type: object
-        additionalProperties:
-          type: string
-        title: Metadata is additional info about the field
-    description: ObjectFieldBlob is a field of an Object for blobs.
-  sonrio.sonr.object.ObjectFieldBlockchainAddress:
-    type: object
-    properties:
-      label:
-        type: string
-        title: Label is the name of the field
-      did:
-        type: string
-        description: Did is the identifier of the field.
-      value:
-        type: string
-        title: Value is the value of the field
-      metadata:
-        type: object
-        additionalProperties:
-          type: string
-        title: Metadata is additional info about the field
-    description: >-
-      ObjectFieldBlockchainAddress is a field of an Object for blockchain
-      addresses.
-  sonrio.sonr.object.ObjectFieldBool:
-    type: object
-    properties:
-      label:
-        type: string
-        title: Label is the name of the field
-      did:
-        type: string
-        description: Did is the identifier of the field.
-      value:
-        type: boolean
-        title: Value is the value of the field
-      metadata:
-        type: object
-        additionalProperties:
-          type: string
-        title: Metadata is additional info about the field
-    description: ObjectFieldBool is a boolean field of an Object.
-  sonrio.sonr.object.ObjectFieldGeopoint:
-    type: object
-    properties:
-      label:
-        type: string
-        title: Label is the name of the field
-      type:
-        title: Type is the type of the field
+        description: Name is the name of the field.
+      kind:
+        description: Type is the type of the field.
         type: string
         enum:
-          - OBJECT_FIELD_TYPE_UNSPECIFIED
-          - OBJECT_FIELD_TYPE_STRING
-          - OBJECT_FIELD_TYPE_NUMBER
-          - OBJECT_FIELD_TYPE_BOOL
-          - OBJECT_FIELD_TYPE_ARRAY
-          - OBJECT_FIELD_TYPE_TIMESTAMP
-          - OBJECT_FIELD_TYPE_GEOPOINT
-          - OBJECT_FIELD_TYPE_BLOB
-          - OBJECT_FIELD_TYPE_BLOCKCHAIN_ADDRESS
-        default: OBJECT_FIELD_TYPE_UNSPECIFIED
-        description: >-
-          - OBJECT_FIELD_TYPE_UNSPECIFIED: ObjectFieldTypeUnspecified is the
-          default value
-           - OBJECT_FIELD_TYPE_STRING: ObjectFieldTypeString is a string or text field
-           - OBJECT_FIELD_TYPE_NUMBER: ObjectFieldTypeInt is an integer
-           - OBJECT_FIELD_TYPE_BOOL: ObjectFieldTypeBool is a boolean
-           - OBJECT_FIELD_TYPE_ARRAY: ObjectFieldTypeArray is a list of values
-           - OBJECT_FIELD_TYPE_TIMESTAMP: ObjectFieldTypeDateTime is a datetime
-           - OBJECT_FIELD_TYPE_GEOPOINT: ObjectFieldTypeGeopoint is a geopoint
-           - OBJECT_FIELD_TYPE_BLOB: ObjectFieldTypeBlob is a blob of data
-           - OBJECT_FIELD_TYPE_BLOCKCHAIN_ADDRESS: ObjectFieldTypeETU is a pointer to an Ethereum account address.
-      did:
-        type: string
-        description: Did is the identifier of the field.
-      latitude:
-        type: number
-        format: double
-        description: Latitude is the geo-latitude of the point.
-      longitude:
-        type: number
-        format: double
-        title: Longitude is the geo-longitude of the field
-      metadata:
-        type: object
-        additionalProperties:
-          type: string
-        title: Metadata is additional info about the field
-    description: ObjectFieldGeopoint is a field of an Object for geopoints.
-  sonrio.sonr.object.ObjectFieldNumber:
-    type: object
-    properties:
-      label:
-        type: string
-        title: Label is the name of the field
-      did:
-        type: string
-        description: Did is the identifier of the field.
-      value:
-        type: number
-        format: double
-        title: Value is the value of the field
-      metadata:
-        type: object
-        additionalProperties:
-          type: string
-        title: Metadata is additional info about the field
-    description: ObjectFieldNumber is a number field of an Object.
-  sonrio.sonr.object.ObjectFieldText:
-    type: object
-    properties:
-      label:
-        type: string
-        title: Label is the name of the field
-      did:
-        type: string
-        description: Did is the identifier of the field.
-      value:
-        type: string
-        title: Value is the value of the field
-      metadata:
-        type: object
-        additionalProperties:
-          type: string
-        title: Metadata is additional info about the field
-    description: ObjectFieldText is a text field of an Object.
-  sonrio.sonr.object.ObjectFieldTime:
-    type: object
-    properties:
-      label:
-        type: string
-        title: Label is the name of the field
-      did:
-        type: string
-        description: Did is the identifier of the field.
-      value:
-        type: string
-        format: int64
-        title: Value is the value of the field
-      metadata:
-        type: object
-        additionalProperties:
-          type: string
-        title: Metadata is additional info about the field
-    description: ObjectFieldTime is a time field of an Object.
-  sonrio.sonr.object.ObjectFieldType:
+          - TypeKind_Invalid
+          - TypeKind_Map
+          - TypeKind_List
+          - TypeKind_Unit
+          - TypeKind_Bool
+          - TypeKind_Int
+          - TypeKind_Float
+          - TypeKind_String
+          - TypeKind_Bytes
+          - TypeKind_Link
+          - TypeKind_Struct
+          - TypeKind_Union
+          - TypeKind_Enum
+          - TypeKind_Any
+        default: TypeKind_Invalid
+  sonrio.sonr.object.TypeKind:
     type: string
     enum:
-      - OBJECT_FIELD_TYPE_UNSPECIFIED
-      - OBJECT_FIELD_TYPE_STRING
-      - OBJECT_FIELD_TYPE_NUMBER
-      - OBJECT_FIELD_TYPE_BOOL
-      - OBJECT_FIELD_TYPE_ARRAY
-      - OBJECT_FIELD_TYPE_TIMESTAMP
-      - OBJECT_FIELD_TYPE_GEOPOINT
-      - OBJECT_FIELD_TYPE_BLOB
-      - OBJECT_FIELD_TYPE_BLOCKCHAIN_ADDRESS
-    default: OBJECT_FIELD_TYPE_UNSPECIFIED
-    description: >-
-      - OBJECT_FIELD_TYPE_UNSPECIFIED: ObjectFieldTypeUnspecified is the default
-      value
-       - OBJECT_FIELD_TYPE_STRING: ObjectFieldTypeString is a string or text field
-       - OBJECT_FIELD_TYPE_NUMBER: ObjectFieldTypeInt is an integer
-       - OBJECT_FIELD_TYPE_BOOL: ObjectFieldTypeBool is a boolean
-       - OBJECT_FIELD_TYPE_ARRAY: ObjectFieldTypeArray is a list of values
-       - OBJECT_FIELD_TYPE_TIMESTAMP: ObjectFieldTypeDateTime is a datetime
-       - OBJECT_FIELD_TYPE_GEOPOINT: ObjectFieldTypeGeopoint is a geopoint
-       - OBJECT_FIELD_TYPE_BLOB: ObjectFieldTypeBlob is a blob of data
-       - OBJECT_FIELD_TYPE_BLOCKCHAIN_ADDRESS: ObjectFieldTypeETU is a pointer to an Ethereum account address.
-    title: ObjectFieldType is the type of the field
+      - TypeKind_Invalid
+      - TypeKind_Map
+      - TypeKind_List
+      - TypeKind_Unit
+      - TypeKind_Bool
+      - TypeKind_Int
+      - TypeKind_Float
+      - TypeKind_String
+      - TypeKind_Bytes
+      - TypeKind_Link
+      - TypeKind_Struct
+      - TypeKind_Union
+      - TypeKind_Enum
+      - TypeKind_Any
+    default: TypeKind_Invalid
   sonrio.sonr.object.MsgCreateObjectResponse:
     type: object
     properties:
@@ -50192,7 +50667,66 @@ definitions:
         type: string
         title: Message of the response
       what_is:
-        $ref: '#/definitions/sonrio.sonr.object.WhatIs'
+        type: object
+        properties:
+          did:
+            type: string
+            title: DID is the DID of the object
+          object_doc:
+            title: Object_doc is the object document
+            type: object
+            properties:
+              label:
+                type: string
+                description: Label is human-readable name of the bucket.
+              description:
+                type: string
+                description: Description is a human-readable description of the bucket.
+              did:
+                type: string
+                description: Did is the identifier of the object.
+              bucket_did:
+                type: string
+                description: Bucket is the did of the bucket that contains this object.
+              fields:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      description: Name is the name of the field.
+                    kind:
+                      description: Type is the type of the field.
+                      type: string
+                      enum:
+                        - TypeKind_Invalid
+                        - TypeKind_Map
+                        - TypeKind_List
+                        - TypeKind_Unit
+                        - TypeKind_Bool
+                        - TypeKind_Int
+                        - TypeKind_Float
+                        - TypeKind_String
+                        - TypeKind_Bytes
+                        - TypeKind_Link
+                        - TypeKind_Struct
+                        - TypeKind_Union
+                        - TypeKind_Enum
+                        - TypeKind_Any
+                      default: TypeKind_Invalid
+                description: Fields are the fields associated with the object.
+            description: ObjectDoc is a document for an Object stored in the graph.
+          creator:
+            type: string
+            title: Creator is the DID of the creator
+          timestamp:
+            type: string
+            format: int64
+            title: Timestamp is the time of the last update of the DID Document
+          is_active:
+            type: boolean
+            title: IsActive is the status of the DID Document
         title: WhatIs of the Channel
   sonrio.sonr.object.MsgCreateWhatIsResponse:
     type: object
@@ -50225,7 +50759,66 @@ definitions:
         type: string
         title: Message of the response
       what_is:
-        $ref: '#/definitions/sonrio.sonr.object.WhatIs'
+        type: object
+        properties:
+          did:
+            type: string
+            title: DID is the DID of the object
+          object_doc:
+            title: Object_doc is the object document
+            type: object
+            properties:
+              label:
+                type: string
+                description: Label is human-readable name of the bucket.
+              description:
+                type: string
+                description: Description is a human-readable description of the bucket.
+              did:
+                type: string
+                description: Did is the identifier of the object.
+              bucket_did:
+                type: string
+                description: Bucket is the did of the bucket that contains this object.
+              fields:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      description: Name is the name of the field.
+                    kind:
+                      description: Type is the type of the field.
+                      type: string
+                      enum:
+                        - TypeKind_Invalid
+                        - TypeKind_Map
+                        - TypeKind_List
+                        - TypeKind_Unit
+                        - TypeKind_Bool
+                        - TypeKind_Int
+                        - TypeKind_Float
+                        - TypeKind_String
+                        - TypeKind_Bytes
+                        - TypeKind_Link
+                        - TypeKind_Struct
+                        - TypeKind_Union
+                        - TypeKind_Enum
+                        - TypeKind_Any
+                      default: TypeKind_Invalid
+                description: Fields are the fields associated with the object.
+            description: ObjectDoc is a document for an Object stored in the graph.
+          creator:
+            type: string
+            title: Creator is the DID of the creator
+          timestamp:
+            type: string
+            format: int64
+            title: Timestamp is the time of the last update of the DID Document
+          is_active:
+            type: boolean
+            title: IsActive is the status of the DID Document
         title: WhatIs of the Channel
   sonrio.sonr.object.MsgUpdateWhatIsResponse:
     type: object
@@ -50241,7 +50834,66 @@ definitions:
       what_is:
         type: array
         items:
-          $ref: '#/definitions/sonrio.sonr.object.WhatIs'
+          type: object
+          properties:
+            did:
+              type: string
+              title: DID is the DID of the object
+            object_doc:
+              title: Object_doc is the object document
+              type: object
+              properties:
+                label:
+                  type: string
+                  description: Label is human-readable name of the bucket.
+                description:
+                  type: string
+                  description: Description is a human-readable description of the bucket.
+                did:
+                  type: string
+                  description: Did is the identifier of the object.
+                bucket_did:
+                  type: string
+                  description: Bucket is the did of the bucket that contains this object.
+                fields:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        description: Name is the name of the field.
+                      kind:
+                        description: Type is the type of the field.
+                        type: string
+                        enum:
+                          - TypeKind_Invalid
+                          - TypeKind_Map
+                          - TypeKind_List
+                          - TypeKind_Unit
+                          - TypeKind_Bool
+                          - TypeKind_Int
+                          - TypeKind_Float
+                          - TypeKind_String
+                          - TypeKind_Bytes
+                          - TypeKind_Link
+                          - TypeKind_Struct
+                          - TypeKind_Union
+                          - TypeKind_Enum
+                          - TypeKind_Any
+                        default: TypeKind_Invalid
+                  description: Fields are the fields associated with the object.
+              description: ObjectDoc is a document for an Object stored in the graph.
+            creator:
+              type: string
+              title: Creator is the DID of the creator
+            timestamp:
+              type: string
+              format: int64
+              title: Timestamp is the time of the last update of the DID Document
+            is_active:
+              type: boolean
+              title: IsActive is the status of the DID Document
       pagination:
         type: object
         properties:
@@ -50278,7 +50930,66 @@ definitions:
     type: object
     properties:
       what_is:
-        $ref: '#/definitions/sonrio.sonr.object.WhatIs'
+        type: object
+        properties:
+          did:
+            type: string
+            title: DID is the DID of the object
+          object_doc:
+            title: Object_doc is the object document
+            type: object
+            properties:
+              label:
+                type: string
+                description: Label is human-readable name of the bucket.
+              description:
+                type: string
+                description: Description is a human-readable description of the bucket.
+              did:
+                type: string
+                description: Did is the identifier of the object.
+              bucket_did:
+                type: string
+                description: Bucket is the did of the bucket that contains this object.
+              fields:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      description: Name is the name of the field.
+                    kind:
+                      description: Type is the type of the field.
+                      type: string
+                      enum:
+                        - TypeKind_Invalid
+                        - TypeKind_Map
+                        - TypeKind_List
+                        - TypeKind_Unit
+                        - TypeKind_Bool
+                        - TypeKind_Int
+                        - TypeKind_Float
+                        - TypeKind_String
+                        - TypeKind_Bytes
+                        - TypeKind_Link
+                        - TypeKind_Struct
+                        - TypeKind_Union
+                        - TypeKind_Enum
+                        - TypeKind_Any
+                      default: TypeKind_Invalid
+                description: Fields are the fields associated with the object.
+            description: ObjectDoc is a document for an Object stored in the graph.
+          creator:
+            type: string
+            title: Creator is the DID of the creator
+          timestamp:
+            type: string
+            format: int64
+            title: Timestamp is the time of the last update of the DID Document
+          is_active:
+            type: boolean
+            title: IsActive is the status of the DID Document
   sonrio.sonr.object.WhatIs:
     type: object
     properties:
@@ -50286,8 +50997,50 @@ definitions:
         type: string
         title: DID is the DID of the object
       object_doc:
-        $ref: '#/definitions/sonrio.sonr.object.ObjectDoc'
         title: Object_doc is the object document
+        type: object
+        properties:
+          label:
+            type: string
+            description: Label is human-readable name of the bucket.
+          description:
+            type: string
+            description: Description is a human-readable description of the bucket.
+          did:
+            type: string
+            description: Did is the identifier of the object.
+          bucket_did:
+            type: string
+            description: Bucket is the did of the bucket that contains this object.
+          fields:
+            type: array
+            items:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Name is the name of the field.
+                kind:
+                  description: Type is the type of the field.
+                  type: string
+                  enum:
+                    - TypeKind_Invalid
+                    - TypeKind_Map
+                    - TypeKind_List
+                    - TypeKind_Unit
+                    - TypeKind_Bool
+                    - TypeKind_Int
+                    - TypeKind_Float
+                    - TypeKind_String
+                    - TypeKind_Bytes
+                    - TypeKind_Link
+                    - TypeKind_Struct
+                    - TypeKind_Union
+                    - TypeKind_Enum
+                    - TypeKind_Any
+                  default: TypeKind_Invalid
+            description: Fields are the fields associated with the object.
+        description: ObjectDoc is a document for an Object stored in the graph.
       creator:
         type: string
         title: Creator is the DID of the creator

@@ -16,24 +16,20 @@ func (o *ObjectDoc) Validate(b *ObjectDoc) bool {
 }
 
 // AddFields takes a list of fields and adds it to ObjectDoc
-func (o *ObjectDoc) AddFields(l ...*ObjectField) {
-	i := 0
-	for k, v := range o.GetFields() {
-		if strings.EqualFold(k, l[i].GetLabel()) && v.Did == l[i].GetDid() {
-			o.Fields[l[i].GetLabel()] = l[i]
+func (o *ObjectDoc) AddFields(l ...*TypeField) {
+	for i, v := range o.GetFields() {
+		if strings.EqualFold(v.GetName(), l[i].GetName()) {
+			o.Fields[i] = l[i]
 		}
-		i++
 	}
 }
 
 // RemoveFields takes a list of ObjectFields
 // and removes the matching label from the ObjectDoc
-func (o *ObjectDoc) RemoveFields(l ...*ObjectField) {
-	i := 0
-	for k, v := range o.GetFields() {
-		if strings.EqualFold(k, l[i].GetLabel()) && v.Did == l[i].GetDid() {
-			delete(o.Fields, k)
+func (o *ObjectDoc) RemoveFields(l ...*TypeField) {
+	for i, v := range o.GetFields() {
+		if strings.EqualFold(v.GetName(), l[i].GetName()) {
+			o.Fields = append(o.Fields[:i], o.Fields[i+1:]...)
 		}
-		i++
 	}
 }

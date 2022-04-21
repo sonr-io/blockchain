@@ -31,17 +31,11 @@ func (k msgServer) CreateObject(goCtx context.Context, msg *types.MsgCreateObjec
 		return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "Object already registered to this Application")
 	}
 
-	// Create Field Map
-	m := make(map[string]*types.ObjectField)
-	for _, f := range msg.GetInitialFields() {
-		m[f.GetLabel()] = f
-	}
-
 	// Create Document for Object
 	doc := &types.ObjectDoc{
 		Label:  msg.GetLabel(),
 		Did:    did.ID,
-		Fields: m,
+		Fields: msg.GetInitialFields(),
 	}
 
 	// Create a new Object record
