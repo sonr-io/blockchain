@@ -6,20 +6,20 @@ import (
 
 func NewHowIsFromBuf(cd *ct.HowIs) *HowIs {
 	return &HowIs{
-		Did:       cd.Did,
-		Creator:   cd.Creator,
-		Timestamp: cd.Timestamp,
-		IsActive:  cd.IsActive,
-		Channel:   NewChannelDocFromBuf(cd.Channel),
+		Did:       cd.GetDid(),
+		Creator:   cd.GetCreator(),
+		Timestamp: cd.GetTimestamp(),
+		IsActive:  cd.GetIsActive(),
+		Channel:   NewChannelDocFromBuf(cd.GetChannel()),
 	}
 }
 
 func NewHowIsToBuf(cd *HowIs) *ct.HowIs {
 	return &ct.HowIs{
-		Did:       cd.Did,
-		Creator:   cd.Creator,
-		Timestamp: cd.Timestamp,
-		IsActive:  cd.IsActive,
-		Channel:    NewChannelDocToBuf(cd.Channel),
+		Did:       cd.GetDid(),
+		Creator:   cd.GetCreator(),
+		Timestamp: cd.GetTimestamp(),
+		IsActive:  cd.GetIsActive(),
+		Channel:   NewChannelDocToBuf(cd.GetChannel()),
 	}
 }

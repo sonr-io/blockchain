@@ -32,7 +32,7 @@ func NewMsgCreateWhoIs(
 }
 
 func NewMsgCreateWhoIsFromBuf(msg *rt.MsgCreateWhoIs) *MsgCreateWhoIs {
-	return NewMsgCreateWhoIs(msg.Creator, msg.Did, msg.Document, NewCredentialListFromBuf(msg.Credentials), msg.Name)
+	return NewMsgCreateWhoIs(msg.GetCreator(), msg.GetDid(), msg.GetDocument(), NewCredentialListFromBuf(msg.GetCredentials()), msg.GetName())
 }
 
 func (msg *MsgCreateWhoIs) Route() string {

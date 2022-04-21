@@ -7,18 +7,18 @@ import (
 
 func NewChannelDocFromBuf(cd *ct.ChannelDoc) *ChannelDoc {
 	return &ChannelDoc{
-		Did:              cd.Did,
-		Label:            cd.Label,
-		Description:      cd.Description,
-		RegisteredObject: ot.NewObjectDocFromBuf(cd.RegisteredObject),
+		Did:              cd.GetDid(),
+		Label:            cd.GetLabel(),
+		Description:      cd.GetDescription(),
+		RegisteredObject: ot.NewObjectDocFromBuf(cd.GetRegisteredObject()),
 	}
 }
 
 func NewChannelDocToBuf(cd *ChannelDoc) *ct.ChannelDoc {
 	return &ct.ChannelDoc{
-		Did:              cd.Did,
-		Label:            cd.Label,
-		Description:      cd.Description,
-		RegisteredObject: ot.NewObjectDocToBuf(cd.RegisteredObject),
+		Did:              cd.GetDid(),
+		Label:            cd.GetLabel(),
+		Description:      cd.GetDescription(),
+		RegisteredObject: ot.NewObjectDocToBuf(cd.GetRegisteredObject()),
 	}
 }

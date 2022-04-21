@@ -6,20 +6,20 @@ import (
 
 func NewWhichIsFromBuf(cd *bt.WhichIs) *WhichIs {
 	return &WhichIs{
-		Did:       cd.Did,
-		Creator:   cd.Creator,
-		Timestamp: cd.Timestamp,
-		IsActive:  cd.IsActive,
-		Bucket:    NewBucketDocFromBuf(cd.Bucket),
+		Did:       cd.GetDid(),
+		Creator:   cd.GetCreator(),
+		Timestamp: cd.GetTimestamp(),
+		IsActive:  cd.GetIsActive(),
+		Bucket:    NewBucketDocFromBuf(cd.GetBucket()),
 	}
 }
 
 func NewWhichIsToBuf(cd *WhichIs) *bt.WhichIs {
 	return &bt.WhichIs{
-		Did:       cd.Did,
-		Creator:   cd.Creator,
-		Timestamp: cd.Timestamp,
-		IsActive:  cd.IsActive,
-		Bucket:    NewBucketDocToBuf(cd.Bucket),
+		Did:       cd.GetDid(),
+		Creator:   cd.GetCreator(),
+		Timestamp: cd.GetTimestamp(),
+		IsActive:  cd.GetIsActive(),
+		Bucket:    NewBucketDocToBuf(cd.GetBucket()),
 	}
 }

@@ -11,23 +11,23 @@ import (
 
 func NewWhoIsFromBuf(doc *rt.WhoIs) *WhoIs {
 	return &WhoIs{
-		Type:        WhoIs_Type(doc.Type),
-		Name:        doc.Name,
-		Did:         doc.Did,
-		Document:    doc.Document,
-		Metadata:    doc.Metadata,
-		Credentials: NewCredentialListFromBuf(doc.Credentials),
+		Type:        WhoIs_Type(doc.GetType()),
+		Name:        doc.GetName(),
+		Did:         doc.GetDid(),
+		Document:    doc.GetDocument(),
+		Metadata:    doc.GetMetadata(),
+		Credentials: NewCredentialListFromBuf(doc.GetCredentials()),
 	}
 }
 
 func NewWhoIsToBuf(doc *WhoIs) *rt.WhoIs {
 	return &rt.WhoIs{
-		Type:        rt.WhoIs_Type(doc.Type),
-		Name:        doc.Name,
-		Did:         doc.Did,
-		Document:    doc.Document,
-		Metadata:    doc.Metadata,
-		Credentials: NewCredentialListToBuf(doc.Credentials),
+		Type:        rt.WhoIs_Type(doc.GetType()),
+		Name:        doc.GetName(),
+		Did:         doc.GetDid(),
+		Document:    doc.GetDocument(),
+		Metadata:    doc.GetMetadata(),
+		Credentials: NewCredentialListToBuf(doc.GetCredentials()),
 	}
 }
 

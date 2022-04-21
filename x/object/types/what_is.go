@@ -6,20 +6,20 @@ import (
 
 func NewWhatIsFromBuf(cd *ot.WhatIs) *WhatIs {
 	return &WhatIs{
-		Did:       cd.Did,
-		Creator:   cd.Creator,
-		Timestamp: cd.Timestamp,
-		IsActive:  cd.IsActive,
-		ObjectDoc: NewObjectDocFromBuf(cd.ObjectDoc),
+		Did:       cd.GetDid(),
+		Creator:   cd.GetCreator(),
+		Timestamp: cd.GetTimestamp(),
+		IsActive:  cd.GetIsActive(),
+		ObjectDoc: NewObjectDocFromBuf(cd.GetObjectDoc()),
 	}
 }
 
 func NewWhatIsToBuf(cd *WhatIs) *ot.WhatIs {
 	return &ot.WhatIs{
-		Did:       cd.Did,
-		Creator:   cd.Creator,
-		Timestamp: cd.Timestamp,
-		IsActive:  cd.IsActive,
-		ObjectDoc: NewObjectDocToBuf(cd.ObjectDoc),
+		Did:       cd.GetDid(),
+		Creator:   cd.GetCreator(),
+		Timestamp: cd.GetTimestamp(),
+		IsActive:  cd.GetIsActive(),
+		ObjectDoc: NewObjectDocToBuf(cd.GetObjectDoc()),
 	}
 }

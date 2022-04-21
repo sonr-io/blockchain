@@ -18,19 +18,19 @@ func NewCredentialListFromBuf(crds []*rt.Credential) []*Credential {
 
 func NewCredentialFromBuf(crd *rt.Credential) *Credential {
 	return &Credential{
-		ID:              crd.ID,
-		PublicKey:       crd.PublicKey,
-		AttestationType: crd.AttestationType,
-		Authenticator:   NewAuthenticatorFromBuf(crd.Authenticator),
+		ID:              crd.GetID(),
+		PublicKey:       crd.GetPublicKey(),
+		AttestationType: crd.GetAttestationType(),
+		Authenticator:   NewAuthenticatorFromBuf(crd.GetAuthenticator()),
 	}
 }
 
 func NewCredentialToBuf(crd *Credential) *rt.Credential {
 	return &rt.Credential{
-		ID:              crd.ID,
-		PublicKey:       crd.PublicKey,
-		AttestationType: crd.AttestationType,
-		Authenticator:   NewAuthenticatorToBuf(crd.Authenticator),
+		ID:              crd.GetID(),
+		PublicKey:       crd.GetPublicKey(),
+		AttestationType: crd.GetAttestationType(),
+		Authenticator:   NewAuthenticatorToBuf(crd.GetAuthenticator()),
 	}
 }
 
@@ -66,17 +66,17 @@ func (cred *Credential) ToWebAuthn() webauthn.Credential {
 
 func NewAuthenticatorFromBuf(ath *rt.Authenticator) *Authenticator {
 	return &Authenticator{
-		Aaguid:       ath.Aaguid,
-		SignCount:    ath.SignCount,
-		CloneWarning: ath.CloneWarning,
+		Aaguid:       ath.GetAaguid(),
+		SignCount:    ath.GetSignCount(),
+		CloneWarning: ath.GetCloneWarning(),
 	}
 }
 
 func NewAuthenticatorToBuf(ath *Authenticator) *rt.Authenticator {
 	return &rt.Authenticator{
-		Aaguid:       ath.Aaguid,
-		SignCount:    ath.SignCount,
-		CloneWarning: ath.CloneWarning,
+		Aaguid:       ath.GetAaguid(),
+		SignCount:    ath.GetSignCount(),
+		CloneWarning: ath.GetCloneWarning(),
 	}
 }
 

@@ -20,7 +20,7 @@ func NewMsgUpdateApplication(creator string, did string, m map[string]string, s 
 }
 
 func NewMsgUpdateApplicationFromBuf(msg *rt.MsgUpdateApplication) *MsgUpdateApplication {
-	return NewMsgUpdateApplication(msg.Creator, msg.Did, msg.Metadata, NewSessionFromBuf(msg.Session))
+	return NewMsgUpdateApplication(msg.GetCreator(), msg.GetDid(), msg.GetMetadata(), NewSessionFromBuf(msg.GetSession()))
 }
 
 func (msg *MsgUpdateApplication) Route() string {

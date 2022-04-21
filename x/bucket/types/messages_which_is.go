@@ -28,9 +28,9 @@ func NewMsgCreateWhichIs(
 
 func NewMsgCreateWhichIsFromBuf(msg *bt.MsgCreateWhichIs) *MsgCreateWhichIs {
 	return &MsgCreateWhichIs{
-		Creator: msg.Creator,
-		Did:     msg.Did,
-		Bucket:  NewBucketDocFromBuf(msg.Bucket),
+		Creator: msg.GetCreator(),
+		Did:     msg.GetDid(),
+		Bucket:  NewBucketDocFromBuf(msg.GetBucket()),
 	}
 }
 

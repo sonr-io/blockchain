@@ -29,9 +29,9 @@ func NewMsgCreateWhatIs(
 
 func NewMsgCreateWhatIsFromBuf(msg *ot.MsgCreateWhatIs) *MsgCreateWhatIs {
 	return &MsgCreateWhatIs{
-		Creator:   msg.Creator,
-		Did:       msg.Did,
-		ObjectDoc: NewObjectDocFromBuf(msg.ObjectDoc),
+		Creator:   msg.GetCreator(),
+		Did:       msg.GetDid(),
+		ObjectDoc: NewObjectDocFromBuf(msg.GetObjectDoc()),
 	}
 }
 

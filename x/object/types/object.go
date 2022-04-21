@@ -8,24 +8,23 @@ import (
 
 func NewObjectDocFromBuf(obj *ot.ObjectDoc) *ObjectDoc {
 	return &ObjectDoc{
-		Label:       obj.Label,
-		Description: obj.Description,
-		Did:         obj.Did,
-		BucketDid:   obj.BucketDid,
-		Fields:      NewTypeFieldListFromBuf(obj.Fields),
+		Label:       obj.GetLabel(),
+		Description: obj.GetDescription(),
+		Did:         obj.GetDid(),
+		BucketDid:   obj.GetBucketDid(),
+		Fields:      NewTypeFieldListFromBuf(obj.GetFields()),
 	}
 }
 
 func NewObjectDocToBuf(obj *ObjectDoc) *ot.ObjectDoc {
 	return &ot.ObjectDoc{
-		Label:       obj.Label,
-		Description: obj.Description,
-		Did:         obj.Did,
-		BucketDid:   obj.BucketDid,
-		Fields:      NewTypeFieldListToBuf(obj.Fields),
+		Label:       obj.GetLabel(),
+		Description: obj.GetDescription(),
+		Did:         obj.GetDid(),
+		BucketDid:   obj.GetBucketDid(),
+		Fields:      NewTypeFieldListToBuf(obj.GetFields()),
 	}
 }
-
 
 func (o *ObjectDoc) Validate(b *ObjectDoc) bool {
 	if o.GetLabel() != b.GetLabel() {

@@ -6,21 +6,21 @@ import (
 
 func NewBucketDocFromBuf(doc *bt.BucketDoc) *BucketDoc {
 	return &BucketDoc{
-		Did:         doc.Did,
-		Label:       doc.Label,
-		Description: doc.Description,
-		ObjectDids:  doc.ObjectDids,
-		Type:        BucketType(doc.Type),
+		Did:         doc.GetDid(),
+		Label:       doc.GetLabel(),
+		Description: doc.GetDescription(),
+		ObjectDids:  doc.GetObjectDids(),
+		Type:        BucketType(doc.GetType()),
 	}
 }
 
 func NewBucketDocToBuf(doc *BucketDoc) *bt.BucketDoc {
 	return &bt.BucketDoc{
-		Did:         doc.Did,
-		Label:       doc.Label,
-		Description: doc.Description,
-		ObjectDids:  doc.ObjectDids,
-		Type:        bt.BucketType(doc.Type),
+		Did:         doc.GetDid(),
+		Label:       doc.GetLabel(),
+		Description: doc.GetDescription(),
+		ObjectDids:  doc.GetObjectDids(),
+		Type:        bt.BucketType(doc.GetType()),
 	}
 }
 

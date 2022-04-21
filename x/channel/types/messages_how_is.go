@@ -28,9 +28,9 @@ func NewMsgCreateHowIs(
 
 func NewMsgCreateHowIsFromBuf(msg *ct.MsgCreateHowIs) *MsgCreateHowIs {
 	return &MsgCreateHowIs{
-		Creator: msg.Creator,
-		Did:     msg.Did,
-		Channel: NewChannelDocFromBuf(msg.Channel),
+		Creator: msg.GetCreator(),
+		Did:     msg.GetDid(),
+		Channel: NewChannelDocFromBuf(msg.GetChannel()),
 	}
 }
 

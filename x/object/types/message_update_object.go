@@ -13,11 +13,11 @@ var _ sdk.Msg = &MsgUpdateObject{}
 
 func NewMsgUpdateObjectFromBuf(ot *ot.MsgUpdateObject) *MsgUpdateObject {
 	return &MsgUpdateObject{
-		Creator:       ot.Creator,
-		Label:         ot.Label,
-		AddedFields:   NewTypeFieldListFromBuf(ot.AddedFields),
-		RemovedFields: NewTypeFieldListFromBuf(ot.RemovedFields),
-		Session:       rtv1.NewSessionFromBuf(ot.Session),
+		Creator:       ot.GetCreator(),
+		Label:         ot.GetLabel(),
+		AddedFields:   NewTypeFieldListFromBuf(ot.GetAddedFields()),
+		RemovedFields: NewTypeFieldListFromBuf(ot.GetRemovedFields()),
+		Session:       rtv1.NewSessionFromBuf(ot.GetSession()),
 	}
 }
 

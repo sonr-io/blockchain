@@ -23,7 +23,7 @@ func NewMsgUpdateBucket(creator string, label string, description string, sessio
 }
 
 func NewMsgUpdateBucketFromBuf(msg *bt.MsgUpdateBucket) *MsgUpdateBucket {
-	return NewMsgUpdateBucket(msg.Creator, msg.Label, msg.Description, rt.NewSessionFromBuf(msg.Session), msg.AddedObjectDids, msg.RemovedObjectDids)
+	return NewMsgUpdateBucket(msg.GetCreator(), msg.GetLabel(), msg.GetDescription(), rt.NewSessionFromBuf(msg.GetSession()), msg.GetAddedObjectDids(), msg.GetRemovedObjectDids())
 }
 
 func (msg *MsgUpdateBucket) Route() string {

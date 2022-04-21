@@ -14,11 +14,11 @@ var _ sdk.Msg = &MsgCreateObject{}
 func NewMsgCreateObjectFromBuf(ot *ot.MsgCreateObject) *MsgCreateObject {
 	ot.GetInitialFields()
 	return &MsgCreateObject{
-		Creator:       ot.Creator,
-		Label:         ot.Label,
-		Description:   ot.Description,
-		InitialFields: NewTypeFieldListFromBuf(ot.InitialFields),
-		Session:       rtv1.NewSessionFromBuf(ot.Session),
+		Creator:       ot.GetCreator(),
+		Label:         ot.GetLabel(),
+		Description:   ot.GetDescription(),
+		InitialFields: NewTypeFieldListFromBuf(ot.GetInitialFields()),
+		Session:       rtv1.NewSessionFromBuf(ot.GetSession()),
 	}
 }
 

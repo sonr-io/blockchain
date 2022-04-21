@@ -21,7 +21,7 @@ func NewMsgUpdateName(creator string, name string, c *Credential, m map[string]s
 }
 
 func NewMsgUpdateNameFromBuf(msg *rt.MsgUpdateName) *MsgUpdateName {
-	return NewMsgUpdateName(msg.Creator, msg.Did, NewCredentialFromBuf(msg.Credential), msg.Metadata, NewSessionFromBuf(msg.Session))
+	return NewMsgUpdateName(msg.GetCreator(), msg.GetDid(), NewCredentialFromBuf(msg.GetCredential()), msg.GetMetadata(), NewSessionFromBuf(msg.GetSession()))
 }
 
 func (msg *MsgUpdateName) Route() string {

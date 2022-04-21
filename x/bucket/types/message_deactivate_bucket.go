@@ -20,7 +20,7 @@ func NewMsgDeactivateBucket(creator string, did string, session *rt.Session) *Ms
 }
 
 func NewMsgDeactivateBucketFromBuf(msg *bt.MsgDeactivateBucket) *MsgDeactivateBucket {
-	return NewMsgDeactivateBucket(msg.Creator, msg.Did, rt.NewSessionFromBuf(msg.Session))
+	return NewMsgDeactivateBucket(msg.GetCreator(), msg.GetDid(), rt.NewSessionFromBuf(msg.GetSession()))
 }
 
 func (msg *MsgDeactivateBucket) Route() string {

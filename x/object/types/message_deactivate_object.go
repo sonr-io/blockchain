@@ -20,7 +20,7 @@ func NewMsgDeactivateObject(creator string, did string, session *rtv1.Session) *
 }
 
 func NewMsgDeactivateObjectFromBuf(msg *ot.MsgDeactivateObject) *MsgDeactivateObject {
-	return NewMsgDeactivateObject(msg.Creator, msg.Did, rtv1.NewSessionFromBuf(msg.Session))
+	return NewMsgDeactivateObject(msg.GetCreator(), msg.GetDid(), rtv1.NewSessionFromBuf(msg.GetSession()))
 }
 
 func (msg *MsgDeactivateObject) Route() string {

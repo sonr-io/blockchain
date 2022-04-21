@@ -23,11 +23,11 @@ func NewMsgCreateChannel(creator string, name string, description string, object
 
 func NewMsgCreateChannelFromBuf(msg *ct.MsgCreateChannel) *MsgCreateChannel {
 	return &MsgCreateChannel{
-		Creator:          msg.Creator,
-		Label:            msg.Label,
-		Description:      msg.Description,
-		ObjectToRegister: ot.NewObjectDocFromBuf(msg.ObjectToRegister),
-		Session:          rt.NewSessionFromBuf(msg.Session),
+		Creator:          msg.GetCreator(),
+		Label:            msg.GetLabel(),
+		Description:      msg.GetDescription(),
+		ObjectToRegister: ot.NewObjectDocFromBuf(msg.GetObjectToRegister()),
+		Session:          rt.NewSessionFromBuf(msg.GetSession()),
 	}
 }
 

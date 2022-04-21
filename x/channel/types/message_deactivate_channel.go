@@ -21,9 +21,9 @@ func NewMsgDeactivateChannel(creator string, did string, s *rt.Session) *MsgDeac
 
 func NewMsgDeactivateChannelFromBuf(msg *ct.MsgDeactivateChannel) *MsgDeactivateChannel {
 	return &MsgDeactivateChannel{
-		Creator: msg.Creator,
-		Did:     msg.Did,
-		Session: rt.NewSessionFromBuf(msg.Session),
+		Creator: msg.GetCreator(),
+		Did:     msg.GetDid(),
+		Session: rt.NewSessionFromBuf(msg.GetSession()),
 	}
 }
 

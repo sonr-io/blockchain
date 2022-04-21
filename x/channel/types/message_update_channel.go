@@ -26,12 +26,12 @@ func NewMsgUpdateChannel(creator string, did string, label string, description s
 
 func NewMsgUpdateChannelFromBuf(msg *ct.MsgUpdateChannel) *MsgUpdateChannel {
 	return &MsgUpdateChannel{
-		Creator:          msg.Creator,
-		Did:              msg.Did,
-		Label:            msg.Label,
-		Description:      msg.Description,
-		ObjectToRegister: ot.NewObjectDocFromBuf(msg.ObjectToRegister),
-		Session:          rt.NewSessionFromBuf(msg.Session),
+		Creator:          msg.GetCreator(),
+		Did:              msg.GetDid(),
+		Label:            msg.GetLabel(),
+		Description:      msg.GetDescription(),
+		ObjectToRegister: ot.NewObjectDocFromBuf(msg.GetObjectToRegister()),
+		Session:          rt.NewSessionFromBuf(msg.GetSession()),
 	}
 }
 func (msg *MsgUpdateChannel) Route() string {

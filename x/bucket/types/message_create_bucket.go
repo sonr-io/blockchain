@@ -23,7 +23,7 @@ func NewMsgCreateBucket(creator string, label string, description string, kind s
 }
 
 func NewMsgCreateBucketFromBuf(msg *bt.MsgCreateBucket) *MsgCreateBucket {
-	return NewMsgCreateBucket(msg.Creator, msg.Label, msg.Description, msg.Kind, rt.NewSessionFromBuf(msg.Session), msg.InitialObjectDids)
+	return NewMsgCreateBucket(msg.GetCreator(), msg.GetLabel(), msg.GetDescription(), msg.GetKind(), rt.NewSessionFromBuf(msg.GetSession()), msg.GetInitialObjectDids())
 }
 
 func (msg *MsgCreateBucket) Route() string {
