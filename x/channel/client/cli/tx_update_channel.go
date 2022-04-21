@@ -28,6 +28,10 @@ func CmdUpdateChannel() *cobra.Command {
 			msg := types.NewMsgUpdateChannel(
 				clientCtx.GetFromAddress().String(),
 				argDid,
+				"",
+				"",
+				nil,
+				nil,
 			)
 			if err := msg.ValidateBasic(); err != nil {
 				return err

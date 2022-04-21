@@ -58,213 +58,7 @@ export interface ObjectObjectDoc {
   bucket_did?: string;
 
   /** Fields are the fields associated with the object. */
-  fields?: Record<string, ObjectObjectField>;
-}
-
-/**
- * ObjectField is a field of an Object.
- */
-export interface ObjectObjectField {
-  label?: string;
-
-  /**
-   * - OBJECT_FIELD_TYPE_UNSPECIFIED: ObjectFieldTypeUnspecified is the default value
-   *  - OBJECT_FIELD_TYPE_STRING: ObjectFieldTypeString is a string or text field
-   *  - OBJECT_FIELD_TYPE_NUMBER: ObjectFieldTypeInt is an integer
-   *  - OBJECT_FIELD_TYPE_BOOL: ObjectFieldTypeBool is a boolean
-   *  - OBJECT_FIELD_TYPE_ARRAY: ObjectFieldTypeArray is a list of values
-   *  - OBJECT_FIELD_TYPE_TIMESTAMP: ObjectFieldTypeDateTime is a datetime
-   *  - OBJECT_FIELD_TYPE_GEOPOINT: ObjectFieldTypeGeopoint is a geopoint
-   *  - OBJECT_FIELD_TYPE_BLOB: ObjectFieldTypeBlob is a blob of data
-   *  - OBJECT_FIELD_TYPE_BLOCKCHAIN_ADDRESS: ObjectFieldTypeETU is a pointer to an Ethereum account address.
-   */
-  type?: ObjectObjectFieldType;
-
-  /** Did is the identifier of the field. */
-  did?: string;
-
-  /** ObjectFieldText is a text field of an Object. */
-  string_value?: ObjectObjectFieldText;
-
-  /** ObjectFieldNumber is a number field of an Object. */
-  number_value?: ObjectObjectFieldNumber;
-
-  /** ObjectFieldBool is a boolean field of an Object. */
-  bool_value?: ObjectObjectFieldBool;
-
-  /** ObjectFieldArray is an array of ObjectFields to be stored in the graph object. */
-  array_value?: ObjectObjectFieldArray;
-
-  /** Time is defined by milliseconds since epoch. */
-  time_stamp_value?: ObjectObjectFieldTime;
-
-  /** ObjectFieldGeopoint is a field of an Object for geopoints. */
-  geopoint_value?: ObjectObjectFieldGeopoint;
-
-  /** ObjectFieldBlob is a field of an Object for blobs. */
-  blob_value?: ObjectObjectFieldBlob;
-
-  /** ObjectFieldBlockchainAddress is a field of an Object for blockchain addresses. */
-  blockchain_addr_value?: ObjectObjectFieldBlockchainAddress;
-  metadata?: Record<string, string>;
-}
-
-/**
- * ObjectFieldArray is an array of ObjectFields to be stored in the graph object.
- */
-export interface ObjectObjectFieldArray {
-  label?: string;
-
-  /**
-   * - OBJECT_FIELD_TYPE_UNSPECIFIED: ObjectFieldTypeUnspecified is the default value
-   *  - OBJECT_FIELD_TYPE_STRING: ObjectFieldTypeString is a string or text field
-   *  - OBJECT_FIELD_TYPE_NUMBER: ObjectFieldTypeInt is an integer
-   *  - OBJECT_FIELD_TYPE_BOOL: ObjectFieldTypeBool is a boolean
-   *  - OBJECT_FIELD_TYPE_ARRAY: ObjectFieldTypeArray is a list of values
-   *  - OBJECT_FIELD_TYPE_TIMESTAMP: ObjectFieldTypeDateTime is a datetime
-   *  - OBJECT_FIELD_TYPE_GEOPOINT: ObjectFieldTypeGeopoint is a geopoint
-   *  - OBJECT_FIELD_TYPE_BLOB: ObjectFieldTypeBlob is a blob of data
-   *  - OBJECT_FIELD_TYPE_BLOCKCHAIN_ADDRESS: ObjectFieldTypeETU is a pointer to an Ethereum account address.
-   */
-  type?: ObjectObjectFieldType;
-
-  /** Did is the identifier of the field. */
-  did?: string;
-  items?: ObjectObjectField[];
-}
-
-/**
- * ObjectFieldBlob is a field of an Object for blobs.
- */
-export interface ObjectObjectFieldBlob {
-  label?: string;
-
-  /** Did is the identifier of the field. */
-  did?: string;
-
-  /** @format byte */
-  value?: string;
-  metadata?: Record<string, string>;
-}
-
-/**
- * ObjectFieldBlockchainAddress is a field of an Object for blockchain addresses.
- */
-export interface ObjectObjectFieldBlockchainAddress {
-  label?: string;
-
-  /** Did is the identifier of the field. */
-  did?: string;
-  value?: string;
-  metadata?: Record<string, string>;
-}
-
-/**
- * ObjectFieldBool is a boolean field of an Object.
- */
-export interface ObjectObjectFieldBool {
-  label?: string;
-
-  /** Did is the identifier of the field. */
-  did?: string;
-  value?: boolean;
-  metadata?: Record<string, string>;
-}
-
-/**
- * ObjectFieldGeopoint is a field of an Object for geopoints.
- */
-export interface ObjectObjectFieldGeopoint {
-  label?: string;
-
-  /**
-   * - OBJECT_FIELD_TYPE_UNSPECIFIED: ObjectFieldTypeUnspecified is the default value
-   *  - OBJECT_FIELD_TYPE_STRING: ObjectFieldTypeString is a string or text field
-   *  - OBJECT_FIELD_TYPE_NUMBER: ObjectFieldTypeInt is an integer
-   *  - OBJECT_FIELD_TYPE_BOOL: ObjectFieldTypeBool is a boolean
-   *  - OBJECT_FIELD_TYPE_ARRAY: ObjectFieldTypeArray is a list of values
-   *  - OBJECT_FIELD_TYPE_TIMESTAMP: ObjectFieldTypeDateTime is a datetime
-   *  - OBJECT_FIELD_TYPE_GEOPOINT: ObjectFieldTypeGeopoint is a geopoint
-   *  - OBJECT_FIELD_TYPE_BLOB: ObjectFieldTypeBlob is a blob of data
-   *  - OBJECT_FIELD_TYPE_BLOCKCHAIN_ADDRESS: ObjectFieldTypeETU is a pointer to an Ethereum account address.
-   */
-  type?: ObjectObjectFieldType;
-
-  /** Did is the identifier of the field. */
-  did?: string;
-
-  /**
-   * Latitude is the geo-latitude of the point.
-   * @format double
-   */
-  latitude?: number;
-
-  /** @format double */
-  longitude?: number;
-  metadata?: Record<string, string>;
-}
-
-/**
- * ObjectFieldNumber is a number field of an Object.
- */
-export interface ObjectObjectFieldNumber {
-  label?: string;
-
-  /** Did is the identifier of the field. */
-  did?: string;
-
-  /** @format double */
-  value?: number;
-  metadata?: Record<string, string>;
-}
-
-/**
- * ObjectFieldText is a text field of an Object.
- */
-export interface ObjectObjectFieldText {
-  label?: string;
-
-  /** Did is the identifier of the field. */
-  did?: string;
-  value?: string;
-  metadata?: Record<string, string>;
-}
-
-/**
- * ObjectFieldTime is a time field of an Object.
- */
-export interface ObjectObjectFieldTime {
-  label?: string;
-
-  /** Did is the identifier of the field. */
-  did?: string;
-
-  /** @format int64 */
-  value?: string;
-  metadata?: Record<string, string>;
-}
-
-/**
-* - OBJECT_FIELD_TYPE_UNSPECIFIED: ObjectFieldTypeUnspecified is the default value
- - OBJECT_FIELD_TYPE_STRING: ObjectFieldTypeString is a string or text field
- - OBJECT_FIELD_TYPE_NUMBER: ObjectFieldTypeInt is an integer
- - OBJECT_FIELD_TYPE_BOOL: ObjectFieldTypeBool is a boolean
- - OBJECT_FIELD_TYPE_ARRAY: ObjectFieldTypeArray is a list of values
- - OBJECT_FIELD_TYPE_TIMESTAMP: ObjectFieldTypeDateTime is a datetime
- - OBJECT_FIELD_TYPE_GEOPOINT: ObjectFieldTypeGeopoint is a geopoint
- - OBJECT_FIELD_TYPE_BLOB: ObjectFieldTypeBlob is a blob of data
- - OBJECT_FIELD_TYPE_BLOCKCHAIN_ADDRESS: ObjectFieldTypeETU is a pointer to an Ethereum account address.
-*/
-export enum ObjectObjectFieldType {
-  OBJECT_FIELD_TYPE_UNSPECIFIED = "OBJECT_FIELD_TYPE_UNSPECIFIED",
-  OBJECT_FIELD_TYPE_STRING = "OBJECT_FIELD_TYPE_STRING",
-  OBJECT_FIELD_TYPE_NUMBER = "OBJECT_FIELD_TYPE_NUMBER",
-  OBJECT_FIELD_TYPE_BOOL = "OBJECT_FIELD_TYPE_BOOL",
-  OBJECT_FIELD_TYPE_ARRAY = "OBJECT_FIELD_TYPE_ARRAY",
-  OBJECT_FIELD_TYPE_TIMESTAMP = "OBJECT_FIELD_TYPE_TIMESTAMP",
-  OBJECT_FIELD_TYPE_GEOPOINT = "OBJECT_FIELD_TYPE_GEOPOINT",
-  OBJECT_FIELD_TYPE_BLOB = "OBJECT_FIELD_TYPE_BLOB",
-  OBJECT_FIELD_TYPE_BLOCKCHAIN_ADDRESS = "OBJECT_FIELD_TYPE_BLOCKCHAIN_ADDRESS",
+  fields?: ObjectTypeField[];
 }
 
 /**
@@ -297,6 +91,31 @@ export interface ObjectQueryParamsResponse {
 
 export interface ObjectQueryWhatIsResponse {
   what_is?: ObjectWhatIs;
+}
+
+export interface ObjectTypeField {
+  /** Name is the name of the field. */
+  name?: string;
+
+  /** Type is the type of the field. */
+  kind?: ObjectTypeKind;
+}
+
+export enum ObjectTypeKind {
+  TypeKindInvalid = "TypeKind_Invalid",
+  TypeKindMap = "TypeKind_Map",
+  TypeKindList = "TypeKind_List",
+  TypeKindUnit = "TypeKind_Unit",
+  TypeKindBool = "TypeKind_Bool",
+  TypeKindInt = "TypeKind_Int",
+  TypeKindFloat = "TypeKind_Float",
+  TypeKindString = "TypeKind_String",
+  TypeKindBytes = "TypeKind_Bytes",
+  TypeKindLink = "TypeKind_Link",
+  TypeKindStruct = "TypeKind_Struct",
+  TypeKindUnion = "TypeKind_Union",
+  TypeKindEnum = "TypeKind_Enum",
+  TypeKindAny = "TypeKind_Any",
 }
 
 export interface ObjectWhatIs {

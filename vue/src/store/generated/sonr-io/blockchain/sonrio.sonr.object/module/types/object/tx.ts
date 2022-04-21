@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { Reader, Writer } from "protobufjs/minimal";
-import { ObjectField, ObjectDoc } from "../object/object";
+import { TypeField, ObjectDoc } from "../object/object";
 import { Session } from "../registry/who_is";
 import { WhatIs } from "../object/what_is";
 
@@ -10,7 +10,7 @@ export interface MsgCreateObject {
   creator: string;
   label: string;
   description: string;
-  initial_fields: ObjectField[];
+  initial_fields: TypeField[];
   session: Session | undefined;
 }
 
@@ -30,9 +30,11 @@ export interface MsgUpdateObject {
   /** Authenticated session data */
   session: Session | undefined;
   /** Added fields to the object */
-  added_fields: ObjectField[];
+  added_fields: TypeField[];
   /** Removed fields from the object */
-  removed_fields: ObjectField[];
+  removed_fields: TypeField[];
+  /** Contend Identifier of the object */
+  cid: string;
 }
 
 export interface MsgUpdateObjectResponse {
@@ -100,7 +102,7 @@ export const MsgCreateObject = {
       writer.uint32(26).string(message.description);
     }
     for (const v of message.initial_fields) {
-      ObjectField.encode(v!, writer.uint32(34).fork()).ldelim();
+      TypeField.encode(v!, writer.uint32(34).fork()).ldelim();
     }
     if (message.session !== undefined) {
       Session.encode(message.session, writer.uint32(42).fork()).ldelim();
@@ -127,7 +129,7 @@ export const MsgCreateObject = {
           break;
         case 4:
           message.initial_fields.push(
-            ObjectField.decode(reader, reader.uint32())
+            TypeField.decode(reader, reader.uint32())
           );
           break;
         case 5:
@@ -161,7 +163,7 @@ export const MsgCreateObject = {
     }
     if (object.initial_fields !== undefined && object.initial_fields !== null) {
       for (const e of object.initial_fields) {
-        message.initial_fields.push(ObjectField.fromJSON(e));
+        message.initial_fields.push(TypeField.fromJSON(e));
       }
     }
     if (object.session !== undefined && object.session !== null) {
@@ -180,7 +182,7 @@ export const MsgCreateObject = {
       (obj.description = message.description);
     if (message.initial_fields) {
       obj.initial_fields = message.initial_fields.map((e) =>
-        e ? ObjectField.toJSON(e) : undefined
+        e ? TypeField.toJSON(e) : undefined
       );
     } else {
       obj.initial_fields = [];
@@ -212,7 +214,7 @@ export const MsgCreateObject = {
     }
     if (object.initial_fields !== undefined && object.initial_fields !== null) {
       for (const e of object.initial_fields) {
-        message.initial_fields.push(ObjectField.fromPartial(e));
+        message.initial_fields.push(TypeField.fromPartial(e));
       }
     }
     if (object.session !== undefined && object.session !== null) {
@@ -327,7 +329,7 @@ export const MsgCreateObjectResponse = {
   },
 };
 
-const baseMsgUpdateObject: object = { creator: "", label: "" };
+const baseMsgUpdateObject: object = { creator: "", label: "", cid: "" };
 
 export const MsgUpdateObject = {
   encode(message: MsgUpdateObject, writer: Writer = Writer.create()): Writer {
@@ -341,10 +343,13 @@ export const MsgUpdateObject = {
       Session.encode(message.session, writer.uint32(26).fork()).ldelim();
     }
     for (const v of message.added_fields) {
-      ObjectField.encode(v!, writer.uint32(34).fork()).ldelim();
+      TypeField.encode(v!, writer.uint32(34).fork()).ldelim();
     }
     for (const v of message.removed_fields) {
-      ObjectField.encode(v!, writer.uint32(42).fork()).ldelim();
+      TypeField.encode(v!, writer.uint32(42).fork()).ldelim();
+    }
+    if (message.cid !== "") {
+      writer.uint32(50).string(message.cid);
     }
     return writer;
   },
@@ -368,14 +373,15 @@ export const MsgUpdateObject = {
           message.session = Session.decode(reader, reader.uint32());
           break;
         case 4:
-          message.added_fields.push(
-            ObjectField.decode(reader, reader.uint32())
-          );
+          message.added_fields.push(TypeField.decode(reader, reader.uint32()));
           break;
         case 5:
           message.removed_fields.push(
-            ObjectField.decode(reader, reader.uint32())
+            TypeField.decode(reader, reader.uint32())
           );
+          break;
+        case 6:
+          message.cid = reader.string();
           break;
         default:
           reader.skipType(tag & 7);
@@ -406,13 +412,18 @@ export const MsgUpdateObject = {
     }
     if (object.added_fields !== undefined && object.added_fields !== null) {
       for (const e of object.added_fields) {
-        message.added_fields.push(ObjectField.fromJSON(e));
+        message.added_fields.push(TypeField.fromJSON(e));
       }
     }
     if (object.removed_fields !== undefined && object.removed_fields !== null) {
       for (const e of object.removed_fields) {
-        message.removed_fields.push(ObjectField.fromJSON(e));
+        message.removed_fields.push(TypeField.fromJSON(e));
       }
+    }
+    if (object.cid !== undefined && object.cid !== null) {
+      message.cid = String(object.cid);
+    } else {
+      message.cid = "";
     }
     return message;
   },
@@ -427,18 +438,19 @@ export const MsgUpdateObject = {
         : undefined);
     if (message.added_fields) {
       obj.added_fields = message.added_fields.map((e) =>
-        e ? ObjectField.toJSON(e) : undefined
+        e ? TypeField.toJSON(e) : undefined
       );
     } else {
       obj.added_fields = [];
     }
     if (message.removed_fields) {
       obj.removed_fields = message.removed_fields.map((e) =>
-        e ? ObjectField.toJSON(e) : undefined
+        e ? TypeField.toJSON(e) : undefined
       );
     } else {
       obj.removed_fields = [];
     }
+    message.cid !== undefined && (obj.cid = message.cid);
     return obj;
   },
 
@@ -463,13 +475,18 @@ export const MsgUpdateObject = {
     }
     if (object.added_fields !== undefined && object.added_fields !== null) {
       for (const e of object.added_fields) {
-        message.added_fields.push(ObjectField.fromPartial(e));
+        message.added_fields.push(TypeField.fromPartial(e));
       }
     }
     if (object.removed_fields !== undefined && object.removed_fields !== null) {
       for (const e of object.removed_fields) {
-        message.removed_fields.push(ObjectField.fromPartial(e));
+        message.removed_fields.push(TypeField.fromPartial(e));
       }
+    }
+    if (object.cid !== undefined && object.cid !== null) {
+      message.cid = object.cid;
+    } else {
+      message.cid = "";
     }
     return message;
   },

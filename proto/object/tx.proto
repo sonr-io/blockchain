@@ -45,7 +45,7 @@ message MsgCreateObject {
   string creator = 1;
   string label = 2;
   string description = 3;
-  repeated ObjectField initial_fields = 4;
+  repeated TypeField initial_fields = 4;
   sonrio.sonr.registry.Session session = 5;
 }
 
@@ -70,10 +70,13 @@ message MsgUpdateObject {
   sonrio.sonr.registry.Session session = 3;
 
   // Added fields to the object
-  repeated ObjectField added_fields = 4;
+  repeated TypeField added_fields = 4;
 
   // Removed fields from the object
-  repeated ObjectField removed_fields = 5;
+  repeated TypeField removed_fields = 5;
+
+  // Contend Identifier of the object
+  string cid = 6;
 }
 
 message MsgUpdateObjectResponse {

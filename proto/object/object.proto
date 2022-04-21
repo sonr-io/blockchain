@@ -2,36 +2,6 @@ syntax = "proto3";
 package sonrio.sonr.object;
 option go_package = "github.com/sonr-io/blockchain/x/object/types";
 
- // ObjectFieldType is the type of the field
-enum ObjectFieldType {
-    // ObjectFieldTypeUnspecified is the default value
-    OBJECT_FIELD_TYPE_UNSPECIFIED = 0;
-
-    // ObjectFieldTypeString is a string or text field
-    OBJECT_FIELD_TYPE_STRING = 1;
-
-    // ObjectFieldTypeInt is an integer
-    OBJECT_FIELD_TYPE_NUMBER = 2;
-
-    // ObjectFieldTypeBool is a boolean
-    OBJECT_FIELD_TYPE_BOOL = 3;
-
-    // ObjectFieldTypeArray is a list of values
-    OBJECT_FIELD_TYPE_ARRAY = 4;
-
-    // ObjectFieldTypeDateTime is a datetime
-    OBJECT_FIELD_TYPE_TIMESTAMP = 5;
-
-    // ObjectFieldTypeGeopoint is a geopoint
-    OBJECT_FIELD_TYPE_GEOPOINT = 6;
-
-    // ObjectFieldTypeBlob is a blob of data
-    OBJECT_FIELD_TYPE_BLOB = 7;
-
-    // ObjectFieldTypeETU is a pointer to an Ethereum account address.
-    OBJECT_FIELD_TYPE_BLOCKCHAIN_ADDRESS = 8;
-}
-
 // ObjectDoc is a document for an Object stored in the graph.
 message ObjectDoc {
     // Label is human-readable name of the bucket.
@@ -47,174 +17,30 @@ message ObjectDoc {
     string bucket_did = 4; // optional
 
     // Fields are the fields associated with the object.
-    map<string, ObjectField> fields = 5;
+   repeated TypeField fields = 5;
 }
 
-// ObjectField is a field of an Object.
-message ObjectField {
-    // Label is the name of the field
-    string label = 1;
+message TypeField {
+    // Name is the name of the field.
+    string name = 1;
 
-    // Type is the type of the field
-    ObjectFieldType type = 2;
-
-    // Did is the identifier of the field.
-    string did = 3;
-
-    // Value is the value of the field
-    oneof value {
-      // String is the value of the field
-      ObjectFieldText string_value = 4;
-
-      // Number is the value of the field
-      ObjectFieldNumber number_value = 5;
-
-      // Float is the value of the field
-      ObjectFieldBool bool_value = 6;
-
-      // Array is the value of the field
-      ObjectFieldArray array_value = 7;
-
-      // Time is defined by milliseconds since epoch.
-      ObjectFieldTime time_stamp_value = 8;
-
-      // Geopoint is the value of the field
-      ObjectFieldGeopoint geopoint_value = 9;
-
-      // Blob is the value of the field
-      ObjectFieldBlob blob_value = 10;
-
-      // Blockchain Address is the value of the field
-      ObjectFieldBlockchainAddress blockchain_addr_value = 12;
-    }
-
-    // Metadata is additional info about the field
-    map<string, string> metadata = 13;
+    // Type is the type of the field.
+    TypeKind kind = 2;
 }
 
-// ObjectFieldArray is an array of ObjectFields to be stored in the graph object.
-message ObjectFieldArray {
-    // Label is the name of the field
-    string label = 1;
-
-    // Type is the type of the field
-    ObjectFieldType type = 2;
-
-    // Did is the identifier of the field.
-    string did = 3;
-
-    // Entries are the values of the field
-    repeated ObjectField items = 4;
+enum TypeKind {
+    TypeKind_Invalid = 0;
+	TypeKind_Map   = 1;
+	TypeKind_List    = 2;
+	TypeKind_Unit    = 3;
+	TypeKind_Bool    = 4;
+	TypeKind_Int     = 5;
+	TypeKind_Float   = 6;
+	TypeKind_String  = 7;
+	TypeKind_Bytes   = 8;
+	TypeKind_Link    = 9;
+	TypeKind_Struct  = 10;
+	TypeKind_Union   = 11;
+	TypeKind_Enum    = 12;
+	TypeKind_Any     = 13;
 }
-
-// ObjectFieldText is a text field of an Object.
-message ObjectFieldText {
-    // Label is the name of the field
-    string label = 1;
-
-    // Did is the identifier of the field.
-    string did = 2;
-
-    // Value is the value of the field
-    string value = 3;
-
-    // Metadata is additional info about the field
-    map<string, string> metadata = 4;
-}
-
-// ObjectFieldNumber is a number field of an Object.
-message ObjectFieldNumber {
-    // Label is the name of the field
-    string label = 1;
-
-    // Did is the identifier of the field.
-    string did = 2;
-
-    // Value is the value of the field
-    double value = 3;
-
-    // Metadata is additional info about the field
-    map<string, string> metadata = 4;
-}
-
-// ObjectFieldBool is a boolean field of an Object.
-message ObjectFieldBool {
-    // Label is the name of the field
-    string label = 1;
-
-    // Did is the identifier of the field.
-    string did = 2;
-
-    // Value is the value of the field
-    bool value = 3;
-
-    // Metadata is additional info about the field
-    map<string, string> metadata = 4;
-}
-
-// ObjectFieldTime is a time field of an Object.
-message ObjectFieldTime {
-    // Label is the name of the field
-    string label = 1;
-
-    // Did is the identifier of the field.
-    string did = 2;
-
-    // Value is the value of the field
-    int64 value = 3;
-
-    // Metadata is additional info about the field
-    map<string, string> metadata = 4;
-}
-
-// ObjectFieldGeopoint is a field of an Object for geopoints.
-message ObjectFieldGeopoint {
-    // Label is the name of the field
-    string label = 1;
-
-    // Type is the type of the field
-    ObjectFieldType type = 2;
-
-    // Did is the identifier of the field.
-    string did = 3;
-
-    // Latitude is the geo-latitude of the point.
-    double latitude = 4;
-
-    // Longitude is the geo-longitude of the field
-    double longitude = 5;
-
-    // Metadata is additional info about the field
-    map<string, string> metadata = 6;
-}
-
-// ObjectFieldBlob is a field of an Object for blobs.
-message ObjectFieldBlob {
-    // Label is the name of the field
-    string label = 1;
-
-    // Did is the identifier of the field.
-    string did = 2;
-
-    // Value is the value of the field
-    bytes value = 3;
-
-    // Metadata is additional info about the field
-    map<string, string> metadata = 4;
-}
-
-// ObjectFieldBlockchainAddress is a field of an Object for blockchain addresses.
-message ObjectFieldBlockchainAddress {
-    // Label is the name of the field
-    string label = 1;
-
-    // Did is the identifier of the field.
-    string did = 2;
-
-    // Value is the value of the field
-    string value = 3;
-
-    // Metadata is additional info about the field
-    map<string, string> metadata = 4;
-}
-

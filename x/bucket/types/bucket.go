@@ -1,5 +1,29 @@
 package types
 
+import (
+	bt "go.buf.build/grpc/go/sonr-io/blockchain/bucket"
+)
+
+func NewBucketDocFromBuf(doc *bt.BucketDoc) *BucketDoc {
+	return &BucketDoc{
+		Did:         doc.Did,
+		Label:       doc.Label,
+		Description: doc.Description,
+		ObjectDids:  doc.ObjectDids,
+		Type:        BucketType(doc.Type),
+	}
+}
+
+func NewBucketDocToBuf(doc *BucketDoc) *bt.BucketDoc {
+	return &bt.BucketDoc{
+		Did:         doc.Did,
+		Label:       doc.Label,
+		Description: doc.Description,
+		ObjectDids:  doc.ObjectDids,
+		Type:        bt.BucketType(doc.Type),
+	}
+}
+
 // AddObjects takes a list of fields and adds it to BucketDoc
 func (o *BucketDoc) AddObjects(l ...string) {
 	for _, v := range o.GetObjectDids() {

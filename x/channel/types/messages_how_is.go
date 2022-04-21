@@ -3,6 +3,7 @@ package types
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	ct "go.buf.build/grpc/go/sonr-io/blockchain/channel"
 )
 
 const (
@@ -22,6 +23,14 @@ func NewMsgCreateHowIs(
 		Creator: creator,
 		Did:     did,
 		Channel: c,
+	}
+}
+
+func NewMsgCreateHowIsFromBuf(msg *ct.MsgCreateHowIs) *MsgCreateHowIs {
+	return &MsgCreateHowIs{
+		Creator: msg.Creator,
+		Did:     msg.Did,
+		Channel: NewChannelDocFromBuf(msg.Channel),
 	}
 }
 

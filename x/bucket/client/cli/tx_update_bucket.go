@@ -20,7 +20,6 @@ func CmdUpdateBucket() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			argDid := args[0]
 			argLabel := args[1]
-			argDescription := args[2]
 
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
@@ -31,7 +30,9 @@ func CmdUpdateBucket() *cobra.Command {
 				clientCtx.GetFromAddress().String(),
 				argDid,
 				argLabel,
-				argDescription,
+				nil,
+				nil,
+				nil,
 			)
 			if err := msg.ValidateBasic(); err != nil {
 				return err

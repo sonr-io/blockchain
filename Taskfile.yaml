@@ -12,11 +12,18 @@ tasks:
       - starport chain build
     silent: true
 
+  buf:
+    summary: Build and Publish proto to buf.build
+    cmds:
+      - buf build
+      - buf push
+    silent: true
+    dir: ./proto
+
   gen:
     summary: Generates protobuf, openapi, and vue stores
     cmds:
       - starport generate openapi
-      - starport generate vuex
       - starport generate proto-go
       - go mod tidy
     silent: true

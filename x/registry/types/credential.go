@@ -5,7 +5,42 @@ import (
 
 	"github.com/duo-labs/webauthn/webauthn"
 	"github.com/fxamacker/cbor/v2"
+	rt "go.buf.build/grpc/go/sonr-io/blockchain/registry"
 )
+
+func NewCredentialListFromBuf(crds []*rt.Credential) []*Credential {
+	creds := make([]*Credential, len(crds))
+	for i, crd := range crds {
+		creds[i] = NewCredentialFromBuf(crd)
+	}
+	return creds
+}
+
+func NewCredentialFromBuf(crd *rt.Credential) *Credential {
+	return &Credential{
+		ID:              crd.ID,
+		PublicKey:       crd.PublicKey,
+		AttestationType: crd.AttestationType,
+		Authenticator:   NewAuthenticatorFromBuf(crd.Authenticator),
+	}
+}
+
+func NewCredentialToBuf(crd *Credential) *rt.Credential {
+	return &rt.Credential{
+		ID:              crd.ID,
+		PublicKey:       crd.PublicKey,
+		AttestationType: crd.AttestationType,
+		Authenticator:   NewAuthenticatorToBuf(crd.Authenticator),
+	}
+}
+
+func NewCredentialListToBuf(crds []*Credential) []*rt.Credential {
+	creds := make([]*rt.Credential, len(crds))
+	for i, crd := range crds {
+		creds[i] = NewCredentialToBuf(crd)
+	}
+	return creds
+}
 
 // ConvertToSonrCredential converts a webauthn.Credential to a sonrio.sonr.registry.Credential
 func ConvertToSonrCredential(cred webauthn.Credential) *Credential {
@@ -26,6 +61,22 @@ func (cred *Credential) ToWebAuthn() webauthn.Credential {
 		PublicKey:       cred.PublicKey,
 		AttestationType: cred.AttestationType,
 		Authenticator:   cred.Authenticator.ToWebAuthn(),
+	}
+}
+
+func NewAuthenticatorFromBuf(ath *rt.Authenticator) *Authenticator {
+	return &Authenticator{
+		Aaguid:       ath.Aaguid,
+		SignCount:    ath.SignCount,
+		CloneWarning: ath.CloneWarning,
+	}
+}
+
+func NewAuthenticatorToBuf(ath *Authenticator) *rt.Authenticator {
+	return &rt.Authenticator{
+		Aaguid:       ath.Aaguid,
+		SignCount:    ath.SignCount,
+		CloneWarning: ath.CloneWarning,
 	}
 }
 

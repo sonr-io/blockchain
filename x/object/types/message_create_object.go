@@ -3,11 +3,24 @@ package types
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	rtv1 "github.com/sonr-io/blockchain/x/registry/types"
+	ot "go.buf.build/grpc/go/sonr-io/blockchain/object"
 )
 
 const TypeMsgCreateObject = "create_object"
 
 var _ sdk.Msg = &MsgCreateObject{}
+
+func NewMsgCreateObjectFromBuf(ot *ot.MsgCreateObject) *MsgCreateObject {
+	ot.GetInitialFields()
+	return &MsgCreateObject{
+		Creator:       ot.Creator,
+		Label:         ot.Label,
+		Description:   ot.Description,
+		InitialFields: NewTypeFieldListFromBuf(ot.InitialFields),
+		Session:       rtv1.NewSessionFromBuf(ot.Session),
+	}
+}
 
 func NewMsgCreateObject(creator string, label string, description string) *MsgCreateObject {
 	return &MsgCreateObject{
