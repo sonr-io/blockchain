@@ -14,6 +14,16 @@ func NewBucketDocFromBuf(doc *bt.BucketDoc) *BucketDoc {
 	}
 }
 
+func NewBucketDocToBuf(doc *BucketDoc) *bt.BucketDoc {
+	return &bt.BucketDoc{
+		Did:         doc.Did,
+		Label:       doc.Label,
+		Description: doc.Description,
+		ObjectDids:  doc.ObjectDids,
+		Type:        bt.BucketType(doc.Type),
+	}
+}
+
 // AddObjects takes a list of fields and adds it to BucketDoc
 func (o *BucketDoc) AddObjects(l ...string) {
 	for _, v := range o.GetObjectDids() {

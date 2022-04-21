@@ -16,6 +16,17 @@ func NewObjectDocFromBuf(obj *ot.ObjectDoc) *ObjectDoc {
 	}
 }
 
+func NewObjectDocToBuf(obj *ObjectDoc) *ot.ObjectDoc {
+	return &ot.ObjectDoc{
+		Label:       obj.Label,
+		Description: obj.Description,
+		Did:         obj.Did,
+		BucketDid:   obj.BucketDid,
+		Fields:      NewTypeFieldListToBuf(obj.Fields),
+	}
+}
+
+
 func (o *ObjectDoc) Validate(b *ObjectDoc) bool {
 	if o.GetLabel() != b.GetLabel() {
 		return false
@@ -55,10 +66,25 @@ func NewTypeFieldFromBuf(tf *ot.TypeField) *TypeField {
 	}
 }
 
+func NewTypeFieldToBuf(tf *TypeField) *ot.TypeField {
+	return &ot.TypeField{
+		Name: tf.Name,
+		Kind: ot.TypeKind(tf.Kind),
+	}
+}
+
 func NewTypeFieldListFromBuf(tfl []*ot.TypeField) []*TypeField {
 	var l []*TypeField
 	for _, v := range tfl {
 		l = append(l, NewTypeFieldFromBuf(v))
+	}
+	return l
+}
+
+func NewTypeFieldListToBuf(tfl []*TypeField) []*ot.TypeField {
+	var l []*ot.TypeField
+	for _, v := range tfl {
+		l = append(l, NewTypeFieldToBuf(v))
 	}
 	return l
 }

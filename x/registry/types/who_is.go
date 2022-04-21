@@ -20,6 +20,17 @@ func NewWhoIsFromBuf(doc *rt.WhoIs) *WhoIs {
 	}
 }
 
+func NewWhoIsToBuf(doc *WhoIs) *rt.WhoIs {
+	return &rt.WhoIs{
+		Type:        rt.WhoIs_Type(doc.Type),
+		Name:        doc.Name,
+		Did:         doc.Did,
+		Document:    doc.Document,
+		Metadata:    doc.Metadata,
+		Credentials: NewCredentialListToBuf(doc.Credentials),
+	}
+}
+
 // AddCredential adds a webauthn credential to the whois object on the registry
 func (w *WhoIs) AddCredential(cred *Credential) {
 	if w.Credentials == nil {

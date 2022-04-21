@@ -13,3 +13,12 @@ func NewChannelDocFromBuf(cd *ct.ChannelDoc) *ChannelDoc {
 		RegisteredObject: ot.NewObjectDocFromBuf(cd.RegisteredObject),
 	}
 }
+
+func NewChannelDocToBuf(cd *ChannelDoc) *ct.ChannelDoc {
+	return &ct.ChannelDoc{
+		Did:              cd.Did,
+		Label:            cd.Label,
+		Description:      cd.Description,
+		RegisteredObject: ot.NewObjectDocToBuf(cd.RegisteredObject),
+	}
+}

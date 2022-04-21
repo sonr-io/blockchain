@@ -13,3 +13,13 @@ func NewHowIsFromBuf(cd *ct.HowIs) *HowIs {
 		Channel:   NewChannelDocFromBuf(cd.Channel),
 	}
 }
+
+func NewHowIsToBuf(cd *HowIs) *ct.HowIs {
+	return &ct.HowIs{
+		Did:       cd.Did,
+		Creator:   cd.Creator,
+		Timestamp: cd.Timestamp,
+		IsActive:  cd.IsActive,
+		Channel:    NewChannelDocToBuf(cd.Channel),
+	}
+}

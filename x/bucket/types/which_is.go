@@ -13,3 +13,13 @@ func NewWhichIsFromBuf(cd *bt.WhichIs) *WhichIs {
 		Bucket:    NewBucketDocFromBuf(cd.Bucket),
 	}
 }
+
+func NewWhichIsToBuf(cd *WhichIs) *bt.WhichIs {
+	return &bt.WhichIs{
+		Did:       cd.Did,
+		Creator:   cd.Creator,
+		Timestamp: cd.Timestamp,
+		IsActive:  cd.IsActive,
+		Bucket:    NewBucketDocToBuf(cd.Bucket),
+	}
+}
