@@ -6,7 +6,19 @@ import (
 	"github.com/duo-labs/webauthn/protocol"
 	"github.com/duo-labs/webauthn/webauthn"
 	"github.com/sonr-io/core/did"
+	rt "go.buf.build/grpc/go/sonr-io/blockchain/registry"
 )
+
+func NewWhoIsFromBuf(doc *rt.WhoIs) *WhoIs {
+	return &WhoIs{
+		Type:        WhoIs_Type(doc.Type),
+		Name:        doc.Name,
+		Did:         doc.Did,
+		Document:    doc.Document,
+		Metadata:    doc.Metadata,
+		Credentials: NewCredentialListFromBuf(doc.Credentials),
+	}
+}
 
 // AddCredential adds a webauthn credential to the whois object on the registry
 func (w *WhoIs) AddCredential(cred *Credential) {
@@ -155,6 +167,15 @@ func (w *WhoIs) WebAuthnCredentials() []webauthn.Credential {
 		credentials = append(credentials, cred.ToWebAuthn())
 	}
 	return credentials
+}
+
+// NewSessionFromBuf returns a new Session object from a registry buffer
+func NewSessionFromBuf(doc *rt.Session) *Session {
+	return &Session{
+		BaseDid:    doc.BaseDid,
+		Whois:      NewWhoIsFromBuf(doc.Whois),
+		Credential: NewCredentialFromBuf(doc.Credential),
+	}
 }
 
 // BaseDID returns the DID string as a did.DID

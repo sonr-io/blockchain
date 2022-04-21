@@ -3,17 +3,24 @@ package types
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	rt "go.buf.build/grpc/go/sonr-io/blockchain/registry"
 )
 
 const TypeMsgUpdateApplication = "update_application"
 
 var _ sdk.Msg = &MsgUpdateApplication{}
 
-func NewMsgUpdateApplication(creator string, did string) *MsgUpdateApplication {
+func NewMsgUpdateApplication(creator string, did string, m map[string]string, s *Session) *MsgUpdateApplication {
 	return &MsgUpdateApplication{
-		Creator: creator,
-		Did:     did,
+		Creator:  creator,
+		Did:      did,
+		Metadata: m,
+		Session:  s,
 	}
+}
+
+func NewMsgUpdateApplicationFromBuf(msg *rt.MsgUpdateApplication) *MsgUpdateApplication {
+	return NewMsgUpdateApplication(msg.Creator, msg.Did, msg.Metadata, NewSessionFromBuf(msg.Session))
 }
 
 func (msg *MsgUpdateApplication) Route() string {

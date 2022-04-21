@@ -3,6 +3,7 @@ package types
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	rt "go.buf.build/grpc/go/sonr-io/blockchain/registry"
 )
 
 const (
@@ -18,6 +19,7 @@ func NewMsgCreateWhoIs(
 	did string,
 	doc []byte,
 	c []*Credential,
+	n string,
 
 ) *MsgCreateWhoIs {
 	return &MsgCreateWhoIs{
@@ -25,7 +27,12 @@ func NewMsgCreateWhoIs(
 		Did:         did,
 		Document:    doc,
 		Credentials: c,
+		Name:        n,
 	}
+}
+
+func NewMsgCreateWhoIsFromBuf(msg *rt.MsgCreateWhoIs) *MsgCreateWhoIs {
+	return NewMsgCreateWhoIs(msg.Creator, msg.Did, msg.Document, NewCredentialListFromBuf(msg.Credentials), msg.Name)
 }
 
 func (msg *MsgCreateWhoIs) Route() string {

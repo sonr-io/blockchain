@@ -2731,9 +2731,12 @@ github.com/zmap/zlint/v3 v3.1.0/go.mod h1:L7t8s3sEKkb0A2BxGy1IWrxt1ZATa1R4QfJZaQ
 github.com/zondax/hid v0.9.0 h1:eiT3P6vNxAEVxXMw66eZUAAnU2zD33JBkfG/EnfAKl8=
 github.com/zondax/hid v0.9.0/go.mod h1:l5wttcP0jwtdLjqjMMWFVEE7d1zO0jvSPA9OPZxWpEM=
 go.buf.build/grpc/go/cosmos/cosmos-proto v1.3.8/go.mod h1:NaBdTr4tS+gPK02uLRjgFY/PEQU/0jb7HjRAuaQkiPc=
+go.buf.build/grpc/go/cosmos/cosmos-sdk v1.3.47 h1:VUSPQN1HOgXBie05FJkprB5Hi3jQ7KHncMFPbcj6T08=
 go.buf.build/grpc/go/cosmos/cosmos-sdk v1.3.47/go.mod h1:xoj76Mv+glMZbbBRkbRbEu8HD2hh7igfOamQS4me8ng=
+go.buf.build/grpc/go/cosmos/gogo-proto v1.3.1 h1:movzgRYHiYXq/rd5Fo5KnMtYizbCKlvbEGafqwU2AkU=
 go.buf.build/grpc/go/cosmos/gogo-proto v1.3.1/go.mod h1:Oacq9kdGMFBOTGB/CrAMpHc7GwkJg1P1d0gKF6X0kuU=
 go.buf.build/grpc/go/sonr-io/blockchain v1.3.1/go.mod h1:tIo2JW1+/z1MB49b5ICSTt7ZbumzoIeRLABhYWxwFi0=
+go.buf.build/grpc/go/sonr-io/blockchain v1.3.2 h1:yBn1A2NjwPrQac313tg8UsYuaxWP1WB/zNflwexKv1Q=
 go.buf.build/grpc/go/sonr-io/blockchain v1.3.2/go.mod h1:tIo2JW1+/z1MB49b5ICSTt7ZbumzoIeRLABhYWxwFi0=
 go.buf.build/grpc/go/sonr-io/core v1.3.11/go.mod h1:0SBlFr+o2nkjOpNx8BWGHM0gYV1Izhzllrn0euAnQTM=
 go.etcd.io/bbolt v1.3.2/go.mod h1:IbVyRI1SCnLcuJnV2u8VeU0CEYM7e686BmAb1XKL+uU=

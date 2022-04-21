@@ -28,6 +28,8 @@ func CmdUpdateApplication() *cobra.Command {
 			msg := types.NewMsgUpdateApplication(
 				clientCtx.GetFromAddress().String(),
 				argDid,
+				nil,
+				nil,
 			)
 			if err := msg.ValidateBasic(); err != nil {
 				return err

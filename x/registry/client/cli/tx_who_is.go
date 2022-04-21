@@ -26,6 +26,7 @@ func CmdCreateWhoIs() *cobra.Command {
 				did,
 				nil,
 				nil,
+				"",
 			)
 			if err := msg.ValidateBasic(); err != nil {
 				return err

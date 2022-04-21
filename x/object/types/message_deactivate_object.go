@@ -3,17 +3,24 @@ package types
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	rtv1 "github.com/sonr-io/blockchain/x/registry/types"
+	ot "go.buf.build/grpc/go/sonr-io/blockchain/object"
 )
 
 const TypeMsgDeactivateObject = "delete_object"
 
 var _ sdk.Msg = &MsgDeactivateObject{}
 
-func NewMsgDeactivateObject(creator string, did string, publicKey string) *MsgDeactivateObject {
+func NewMsgDeactivateObject(creator string, did string, session *rtv1.Session) *MsgDeactivateObject {
 	return &MsgDeactivateObject{
 		Creator: creator,
 		Did:     did,
+		Session: session,
 	}
+}
+
+func NewMsgDeactivateObjectFromBuf(msg *ot.MsgDeactivateObject) *MsgDeactivateObject {
+	return NewMsgDeactivateObject(msg.Creator, msg.Did, rtv1.NewSessionFromBuf(msg.Session))
 }
 
 func (msg *MsgDeactivateObject) Route() string {

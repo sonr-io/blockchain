@@ -1,6 +1,20 @@
 package types
 
-import "strings"
+import (
+	"strings"
+
+	ot "go.buf.build/grpc/go/sonr-io/blockchain/object"
+)
+
+func NewObjectDocFromBuf(obj *ot.ObjectDoc) *ObjectDoc {
+	return &ObjectDoc{
+		Label:       obj.Label,
+		Description: obj.Description,
+		Did:         obj.Did,
+		BucketDid:   obj.BucketDid,
+		Fields:      NewTypeFieldListFromBuf(obj.Fields),
+	}
+}
 
 func (o *ObjectDoc) Validate(b *ObjectDoc) bool {
 	if o.GetLabel() != b.GetLabel() {
@@ -32,4 +46,19 @@ func (o *ObjectDoc) RemoveFields(l ...*TypeField) {
 			o.Fields = append(o.Fields[:i], o.Fields[i+1:]...)
 		}
 	}
+}
+
+func NewTypeFieldFromBuf(tf *ot.TypeField) *TypeField {
+	return &TypeField{
+		Name: tf.Name,
+		Kind: TypeKind(tf.Kind),
+	}
+}
+
+func NewTypeFieldListFromBuf(tfl []*ot.TypeField) []*TypeField {
+	var l []*TypeField
+	for _, v := range tfl {
+		l = append(l, NewTypeFieldFromBuf(v))
+	}
+	return l
 }

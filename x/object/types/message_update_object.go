@@ -3,11 +3,23 @@ package types
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	rtv1 "github.com/sonr-io/blockchain/x/registry/types"
+	ot "go.buf.build/grpc/go/sonr-io/blockchain/object"
 )
 
 const TypeMsgUpdateObject = "update_object"
 
 var _ sdk.Msg = &MsgUpdateObject{}
+
+func NewMsgUpdateObjectFromBuf(ot *ot.MsgUpdateObject) *MsgUpdateObject {
+	return &MsgUpdateObject{
+		Creator:       ot.Creator,
+		Label:         ot.Label,
+		AddedFields:   NewTypeFieldListFromBuf(ot.AddedFields),
+		RemovedFields: NewTypeFieldListFromBuf(ot.RemovedFields),
+		Session:       rtv1.NewSessionFromBuf(ot.Session),
+	}
+}
 
 // TODO: Add validation for fields
 func NewMsgUpdateObject(creator string, did string) *MsgUpdateObject {

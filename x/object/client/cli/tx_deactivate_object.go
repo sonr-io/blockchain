@@ -19,7 +19,6 @@ func CmdDeleteObject() *cobra.Command {
 		Args:  cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			argDid := args[0]
-			argPublicKey := args[1]
 
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
@@ -29,7 +28,7 @@ func CmdDeleteObject() *cobra.Command {
 			msg := types.NewMsgDeactivateObject(
 				clientCtx.GetFromAddress().String(),
 				argDid,
-				argPublicKey,
+				nil,
 			)
 			if err := msg.ValidateBasic(); err != nil {
 				return err

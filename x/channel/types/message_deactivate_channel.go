@@ -4,6 +4,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	rt "github.com/sonr-io/blockchain/x/registry/types"
+	ct "go.buf.build/grpc/go/sonr-io/blockchain/channel"
 )
 
 const TypeMsgDeactivateChannel = "delete_channel"
@@ -15,6 +16,14 @@ func NewMsgDeactivateChannel(creator string, did string, s *rt.Session) *MsgDeac
 		Creator: creator,
 		Did:     did,
 		Session: s,
+	}
+}
+
+func NewMsgDeactivateChannelFromBuf(msg *ct.MsgDeactivateChannel) *MsgDeactivateChannel {
+	return &MsgDeactivateChannel{
+		Creator: msg.Creator,
+		Did:     msg.Did,
+		Session: rt.NewSessionFromBuf(msg.Session),
 	}
 }
 

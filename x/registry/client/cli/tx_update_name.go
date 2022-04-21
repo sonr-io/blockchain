@@ -28,6 +28,9 @@ func CmdUpdateName() *cobra.Command {
 			msg := types.NewMsgUpdateName(
 				clientCtx.GetFromAddress().String(),
 				argName,
+				nil,
+				nil,
+				nil,
 			)
 			if err := msg.ValidateBasic(); err != nil {
 				return err

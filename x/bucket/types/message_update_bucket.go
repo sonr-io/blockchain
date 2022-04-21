@@ -3,18 +3,27 @@ package types
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	rt "github.com/sonr-io/blockchain/x/registry/types"
+	bt "go.buf.build/grpc/go/sonr-io/blockchain/bucket"
 )
 
 const TypeMsgUpdateBucket = "update_bucket"
 
 var _ sdk.Msg = &MsgUpdateBucket{}
 
-func NewMsgUpdateBucket(creator string, did string, label string, description string) *MsgUpdateBucket {
+func NewMsgUpdateBucket(creator string, label string, description string, session *rt.Session, addObjs []string, removObjs []string) *MsgUpdateBucket {
 	return &MsgUpdateBucket{
-		Creator:     creator,
-		Label:       label,
-		Description: description,
+		Creator:           creator,
+		Label:             label,
+		Description:       description,
+		Session:           session,
+		AddedObjectDids:   addObjs,
+		RemovedObjectDids: removObjs,
 	}
+}
+
+func NewMsgUpdateBucketFromBuf(msg *bt.MsgUpdateBucket) *MsgUpdateBucket {
+	return NewMsgUpdateBucket(msg.Creator, msg.Label, msg.Description, rt.NewSessionFromBuf(msg.Session), msg.AddedObjectDids, msg.RemovedObjectDids)
 }
 
 func (msg *MsgUpdateBucket) Route() string {
