@@ -6,7 +6,7 @@ import (
 	"github.com/duo-labs/webauthn/protocol"
 	"github.com/duo-labs/webauthn/webauthn"
 	"github.com/sonr-io/core/did"
-	rt "go.buf.build/grpc/go/sonr-io/blockchain/registry"
+	rt "go.buf.build/sonr-io/grpc-gateway/sonr-io/blockchain/registry"
 )
 
 func NewWhoIsFromBuf(doc *rt.WhoIs) *WhoIs {

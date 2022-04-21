@@ -1,7 +1,7 @@
 package types
 
 import (
-	ot "go.buf.build/grpc/go/sonr-io/blockchain/object"
+	ot "go.buf.build/sonr-io/grpc-gateway/sonr-io/blockchain/object"
 )
 
 func NewWhatIsFromBuf(cd *ot.WhatIs) *WhatIs {

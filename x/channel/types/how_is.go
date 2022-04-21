@@ -1,7 +1,7 @@
 package types
 
 import (
-	ct "go.buf.build/grpc/go/sonr-io/blockchain/channel"
+	ct "go.buf.build/sonr-io/grpc-gateway/sonr-io/blockchain/channel"
 )
 
 func NewHowIsFromBuf(cd *ct.HowIs) *HowIs {

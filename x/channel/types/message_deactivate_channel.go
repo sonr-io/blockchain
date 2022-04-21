@@ -4,7 +4,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	rt "github.com/sonr-io/blockchain/x/registry/types"
-	ct "go.buf.build/grpc/go/sonr-io/blockchain/channel"
+	ct "go.buf.build/sonr-io/grpc-gateway/sonr-io/blockchain/channel"
 )
 
 const TypeMsgDeactivateChannel = "delete_channel"
