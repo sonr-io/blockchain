@@ -4,7 +4,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 
-	ot "go.buf.build/sonr-io/grpc-gateway/sonr-io/blockchain/object"
+	ot "go.buf.build/grpc/go/sonr-io/blockchain/object"
 )
 
 const (

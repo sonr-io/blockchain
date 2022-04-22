@@ -2,7 +2,7 @@ package types
 
 import (
 	ot "github.com/sonr-io/blockchain/x/object/types"
-	ct "go.buf.build/sonr-io/grpc-gateway/sonr-io/blockchain/channel"
+	ct "go.buf.build/grpc/go/sonr-io/blockchain/channel"
 )
 
 func NewChannelDocFromBuf(cd *ct.ChannelDoc) *ChannelDoc {

@@ -3,7 +3,7 @@ package types
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-	rt "go.buf.build/sonr-io/grpc-gateway/sonr-io/blockchain/registry"
+	rt "go.buf.build/grpc/go/sonr-io/blockchain/registry"
 )
 
 const TypeMsgUpdateName = "update_name"

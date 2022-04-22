@@ -1,7 +1,7 @@
 package types
 
 import (
-	bt "go.buf.build/sonr-io/grpc-gateway/sonr-io/blockchain/bucket"
+	bt "go.buf.build/grpc/go/sonr-io/blockchain/bucket"
 )
 
 func NewBucketDocFromBuf(doc *bt.BucketDoc) *BucketDoc {

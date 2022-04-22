@@ -5,7 +5,7 @@ import (
 
 	"github.com/duo-labs/webauthn/webauthn"
 	"github.com/fxamacker/cbor/v2"
-	rt "go.buf.build/sonr-io/grpc-gateway/sonr-io/blockchain/registry"
+	rt "go.buf.build/grpc/go/sonr-io/blockchain/registry"
 )
 
 func NewCredentialListFromBuf(crds []*rt.Credential) []*Credential {
