@@ -121,32 +121,24 @@ export interface ObjectObjectDoc {
   bucket_did?: string;
 
   /** Fields are the fields associated with the object. */
-  fields?: ObjectTypeField[];
+  fields?: Record<string, ObjectObjectValue>;
 }
 
-export interface ObjectTypeField {
-  /** Name is the name of the field. */
-  name?: string;
+export interface ObjectObjectValue {
+  map_value?: Record<string, ObjectObjectValue>;
+  list_value?: ObjectObjectValue[];
+  bool_value?: boolean;
 
-  /** Type is the type of the field. */
-  kind?: ObjectTypeKind;
-}
+  /** @format int64 */
+  int_value?: string;
 
-export enum ObjectTypeKind {
-  TypeKindInvalid = "TypeKind_Invalid",
-  TypeKindMap = "TypeKind_Map",
-  TypeKindList = "TypeKind_List",
-  TypeKindUnit = "TypeKind_Unit",
-  TypeKindBool = "TypeKind_Bool",
-  TypeKindInt = "TypeKind_Int",
-  TypeKindFloat = "TypeKind_Float",
-  TypeKindString = "TypeKind_String",
-  TypeKindBytes = "TypeKind_Bytes",
-  TypeKindLink = "TypeKind_Link",
-  TypeKindStruct = "TypeKind_Struct",
-  TypeKindUnion = "TypeKind_Union",
-  TypeKindEnum = "TypeKind_Enum",
-  TypeKindAny = "TypeKind_Any",
+  /** @format float */
+  float_value?: number;
+  string_value?: string;
+
+  /** @format byte */
+  bytes_value?: string;
+  link_value?: string;
 }
 
 export interface ProtobufAny {

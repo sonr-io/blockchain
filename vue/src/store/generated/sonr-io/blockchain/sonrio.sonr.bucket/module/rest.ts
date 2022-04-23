@@ -60,6 +60,13 @@ export interface BucketMsgDeactivateBucketResponse {
 
 export type BucketMsgDeleteWhichIsResponse = object;
 
+export interface BucketMsgQueryBucketResponse {
+  /** @format int32 */
+  code?: number;
+  message?: string;
+  which_is?: BucketWhichIs;
+}
+
 export interface BucketMsgUpdateBucketResponse {
   /** @format int32 */
   code?: number;

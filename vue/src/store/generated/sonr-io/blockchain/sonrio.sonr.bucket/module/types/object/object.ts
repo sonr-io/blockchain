@@ -1,5 +1,6 @@
 /* eslint-disable */
-import { Writer, Reader } from "protobufjs/minimal";
+import * as Long from "long";
+import { util, configure, Writer, Reader } from "protobufjs/minimal";
 
 export const protobufPackage = "sonrio.sonr.object";
 
@@ -118,7 +119,12 @@ export interface ObjectDoc {
   /** Bucket is the did of the bucket that contains this object. */
   bucket_did: string;
   /** Fields are the fields associated with the object. */
-  fields: TypeField[];
+  fields: { [key: string]: ObjectValue };
+}
+
+export interface ObjectDoc_FieldsEntry {
+  key: string;
+  value: ObjectValue | undefined;
 }
 
 export interface TypeField {
@@ -126,6 +132,24 @@ export interface TypeField {
   name: string;
   /** Type is the type of the field. */
   kind: TypeKind;
+}
+
+export interface ObjectValue {
+  /** maps and list cannot be stored in oneof */
+  map_value: { [key: string]: ObjectValue };
+  list_value: ObjectValue[];
+  bool_value: boolean | undefined;
+  int_value: number | undefined;
+  float_value: number | undefined;
+  string_value: string | undefined;
+  bytes_value: Uint8Array | undefined;
+  /** TODO: implement more */
+  link_value: string | undefined;
+}
+
+export interface ObjectValue_MapValueEntry {
+  key: string;
+  value: ObjectValue | undefined;
 }
 
 const baseObjectDoc: object = {
@@ -149,9 +173,12 @@ export const ObjectDoc = {
     if (message.bucket_did !== "") {
       writer.uint32(34).string(message.bucket_did);
     }
-    for (const v of message.fields) {
-      TypeField.encode(v!, writer.uint32(42).fork()).ldelim();
-    }
+    Object.entries(message.fields).forEach(([key, value]) => {
+      ObjectDoc_FieldsEntry.encode(
+        { key: key as any, value },
+        writer.uint32(42).fork()
+      ).ldelim();
+    });
     return writer;
   },
 
@@ -159,7 +186,7 @@ export const ObjectDoc = {
     const reader = input instanceof Uint8Array ? new Reader(input) : input;
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = { ...baseObjectDoc } as ObjectDoc;
-    message.fields = [];
+    message.fields = {};
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -176,7 +203,10 @@ export const ObjectDoc = {
           message.bucket_did = reader.string();
           break;
         case 5:
-          message.fields.push(TypeField.decode(reader, reader.uint32()));
+          const entry5 = ObjectDoc_FieldsEntry.decode(reader, reader.uint32());
+          if (entry5.value !== undefined) {
+            message.fields[entry5.key] = entry5.value;
+          }
           break;
         default:
           reader.skipType(tag & 7);
@@ -188,7 +218,7 @@ export const ObjectDoc = {
 
   fromJSON(object: any): ObjectDoc {
     const message = { ...baseObjectDoc } as ObjectDoc;
-    message.fields = [];
+    message.fields = {};
     if (object.label !== undefined && object.label !== null) {
       message.label = String(object.label);
     } else {
@@ -210,9 +240,9 @@ export const ObjectDoc = {
       message.bucket_did = "";
     }
     if (object.fields !== undefined && object.fields !== null) {
-      for (const e of object.fields) {
-        message.fields.push(TypeField.fromJSON(e));
-      }
+      Object.entries(object.fields).forEach(([key, value]) => {
+        message.fields[key] = ObjectValue.fromJSON(value);
+      });
     }
     return message;
   },
@@ -224,19 +254,18 @@ export const ObjectDoc = {
       (obj.description = message.description);
     message.did !== undefined && (obj.did = message.did);
     message.bucket_did !== undefined && (obj.bucket_did = message.bucket_did);
+    obj.fields = {};
     if (message.fields) {
-      obj.fields = message.fields.map((e) =>
-        e ? TypeField.toJSON(e) : undefined
-      );
-    } else {
-      obj.fields = [];
+      Object.entries(message.fields).forEach(([k, v]) => {
+        obj.fields[k] = ObjectValue.toJSON(v);
+      });
     }
     return obj;
   },
 
   fromPartial(object: DeepPartial<ObjectDoc>): ObjectDoc {
     const message = { ...baseObjectDoc } as ObjectDoc;
-    message.fields = [];
+    message.fields = {};
     if (object.label !== undefined && object.label !== null) {
       message.label = object.label;
     } else {
@@ -258,9 +287,91 @@ export const ObjectDoc = {
       message.bucket_did = "";
     }
     if (object.fields !== undefined && object.fields !== null) {
-      for (const e of object.fields) {
-        message.fields.push(TypeField.fromPartial(e));
+      Object.entries(object.fields).forEach(([key, value]) => {
+        if (value !== undefined) {
+          message.fields[key] = ObjectValue.fromPartial(value);
+        }
+      });
+    }
+    return message;
+  },
+};
+
+const baseObjectDoc_FieldsEntry: object = { key: "" };
+
+export const ObjectDoc_FieldsEntry = {
+  encode(
+    message: ObjectDoc_FieldsEntry,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.key !== "") {
+      writer.uint32(10).string(message.key);
+    }
+    if (message.value !== undefined) {
+      ObjectValue.encode(message.value, writer.uint32(18).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): ObjectDoc_FieldsEntry {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseObjectDoc_FieldsEntry } as ObjectDoc_FieldsEntry;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.key = reader.string();
+          break;
+        case 2:
+          message.value = ObjectValue.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
       }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): ObjectDoc_FieldsEntry {
+    const message = { ...baseObjectDoc_FieldsEntry } as ObjectDoc_FieldsEntry;
+    if (object.key !== undefined && object.key !== null) {
+      message.key = String(object.key);
+    } else {
+      message.key = "";
+    }
+    if (object.value !== undefined && object.value !== null) {
+      message.value = ObjectValue.fromJSON(object.value);
+    } else {
+      message.value = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: ObjectDoc_FieldsEntry): unknown {
+    const obj: any = {};
+    message.key !== undefined && (obj.key = message.key);
+    message.value !== undefined &&
+      (obj.value = message.value
+        ? ObjectValue.toJSON(message.value)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<ObjectDoc_FieldsEntry>
+  ): ObjectDoc_FieldsEntry {
+    const message = { ...baseObjectDoc_FieldsEntry } as ObjectDoc_FieldsEntry;
+    if (object.key !== undefined && object.key !== null) {
+      message.key = object.key;
+    } else {
+      message.key = "";
+    }
+    if (object.value !== undefined && object.value !== null) {
+      message.value = ObjectValue.fromPartial(object.value);
+    } else {
+      message.value = undefined;
     }
     return message;
   },
@@ -338,6 +449,334 @@ export const TypeField = {
   },
 };
 
+const baseObjectValue: object = {};
+
+export const ObjectValue = {
+  encode(message: ObjectValue, writer: Writer = Writer.create()): Writer {
+    Object.entries(message.map_value).forEach(([key, value]) => {
+      ObjectValue_MapValueEntry.encode(
+        { key: key as any, value },
+        writer.uint32(10).fork()
+      ).ldelim();
+    });
+    for (const v of message.list_value) {
+      ObjectValue.encode(v!, writer.uint32(18).fork()).ldelim();
+    }
+    if (message.bool_value !== undefined) {
+      writer.uint32(24).bool(message.bool_value);
+    }
+    if (message.int_value !== undefined) {
+      writer.uint32(32).int64(message.int_value);
+    }
+    if (message.float_value !== undefined) {
+      writer.uint32(45).float(message.float_value);
+    }
+    if (message.string_value !== undefined) {
+      writer.uint32(50).string(message.string_value);
+    }
+    if (message.bytes_value !== undefined) {
+      writer.uint32(58).bytes(message.bytes_value);
+    }
+    if (message.link_value !== undefined) {
+      writer.uint32(66).string(message.link_value);
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): ObjectValue {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseObjectValue } as ObjectValue;
+    message.map_value = {};
+    message.list_value = [];
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          const entry1 = ObjectValue_MapValueEntry.decode(
+            reader,
+            reader.uint32()
+          );
+          if (entry1.value !== undefined) {
+            message.map_value[entry1.key] = entry1.value;
+          }
+          break;
+        case 2:
+          message.list_value.push(ObjectValue.decode(reader, reader.uint32()));
+          break;
+        case 3:
+          message.bool_value = reader.bool();
+          break;
+        case 4:
+          message.int_value = longToNumber(reader.int64() as Long);
+          break;
+        case 5:
+          message.float_value = reader.float();
+          break;
+        case 6:
+          message.string_value = reader.string();
+          break;
+        case 7:
+          message.bytes_value = reader.bytes();
+          break;
+        case 8:
+          message.link_value = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): ObjectValue {
+    const message = { ...baseObjectValue } as ObjectValue;
+    message.map_value = {};
+    message.list_value = [];
+    if (object.map_value !== undefined && object.map_value !== null) {
+      Object.entries(object.map_value).forEach(([key, value]) => {
+        message.map_value[key] = ObjectValue.fromJSON(value);
+      });
+    }
+    if (object.list_value !== undefined && object.list_value !== null) {
+      for (const e of object.list_value) {
+        message.list_value.push(ObjectValue.fromJSON(e));
+      }
+    }
+    if (object.bool_value !== undefined && object.bool_value !== null) {
+      message.bool_value = Boolean(object.bool_value);
+    } else {
+      message.bool_value = undefined;
+    }
+    if (object.int_value !== undefined && object.int_value !== null) {
+      message.int_value = Number(object.int_value);
+    } else {
+      message.int_value = undefined;
+    }
+    if (object.float_value !== undefined && object.float_value !== null) {
+      message.float_value = Number(object.float_value);
+    } else {
+      message.float_value = undefined;
+    }
+    if (object.string_value !== undefined && object.string_value !== null) {
+      message.string_value = String(object.string_value);
+    } else {
+      message.string_value = undefined;
+    }
+    if (object.bytes_value !== undefined && object.bytes_value !== null) {
+      message.bytes_value = bytesFromBase64(object.bytes_value);
+    }
+    if (object.link_value !== undefined && object.link_value !== null) {
+      message.link_value = String(object.link_value);
+    } else {
+      message.link_value = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: ObjectValue): unknown {
+    const obj: any = {};
+    obj.map_value = {};
+    if (message.map_value) {
+      Object.entries(message.map_value).forEach(([k, v]) => {
+        obj.map_value[k] = ObjectValue.toJSON(v);
+      });
+    }
+    if (message.list_value) {
+      obj.list_value = message.list_value.map((e) =>
+        e ? ObjectValue.toJSON(e) : undefined
+      );
+    } else {
+      obj.list_value = [];
+    }
+    message.bool_value !== undefined && (obj.bool_value = message.bool_value);
+    message.int_value !== undefined && (obj.int_value = message.int_value);
+    message.float_value !== undefined &&
+      (obj.float_value = message.float_value);
+    message.string_value !== undefined &&
+      (obj.string_value = message.string_value);
+    message.bytes_value !== undefined &&
+      (obj.bytes_value =
+        message.bytes_value !== undefined
+          ? base64FromBytes(message.bytes_value)
+          : undefined);
+    message.link_value !== undefined && (obj.link_value = message.link_value);
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<ObjectValue>): ObjectValue {
+    const message = { ...baseObjectValue } as ObjectValue;
+    message.map_value = {};
+    message.list_value = [];
+    if (object.map_value !== undefined && object.map_value !== null) {
+      Object.entries(object.map_value).forEach(([key, value]) => {
+        if (value !== undefined) {
+          message.map_value[key] = ObjectValue.fromPartial(value);
+        }
+      });
+    }
+    if (object.list_value !== undefined && object.list_value !== null) {
+      for (const e of object.list_value) {
+        message.list_value.push(ObjectValue.fromPartial(e));
+      }
+    }
+    if (object.bool_value !== undefined && object.bool_value !== null) {
+      message.bool_value = object.bool_value;
+    } else {
+      message.bool_value = undefined;
+    }
+    if (object.int_value !== undefined && object.int_value !== null) {
+      message.int_value = object.int_value;
+    } else {
+      message.int_value = undefined;
+    }
+    if (object.float_value !== undefined && object.float_value !== null) {
+      message.float_value = object.float_value;
+    } else {
+      message.float_value = undefined;
+    }
+    if (object.string_value !== undefined && object.string_value !== null) {
+      message.string_value = object.string_value;
+    } else {
+      message.string_value = undefined;
+    }
+    if (object.bytes_value !== undefined && object.bytes_value !== null) {
+      message.bytes_value = object.bytes_value;
+    } else {
+      message.bytes_value = undefined;
+    }
+    if (object.link_value !== undefined && object.link_value !== null) {
+      message.link_value = object.link_value;
+    } else {
+      message.link_value = undefined;
+    }
+    return message;
+  },
+};
+
+const baseObjectValue_MapValueEntry: object = { key: "" };
+
+export const ObjectValue_MapValueEntry = {
+  encode(
+    message: ObjectValue_MapValueEntry,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.key !== "") {
+      writer.uint32(10).string(message.key);
+    }
+    if (message.value !== undefined) {
+      ObjectValue.encode(message.value, writer.uint32(18).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): ObjectValue_MapValueEntry {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseObjectValue_MapValueEntry,
+    } as ObjectValue_MapValueEntry;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.key = reader.string();
+          break;
+        case 2:
+          message.value = ObjectValue.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): ObjectValue_MapValueEntry {
+    const message = {
+      ...baseObjectValue_MapValueEntry,
+    } as ObjectValue_MapValueEntry;
+    if (object.key !== undefined && object.key !== null) {
+      message.key = String(object.key);
+    } else {
+      message.key = "";
+    }
+    if (object.value !== undefined && object.value !== null) {
+      message.value = ObjectValue.fromJSON(object.value);
+    } else {
+      message.value = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: ObjectValue_MapValueEntry): unknown {
+    const obj: any = {};
+    message.key !== undefined && (obj.key = message.key);
+    message.value !== undefined &&
+      (obj.value = message.value
+        ? ObjectValue.toJSON(message.value)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<ObjectValue_MapValueEntry>
+  ): ObjectValue_MapValueEntry {
+    const message = {
+      ...baseObjectValue_MapValueEntry,
+    } as ObjectValue_MapValueEntry;
+    if (object.key !== undefined && object.key !== null) {
+      message.key = object.key;
+    } else {
+      message.key = "";
+    }
+    if (object.value !== undefined && object.value !== null) {
+      message.value = ObjectValue.fromPartial(object.value);
+    } else {
+      message.value = undefined;
+    }
+    return message;
+  },
+};
+
+declare var self: any | undefined;
+declare var window: any | undefined;
+var globalThis: any = (() => {
+  if (typeof globalThis !== "undefined") return globalThis;
+  if (typeof self !== "undefined") return self;
+  if (typeof window !== "undefined") return window;
+  if (typeof global !== "undefined") return global;
+  throw "Unable to locate global object";
+})();
+
+const atob: (b64: string) => string =
+  globalThis.atob ||
+  ((b64) => globalThis.Buffer.from(b64, "base64").toString("binary"));
+function bytesFromBase64(b64: string): Uint8Array {
+  const bin = atob(b64);
+  const arr = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; ++i) {
+    arr[i] = bin.charCodeAt(i);
+  }
+  return arr;
+}
+
+const btoa: (bin: string) => string =
+  globalThis.btoa ||
+  ((bin) => globalThis.Buffer.from(bin, "binary").toString("base64"));
+function base64FromBytes(arr: Uint8Array): string {
+  const bin: string[] = [];
+  for (let i = 0; i < arr.byteLength; ++i) {
+    bin.push(String.fromCharCode(arr[i]));
+  }
+  return btoa(bin.join(""));
+}
+
 type Builtin = Date | Function | Uint8Array | string | number | undefined;
 export type DeepPartial<T> = T extends Builtin
   ? T
@@ -348,3 +787,15 @@ export type DeepPartial<T> = T extends Builtin
   : T extends {}
   ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>;
+
+function longToNumber(long: Long): number {
+  if (long.gt(Number.MAX_SAFE_INTEGER)) {
+    throw new globalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
+  }
+  return long.toNumber();
+}
+
+if (util.Long !== Long) {
+  util.Long = Long as any;
+  configure();
+}

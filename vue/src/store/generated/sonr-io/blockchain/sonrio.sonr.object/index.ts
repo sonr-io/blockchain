@@ -2,11 +2,12 @@ import { txClient, queryClient, MissingWalletError , registry} from './module'
 
 import { ObjectDoc } from "./module/types/object/object"
 import { TypeField } from "./module/types/object/object"
+import { ObjectValue } from "./module/types/object/object"
 import { Params } from "./module/types/object/params"
 import { WhatIs } from "./module/types/object/what_is"
 
 
-export { ObjectDoc, TypeField, Params, WhatIs };
+export { ObjectDoc, TypeField, ObjectValue, Params, WhatIs };
 
 async function initTxClient(vuexGetters) {
 	return await txClient(vuexGetters['common/wallet/signer'], {
@@ -51,6 +52,7 @@ const getDefaultState = () => {
 				_Structure: {
 						ObjectDoc: getStructure(ObjectDoc.fromPartial({})),
 						TypeField: getStructure(TypeField.fromPartial({})),
+						ObjectValue: getStructure(ObjectValue.fromPartial({})),
 						Params: getStructure(Params.fromPartial({})),
 						WhatIs: getStructure(WhatIs.fromPartial({})),
 						
@@ -237,18 +239,18 @@ export default {
 				}
 			}
 		},
-		async sendMsgDeactivateObject({ rootGetters }, { value, fee = [], memo = '' }) {
+		async sendMsgCreateObject({ rootGetters }, { value, fee = [], memo = '' }) {
 			try {
 				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgDeactivateObject(value)
+				const msg = await txClient.msgCreateObject(value)
 				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
 	gas: "200000" }, memo})
 				return result
 			} catch (e) {
 				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgDeactivateObject:Init Could not initialize signing client. Wallet is required.')
+					throw new Error('TxClient:MsgCreateObject:Init Could not initialize signing client. Wallet is required.')
 				}else{
-					throw new Error('TxClient:MsgDeactivateObject:Send Could not broadcast Tx: '+ e.message)
+					throw new Error('TxClient:MsgCreateObject:Send Could not broadcast Tx: '+ e.message)
 				}
 			}
 		},
@@ -282,18 +284,18 @@ export default {
 				}
 			}
 		},
-		async sendMsgCreateObject({ rootGetters }, { value, fee = [], memo = '' }) {
+		async sendMsgDeactivateObject({ rootGetters }, { value, fee = [], memo = '' }) {
 			try {
 				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgCreateObject(value)
+				const msg = await txClient.msgDeactivateObject(value)
 				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
 	gas: "200000" }, memo})
 				return result
 			} catch (e) {
 				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgCreateObject:Init Could not initialize signing client. Wallet is required.')
+					throw new Error('TxClient:MsgDeactivateObject:Init Could not initialize signing client. Wallet is required.')
 				}else{
-					throw new Error('TxClient:MsgCreateObject:Send Could not broadcast Tx: '+ e.message)
+					throw new Error('TxClient:MsgDeactivateObject:Send Could not broadcast Tx: '+ e.message)
 				}
 			}
 		},
@@ -324,16 +326,16 @@ export default {
 				}
 			}
 		},
-		async MsgDeactivateObject({ rootGetters }, { value }) {
+		async MsgCreateObject({ rootGetters }, { value }) {
 			try {
 				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgDeactivateObject(value)
+				const msg = await txClient.msgCreateObject(value)
 				return msg
 			} catch (e) {
 				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgDeactivateObject:Init Could not initialize signing client. Wallet is required.')
+					throw new Error('TxClient:MsgCreateObject:Init Could not initialize signing client. Wallet is required.')
 				}else{
-					throw new Error('TxClient:MsgDeactivateObject:Create Could not create message: ' + e.message)
+					throw new Error('TxClient:MsgCreateObject:Create Could not create message: ' + e.message)
 				}
 			}
 		},
@@ -363,16 +365,16 @@ export default {
 				}
 			}
 		},
-		async MsgCreateObject({ rootGetters }, { value }) {
+		async MsgDeactivateObject({ rootGetters }, { value }) {
 			try {
 				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgCreateObject(value)
+				const msg = await txClient.msgDeactivateObject(value)
 				return msg
 			} catch (e) {
 				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgCreateObject:Init Could not initialize signing client. Wallet is required.')
+					throw new Error('TxClient:MsgDeactivateObject:Init Could not initialize signing client. Wallet is required.')
 				}else{
-					throw new Error('TxClient:MsgCreateObject:Create Could not create message: ' + e.message)
+					throw new Error('TxClient:MsgDeactivateObject:Create Could not create message: ' + e.message)
 				}
 			}
 		},

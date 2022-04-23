@@ -17,7 +17,7 @@ message ObjectDoc {
     string bucket_did = 4; // optional
 
     // Fields are the fields associated with the object.
-   repeated TypeField fields = 5;
+    map<string, ObjectValue> fields = 5;
 }
 
 message TypeField {
@@ -26,6 +26,22 @@ message TypeField {
 
     // Type is the type of the field.
     TypeKind kind = 2;
+}
+
+message ObjectValue {
+    // maps and list cannot be stored in oneof
+    map<string, ObjectValue> map_value = 1;
+    repeated ObjectValue list_value = 2;
+    // the value must be oneof these types
+    oneof value {
+        bool bool_value = 3;
+        int64 int_value = 4;
+        float float_value = 5;
+        string string_value = 6;
+        bytes bytes_value = 7;
+        string link_value = 8;
+        // TODO: implement more
+    }
 }
 
 enum TypeKind {

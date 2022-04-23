@@ -15,6 +15,11 @@ service Msg {
   // CreateBucket defines a new collection on the bucket module of the blockchain.
   rpc CreateBucket(MsgCreateBucket) returns (MsgCreateBucketResponse);
 
+  // QueryBucket
+  //
+  // QueryBucket is the transaction that queries an object
+  rpc QueryBucket(MsgQueryBucket) returns (MsgQueryBucketResponse);
+
   // UpdateBucket
   //
   // UpdateBucket updates existing collection on the bucket module of the blockchain.
@@ -64,6 +69,21 @@ message MsgCreateBucketResponse {
 
     // Whichis response of the ObjectDoc
     WhichIs which_is = 3;
+}
+
+message MsgQueryBucket {
+  string did = 1;
+}
+
+message MsgQueryBucketResponse {
+  // Code of the response
+  int32 code = 1;
+
+  // Message of the response
+  string message = 2;
+
+  // Whichis response of the ObjectDoc
+  WhichIs which_is = 3;
 }
 
 message MsgUpdateBucket {

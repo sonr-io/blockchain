@@ -26,6 +26,19 @@ export interface MsgCreateBucketResponse {
   which_is: WhichIs | undefined;
 }
 
+export interface MsgQueryBucket {
+  did: string;
+}
+
+export interface MsgQueryBucketResponse {
+  /** Code of the response */
+  code: number;
+  /** Message of the response */
+  message: string;
+  /** Whichis response of the ObjectDoc */
+  which_is: WhichIs | undefined;
+}
+
 export interface MsgUpdateBucket {
   creator: string;
   /** The Bucket label */
@@ -332,6 +345,158 @@ export const MsgCreateBucketResponse = {
     const message = {
       ...baseMsgCreateBucketResponse,
     } as MsgCreateBucketResponse;
+    if (object.code !== undefined && object.code !== null) {
+      message.code = object.code;
+    } else {
+      message.code = 0;
+    }
+    if (object.message !== undefined && object.message !== null) {
+      message.message = object.message;
+    } else {
+      message.message = "";
+    }
+    if (object.which_is !== undefined && object.which_is !== null) {
+      message.which_is = WhichIs.fromPartial(object.which_is);
+    } else {
+      message.which_is = undefined;
+    }
+    return message;
+  },
+};
+
+const baseMsgQueryBucket: object = { did: "" };
+
+export const MsgQueryBucket = {
+  encode(message: MsgQueryBucket, writer: Writer = Writer.create()): Writer {
+    if (message.did !== "") {
+      writer.uint32(10).string(message.did);
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgQueryBucket {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseMsgQueryBucket } as MsgQueryBucket;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.did = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgQueryBucket {
+    const message = { ...baseMsgQueryBucket } as MsgQueryBucket;
+    if (object.did !== undefined && object.did !== null) {
+      message.did = String(object.did);
+    } else {
+      message.did = "";
+    }
+    return message;
+  },
+
+  toJSON(message: MsgQueryBucket): unknown {
+    const obj: any = {};
+    message.did !== undefined && (obj.did = message.did);
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<MsgQueryBucket>): MsgQueryBucket {
+    const message = { ...baseMsgQueryBucket } as MsgQueryBucket;
+    if (object.did !== undefined && object.did !== null) {
+      message.did = object.did;
+    } else {
+      message.did = "";
+    }
+    return message;
+  },
+};
+
+const baseMsgQueryBucketResponse: object = { code: 0, message: "" };
+
+export const MsgQueryBucketResponse = {
+  encode(
+    message: MsgQueryBucketResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.code !== 0) {
+      writer.uint32(8).int32(message.code);
+    }
+    if (message.message !== "") {
+      writer.uint32(18).string(message.message);
+    }
+    if (message.which_is !== undefined) {
+      WhichIs.encode(message.which_is, writer.uint32(26).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgQueryBucketResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseMsgQueryBucketResponse } as MsgQueryBucketResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.code = reader.int32();
+          break;
+        case 2:
+          message.message = reader.string();
+          break;
+        case 3:
+          message.which_is = WhichIs.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgQueryBucketResponse {
+    const message = { ...baseMsgQueryBucketResponse } as MsgQueryBucketResponse;
+    if (object.code !== undefined && object.code !== null) {
+      message.code = Number(object.code);
+    } else {
+      message.code = 0;
+    }
+    if (object.message !== undefined && object.message !== null) {
+      message.message = String(object.message);
+    } else {
+      message.message = "";
+    }
+    if (object.which_is !== undefined && object.which_is !== null) {
+      message.which_is = WhichIs.fromJSON(object.which_is);
+    } else {
+      message.which_is = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: MsgQueryBucketResponse): unknown {
+    const obj: any = {};
+    message.code !== undefined && (obj.code = message.code);
+    message.message !== undefined && (obj.message = message.message);
+    message.which_is !== undefined &&
+      (obj.which_is = message.which_is
+        ? WhichIs.toJSON(message.which_is)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<MsgQueryBucketResponse>
+  ): MsgQueryBucketResponse {
+    const message = { ...baseMsgQueryBucketResponse } as MsgQueryBucketResponse;
     if (object.code !== undefined && object.code !== null) {
       message.code = object.code;
     } else {
@@ -1232,6 +1397,12 @@ export interface Msg {
    */
   CreateBucket(request: MsgCreateBucket): Promise<MsgCreateBucketResponse>;
   /**
+   * QueryBucket
+   *
+   * QueryBucket is the transaction that queries an object
+   */
+  QueryBucket(request: MsgQueryBucket): Promise<MsgQueryBucketResponse>;
+  /**
    * UpdateBucket
    *
    * UpdateBucket updates existing collection on the bucket module of the blockchain.
@@ -1279,6 +1450,18 @@ export class MsgClientImpl implements Msg {
     );
     return promise.then((data) =>
       MsgCreateBucketResponse.decode(new Reader(data))
+    );
+  }
+
+  QueryBucket(request: MsgQueryBucket): Promise<MsgQueryBucketResponse> {
+    const data = MsgQueryBucket.encode(request).finish();
+    const promise = this.rpc.request(
+      "sonrio.sonr.bucket.Msg",
+      "QueryBucket",
+      data
+    );
+    return promise.then((data) =>
+      MsgQueryBucketResponse.decode(new Reader(data))
     );
   }
 

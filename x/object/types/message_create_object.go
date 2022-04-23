@@ -12,12 +12,11 @@ const TypeMsgCreateObject = "create_object"
 var _ sdk.Msg = &MsgCreateObject{}
 
 func NewMsgCreateObjectFromBuf(ot *ot.MsgCreateObject) *MsgCreateObject {
-	ot.GetInitialFields()
 	return &MsgCreateObject{
 		Creator:       ot.GetCreator(),
 		Label:         ot.GetLabel(),
 		Description:   ot.GetDescription(),
-		InitialFields: NewTypeFieldListFromBuf(ot.GetInitialFields()),
+		InitialFields: NewObjectMapFromBuf(ot.GetInitialFields()),
 		Session:       rtv1.NewSessionFromBuf(ot.GetSession()),
 	}
 }

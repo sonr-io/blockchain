@@ -15,8 +15,8 @@ func NewMsgUpdateObjectFromBuf(ot *ot.MsgUpdateObject) *MsgUpdateObject {
 	return &MsgUpdateObject{
 		Creator:       ot.GetCreator(),
 		Label:         ot.GetLabel(),
-		AddedFields:   NewTypeFieldListFromBuf(ot.GetAddedFields()),
-		RemovedFields: NewTypeFieldListFromBuf(ot.GetRemovedFields()),
+		AddedFields:   NewObjectMapFromBuf(ot.GetAddedFields()),
+		RemovedFields: NewObjectMapFromBuf(ot.GetRemovedFields()),
 		Session:       rtv1.NewSessionFromBuf(ot.GetSession()),
 	}
 }

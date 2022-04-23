@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { Reader, Writer } from "protobufjs/minimal";
-import { TypeField, ObjectDoc } from "../object/object";
+import { ObjectValue, ObjectDoc } from "../object/object";
 import { Session } from "../registry/who_is";
 import { WhatIs } from "../object/what_is";
 
@@ -10,8 +10,14 @@ export interface MsgCreateObject {
   creator: string;
   label: string;
   description: string;
-  initial_fields: TypeField[];
+  /** initial object value, where keys are the TypeField names */
+  initial_fields: { [key: string]: ObjectValue };
   session: Session | undefined;
+}
+
+export interface MsgCreateObject_InitialFieldsEntry {
+  key: string;
+  value: ObjectValue | undefined;
 }
 
 export interface MsgCreateObjectResponse {
@@ -23,18 +29,38 @@ export interface MsgCreateObjectResponse {
   what_is: WhatIs | undefined;
 }
 
+export interface MsgQueryObject {
+  did: string;
+}
+
+export interface MsgQueryObjectResponse {
+  code: number;
+  message: string;
+  what_is: WhatIs | undefined;
+}
+
 export interface MsgUpdateObject {
   creator: string;
   /** Label of the Object */
   label: string;
   /** Authenticated session data */
   session: Session | undefined;
-  /** Added fields to the object */
-  added_fields: TypeField[];
-  /** Removed fields from the object */
-  removed_fields: TypeField[];
+  /** Added fields to the object, where keys are the TypeField names */
+  added_fields: { [key: string]: ObjectValue };
+  /** Removed fields from the object, where keys are the TypeField names */
+  removed_fields: { [key: string]: ObjectValue };
   /** Contend Identifier of the object */
   cid: string;
+}
+
+export interface MsgUpdateObject_AddedFieldsEntry {
+  key: string;
+  value: ObjectValue | undefined;
+}
+
+export interface MsgUpdateObject_RemovedFieldsEntry {
+  key: string;
+  value: ObjectValue | undefined;
 }
 
 export interface MsgUpdateObjectResponse {
@@ -101,9 +127,12 @@ export const MsgCreateObject = {
     if (message.description !== "") {
       writer.uint32(26).string(message.description);
     }
-    for (const v of message.initial_fields) {
-      TypeField.encode(v!, writer.uint32(34).fork()).ldelim();
-    }
+    Object.entries(message.initial_fields).forEach(([key, value]) => {
+      MsgCreateObject_InitialFieldsEntry.encode(
+        { key: key as any, value },
+        writer.uint32(34).fork()
+      ).ldelim();
+    });
     if (message.session !== undefined) {
       Session.encode(message.session, writer.uint32(42).fork()).ldelim();
     }
@@ -114,7 +143,7 @@ export const MsgCreateObject = {
     const reader = input instanceof Uint8Array ? new Reader(input) : input;
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = { ...baseMsgCreateObject } as MsgCreateObject;
-    message.initial_fields = [];
+    message.initial_fields = {};
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -128,9 +157,13 @@ export const MsgCreateObject = {
           message.description = reader.string();
           break;
         case 4:
-          message.initial_fields.push(
-            TypeField.decode(reader, reader.uint32())
+          const entry4 = MsgCreateObject_InitialFieldsEntry.decode(
+            reader,
+            reader.uint32()
           );
+          if (entry4.value !== undefined) {
+            message.initial_fields[entry4.key] = entry4.value;
+          }
           break;
         case 5:
           message.session = Session.decode(reader, reader.uint32());
@@ -145,7 +178,7 @@ export const MsgCreateObject = {
 
   fromJSON(object: any): MsgCreateObject {
     const message = { ...baseMsgCreateObject } as MsgCreateObject;
-    message.initial_fields = [];
+    message.initial_fields = {};
     if (object.creator !== undefined && object.creator !== null) {
       message.creator = String(object.creator);
     } else {
@@ -162,9 +195,9 @@ export const MsgCreateObject = {
       message.description = "";
     }
     if (object.initial_fields !== undefined && object.initial_fields !== null) {
-      for (const e of object.initial_fields) {
-        message.initial_fields.push(TypeField.fromJSON(e));
-      }
+      Object.entries(object.initial_fields).forEach(([key, value]) => {
+        message.initial_fields[key] = ObjectValue.fromJSON(value);
+      });
     }
     if (object.session !== undefined && object.session !== null) {
       message.session = Session.fromJSON(object.session);
@@ -180,12 +213,11 @@ export const MsgCreateObject = {
     message.label !== undefined && (obj.label = message.label);
     message.description !== undefined &&
       (obj.description = message.description);
+    obj.initial_fields = {};
     if (message.initial_fields) {
-      obj.initial_fields = message.initial_fields.map((e) =>
-        e ? TypeField.toJSON(e) : undefined
-      );
-    } else {
-      obj.initial_fields = [];
+      Object.entries(message.initial_fields).forEach(([k, v]) => {
+        obj.initial_fields[k] = ObjectValue.toJSON(v);
+      });
     }
     message.session !== undefined &&
       (obj.session = message.session
@@ -196,7 +228,7 @@ export const MsgCreateObject = {
 
   fromPartial(object: DeepPartial<MsgCreateObject>): MsgCreateObject {
     const message = { ...baseMsgCreateObject } as MsgCreateObject;
-    message.initial_fields = [];
+    message.initial_fields = {};
     if (object.creator !== undefined && object.creator !== null) {
       message.creator = object.creator;
     } else {
@@ -213,14 +245,105 @@ export const MsgCreateObject = {
       message.description = "";
     }
     if (object.initial_fields !== undefined && object.initial_fields !== null) {
-      for (const e of object.initial_fields) {
-        message.initial_fields.push(TypeField.fromPartial(e));
-      }
+      Object.entries(object.initial_fields).forEach(([key, value]) => {
+        if (value !== undefined) {
+          message.initial_fields[key] = ObjectValue.fromPartial(value);
+        }
+      });
     }
     if (object.session !== undefined && object.session !== null) {
       message.session = Session.fromPartial(object.session);
     } else {
       message.session = undefined;
+    }
+    return message;
+  },
+};
+
+const baseMsgCreateObject_InitialFieldsEntry: object = { key: "" };
+
+export const MsgCreateObject_InitialFieldsEntry = {
+  encode(
+    message: MsgCreateObject_InitialFieldsEntry,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.key !== "") {
+      writer.uint32(10).string(message.key);
+    }
+    if (message.value !== undefined) {
+      ObjectValue.encode(message.value, writer.uint32(18).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): MsgCreateObject_InitialFieldsEntry {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseMsgCreateObject_InitialFieldsEntry,
+    } as MsgCreateObject_InitialFieldsEntry;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.key = reader.string();
+          break;
+        case 2:
+          message.value = ObjectValue.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgCreateObject_InitialFieldsEntry {
+    const message = {
+      ...baseMsgCreateObject_InitialFieldsEntry,
+    } as MsgCreateObject_InitialFieldsEntry;
+    if (object.key !== undefined && object.key !== null) {
+      message.key = String(object.key);
+    } else {
+      message.key = "";
+    }
+    if (object.value !== undefined && object.value !== null) {
+      message.value = ObjectValue.fromJSON(object.value);
+    } else {
+      message.value = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: MsgCreateObject_InitialFieldsEntry): unknown {
+    const obj: any = {};
+    message.key !== undefined && (obj.key = message.key);
+    message.value !== undefined &&
+      (obj.value = message.value
+        ? ObjectValue.toJSON(message.value)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<MsgCreateObject_InitialFieldsEntry>
+  ): MsgCreateObject_InitialFieldsEntry {
+    const message = {
+      ...baseMsgCreateObject_InitialFieldsEntry,
+    } as MsgCreateObject_InitialFieldsEntry;
+    if (object.key !== undefined && object.key !== null) {
+      message.key = object.key;
+    } else {
+      message.key = "";
+    }
+    if (object.value !== undefined && object.value !== null) {
+      message.value = ObjectValue.fromPartial(object.value);
+    } else {
+      message.value = undefined;
     }
     return message;
   },
@@ -329,6 +452,158 @@ export const MsgCreateObjectResponse = {
   },
 };
 
+const baseMsgQueryObject: object = { did: "" };
+
+export const MsgQueryObject = {
+  encode(message: MsgQueryObject, writer: Writer = Writer.create()): Writer {
+    if (message.did !== "") {
+      writer.uint32(10).string(message.did);
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgQueryObject {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseMsgQueryObject } as MsgQueryObject;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.did = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgQueryObject {
+    const message = { ...baseMsgQueryObject } as MsgQueryObject;
+    if (object.did !== undefined && object.did !== null) {
+      message.did = String(object.did);
+    } else {
+      message.did = "";
+    }
+    return message;
+  },
+
+  toJSON(message: MsgQueryObject): unknown {
+    const obj: any = {};
+    message.did !== undefined && (obj.did = message.did);
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<MsgQueryObject>): MsgQueryObject {
+    const message = { ...baseMsgQueryObject } as MsgQueryObject;
+    if (object.did !== undefined && object.did !== null) {
+      message.did = object.did;
+    } else {
+      message.did = "";
+    }
+    return message;
+  },
+};
+
+const baseMsgQueryObjectResponse: object = { code: 0, message: "" };
+
+export const MsgQueryObjectResponse = {
+  encode(
+    message: MsgQueryObjectResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.code !== 0) {
+      writer.uint32(8).int32(message.code);
+    }
+    if (message.message !== "") {
+      writer.uint32(18).string(message.message);
+    }
+    if (message.what_is !== undefined) {
+      WhatIs.encode(message.what_is, writer.uint32(26).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgQueryObjectResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseMsgQueryObjectResponse } as MsgQueryObjectResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.code = reader.int32();
+          break;
+        case 2:
+          message.message = reader.string();
+          break;
+        case 3:
+          message.what_is = WhatIs.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgQueryObjectResponse {
+    const message = { ...baseMsgQueryObjectResponse } as MsgQueryObjectResponse;
+    if (object.code !== undefined && object.code !== null) {
+      message.code = Number(object.code);
+    } else {
+      message.code = 0;
+    }
+    if (object.message !== undefined && object.message !== null) {
+      message.message = String(object.message);
+    } else {
+      message.message = "";
+    }
+    if (object.what_is !== undefined && object.what_is !== null) {
+      message.what_is = WhatIs.fromJSON(object.what_is);
+    } else {
+      message.what_is = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: MsgQueryObjectResponse): unknown {
+    const obj: any = {};
+    message.code !== undefined && (obj.code = message.code);
+    message.message !== undefined && (obj.message = message.message);
+    message.what_is !== undefined &&
+      (obj.what_is = message.what_is
+        ? WhatIs.toJSON(message.what_is)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<MsgQueryObjectResponse>
+  ): MsgQueryObjectResponse {
+    const message = { ...baseMsgQueryObjectResponse } as MsgQueryObjectResponse;
+    if (object.code !== undefined && object.code !== null) {
+      message.code = object.code;
+    } else {
+      message.code = 0;
+    }
+    if (object.message !== undefined && object.message !== null) {
+      message.message = object.message;
+    } else {
+      message.message = "";
+    }
+    if (object.what_is !== undefined && object.what_is !== null) {
+      message.what_is = WhatIs.fromPartial(object.what_is);
+    } else {
+      message.what_is = undefined;
+    }
+    return message;
+  },
+};
+
 const baseMsgUpdateObject: object = { creator: "", label: "", cid: "" };
 
 export const MsgUpdateObject = {
@@ -342,12 +617,18 @@ export const MsgUpdateObject = {
     if (message.session !== undefined) {
       Session.encode(message.session, writer.uint32(26).fork()).ldelim();
     }
-    for (const v of message.added_fields) {
-      TypeField.encode(v!, writer.uint32(34).fork()).ldelim();
-    }
-    for (const v of message.removed_fields) {
-      TypeField.encode(v!, writer.uint32(42).fork()).ldelim();
-    }
+    Object.entries(message.added_fields).forEach(([key, value]) => {
+      MsgUpdateObject_AddedFieldsEntry.encode(
+        { key: key as any, value },
+        writer.uint32(34).fork()
+      ).ldelim();
+    });
+    Object.entries(message.removed_fields).forEach(([key, value]) => {
+      MsgUpdateObject_RemovedFieldsEntry.encode(
+        { key: key as any, value },
+        writer.uint32(42).fork()
+      ).ldelim();
+    });
     if (message.cid !== "") {
       writer.uint32(50).string(message.cid);
     }
@@ -358,8 +639,8 @@ export const MsgUpdateObject = {
     const reader = input instanceof Uint8Array ? new Reader(input) : input;
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = { ...baseMsgUpdateObject } as MsgUpdateObject;
-    message.added_fields = [];
-    message.removed_fields = [];
+    message.added_fields = {};
+    message.removed_fields = {};
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -373,12 +654,22 @@ export const MsgUpdateObject = {
           message.session = Session.decode(reader, reader.uint32());
           break;
         case 4:
-          message.added_fields.push(TypeField.decode(reader, reader.uint32()));
+          const entry4 = MsgUpdateObject_AddedFieldsEntry.decode(
+            reader,
+            reader.uint32()
+          );
+          if (entry4.value !== undefined) {
+            message.added_fields[entry4.key] = entry4.value;
+          }
           break;
         case 5:
-          message.removed_fields.push(
-            TypeField.decode(reader, reader.uint32())
+          const entry5 = MsgUpdateObject_RemovedFieldsEntry.decode(
+            reader,
+            reader.uint32()
           );
+          if (entry5.value !== undefined) {
+            message.removed_fields[entry5.key] = entry5.value;
+          }
           break;
         case 6:
           message.cid = reader.string();
@@ -393,8 +684,8 @@ export const MsgUpdateObject = {
 
   fromJSON(object: any): MsgUpdateObject {
     const message = { ...baseMsgUpdateObject } as MsgUpdateObject;
-    message.added_fields = [];
-    message.removed_fields = [];
+    message.added_fields = {};
+    message.removed_fields = {};
     if (object.creator !== undefined && object.creator !== null) {
       message.creator = String(object.creator);
     } else {
@@ -411,14 +702,14 @@ export const MsgUpdateObject = {
       message.session = undefined;
     }
     if (object.added_fields !== undefined && object.added_fields !== null) {
-      for (const e of object.added_fields) {
-        message.added_fields.push(TypeField.fromJSON(e));
-      }
+      Object.entries(object.added_fields).forEach(([key, value]) => {
+        message.added_fields[key] = ObjectValue.fromJSON(value);
+      });
     }
     if (object.removed_fields !== undefined && object.removed_fields !== null) {
-      for (const e of object.removed_fields) {
-        message.removed_fields.push(TypeField.fromJSON(e));
-      }
+      Object.entries(object.removed_fields).forEach(([key, value]) => {
+        message.removed_fields[key] = ObjectValue.fromJSON(value);
+      });
     }
     if (object.cid !== undefined && object.cid !== null) {
       message.cid = String(object.cid);
@@ -436,19 +727,17 @@ export const MsgUpdateObject = {
       (obj.session = message.session
         ? Session.toJSON(message.session)
         : undefined);
+    obj.added_fields = {};
     if (message.added_fields) {
-      obj.added_fields = message.added_fields.map((e) =>
-        e ? TypeField.toJSON(e) : undefined
-      );
-    } else {
-      obj.added_fields = [];
+      Object.entries(message.added_fields).forEach(([k, v]) => {
+        obj.added_fields[k] = ObjectValue.toJSON(v);
+      });
     }
+    obj.removed_fields = {};
     if (message.removed_fields) {
-      obj.removed_fields = message.removed_fields.map((e) =>
-        e ? TypeField.toJSON(e) : undefined
-      );
-    } else {
-      obj.removed_fields = [];
+      Object.entries(message.removed_fields).forEach(([k, v]) => {
+        obj.removed_fields[k] = ObjectValue.toJSON(v);
+      });
     }
     message.cid !== undefined && (obj.cid = message.cid);
     return obj;
@@ -456,8 +745,8 @@ export const MsgUpdateObject = {
 
   fromPartial(object: DeepPartial<MsgUpdateObject>): MsgUpdateObject {
     const message = { ...baseMsgUpdateObject } as MsgUpdateObject;
-    message.added_fields = [];
-    message.removed_fields = [];
+    message.added_fields = {};
+    message.removed_fields = {};
     if (object.creator !== undefined && object.creator !== null) {
       message.creator = object.creator;
     } else {
@@ -474,19 +763,201 @@ export const MsgUpdateObject = {
       message.session = undefined;
     }
     if (object.added_fields !== undefined && object.added_fields !== null) {
-      for (const e of object.added_fields) {
-        message.added_fields.push(TypeField.fromPartial(e));
-      }
+      Object.entries(object.added_fields).forEach(([key, value]) => {
+        if (value !== undefined) {
+          message.added_fields[key] = ObjectValue.fromPartial(value);
+        }
+      });
     }
     if (object.removed_fields !== undefined && object.removed_fields !== null) {
-      for (const e of object.removed_fields) {
-        message.removed_fields.push(TypeField.fromPartial(e));
-      }
+      Object.entries(object.removed_fields).forEach(([key, value]) => {
+        if (value !== undefined) {
+          message.removed_fields[key] = ObjectValue.fromPartial(value);
+        }
+      });
     }
     if (object.cid !== undefined && object.cid !== null) {
       message.cid = object.cid;
     } else {
       message.cid = "";
+    }
+    return message;
+  },
+};
+
+const baseMsgUpdateObject_AddedFieldsEntry: object = { key: "" };
+
+export const MsgUpdateObject_AddedFieldsEntry = {
+  encode(
+    message: MsgUpdateObject_AddedFieldsEntry,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.key !== "") {
+      writer.uint32(10).string(message.key);
+    }
+    if (message.value !== undefined) {
+      ObjectValue.encode(message.value, writer.uint32(18).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): MsgUpdateObject_AddedFieldsEntry {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseMsgUpdateObject_AddedFieldsEntry,
+    } as MsgUpdateObject_AddedFieldsEntry;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.key = reader.string();
+          break;
+        case 2:
+          message.value = ObjectValue.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgUpdateObject_AddedFieldsEntry {
+    const message = {
+      ...baseMsgUpdateObject_AddedFieldsEntry,
+    } as MsgUpdateObject_AddedFieldsEntry;
+    if (object.key !== undefined && object.key !== null) {
+      message.key = String(object.key);
+    } else {
+      message.key = "";
+    }
+    if (object.value !== undefined && object.value !== null) {
+      message.value = ObjectValue.fromJSON(object.value);
+    } else {
+      message.value = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: MsgUpdateObject_AddedFieldsEntry): unknown {
+    const obj: any = {};
+    message.key !== undefined && (obj.key = message.key);
+    message.value !== undefined &&
+      (obj.value = message.value
+        ? ObjectValue.toJSON(message.value)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<MsgUpdateObject_AddedFieldsEntry>
+  ): MsgUpdateObject_AddedFieldsEntry {
+    const message = {
+      ...baseMsgUpdateObject_AddedFieldsEntry,
+    } as MsgUpdateObject_AddedFieldsEntry;
+    if (object.key !== undefined && object.key !== null) {
+      message.key = object.key;
+    } else {
+      message.key = "";
+    }
+    if (object.value !== undefined && object.value !== null) {
+      message.value = ObjectValue.fromPartial(object.value);
+    } else {
+      message.value = undefined;
+    }
+    return message;
+  },
+};
+
+const baseMsgUpdateObject_RemovedFieldsEntry: object = { key: "" };
+
+export const MsgUpdateObject_RemovedFieldsEntry = {
+  encode(
+    message: MsgUpdateObject_RemovedFieldsEntry,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.key !== "") {
+      writer.uint32(10).string(message.key);
+    }
+    if (message.value !== undefined) {
+      ObjectValue.encode(message.value, writer.uint32(18).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): MsgUpdateObject_RemovedFieldsEntry {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseMsgUpdateObject_RemovedFieldsEntry,
+    } as MsgUpdateObject_RemovedFieldsEntry;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.key = reader.string();
+          break;
+        case 2:
+          message.value = ObjectValue.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgUpdateObject_RemovedFieldsEntry {
+    const message = {
+      ...baseMsgUpdateObject_RemovedFieldsEntry,
+    } as MsgUpdateObject_RemovedFieldsEntry;
+    if (object.key !== undefined && object.key !== null) {
+      message.key = String(object.key);
+    } else {
+      message.key = "";
+    }
+    if (object.value !== undefined && object.value !== null) {
+      message.value = ObjectValue.fromJSON(object.value);
+    } else {
+      message.value = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: MsgUpdateObject_RemovedFieldsEntry): unknown {
+    const obj: any = {};
+    message.key !== undefined && (obj.key = message.key);
+    message.value !== undefined &&
+      (obj.value = message.value
+        ? ObjectValue.toJSON(message.value)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<MsgUpdateObject_RemovedFieldsEntry>
+  ): MsgUpdateObject_RemovedFieldsEntry {
+    const message = {
+      ...baseMsgUpdateObject_RemovedFieldsEntry,
+    } as MsgUpdateObject_RemovedFieldsEntry;
+    if (object.key !== undefined && object.key !== null) {
+      message.key = object.key;
+    } else {
+      message.key = "";
+    }
+    if (object.value !== undefined && object.value !== null) {
+      message.value = ObjectValue.fromPartial(object.value);
+    } else {
+      message.value = undefined;
     }
     return message;
   },
@@ -1239,6 +1710,12 @@ export interface Msg {
    */
   CreateObject(request: MsgCreateObject): Promise<MsgCreateObjectResponse>;
   /**
+   * QueryObject
+   *
+   * QueryObject is the transaction that queries an object
+   */
+  QueryObject(request: MsgQueryObject): Promise<MsgQueryObjectResponse>;
+  /**
    * UpdateObject
    *
    * UpdateObject is the transaction that updates an existing object.
@@ -1286,6 +1763,18 @@ export class MsgClientImpl implements Msg {
     );
     return promise.then((data) =>
       MsgCreateObjectResponse.decode(new Reader(data))
+    );
+  }
+
+  QueryObject(request: MsgQueryObject): Promise<MsgQueryObjectResponse> {
+    const data = MsgQueryObject.encode(request).finish();
+    const promise = this.rpc.request(
+      "sonrio.sonr.object.Msg",
+      "QueryObject",
+      data
+    );
+    return promise.then((data) =>
+      MsgQueryObjectResponse.decode(new Reader(data))
     );
   }
 

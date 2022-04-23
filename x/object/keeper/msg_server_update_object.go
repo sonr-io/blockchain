@@ -38,8 +38,8 @@ func (k msgServer) UpdateObject(goCtx context.Context, msg *types.MsgUpdateObjec
 	}
 
 	// Create New Field Map
-	whatis.ObjectDoc.AddFields(msg.GetAddedFields()...)
-	whatis.ObjectDoc.RemoveFields(msg.GetRemovedFields()...)
+	whatis.ObjectDoc.MergeFields(msg.GetAddedFields())
+	// whatis.ObjectDoc.RemoveFields(msg.GetRemovedFields()...)
 	whatis.Timestamp = time.Now().Unix()
 	whatis.IsActive = true
 	k.SetWhatIs(ctx, whatis)

@@ -14,6 +14,11 @@ service Msg {
   // CreateObject is the transaction that creates a new object.
   rpc CreateObject(MsgCreateObject) returns (MsgCreateObjectResponse);
 
+  // QueryObject
+  //
+  // QueryObject is the transaction that queries an object
+  rpc QueryObject(MsgQueryObject) returns (MsgQueryObjectResponse);
+
   // UpdateObject
   //
   // UpdateObject is the transaction that updates an existing object.
@@ -45,7 +50,8 @@ message MsgCreateObject {
   string creator = 1;
   string label = 2;
   string description = 3;
-  repeated TypeField initial_fields = 4;
+  // initial object value, where keys are the TypeField names
+  map<string, ObjectValue> initial_fields = 4;
   sonrio.sonr.registry.Session session = 5;
 }
 
@@ -60,6 +66,16 @@ message MsgCreateObjectResponse {
   WhatIs what_is = 3;
 }
 
+message MsgQueryObject {
+  string did = 1;
+}
+
+message MsgQueryObjectResponse {
+  int32 code = 1;
+  string message = 2;
+  WhatIs what_is = 3;
+}
+
 message MsgUpdateObject {
   string creator = 1;
 
@@ -69,11 +85,11 @@ message MsgUpdateObject {
   // Authenticated session data
   sonrio.sonr.registry.Session session = 3;
 
-  // Added fields to the object
-  repeated TypeField added_fields = 4;
+  // Added fields to the object, where keys are the TypeField names
+  map<string, ObjectValue> added_fields = 4;
 
-  // Removed fields from the object
-  repeated TypeField removed_fields = 5;
+  // Removed fields from the object, where keys are the TypeField names
+  map<string, ObjectValue> removed_fields = 5;
 
   // Contend Identifier of the object
   string cid = 6;
